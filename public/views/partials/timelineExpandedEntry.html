@@ -1,0 +1,60 @@
+<div class="timeline-datetime">
+	<span class="timeline-time">{{act.created | amCalendar:null:gs.pref.calTimeFormats}}</span>
+    <span class="timeline-date">{{act.created | amCalendar:null:gs.pref.calMidFormats}}</span>
+</div>
+
+<div ng-class="{'timeline-badge' : true, 'bg-primary' : (act.type == ac.TYPE_DONE), 'timeline-badge-reopen' : (act.type == ac.TYPE_REOPEN), 'timeline-badge-delete' : (act.type == ac.TYPE_DELETE || act.type == ac.TYPE_PROJ_REMOVED), 'timeline-badge-add' : act.type == ac.TYPE_CREATE }">
+	<img ng-src="{{ac.determineAvatar(act)}}" class="badge-picture" alt="{{act.targetTitle}}"
+		ng-show="act.targetType == ac.TAR_TYPE_PERSON && act.type != ac.TYPE_UPDATE_MAIL && act.type != ac.TYPE_UPDATE_TITLE &&
+    				act.type != ac.TYPE_UPDATE_NOTES && act.type != ac.TYPE_UPDATE_PHONE && act.type != ac.TYPE_UPDATE_ADDRESS &&
+    				act.type != ac.TYPE_PROJ_REMOVED && act.type != ac.TYPE_PROJ_ADDED">
+	
+	<img ng-src="{{ac.determineAvatar(act)}}" class="badge-picture" alt="{{act.personName}}"
+		ng-show="((act.type == ac.TYPE_DELEGATE || act.type == ac.TYPE_OWNER_CHANGE) && !hideAvatar)">
+		
+	<i ng-class="{  'pe-7s-portfolio' : act.targetType == ac.TAR_TYPE_PROJECT, 
+    				'pe-7s-check' : act.targetType == ac.TAR_TYPE_TASK, 
+    				'pe-7s-notebook' : act.targetType == ac.TAR_TYPE_JOURNAL,
+    				'pe-7s-user' : act.targetType == ac.TAR_TYPE_PERSON}"
+    	ng-show="(hideAvatar && (act.type == ac.TYPE_DELEGATE || act.type == ac.TYPE_OWNER_CHANGE))"></i>
+	
+	<i ng-class="{  'pe-7s-date' : act.type == ac.TYPE_UPDATE_DATE,
+					'pe-7s-cash' : act.type == ac.TYPE_UPDATE_MONEY,
+					'pe-7s-comment' : act.type == ac.TYPE_UPDATE_NOTES,
+					'pe-7s-user' : act.type == ac.TYPE_UPDATE_TITLE,
+					'pe-7s-mail' : act.type == ac.TYPE_UPDATE_MAIL,
+					'pe-7s-call' : act.type == ac.TYPE_UPDATE_PHONE,
+					'pe-7s-map-2' : act.type == ac.TYPE_UPDATE_ADDRESS,
+					'pe-7s-flag' : act.type == ac.TYPE_UPDATE_PRIORITY,
+					'pe-7s-right-arrow' : act.type == ac.TYPE_UPDATE_STATE}"
+    	ng-show="(act.type == ac.TYPE_UPDATE_DATE || act.type == ac.TYPE_UPDATE_MONEY || act.type == ac.TYPE_UPDATE_NOTES ||
+    				act.type == ac.TYPE_UPDATE_MAIL || act.type == ac.TYPE_UPDATE_TITLE ||
+    				act.type == ac.TYPE_UPDATE_PHONE || act.type == ac.TYPE_UPDATE_ADDRESS || act.type == ac.TYPE_UPDATE_STATE ||
+    				act.type == ac.TYPE_UPDATE_PRIORITY )"></i>
+	
+    <i ng-class="{  'pe-7s-portfolio' : act.targetType == ac.TAR_TYPE_PROJECT, 
+    				'pe-7s-notebook' : act.targetType == ac.TAR_TYPE_JOURNAL,
+    				'pe-7s-check' : act.targetType == ac.TAR_TYPE_TASK, 
+    				'pe-7s-user' : act.targetType == ac.TAR_TYPE_PERSON}"
+    	ng-hide="(act.targetType == ac.TAR_TYPE_PERSON || act.type == ac.TYPE_OWNER_CHANGE || act.type == ac.TYPE_DELEGATE ||
+    				act.type == ac.TYPE_UPDATE_MAIL || act.type == ac.TYPE_UPDATE_TITLE ||
+    				act.type == ac.TYPE_UPDATE_DATE || act.type == ac.TYPE_UPDATE_MONEY || act.type == ac.TYPE_UPDATE_NOTES ||
+    				act.type == ac.TYPE_UPDATE_PHONE || act.type == ac.TYPE_UPDATE_ADDRESS || act.type == ac.TYPE_UPDATE_STATE ||
+    				act.type == ac.TYPE_UPDATE_PRIORITY)"></i>
+</div>
+
+<div class="timeline-panel">
+	<div class="timeline-header">
+        <span class="timeline-title">
+            {{ac.determineTarget(act)}} {{ac.determineAction(act)}}
+        </span>
+        
+    </div>
+	
+    <div class="timeline-body">
+        <p>
+    		{{act.createdName}} {{ac.determineAction(act)}} {{ac.determineActionTarget(act)}}
+			{{ac.determineActionContext(act)}} {{ac.determineActionTargetFld(act)}}
+        </p>
+    </div>
+</div>

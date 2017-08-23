@@ -1,0 +1,348 @@
+<div class="sidebar menu">
+    <div class="sidebar-header">
+        <div class="header-brand">
+            <div class="brand-logo">
+                <img src="assets/img/Timeline_White_128.png" alt="CASCADES" />
+            </div>
+            <div class="brand-slogan p-t-25">
+                <div class="slogan-title">CASCADES</div>
+            </div>
+        </div>
+        <div class="header-notification p-l-10 p-r-10" id="header-notification">
+            <md-select aria-label="Select Workspace" class="m-t-10 m-b-0 f-12 workspace" 
+            	ng-model="selectedWrkSpace.wrkSpc" ng-change="selectWrkSpc()"
+            	ng-model-options="{trackBy: '$value.$id'}">
+            	<md-select-header class="p-10">
+			    	<span class="f-15 text-primary">WORKSPACES:</span>
+			    </md-select-header>
+            	
+				<md-option ng-repeat="wrkSpc in wrkSpcs" ng-value="wrkSpc" >{{wrkSpc.name}}</md-option>
+			</md-select>
+        </div>
+    </div>
+    <div class="sidebar-menu" resize height-offset="125">
+        <ul class="menu">
+            <li ng-class="{'active open': $state.includes('mywork')}">
+                <a ui-sref="mywork.dashboard">
+                    <i class="pe-7s-id"></i>
+                    <span>My Work</span>
+                </a>
+                <ul>
+                    <li class="submenu-title">
+                        <span>{{gs.currProfile.name}}</span>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.dashboard">
+                            <i class="pe-7s-display1"></i>
+                            <span>Desktop</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.myjournal">
+                            <i class="pe-7s-notebook"></i>
+                            <span>{{gs.currWorkspace.Terminology.memoAliasPlural}}</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.reminders">
+                            <i class="pe-7s-bell"></i>
+                            <span>Reminders</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.taskboard">
+                            <i class="pe-7s-keypad"></i>
+                            <span>{{gs.currWorkspace.Terminology.taskAlias}} board</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.myprojects">
+                            <i class="pe-7s-portfolio"></i>
+                            <span>{{gs.currWorkspace.Terminology.projectAliasPlural}}</span>
+                        </a>
+                    </li>
+					<li ui-sref-active="active">
+                        <a ui-sref="mywork.insights">
+                            <i class="pe-7s-graph1"></i>
+                            <span>Insights</span>
+                        </a>
+                    </li>
+                    <!--li ui-sref-active="active">
+                        <a ui-sref="mywork.ideas">
+                            <i class="pe-7s-light"></i>
+                            <span>Ideas</span>
+                        </a>
+                    </li-->
+                    
+                    <li class="submenu-title">
+                        <span>Administration</span>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.org">
+                            <i class="pe-7s-albums"></i>
+                            <span>Workspace</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.team">
+                            <i class="pe-7s-users"></i>
+                            <span>Team members</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="mywork.tickets">
+                            <i class="pe-7s-ticket"></i>
+                            <span>Tickets</span>
+                        </a>
+                    </li>
+                    
+                    <li class="submenu-divider" ng-show="$state.includes('mywork.taskboard')"></li>
+                    
+                    <li class="submenu-title" ng-show="$state.includes('mywork.taskboard')">
+                        <span>{{gs.currWorkspace.Terminology.taskAlias}} Tags</span>
+                    </li>
+                    <li class="ui-sortable" ng-show="$state.includes('mywork.taskboard')" ng-repeat="tag in tags | filter:{forTasks: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" ng-click="toggleHighlight(tag)">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li>                    
+                    <li class="submenu-divider" ng-show="$state.includes('mywork.taskboard')"></li>
+                    
+                    <li class="submenu-divider" ng-show="$state.includes('mywork.myprojects')"></li>
+                    
+                    <li class="submenu-title" ng-show="$state.includes('mywork.myprojects')">
+                        <span>{{gs.currWorkspace.Terminology.projectAlias}} Tags</span>
+                    </li>
+                    <li  ng-show="$state.includes('mywork.myprojects')" ng-repeat="tag in tags | filter:{forProject: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" ng-click="toggleHighlight(tag)">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li>                    
+                    <li class="submenu-divider" ng-show="$state.includes('mywork.myprojects')"></li>
+                    
+                     <li class="submenu-divider" ng-show="$state.includes('mywork.team')"></li>
+                    
+                    <li class="submenu-title" ng-show="$state.includes('mywork.team')">
+                        <span>Team member Tags</span>
+                    </li>
+                    <li  ng-show="$state.includes('mywork.team')" ng-repeat="tag in tags | filter:{forPeople: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" ng-click="toggleHighlight(tag)">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li>                    
+                    <li class="submenu-divider" ng-show="$state.includes('mywork.team')"></li>
+                  
+                    
+                </ul>
+            </li>
+            <li ng-class="{'active open': $state.includes('projects')}">
+                <a ui-sref="projects.activeprojects">
+                    <i class="pe-7s-portfolio"></i>
+                    <span>{{gs.currWorkspace.Terminology.projectAliasPlural}}</span>
+                </a>
+                <ul>
+                    <li class="submenu-title">
+                        <span>{{gs.currWorkspace.Terminology.projectAliasPlural}}</span>
+                    </li>
+                    
+                    <li ui-sref-active="active">
+                        <a ui-sref="projects.activeprojects">
+                            <i class="pe-7s-portfolio"></i>
+                            <span>Open {{gs.currWorkspace.Terminology.projectAliasPlural}}</span>
+                        </a>
+                    </li>
+                    
+                    <li ui-sref-active="active">
+                        <a ui-sref="projects.taskboard">
+                            <i class="pe-7s-keypad"></i>
+                            <span>{{gs.currWorkspace.Terminology.taskAlias}} board</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="projects.reminders">
+                            <i class="pe-7s-bell"></i>
+                            <span>Reminders</span>
+                        </a>
+                    </li>
+                    
+                    <li ui-sref-active="active">
+                        <a ui-sref="projects.doneprojects">
+	                        <i class="pe-7s-box1"></i>
+                            <span>Completed {{gs.currWorkspace.Terminology.projectAliasPlural}}</span>
+                        </a>
+                    </li>                    
+                                        
+                    <li class="submenu-divider" ng-hide="$state.includes('projects.reminders')"></li>
+                    
+                    <li class="submenu-title" ng-hide="$state.includes('projects.taskboard') || $state.includes('projects.reminders')">
+                        <span>{{gs.currWorkspace.Terminology.projectAlias}} Tags</span>
+                    </li>
+                    
+                    <li class="submenu-title" ng-show="$state.includes('projects.taskboard')">
+                        <span>{{gs.currWorkspace.Terminology.taskAlias}} Tags</span>
+                    </li>
+                    
+                    <li ng-repeat="tag in tags | filter:{forProject: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" 
+                    	ng-click="toggleHighlight(tag)" ng-hide="$state.includes('projects.taskboard') || $state.includes('projects.reminders')">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li> 
+                    
+                    <li ng-repeat="tag in tags | filter:{forTasks: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" 
+                    	ng-click="toggleHighlight(tag)" ng-show="$state.includes('projects.taskboard')">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li> 
+                                       
+                    <li class="submenu-divider"  ng-hide="$state.includes('projects.reminders')"></li>
+
+                </ul>
+            </li>
+            <li ng-class="{'active open': $state.includes('people')}">
+                <a ui-sref="people.activeclients">
+                    <i class="pe-7s-users"></i>
+                    <span>{{gs.currWorkspace.Terminology.clientAliasPlural}}</span>
+                </a>
+                <ul>
+	                <li class="submenu-title">
+                        <span>{{gs.currWorkspace.Terminology.clientAliasPlural}}</span>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="people.activeclients">
+	                        <i class="pe-7s-user"></i>
+                            <span>Active {{gs.currWorkspace.Terminology.clientAliasPlural}}</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="people.clients">
+	                        <i class="pe-7s-users"></i>
+                            <span>All {{gs.currWorkspace.Terminology.clientAliasPlural}}</span>
+                        </a>
+                    </li>
+                    <li class="submenu-divider"></li>
+                    
+                    <li ui-sref-active="active">
+                        <a ui-sref="people.team">
+                            <i class="pe-7s-users"></i>
+                            <span>Team members</span>
+                        </a>
+                    </li>
+                    <li class="submenu-divider"></li>
+                    
+                    
+                    <li class="submenu-title">
+                        <span>Tags</span>
+                    </li>
+                    <li ng-repeat="tag in tags | filter:{forPeople: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" ng-click="toggleHighlight(tag)">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li>               
+                    <li class="submenu-divider"></li>
+                </ul>
+            </li>
+            
+             <li ng-class="{'active open': $state.includes('journal')}">
+                <a ui-sref="journal.inbox">
+                    <i class="pe-7s-notebook"></i>
+                    <span>{{gs.currWorkspace.Terminology.memoAliasPlural}}</span>
+                </a>
+                <ul>
+                    <li class="submenu-title">
+                        <span>{{gs.currWorkspace.Terminology.memoAliasPlural}}</span>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="journal.inbox">
+	                        <i class="pe-7s-drawer"></i>
+                            <span>Inbox</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="journal.archived">
+	                        <i class="pe-7s-box1"></i>
+                            <span>Archived</span>
+                        </a>
+                    </li>
+
+                    
+                    <li class="submenu-divider"></li>
+                    
+                    <li class="submenu-title">
+                        <span>Tags</span>
+                    </li>
+                    <li ng-repeat="tag in tags | filter:{forJournal: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" ng-click="toggleHighlight(tag)">
+                        <a>
+                            <span>{{tag.label}}</span>
+                            <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
+                        </a>
+                    </li>                    
+                    <li class="submenu-divider"></li>
+                </ul>
+            </li>
+            
+            <li ng-class="{'active open': $state.includes('calendar')}">
+                <a ui-sref="calendar.today">
+                    <i class="pe-7s-clock"></i>
+                    <span>Timeline</span>
+                </a>
+                <ul>
+	                <li class="submenu-title">
+                        <span>Timeline</span>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="calendar.today">
+	                        <i class="pe-7s-up-arrow"></i>
+                            <span>Today</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="calendar.yesterday">
+	                         <i class="pe-7s-left-arrow"></i>
+                            <span>Yesterday</span>
+                        </a>
+                    </li>
+                    
+                    <li class="submenu-divider"></li>
+                    
+                    <li ui-sref-active="active">
+                        <a ui-sref="calendar.last7">
+                            <span>Last 7 days</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="calendar.last14">
+                            <span>Last 14 days</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="calendar.last30">
+                            <span>Last 30 days</span>
+                        </a>
+                    </li>
+                    
+                    <li class="submenu-divider"></li>
+                    
+                    <li ui-sref-active="active">
+                        <a ui-sref="calendar.custom">
+	                        <i class="pe-7s-search"></i>
+                            <span>Custom</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script>
+
+</script>

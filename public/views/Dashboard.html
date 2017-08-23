@@ -1,0 +1,163 @@
+<div class="page-header m-t-0" ng-show="hasReminder">
+    <h4 class="header-text"><i class="pe-7s-bell m-r-5"></i>Reminders</h4>
+</div>
+
+<div class="row m-l-0 m-r-0 m-b-25" ng-show="hasReminder">
+	<div class="reminder-alert p-10 border-left-4" style="border-color: #6f2828; border-left-style: solid"
+		ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
+		<div>
+			<span class="f-11 text-muted" ng-if="reminder.allday">All day</span>
+			<span class="f-11 text-muted" ng-if="!reminder.allday">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}} - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span><br/>
+
+			<span class="reminder-alert-content">{{reminder.title}}</span>
+		</div>
+	</div>
+
+</div>
+
+<div class="page-header m-t-0">
+    <h4 class="header-text" >Summary</h4>
+</div>
+
+<div class="row">    
+    <div class="col-md-2 dashboard-widget">
+	    <a ui-sref="mywork.myjournal">
+        <div class="widget p-20 h-100 text-default" md-ink-ripple>
+            <div>
+                <div class="col">
+                    <i class="pe-7s-notebook text-primary f-25 p-t-5 p-r-5"></i>
+                </div>
+                <div class="col f-25">{{summary.Journal.unread}}</div>
+            </div>
+            <div class="f-13 b-400">Unread</div>
+        </div>
+	    </a>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="widget-container">
+            <div class="widget">
+                <div class="p-20 task-widget">
+                    <div class="row">
+                        <div class="col-sm-3 p-5 text-default" md-ink-ripple
+	                        ng-click="nav.showTasks()">
+	                        <div>
+				                <div class="col">
+				                    <i class="pe-7s-check f-25 p-t-5 p-r-5 text-primary"></i>
+				                </div>
+								<div class="col f-25">{{summary.Task.dueToday}}</div>
+	                        </div>
+                            <div class="f-13 b-400">Due today</div>
+                        </div>
+                        <div class="col-sm-3  border-danger border-left-5 p-5 p-l-10 text-default"
+	                        ng-click="nav.showTasks()" md-ink-ripple>
+                            <div class="f-25">{{summary.Task.overdue}}</div>
+                            <div class="f-13 b-400">Overdue</div>
+                        </div>
+                        <div class="col-sm-3 border-warning border-left-5 p-5 p-l-10 text-default"
+	                        ng-click="nav.showTasks()" md-ink-ripple>
+                            <div class="f-25">{{summary.Task.dueSoon}}</div>
+                            <div class="f-13 b-400">Due soon</div>
+                        </div>
+                        <div class="col-sm-3 border-primary border-left-5 p-5 p-l-10 text-default"
+	                        ng-click="nav.showTasks()" md-ink-ripple>
+                            <div class="f-25">{{summary.Task.delegated}}</div>
+                            <div class="f-13 b-400">Delegated</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-2 dashboard-widget">
+	    <a ui-sref="mywork.myprojects">
+        <div class="widget p-15 h-100 text-default" md-ink-ripple>
+            <div>
+                <div class="col">
+                    <i class="pe-7s-portfolio f-30 text-primary"></i>
+                </div>
+                <div class="col f-25">{{summary.Project.open}}</div>
+            </div>
+            <div class="f-13 b-400">
+                Open {{gs.currWorkspace.Terminology.projectAliasPlural}}
+               
+            </div>
+        </div>
+	    </a>
+    </div>
+</div>
+
+<div class="page-header">
+    <h4 class="header-text">Recent {{gs.currWorkspace.Terminology.projectAliasPlural}}</h4>
+</div>
+
+<div class="row">
+	<div ng-repeat="act in activity | filter:recentProjectFilter | orderBy:'created':true | limitTo:gs.pref.project.recent" 
+		data-ng-include="'views/partials/projectDash.html'"></div>
+		
+	<div class="f-13 p-l-20" ng-hide="hasRecentProjects()">No recent {{gs.currWorkspace.Terminology.projectAliasPlural | lowercase}}</div>
+</div>
+
+<div class="page-header">
+    <h4 class="header-text">Recent Activity</h4>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+        <div class="widget-container">
+            <div class="widget" style="min-height: 400px">
+                <div class="f-13 p-10 border-bottom-1 border-muted b-400">
+                    {{gs.currWorkspace.Terminology.clientAliasPlural | uppercase }}
+                </div>
+                
+                <div class="f-13 p-10" ng-hide="hasRecentPeople()">No recent {{gs.currWorkspace.Terminology.clientAliasPlural | lowercase}}</div>                
+                <md-list flex>
+					<md-list-item class="md-2-line" ng-repeat="act in activity | filter:recentPeopleFilter | orderBy:'created':true | limitTo:gs.pref.people.recent" 
+                    	ng-click="openPersonDetails(act.targetId)">
+                        
+                            <avatar size="sm" img="act.avatar" name="act.personName" type="act.avatarType"></avatar>
+                            <div class="md-list-item-text p-l-15">
+                                <div class="list-title">{{act.personName}} </div>
+                                <div class="list-title-2" ><a href="mailto:{{act.email}}">{{act.email}}</a></div>
+                            </div>
+					</md-list-item>
+                </md-list>
+            </div>
+        </div>
+    </div>   
+	 
+	 <div class="col-sm-6">
+        <div class="widget-container">
+            <div class="widget" style="min-height: 400px">
+                <div class="f-13 p-10 border-bottom-1 border-muted b-400">
+                    {{gs.currWorkspace.Terminology.memoAliasPlural | uppercase }}
+                </div>
+                <div>
+	                <md-list flex>
+						<md-list-item class="md-3-line" ng-repeat="act in activity | filter:recentNotesFilter | orderBy:'created':true | limitTo:gs.pref.journal.recent" 
+	                    	ng-click="openJournalDetails(act.targetId)">
+	                        
+                        	<div class="activity-document-icon">
+                            	<i class="pe-fw"
+                            		ng-class="{'pe-7s-light' : act.entryType == 'Idea', 'pe-7s-call' : act.entryType == 'Phone call', 
+				    				'pe-7s-date' : act.entryType == 'Meeting', 'pe-7s-note2' : act.entryType == 'Memo',
+				    				'pe-7s-copy-file' : act.entryType == 'Document', 'pe-7s-photo' : act.entryType == 'Image'}">
+				    			</i>
+                        	</div>
+                            <div class="md-list-item-text p-l-15">
+                                <div class="list-title">{{act.targetTitle}}</div>
+                                <div class="list-title-2">{{act.entryUpdated | amCalendar:null:gs.pref.calFormats}}</div>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+	                </md-list>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+
+</script>

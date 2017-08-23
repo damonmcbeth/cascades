@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Cascades</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="assets/img/Timeline_White_32.png" type="image/x-icon">
+
+    <!--Css Files-->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+	<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDesh4UPgrqBiB80p777aeeRSDd_N2geJA",
+		    authDomain: "temporal-potion-575.firebaseapp.com",
+		    databaseURL: "https://temporal-potion-575.firebaseio.com",
+		    storageBucket: "temporal-potion-575.appspot.com",
+		    messagingSenderId: "251993041995"
+		  };
+		  firebase.initializeApp(config);
+		  
+	</script>
+	
+	<script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
+    
+    <script type="text/javascript">
+      // FirebaseUI config.
+      var uiConfig = {
+        signInSuccessUrl: '/seed',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+          firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ],
+        // Terms of service url.
+        tosUrl: 'fire.html'
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+    
+</head>
+<body>
+    
+
+<div class="row membership">
+    <div class="col-lg-9 col-md-7 hidden-sm hidden-xs membership-brand">
+        <div class="brand-wrapper">
+            <div class="brand-container">
+                <div class="brand-title">
+                    Welcome to Cascades
+                </div>
+                <div class="brand-description">
+                    Logging in is usually used to enter a specific page, which trespassers cannot see. Once the user is logged in,
+                        the login token may be used to track what actions the user has taken while connected to the site. 
+                    Logging out may be performed explicitly by the user taking some actions, such as entering the appropriate command,
+                        or clicking a website link labelled as such. 
+                </div>
+                <div class="brand-action">
+                   <a href="landing/index.html">
+	                   Learn more
+                   </a>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-5 col-sm-12 membership-container">
+	    <div class="brand-wrapper">
+            <div class="brand-container align-center p-t-30">
+		        <img class="brand-logo" src="assets/img/Timeline_White_128.png"/>
+		        <div class="brand-title">
+		            Cascades
+		        </div>
+		        
+            </div>
+	    </div>
+        <div class="login animated">
+	         <div class="brand-subtitle align-center m-b-10">
+	            Sign in to start organizing your world
+	         </div>
+             <div id="firebaseui-auth-container"></div>
+             
+        </div>
+        
+        <ul class="brand-links">
+            <li>
+                <a href="Terms.html">Terms & Conditions</a>
+            </li>
+            <li>
+                <a href="landing/index.html#slide-map">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
+    <!--Js Files-->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/modernizr.custom.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,149 @@
+<div id="taskbar" class="sidebar-content" ng-controller="ProjectEditController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span>{{gs.currWorkspace.Terminology.projectAlias}} Details</span>
+        </div>
+        
+        <div class="header-description v-a-middle">
+            <a href="" style="color: #fff" ng-click="cancelEdit()">
+            	Cancel
+            </a>
+            <a href="" class="pull-right" style="color: #fff" ng-click="saveProject(projectForm.$valid)">
+            	Save
+            </a>
+        </div>
+    </div>
+    
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">	    
+        <div class="p-10" style="background-color: #f1f3f2">
+	        <form name="projectForm">
+		        <div class="panel panel-default">
+		            <div class="panel-body">
+		                <md-input-container class="md-block p-b-0">
+			            	<label>Title</label>
+							<textarea name="title" class="primary-input" ng-model="selectedProject.title" rows="3" 
+								md-maxlength="140" md-detect-hidden="true" required></textarea>
+								
+							<div ng-messages="projectForm.title.$error" role="alert" 
+								ng-if="showHints" multiple>
+				            	<div ng-message="required" class="my-message">You must supply a title.</div>
+								<div ng-message="md-maxlength" class="my-message">
+									Please do not exceed 140 characters.
+				            	</div>
+				            </div>
+						</md-input-container>
+			          
+			          <md-input-container class="md-block  p-b-0">
+						  <md-radio-group ng-model="selectedProject.status" layout="row">
+						      <md-radio-button value="{{projectState.code}}" class="md-primary" 
+						      	ng-repeat="projectState in projectStates">{{projectState.label}}</md-radio-button>
+						  </md-radio-group>
+					  </md-input-container>
+			          
+			          <md-input-container class="md-block">
+					  	<label>Type</label>
+					  	<md-select ng-model="selectedProject.type" ng-model-options="{trackBy: '$value.$id'}" ng-change="updateType()">
+			              <md-option ng-repeat="projectType in projectTypes" ng-value="projectType" >
+			                {{projectType.name}}
+			              </md-option>
+			            </md-select>
+					  </md-input-container>
+					  
+					  <md-input-container class="md-block p-b-0">
+			            <label>Revenue ($)</label>
+			            <input ng-model="selectedProject.revenue" type="number" step="1.00">
+			          </md-input-container>
+		            </div>
+		        </div>
+		        
+				<div class="panel panel-default">
+		            <div class="panel-body">												
+						
+						<div layout="row p-b-20">
+							<md-input-container class="md-block p-b-0" flex="100">
+							  	<label>Start</label>
+							  	<input mdc-datetime-picker date="true" time="true" type="text" id="duedatetime"
+									ng-model="selectedProject.start" class="md-input" ok-text="Next" short-time="true"
+									format="ddd, MMMM D, YYYY,  h:mma"today-text="Now" show-todays-date >
+							</md-input-container>
+							<i class="icon pe-7s-close text-muted f-25 p-5 m-t-15" ng-show="selectedProject.start != null"
+								ng-click="clearStartDate()" aria-label="Clear"></i>
+					  	</div>
+					  
+					  	<div layout="row p-b-20">
+							<md-input-container class="md-block p-b-0" flex="100">
+								<label>Due</label>
+								<input mdc-datetime-picker date="true" time="true" type="text" id="duedatetime"
+									ng-model="selectedProject.end" class="md-input" ok-text="Next" short-time="true"
+									format="ddd, MMMM D, YYYY,  h:mma"today-text="Now" show-todays-date >
+									
+							</md-input-container>
+							<i class="icon pe-7s-close text-muted f-25 p-5 m-t-15" ng-show="selectedProject.end != null"
+								ng-click="clearEndDate()" aria-label="Clear"></i>
+					  	</div>
+					  
+					  <div layout="row p-b-20">					  
+						  	<md-input-container class="md-block" flex="100">
+				          		<label>Owner</label>
+						  		<md-select ng-model="selectedProject.owner" ng-model-options="{trackBy: '$value.$id'}">
+						  		  <md-option value="{{null}}">
+							        Unassigned
+							      </md-option>
+					              <md-option ng-repeat="person in people | filter:{type:'Team member'} | orderBy: 'name' " ng-value="person" >
+					                {{person.name}}
+					              </md-option>
+					            </md-select>
+						  	</md-input-container>
+						  	<div class="p-l-15 p-t-15">
+							  	<avatar size="sm" img="selectedProject.owner.avatar" state="selectedProject.owner.state" name="selectedProject.owner.name" type="selectedProject.owner.avatarType"></avatar> 
+							</div>
+						</div>
+		            </div>
+				</div>
+				
+				<div class="panel panel-tags">
+					<div class="panel-heading">
+		                <h3 class="panel-title">{{gs.currWorkspace.Terminology.clientAliasPlural}}</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+					
+		            <div class="panel-body">						
+						<md-contact-chips ng-model="selectedProject.people" readonly="false"
+							md-contacts="querySearch($query)" filter-selected="true"
+					    	placeholder="+ {{gs.currWorkspace.Terminology.clientAlias}}" 
+					    	secondary-placeholder="+{{gs.currWorkspace.Terminology.clientAlias}}"
+					    	md-require-match="true" md-autoselect="true"
+					    	md-contact-name="name">					    	
+						</md-contact-chips>					 
+		            </div>
+				</div>
+
+				<tageditor title="Tags" model="selectedProject" filter="{forProject: true}"></tageditor>
+
+				<div class="panel panel-notes">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Notes</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body p-0">
+			            <summernote airMode class="f-14" ng-model="selectedProject.notes"></summernote>
+		            </div>
+			  	</div>
+			  
+			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
+				  	<div class="align-center">Created by {{selectedProject.createdName}} on {{selectedProject.created | amCalendar:null:gs.pref.calFormats}}</div>
+				  	<div class="align-center">Last update by {{selectedProject.updatedName}} on {{selectedProject.updated | amCalendar:null:gs.pref.calFormats}}</div>
+			  	</div>
+			  
+		    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,102 @@
+[
+{
+"id": "1",
+"label": "Phone call",
+"color": "#BB0000",
+"isHighlighted": false,
+"forTasks": true,
+"forPeople": false,
+"forProject": false,
+"forJournal": true
+},
+{
+"id": "2",
+"label": "General note",
+"color": "#009900",
+"isHighlighted": false,
+"forTasks": true,
+"forPeople": false,
+"forProject": false,
+"forJournal": true
+},
+{
+"id": "3",
+"label": "Consulation",
+"color": "#0000DD",
+"isHighlighted": false,
+"forTasks": true,
+"forPeople": true,
+"forProject": true,
+"forJournal": true
+},
+{
+"id": "4",
+"label": "Client visit",
+"color": "#999999",
+"isHighlighted": false,
+"forTasks": true,
+"forPeople": false,
+"forProject": false,
+"forJournal": true
+},
+{
+"id": "5",
+"label": "Retained",
+"color": "#ffc107",
+"isHighlighted": false,
+"forTasks": false,
+"forPeople": true,
+"forProject": false,
+"forJournal": false
+},
+{
+"id": "6",
+"label": "Prospect",
+"color": "#ec5035",
+"isHighlighted": false,
+"forTasks": false,
+"forPeople": true,
+"forProject": false,
+"forJournal": false
+},
+{
+"id": "7",
+"label": "Vendor",
+"color": "#8535ec",
+"isHighlighted": false,
+"forTasks": false,
+"forPeople": true,
+"forProject": false,
+"forJournal": false
+},
+{
+"id": "10",
+"label": "Research",
+"color": "#e813ba",
+"isHighlighted": false,
+"forTasks": false,
+"forPeople": false,
+"forProject": true,
+"forJournal": false
+},
+{
+"id": "8",
+"label": "Pro Bono",
+"color": "#007982",
+"isHighlighted": false,
+"forTasks": false,
+"forPeople": false,
+"forProject": true,
+"forJournal": false
+},
+{
+"id": "9",
+"label": "Custom 2",
+"color": "#8532ec",
+"isHighlighted": false,
+"forTasks": true,
+"forPeople": true,
+"forProject": false,
+"forJournal": false
+}
+]

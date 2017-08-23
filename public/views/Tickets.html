@@ -1,0 +1,79 @@
+
+<div  ng-cloak style="width: 100%;">
+	<div class="utility-container">
+		<div class="utility-menu">
+	        <ul class="menu-buttons">
+	            <li>
+	                <a href="" id="new-message" ng-Click="newClient()">
+	                    <i class="icon pe-7s-plus"></i>
+	                    <span class="text">New Ticket</span>
+	                </a>
+	            </li> 
+	        </ul>
+	        <ul class="menu-buttons secondary">
+	            <li>
+	            	<md-menu md-offset="0 15">
+			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
+			            <i class="icon pe-7s-repeat"></i>
+			          </md-button>
+			          
+			          <md-menu-content width="3">
+			            <md-menu-item>
+				          <md-button class="menu-subheader" disabled="disabled">
+				            Order by:
+				          </md-button>
+				        </md-menu-item>
+			            <md-menu-item ng-repeat="orderItem in ['First name', 'Last name']">
+			              <md-button ng-click="updateOrderBy(orderItem)">{{orderItem}}</md-button>
+			            </md-menu-item>
+			          </md-menu-content>
+			          
+			        </md-menu>
+	            </li> 
+
+	        </ul>
+	    </div>
+	</div>
+	
+	<div class="page-container-vert">
+					
+	    <div class="panel panel-white" >
+            <div class="panel-body" style="overflow-x: auto">
+                <div class="form-group">
+                   <input type="text" class="form-control" placeholder="{{type}} Search"
+                    	ng-model="search.name">
+                </div>
+	            
+            	<div class="flip-scroll">
+			    <table class="table table-hover f-14 flip-content">
+		            <thead class="flip-content">
+		                <tr>
+		                    <th>Date</th>
+		                    <th>Title</th>
+		                    <th>Status</th>
+		                    <th>Opened by</th>
+		                    <th>Type</th>
+		                    <th class="table-notes" hide-gt-sm>Details</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr ng-repeat="ticket in tickets | filter:search:false | orderBy:'created':true" ng-click="openTicketDetails(ticket)"
+			                ng-animate="'animate'" >
+		                    <td>{{ticket.created | amCalendar:null:gs.pref.calFormats}}</td>
+		                    <td>{{ticket.name | limitTo: 60 }}{{ticket.name.length > 60 ? ' ...' : ''}}</td>
+		                    <td><span class="f-12 label" ng-class="{'label-danger' : ticket.status == 'Open', 'label-success' : ticket.status == 'Closed'}">{{ticket.status | uppercase }}</span></td>
+		                    <td>{{ticket.createdName}}</td>
+		                    <td>{{ticket.type}}</td>
+		                    <td class="table-notes w-250" hide-gt-sm><p>{{ticket.details}}</p></td>
+		                </tr>
+		            </tbody>
+		        </table>
+		        </div>
+	        </div>
+	    </div>
+    </div>
+</div>
+
+<script>
+
+</script>

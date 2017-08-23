@@ -1,0 +1,123 @@
+
+
+<div class="settingsbar sidebar-content" id="settingsbar">
+    <div class="sidebar-header" style="height: auto">
+        <div class="header-title">
+            <span>Preferences</span>
+        </div>
+        <div class="header-close">
+            <i class="pe-7s-angle-right-circle" ng-click="nav.hideSideViewForm()"></i>
+        </div>
+    </div>
+    <div class="sidebar-body" resize height-offset="75" style="width: 100%">
+	    <md-content class="settings" style="height: 100%">
+		    <md-tabs md-dynamic-height="true">
+		      <md-tab id="tabProfile">
+		        <md-tab-label>SUMMARY</md-tab-label>
+		        <md-tab-body>
+		        	<div class="p-10" style="background-color: #f1f3f2">
+				        <form name="profileForm">
+					        <div class="panel panel-default">
+					            <div class="panel-body">
+						            
+						            <div class="row p-10 align-center">
+					                    <div class="col">
+						                    <div class="align-center m-b-10">
+						                        <avatar size="lg" img="gs.currProfile.avatar" state="'Established'" 
+						                        		name="gs.currProfile.name" type="gs.currProfile.avatarType"></avatar>
+						                    </div>
+					                    
+											<div>
+												<h4>{{gs.currProfile.name}}</h4>
+											</div>
+									        
+					                        <div class="f-12 b-300 text-muted m-t-5">
+					                            <span>{{ gs.currProfile.status | uppercase }}</span>
+					                        </div>
+					                        
+					                        <div class="b-400 m-t-20">
+						                        <a href="" class="m-r-5" ng-click="openPersonDetails(gs.currProfile.person)">EDIT PROFILE</a>|
+						                        <a href="" class="m-l-5" ng-click="signOut()">SIGN OUT</a>
+						                    </div>
+					                    </div>
+					                </div>
+					                
+						            
+					            </div>
+					        </div>
+				        </form>
+		        	</div>
+		        
+		        	<div class="p-15 f-14">
+<!--pre>
+{{ gs.currProfile | json }}
+</pre>
+<pre>
+{{ gs.currPreferences | json }}
+</pre-->
+		        	</div>
+		        </md-tab-body>
+		      </md-tab>
+		      <md-tab id="tabWorkspace">
+		        <md-tab-label>Workspace</md-tab-label>
+		        <md-tab-body>
+		        	<div class="p-15 f-14">
+<pre>
+{{ gs.currWorkspace | json }}
+</pre>
+		        	</div>
+
+		        </md-tab-body>
+		      </md-tab>
+		      <md-tab id="tabTags">
+		        <md-tab-label>Tags</md-tab-label>
+		        <md-tab-body>
+		        	<div data-ng-include="'partials/tagManager.html'" data-ng-controller="TagController"></div>
+
+		        </md-tab-body>
+		      </md-tab>
+		      <md-tab id="tabTasks">
+		        <md-tab-label>Tasks</md-tab-label>
+		        <md-tab-body>
+		        	<div class="p-15 f-14">
+<pre>
+{{ gs.currWorkspace.Settings.Task | json }}
+</pre>
+<pre>
+{{ gs.currProfile.Workspaces | json }}
+</pre>
+		        	</div>
+
+		        </md-tab-body>
+		      </md-tab>
+		      <md-tab id="tabPeople">
+		        <md-tab-label>{{gs.currWorkspace.Terminology.projectAlias}}</md-tab-label>
+		        <md-tab-body>
+		        	<div class="p-10" style="background-color: #f1f3f2">
+		        		<form name="projectForm">
+					        <div class="panel panel-inverse">
+						        <div class="panel-heading">
+					                <h3 class="panel-title">{{gs.currWorkspace.Terminology.projectAlias}} Types</h3>
+					            </div>
+						        
+					            <div class="panel-body">
+<pre>
+{{ gs.currWorkspace.Settings.Project.types | json }}
+</pre>					            
+					            </div>
+					        </div>
+				        </form>
+		        	</div>
+		        </md-tab-body>
+		      </md-tab>
+		      <md-tab id="tabPeople">
+		        <md-tab-label>People</md-tab-label>
+		        <md-tab-body>
+		        	People
+
+		        </md-tab-body>
+		      </md-tab>
+		    </md-tabs>
+	    </md-content>
+    </div>
+</div>

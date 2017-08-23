@@ -1,0 +1,94 @@
+<div id="taskbar" class="sidebar-content" ng-controller="TicketDetailsController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span style="font-weight: 300 !important">Ticket details</span>
+        </div>
+        
+        <div class="header-description v-a-middle" ng-show="showDetails">
+            <a href="" style="color: #fff" ng-click="closeDetails()">
+            	Close
+            </a>
+        </div>
+    </div>
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">   
+        <div class="p-10" style="background-color: #f1f3f2">
+	        <form name="taskForm">
+		        <div class="panel panel-default">
+		            <div class="panel-body">
+		                <md-input-container class="md-block p-b-0">
+				            <label>Title</label>
+				            <textarea class="primary-input" ng-model="selectedTicket.name" rows="3" 
+				            	md-detect-hidden="true"></textarea>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+				            <label>Type</label>
+				            <input ng-model="selectedTicket.type" md-detect-hidden="true"></input>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+				            <label>Status</label>
+				            <input ng-model="selectedTicket.status" md-detect-hidden="true"></input>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+				            <label>Created</label>
+				            <input mdc-datetime-picker date="true" time="true" type="text" id="duedatetime"
+								ng-model="selectedTicket.created" class="md-input" ok-text="Next" short-time="true"
+								format="ddd, MMMM D, YYYY,  h:mma">
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+				            <label>Create by</label>
+				            <input ng-model="selectedTicket.createdName" md-detect-hidden="true"></input>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+				            <label>Details</label>
+				            <textarea ng-model="selectedTicket.details" rows="10" 
+				            	md-detect-hidden="true"></textarea>
+						</md-input-container>
+					  
+		            </div>
+		        </div>
+		        
+		        <div class="panel panel-tags collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Additional details</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body p-10 f-13" style="display: none;">
+<pre style="background-color: transparent; border: none;">
+{{ selectedTicket | json }}
+</pre> 
+			            <!--summernote airMode class="f-14" ng-model="selectedTicket.debugLog"></summernote-->
+		            </div>
+			  	</div>
+		        
+		        <div class="panel panel-notes collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Notes</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body p-0" style="display: none;">
+			            <summernote airMode class="f-14" ng-model="selectedTicket.notes"></summernote>
+		            </div>
+			  	</div>
+			  
+			  	<div class="m-t-15">
+				  	<a href="" ng-Click="closeTicket()" class="btn btn-danger btn-block f-17">
+					  Close Ticket
+				  	</a>
+			  	</div>
+	        </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

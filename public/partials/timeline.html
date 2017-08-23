@@ -1,0 +1,33 @@
+<div id="helpbar" class="helpbar" ng-controller="RecentTimelineController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+            <!--i class="pe-7s-timer"></i-->
+            <span>My Recent Activity</span>
+        </div>
+        <div class="header-description">
+            <a class=""  ui-sref="calendar" ng-click="nav.hideSideForm()" style="color: #fff">
+            	<i class="pe-7s-clock f-25"></i>
+            </a>
+        </div>
+        <div class="header-close">
+            <i class="pe-7s-angle-right-circle" ng-click="nav.hideSideViewForm()"></i>
+        </div>
+    </div>
+    
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">
+        <md-content style="height: 100%">
+        	<section ng-repeat="group in grouping">
+	        	<md-subheader class="md-primary subheader-top">{{group}}</md-subheader>
+	        	<md-divider></md-divider>
+
+		        <div class="p-10 p-l-15 p-r-15">
+		            <ul class="timeline timeline-condensed">
+		                <li ng-repeat="act in activity | filter:{groupingLabel:group, createdBy:gs.currProfile.person} | orderBy:'updated':true"
+		                	data-ng-include="'views/partials/timelineEntry.html'">
+		                </li>
+		            </ul>
+		        </div>
+        	</section>
+        </md-content>
+    </div>
+</div>

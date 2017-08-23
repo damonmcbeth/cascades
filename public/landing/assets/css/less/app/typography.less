@@ -1,0 +1,129 @@
+﻿@vs-color: #68217a;
+@angular-color: #c4473a;
+p {
+    font-size: 15px;
+    line-height: 29px;
+    color: @default;
+    padding-bottom: 20px;
+}
+
+h1 {
+    font-size: 60px;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: 300;
+    color: @default;
+}
+
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    color: @default;
+    text-transform: uppercase;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 15px;
+    color: @default;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.btn {
+    font-size: 13px;
+    border: solid 1px;
+    .border-radius(@border-radius);
+    display: inline-block;
+    text-transform: uppercase;
+
+    &:hover, &:focus {
+        color: #fff;
+        border-color: @primary;
+        background-color: @primary;
+    }
+}
+
+.btn-white {
+    font-size: 13px;
+    border: solid 1px;
+    .border-radius(@border-radius);
+    display: inline-block;
+    border-color: #fff;
+
+    &:hover, &:focus {
+        color: @primary;
+        border-color: @primary;
+    }
+}
+
+.btn-fill {
+    color: #fff;
+    border: solid 1px @primary;
+    .border-radius(@border-radius);
+    display: inline-block;
+    text-transform: uppercase;
+    background-color: @primary;
+
+    &:hover, &:focus {
+        color: #fff;
+        background-color: @primary-darker;
+        border-color: @primary-darker;
+    }
+}
+
+.btn-vs {
+    font-size: 13px;
+    border: solid 1px;
+    .border-radius(@border-radius);
+    display: inline-block;
+    border-color: #fff;
+    color:#fff;;
+
+    &:hover, &:focus {
+        background-color: @vs-color;
+        color:#fff;
+        border-color: @vs-color;
+    }
+}
+
+.btn-angular {
+    font-size: 13px;
+    border: solid 1px;
+    .border-radius(@border-radius);
+    display: inline-block;
+    border-color: #fff;
+    color:#fff;;
+
+    &:hover, &:focus {
+        background-color: @angular-color;
+        color:#fff;
+        border-color: @angular-color;
+    }
+}
+
+.btn-small {
+    padding: 8px 40px;
+}
+
+.btn-large {
+    padding: 15px 40px;
+}
+
+.btn-margin-right {
+    margin-right: 20px;
+}
+
+.intro, .features-extra, .sign-up {
+    background: #fff;
+}
+
+.features {
+    background: #F3F4F8;
+}

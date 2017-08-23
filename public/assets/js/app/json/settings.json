@@ -1,0 +1,130 @@
+{
+"org": {
+"projectAlias": "Project",
+"projectAliasPlural": "Projects",
+"clientAlias": "Client",
+"clientAliasPlural": "Clients",
+"taskAlias": "Task",
+"taskAliasPlural": "Tasks",
+"memoAlias": "Memo",
+"memoAliasPlural": "Journal",
+"orgName": "ACME Inc",
+"orgDesc": "At ACME Inc, we understand the real value of technology lies in the skills it builds, the opportunities it creates, and the horizons it broadens.",
+"subscription": {
+"key": "dlsfkj-234kj-klj3-3jls-12345",
+"plan": "Small Business",
+"renewal": "moment().subtract(4, 'months')"
+}
+},
+"task": {
+"soon": 10,
+"taskBoardGroup": "Status",
+"taskBoardOrder": "due",
+"quickGroup": "Schedule",
+"states": [
+{
+"label": "Not Started",
+"editable": false,
+"order": -1
+},
+{
+"label": "In Progress",
+"editable": true,
+"order": 1
+},
+{
+"label": "Custom",
+"editable": true,
+"order": 2
+},
+{
+"label": "Done",
+"editable": false,
+"order": 99999
+}
+]
+},
+"people": {
+"sortBy": "Last",
+"quickGroup": "type",
+"recent": 5
+},
+"project": {
+"recent": 4,
+"types":[
+{
+"id": 0,
+"title": "General",
+"revenue": 0
+},
+{
+"id": 1,
+"title": "Bankruptcy",
+"revenue": 3000
+},
+{
+"id": 2,
+"title": "Product Development",
+"revenue": 10500
+},
+{
+"id": 3,
+"title": "Marketing",
+"revenue": 6300
+}
+]
+},
+"journal": {
+"grouping":[
+{
+"id": 0,
+"title": "In the past day",
+"daysSince": 0
+},
+{
+"id": 1,
+"title": "Last 7 days",
+"daysSince": 7
+},
+{
+"id": 2,
+"title": "Last 15 days",
+"daysSince": 15
+}
+]
+},
+"calFormats": {
+"sameDay": "[Today at ] h:mma",
+"nextDay": "[Tomorrow at ] h:mma",
+"nextWeek": "dddd [at] h:mma",
+"lastDay": "[Yesterday at ] h:mma",
+"lastWeek": "[Last] dddd [at] h:mma",
+"sameElse": "ddd, MMM D, YYYY,  h:mma"
+},
+"calShortFormats": {
+"sameDay": "[Today]",
+"nextDay": "[Tomorrow]",
+"nextWeek": "dddd",
+"lastDay": "[Yesterday]",
+"lastWeek": "[Last] dddd",
+"sameElse": "ddd, MMM D"
+},
+"calMidFormats": {
+"sameDay": "[Today]",
+"nextDay": "[Tomorrow]",
+"nextWeek": "dddd",
+"lastDay": "[Yesterday]",
+"lastWeek": "[Last] dddd",
+"sameElse": "ddd, MMM D, YYYY"
+},
+"colors": [
+"#DCDCDC", 
+"#46BFBD", 
+"#FDB45C", 
+"#949FB1", 
+"#4D5360", 
+"#803690", 
+"#00ADF9"
+],
+"imagePath": "assets/img/avatars/"
+}

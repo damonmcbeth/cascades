@@ -1,0 +1,230 @@
+<div id="taskbar" class="sidebar-content" ng-controller="PersonEditController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span>{{gs.currWorkspace.Terminology.clientAlias}} Details</span>
+        </div>
+        
+        <div class="header-description v-a-middle">
+            <a href="" style="color: #fff" ng-click="cancelEdit()">
+            	Cancel
+            </a>
+            <a href="" class="pull-right" style="color: #fff" ng-click="savePerson(userForm.$valid)">
+            	Save
+            </a>
+        </div>
+    </div>
+    
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">	    
+        <div class="p-10" style="background-color: #f1f3f2">
+	        <form name="userForm">
+		        <div class="panel panel-default">
+		            <div class="panel-body">
+		                <md-input-container class="md-block  p-b-0">
+							  <md-radio-group ng-model="selectedPerson.type" layout="row">
+							      <md-radio-button value="{{personType.value}}" class="md-primary" 
+							      	ng-repeat="personType in personTypes">{{personType.label}}</md-radio-button>
+							  </md-radio-group>
+						</md-input-container>
+		                
+		                <md-input-container class="md-block p-b-0">
+			            	<label>First</label>
+							<input name="firstName" class="primary-input" ng-model="selectedPerson.first" md-maxlength="80" required></input>
+							
+							<div ng-messages="userForm.firstName.$error" role="alert" 
+								ng-if="showHints" multiple>
+				            	<div ng-message="required" class="my-message">You must supply a first name.</div>
+								<div ng-message="md-maxlength" class="my-message">
+									Please do not exceed 80 characters.
+				            	</div>
+				            </div>
+			            </md-input-container>
+			            
+						<md-input-container class="md-block p-b-0">
+			            	<label>Last</label>
+							<input name="lastName" class="primary-input" ng-model="selectedPerson.last" md-maxlength="80" required></input>
+							<div ng-messages="userForm.lastName.$error" role="alert" 
+								ng-if="showHints" multiple>
+				            	<div ng-message="required" class="my-message">You must supply a last name.</div>
+								<div ng-message="md-maxlength" class="my-message">
+									Please do not exceed 80 characters.
+				            	</div>
+				            </div>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+			            	<label>Title</label>
+							<input ng-model="selectedPerson.title" ></input>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+			            	<label>Email</label>
+							<input name="email" type="email" ng-model="selectedPerson.primaryEmail" 
+								ng-required="selectedPerson.type == 'Team member'"></input>
+									
+							<div ng-messages="userForm.email.$error" ng-if="showHints">
+								<div ng-message="required">This field is required</div>
+					        	<div ng-message="email">Please enter a valid email address.</div>
+					        </div>
+			            </md-input-container>
+			            
+						<md-input-container class="md-block p-b-0">
+			            	<label>Primary phone</label>
+							<input name="pphone" ng-model="selectedPerson.primaryPhone"
+								placeholder="(###) ###-####"></input>
+						</md-input-container>
+						
+						<md-input-container class="md-block p-b-0">
+			            	<label>Secondary phone</label>
+							<input name="sphone" ng-model="selectedPerson.secondaryPhone"
+								placeholder="(###) ###-####"></input>					
+						</md-input-container>
+						
+						
+		            </div>
+		        </div>
+		        
+		        <div class="panel panel-tags collapsed" ng-show="selectedPerson.type == 'Team member'">
+			        <div class="panel-heading">
+		                <h3 class="panel-title">Team member options</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body" style="display: none;">
+					 	<md-input-container class="md-block m-b-5 m-t-5 p-0 ">
+				            <md-switch class="md-primary f-15 m-0" md-no-ink="false" ng-model="selectedPerson.isUser">
+					        	Enable User to Sign in and Manage Information
+					        </md-switch>
+				        </md-input-container>
+				        
+				        <md-input-container class="md-block m-b-5 m-t-5 p-0 ">
+				            <md-switch class="md-primary f-15 m-0" md-no-ink="false" 
+				            	ng-disabled="!selectedPerson.isUser"
+				            	ng-model="selectedPerson.isAdmin">
+					        	Enable Administrator Privileges
+					        </md-switch>
+				        </md-input-container>
+				        
+				        <div class="m-t-25 m-b-15">
+					        <button type="button" class="btn btn-inverse" ng-click="sendResetEmail()">
+					        	Reset Password</button>
+
+				        </div>
+		            </div>
+				</div>
+		        
+				<div class="panel panel-tags collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Addresses</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body"  style="display: none;">
+					 	<md-radio-group ng-model="currAddress.type" layout="row">
+							<md-radio-button value="{{addrType}}" class="md-primary" 
+						    	ng-repeat="addrType in addressTypes">{{addrType}}</md-radio-button>
+						</md-radio-group>
+						
+						<div layout="row p-b-20">
+							<md-input-container class="md-block p-b-0" flex="100">
+				            	<label>Address</label>
+								<input class="primary-input" ng-model="currAddress.address"
+										id="autocomplete" placeholder="Enter the address"
+										ng-focus="geolocate()"
+										ng-keydown="$event.keyCode === 13 && addAddress()"></input>
+				            </md-input-container>
+
+				            <div class="m-t-20 m-l-5">  
+								<a href="" ng-click="addAddress()">
+									<i class="icon pe-7f-plus f-25" ></i>
+								</a>
+							</div>
+			            </div>
+			            
+			            <md-list class="m-b-10">
+							<md-list-item ng-click="navigateTo(setting.extraScreen, $event)" ng-repeat="addrItem in selectedPerson.addresses">
+							    <i class="icon pe-7s-map-marker f-20 p-r-15" ></i>
+							    <div class="list-title-alt">{{ addrItem.type}}: {{ addrItem.address }}</div>
+							    <i class="icon pe-7s-close text-muted md-secondary f-25"
+									ng-click="removeAddress(addrItem)" aria-label="Delete"></i>
+								<md-divider ng-if="!$last"></md-divider>
+							</md-list-item>
+						</md-list>
+
+		            </div>
+				</div>
+				
+				<div class="panel panel-tags collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Avatar</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body" style="display: none;">
+			            <md-input-container class="md-block m-t-0 p-b-0">
+							  <md-radio-group ng-model="selectedPerson.avatarType" layout="row">
+							      <md-radio-button value="{{type}}" class="md-primary" 
+							      	ng-repeat="type in avatarTypes">{{type}}</md-radio-button>
+							  </md-radio-group>
+						</md-input-container>
+						
+						<div ng-hide="selectedPerson.avatarType == 'Custom'">
+							<span ng-repeat="avatarImg in gs.pref.avatars" ng-click="selectAvatar(avatarImg)">
+								<img class="avatar avatar-sm m-5" ng-class="{'avatar-selected' : selectedPerson.avatar == avatarImg}" 
+									src="assets/img/avatars/empty-icon.png"
+									ng-src="assets/img/avatars/{{avatarImg}}"></img>
+							</span>
+						</div>
+						
+						<div ng-show="selectedPerson.avatarType == 'Custom'">
+							<span ng-repeat="cusAvatar in customAvatars" ng-click="selectAvatar(cusAvatar.downloadURL)">
+								<img class="avatar avatar-sm m-5" ng-class="{'avatar-selected' : selectedPerson.avatar == cusAvatar.downloadURL}" 
+									src="assets/img/avatars/empty-icon.png"
+									ng-src="{{cusAvatar.downloadURL}}"></img>
+							</span>
+							
+							<div ng-controller="FileUploadController as $ctrl">
+								<md-divider class="m-t-10"></md-divider>
+								<div id="progressBar" ng-show="$ctrl.showProgress">
+									<md-progress-linear md-mode="indeterminate" ng-disabled="ctrl.disabled"></md-progress-linear>
+								</div>
+								<div class="m-t-10 align-right">
+									<label for="file-upload-btn" class="btn btn-inverse">
+									    Upload custom avatar
+									</label>
+									<file-upload loc="A" on-change="$ctrl.onChange" ctrl="$ctrl"></file-upload>
+								</div>
+							</div>
+						</div>
+		            </div>
+				</div>
+				
+				<tageditor title="Tags" model="selectedPerson" filter="{forPeople: true}"></tageditor>
+
+				<div class="panel panel-notes collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Notes</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body p-0" style="display: none;">
+			            <summernote airMode class="f-14" ng-model="selectedPerson.notes"></summernote>
+		            </div>
+			  	</div>
+			  
+			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
+				  	<div class="align-center">Created by {{selectedPerson.createdName}} on {{selectedPerson.created | amCalendar:null:gs.pref.calFormats}}</div>
+				  	<div class="align-center">Last update by {{selectedPerson.updatedName}} on {{selectedPerson.updated | amCalendar:null:gs.pref.calFormats}}</div>
+			  	</div>
+			  
+		    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,522 @@
+[
+{
+"name": "Jayden Cameron",
+"$id": "-KgR_dYIB3me1qg-MXi9",
+"first": "Jayden",
+"last": "Cameron",
+"userid": "-KgR_dYIB3me1qg-MXi9",
+"avatar": "damon.jpg",
+"isOwner": true,
+"isAdmin": true,
+"type": "Team member",
+"primaryPhone": "9803225861",
+"secondaryPhone": "",
+"primaryEmail": "damonmcbeth@gmail.com",
+"state": "Established",
+"tagIds": [
+6
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "I’ve worked the last 9 years as a full-stack web developer with experience in all phases of web development life cycle. I have collaborated in many projects as a developer and also as a team leader in companies all around the world. ",
+"addresses": [
+{
+"id": "1",
+"loaded": false,
+"title": "Home",
+"address": "40 Spring Street, Charleston SC 29403"
+},
+{
+"id": "2",
+"loaded": false,
+"title": "Work",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+}
+]
+},
+{
+"name": "Damon McBeth",
+"first": "Damon",
+"last": "McBeth",
+"userid": "12345",
+"$id": "12345",
+"avatar": "damon.jpg",
+"isOwner": true,
+"isAdmin": true,
+"type": "Team member",
+"primaryPhone": "9803225861",
+"secondaryPhone": "",
+"primaryEmail": "damonmcbeth@gmail.com",
+"state": "Established",
+"tagIds": [
+6
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "I’ve worked the last 9 years as a full-stack web developer with experience in all phases of web development life cycle. I have collaborated in many projects as a developer and also as a team leader in companies all around the world. ",
+"addresses": [
+{
+"id": "1",
+"loaded": false,
+"title": "Home",
+"address": "40 Spring Street, Charleston SC 29403"
+},
+{
+"id": "2",
+"loaded": false,
+"title": "Work",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+}
+]
+},
+{
+"name": "Andy Jones",
+"first": "Andy",
+"last": "Jones",
+"userid": "2",
+"$id": "2",
+"avatar": "andy.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Team member",
+"primaryPhone": "1235551111",
+"secondaryPhone": "",
+"primaryEmail": "ajones@cascades.com",
+"state": "New",
+"tagIds": [
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": [
+{
+"id": "3",
+"loaded": false,
+"title": "Home",
+"address": "394 Postfoot Circle, Georgetown SC 29443"
+}
+]
+},
+{
+"name": "Adelle Smith",
+"first": "Adelle",
+"last": "Smith",
+"userid": "3",
+"$id": "3",
+"avatar": "adelle.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Team member",
+"primaryPhone": "1235552222",
+"secondaryPhone": "1235551111",
+"primaryEmail": "asmith@cascades.com",
+"state": "New",
+"tagIds": [
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": []
+},
+{
+"name": "Miesha Grant",
+"first": "Miesha",
+"last": "Grant",
+"userid": "4",
+"$id": "4",
+"avatar": "4.png",
+"isOwner": false,
+"isAdmin": false,
+"type": "Team member",
+"primaryPhone": "1235553333",
+"secondaryPhone": "",
+"primaryEmail": "mgrant@cascades.com",
+"state": "New",
+"tagIds": [
+7,
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "I’m really passionate about new challenges in development process and the idea of creating new, unique and genuine websites.",
+"addresses": [
+{
+"id": "1",
+"loaded": false,
+"title": "Home",
+"address": "40 Spring Street, Charleston SC 29403"
+},
+{
+"id": "2",
+"loaded": false,
+"title": "Home",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+},
+{
+"id": "4",
+"loaded": false,
+"title": "Work",
+"address": "2221 Equestrian Dr, Matthews NC 28105"
+}
+]
+},
+{
+"name": "Jim Lawson",
+"first": "Jim",
+"last": "Lawson",
+"userid": "5",
+"$id": "5",
+"avatar": "florian.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Team member",
+"primaryPhone": "1235554444",
+"secondaryPhone": "",
+"primaryEmail": "jlawson@cascades.com",
+"state": "Established",
+"tagIds": [],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": [
+{
+"id": "5",
+"loaded": false,
+"title": "Home",
+"address": "2210 Water Ridge Parkway, Charlotte NC"
+}
+]
+},
+{
+"name": "Cameron Jordan",
+"first": "Cameron",
+"last": "Jordan",
+"userid": "54321",
+"$id": "54321",
+"avatar": "7.png",
+"isOwner": true,
+"isAdmin": true,
+"type": "Team member",
+"primaryPhone": "9803220432",
+"secondaryPhone": "1235554444",
+"primaryEmail": "cjordan@gmail.com",
+"state": "Established",
+"tagIds": [
+5,
+6,
+7
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": [
+{
+"id": "2",
+"loaded": false,
+"title": "Home",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+}
+]
+},
+{
+"name": "Eureca Jones",
+"first": "Eureca",
+"last": "Jones",
+"userid": "9",
+"$id": "9",
+"avatar": "12.png",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "3235550000",
+"secondaryPhone": "",
+"primaryEmail": "ejones@cascades.com",
+"state": "New",
+"tagIds": [
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": []
+},
+{
+"name": "Mary Lee",
+"first": "Mary",
+"last": "Lee",
+"userid": "8",
+"$id": "8",
+"avatar": "18.png",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "1235552222",
+"secondaryPhone": "",
+"primaryEmail": "mlee@cascades.com",
+"state": "New",
+"tagIds": [
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": false,
+"notes": "",
+"addresses": [
+{
+"id": "3",
+"loaded": false,
+"title": "Work",
+"address": "394 Postfoot Circle, Georgetown SC 29443"
+}
+]
+},
+{
+"name": "Marquette Grant",
+"first": "Marquette",
+"last": "Grant",
+"userid": "7",
+"$id": "7",
+"avatar": "19.png",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "3335553333",
+"secondaryPhone": "",
+"primaryEmail": "mgrant@cascades.com",
+"state": "New",
+"tagIds": [
+7
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "I’ve worked the last 9 years as a full-stack web developer with experience in all phases of web development life cycle. I have collaborated in many projects as a developer and also as a team leader in companies all around the world.",
+"addresses": []
+},
+{
+"name": "Jayden McBeth",
+"first": "Jayden",
+"last": "McBeth",
+"userid": "6",
+"$id": "6",
+"avatar": "3.png",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "9805555555",
+"secondaryPhone": "9803222342",
+"primaryEmail": "jmcbeth@cascades.com",
+"state": "Established",
+"tagIds": [],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": [
+{
+"id": "3",
+"loaded": false,
+"title": "Home",
+"address": "394 Postfoot Circle, Georgetown SC 29443"
+},
+{
+"id": "6",
+"loaded": false,
+"title": "Home",
+"address": "309 Lancaster Ave, Monroe NC 28112"
+},
+{
+"id": "1",
+"loaded": false,
+"title": "Work",
+"address": "40 Spring Street, Charleston SC 29403"
+},
+{
+"id": "2",
+"loaded": false,
+"title": "Work",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+},
+{
+"id": "4",
+"loaded": false,
+"title": "Home",
+"address": "2221 Equestrian Dr, Matthews NC 28105"
+}
+]
+},
+{
+"name": "Harold McBeth",
+"first": "Harold",
+"last": "McBeth",
+"userid": "78943",
+"$id": "78943",
+"avatar": "17.png",
+"isOwner": true,
+"isAdmin": true,
+"type": "Team member",
+"primaryPhone": "9803222342",
+"secondaryPhone": "",
+"primaryEmail": "haroldmcbeth@gmail.com",
+"state": "Established",
+"tagIds": [
+5,
+6,
+7
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": false,
+"notes": "",
+"addresses": []
+},
+{
+"name": "Jared Brown",
+"first": "Jared",
+"last": "Brown",
+"userid": "19",
+"$id": "19",
+"avatar": "jared.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "8032220000",
+"secondaryPhone": "2335552222",
+"primaryEmail": "dbrown@cascades.com",
+"state": "New",
+"tagIds": [
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "",
+"addresses": [
+{
+"id": "1",
+"loaded": false,
+"title": "Home",
+"address": "40 Spring Street, Charleston SC 29403"
+},
+{
+"id": "2",
+"loaded": false,
+"title": "Other home",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+}
+]
+},
+{
+"name": "Bell Felder",
+"first": "Bell",
+"last": "Felder",
+"userid": "18",
+"$id": "18",
+"avatar": "allison.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "2335552222",
+"secondaryPhone": "",
+"primaryEmail": "bfelder@cascades.com",
+"state": "New",
+"tagIds": [
+5,
+6,
+7
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": true,
+"notes": "I’ve worked the last 9 years as a full-stack web developer with experience in all phases of web development life cycle. I have collaborated in many projects as a developer and also as a team leader in companies all around the world.",
+"addresses": [
+{
+"id": "3",
+"loaded": false,
+"title": "Work",
+"address": "394 Postfoot Circle, Georgetown SC 29443"
+},
+{
+"id": "6",
+"loaded": false,
+"title": "Home",
+"address": "309 Lancaster Ave, Monroe NC 28112"
+}
+]
+},
+{
+"name": "Maurice Parker",
+"first": "Maurice",
+"last": "Parker",
+"userid": "17",
+"$id": "17",
+"avatar": "jim.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "3339993333",
+"secondaryPhone": "7045553456",
+"primaryEmail": "mparker@cascades.com",
+"state": "New",
+"tagIds": [
+7,
+5
+],
+"tags": [],
+"hasHighlightTag": false,
+"active": false,
+"notes": "",
+"addresses": [
+{
+"id": "4",
+"loaded": false,
+"title": "Home",
+"address": "2221 Equestrian Dr, Matthews NC 28105"
+}
+]
+},
+{
+"name": "Akil Anderson",
+"first": "Akil",
+"last": "Anderson",
+"userid": "16",
+"$id": "16",
+"avatar": "jsa.jpg",
+"isOwner": false,
+"isAdmin": false,
+"type": "Client",
+"primaryPhone": "7045553456",
+"secondaryPhone": "",
+"primaryEmail": "aanderson@cascades.com",
+"state": "Established",
+"tagIds": [],
+"tags": [],
+"hasHighlightTag": false,
+"active": false,
+"notes": "I’ve worked the last 9 years as a full-stack web developer with experience in all phases of web development life cycle. I have collaborated in many projects as a developer and also as a team leader in companies all around the world.",
+"addresses": [
+{
+"id": "2",
+"loaded": false,
+"title": "Work",
+"address": "3419 Richards Xing, Fort Mill SC 29708"
+},
+{
+"id": "4",
+"loaded": false,
+"title": "Home",
+"address": "2221 Equestrian Dr, Matthews NC 28105"
+}
+]
+}
+]

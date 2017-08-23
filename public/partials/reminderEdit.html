@@ -1,0 +1,151 @@
+<div id="taskbar" class="sidebar-content" ng-controller="ReminderEditController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span>Reminder Details</span>
+        </div>
+        
+        <div class="header-description v-a-middle">
+            <a href="" style="color: #fff" ng-click="cancelEdit()">
+            	Cancel
+            </a>
+            <a href="" class="pull-right" style="color: #fff" ng-click="saveEntry(entryForm.$valid)">
+            	Save
+            </a>
+        </div>
+    </div>
+    
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">	    
+        <div class="p-10" style="background-color: #f1f3f2">
+	        <form name="entryForm">
+		        <div class="panel panel-default">
+		            <div class="panel-body">
+		            	<md-input-container class="md-block p-b-0">
+				            <label>Title</label>
+				            <textarea id="entryTitle" name="entryTitle" class="primary-input" ng-model="selectedEntry.title" 
+				            	rows="3" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
+				            	
+				            <div ng-messages="entryForm.entryTitle.$error" role="alert" 
+								ng-if="showHints" multiple>
+				            	<div ng-message="required" class="my-message">You must supply a title.</div>
+								<div ng-message="md-maxlength" class="my-message">
+									Please do not exceed 140 characters.
+				            	</div>
+				            </div>
+				        </md-input-container>
+				        
+				        <md-switch class="md-primary f-15 m-b-40" md-no-ink="false" ng-model="selectedEntry.allday"
+				        	ng-change="handleAllDayChanged()">
+				          All day
+				        </md-switch>
+				        
+						<md-input-container class="md-block" ng-hide="selectedEntry.allday">
+							<label>Start</label>
+							<input mdc-datetime-picker date="true" time="true" type="text" id="startdatetime"
+								ng-model="selectedEntry.start" class="md-input" ok-text="Next" short-time="true" ng-change="handleStartChanged()"
+								format="ddd, MMMM D, YYYY,  h:mma" today-text="Now" show-todays-date required>
+							
+						</md-input-container>
+						
+						<md-input-container class="md-block" ng-show="selectedEntry.allday">
+							<label>Start</label>
+							<input mdc-datetime-picker date="true" time="false" type="text" id="startdate"
+								ng-model="selectedEntry.start" class="md-input" ok-text="Ok" short-time="true" ng-change="handleStartChanged()"
+								format="ddd, MMMM D, YYYY" today-text="Today" show-todays-date required>
+							
+						</md-input-container>					  	
+
+						<md-input-container class="md-block" ng-hide="selectedEntry.allday">
+							<label>End</label>
+							<input mdc-datetime-picker date="true" time="true" type="text" id="enddatetime"
+								aria-label="End" ng-change="handleEndChanged()"
+								ng-model="selectedEntry.end" class="md-input" ok-text="Next" short-time="true"
+								format="ddd, MMMM D, YYYY,  h:mma" today-text="Now" show-todays-date required >
+							
+						</md-input-container>
+					  	
+					  	<md-input-container class="md-block" ng-show="selectedEntry.allday">
+							<label>End</label>
+							<input mdc-datetime-picker date="true" time="false" type="text" id="enddate"
+								aria-label="End" ng-change="handleEndChanged()"
+								ng-model="selectedEntry.end" class="md-input" ok-text="Ok" short-time="true"
+								format="ddd, MMMM D, YYYY" today-text="Today" show-todays-date required >
+							
+						</md-input-container>
+					  	
+					  	<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.repeat">
+				          Repeat reminder
+				        </md-switch>
+				        
+				        <div layout="row p-b-20" ng-show="selectedEntry.repeat">
+							<md-input-container class="md-block">
+								<label>Every</label>
+						  		<md-select ng-model="selectedEntry.everyCount">
+					              <md-option ng-repeat="everyCnt in everyCount " ng-value="everyCnt" >
+					                {{everyCnt}}
+					              </md-option>
+					            </md-select>
+						  	</md-input-container>
+						  	<md-input-container class="md-block">
+						  		<md-select ng-model="selectedEntry.everyInterval" aria-label="Every interval">
+					              <md-option ng-repeat="eInt in ['days', 'weeks', 'months', 'years'] " ng-value="eInt" >
+					                {{eInt}}
+					              </md-option>
+					            </md-select>
+						  	</md-input-container>
+					  	</div>
+					  	
+					  	<md-input-container class="md-block" ng-show="selectedEntry.repeat">
+							<label>Until</label>
+							<input mdc-datetime-picker date="true" time="false" type="text" id="untildatetime"
+								ng-model="selectedEntry.until" class="md-input" ok-text="Next" short-time="true"
+								format="ddd, MMMM D, YYYY" today-text="Now" show-todays-date>
+							
+						</md-input-container>
+
+		            </div>
+		        </div>
+		        
+		        <div class="panel panel-tags collapsed" ng-show="selectedEntry.repeat">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Schedule</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body"  style="display: none;">
+					 	
+
+		            </div>
+				</div>
+				
+				<div class="panel panel-notes collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">Notes</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+		            <div class="panel-body p-0" style="display: none;">
+			            <summernote airMode class="f-14" ng-model="selectedEntry.notes"></summernote>
+		            </div>
+			  	</div>
+			  
+			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
+				  	<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
+				  	<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
+			  	</div>
+			  
+			  
+			  	<div class="m-t-15" ng-show="isEdit">
+				  	<a href="" ng-Click="deleteEntry()" class="btn btn-danger btn-block f-17">
+					  Delete Reminder
+				  	</a>
+			  	</div>
+		    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

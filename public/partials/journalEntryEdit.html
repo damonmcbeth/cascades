@@ -1,0 +1,190 @@
+<div id="taskbar" class="sidebar-content" ng-controller="JournalEntryEditController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span>{{gs.currWorkspace.Terminology.memoAlias}} Details</span>
+        </div>
+        
+        <div class="header-description v-a-middle">
+            <a href="" style="color: #fff" ng-click="cancelEdit()">
+            	Cancel
+            </a>
+            <a href="" class="pull-right" style="color: #fff" ng-click="saveEntry(entryForm.$valid)">
+            	Save
+            </a>
+        </div>
+    </div>
+    
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">	    
+        <div class="p-10" style="background-color: #f1f3f2">
+	        <form name="entryForm">
+		        <div class="panel panel-default">
+		            <div class="panel-body">
+		            	<md-input-container class="md-block p-b-0">
+				            <label>Title</label>
+				            <textarea id="entryTitle" name="entryTitle" class="primary-input" ng-model="selectedEntry.title" 
+				            	rows="3" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
+				            	
+				            <div ng-messages="entryForm.entryTitle.$error" role="alert" 
+								ng-if="showHints" multiple>
+				            	<div ng-message="required" class="my-message">You must supply a title.</div>
+								<div ng-message="md-maxlength" class="my-message">
+									Please do not exceed 140 characters.
+				            	</div>
+				            </div>
+				        </md-input-container>
+				        
+				        <md-input-container class="md-block">
+			          		<label>Type</label>
+					  		<md-select ng-model="selectedEntry.type">
+				              <md-option ng-repeat="type in gs.pref.journalTypes | orderBy: 'type' " ng-value="type" >
+				                {{type}}
+				              </md-option>
+				            </md-select>
+					  	</md-input-container>
+				        
+				        <div layout="row p-b-20">
+							<md-input-container class="md-block p-b-0" flex="100">
+								<label>Date</label>
+								<input mdc-datetime-picker date="true" time="true" type="text" id="duedatetime"
+									ng-model="selectedEntry.start" class="md-input" ok-text="Next" short-time="true"
+									format="ddd, MMMM D, YYYY,  h:mma" today-text="Now" show-todays-date >
+								
+							</md-input-container>
+							<i class="icon pe-7s-close text-muted f-25 p-5 m-t-15" ng-show="selectedEntry.start != null"
+									ng-click="clearStartDate()" aria-label="Clear"></i>
+					  	</div>
+					  	
+					  	<md-input-container class="md-block p-b-20">
+				            <label>Duration (mins)</label>
+				            <input ng-model="selectedEntry.duration" type="number" step="5.00">
+				        </md-input-container>
+					  	
+					  	<div layout="row p-b-20">					  
+						  	<md-input-container class="md-block" flex="100">
+				          		<label>Direct Message For</label>
+						  		<md-select ng-model="selectedEntry.target" ng-model-options="{trackBy: '$value.$id'}">
+						  		  <md-option value="{{null}}">
+							        Unassigned
+							      </md-option>
+					              <md-option ng-repeat="owner in owners | filter:{type:'Team member'} | orderBy: 'name' " ng-value="owner" >
+					                {{owner.name}}
+					              </md-option>
+					            </md-select>
+						  	</md-input-container>
+						  	<div class="p-l-15 p-t-15" ng-hide="selectedEntry.target == null">
+							  	<avatar size="sm" img="selectedEntry.target.avatar" state="selectedEntry.target.state" 
+							  		name="selectedEntry.target.name" type="selectedEntry.target.avatarType"></avatar> 
+							</div>
+						</div>
+						
+						<md-input-container class="md-block">
+				        	<label>{{gs.currWorkspace.Terminology.projectAlias}}</label>
+						  	<md-select ng-model="selectedEntry.project" ng-model-options="{trackBy: '$value.$id'}">
+						  		<md-option value="{{null}}">
+							        None
+							    </md-option>
+					            <md-option ng-repeat="proj in projects | orderBy: 'title'" ng-value="proj" >
+					                {{proj.title}}
+					            </md-option>
+					        </md-select>
+						</md-input-container>
+						
+						
+		            </div>
+		        </div>
+			  	
+			  	<summernote ng-model="selectedEntry.content" config="options"></summernote>
+			  	
+			  	<div class="panel panel-tags">
+				  	<div class="panel-heading">
+					    <h3 class="panel-title">Attachments</h3>
+					    <div class="panel-tools">
+					        <panel-collapse></panel-collapse>
+					    </div>
+					</div>
+		            <div class="panel-body">
+			            <div class="journalEntry-edit-img-cont select-list-item-2" layout="row" ng-repeat="pic in selectedEntry.attachments | filter:'image/'">
+						    <a href="{{pic.url}}" target="_blank" flex="100">
+					        	<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
+					        		class="journalEntry-img">
+									<md-tooltip>{{pic.title}}</md-tooltip>
+					        	</img>
+				        	</a>
+				        	<i class="icon pe-7s-close md-secondary text-muted f-25"
+							  			ng-click="removeAttachment(pic)" aria-label="Delete"></i>
+				        </div>
+				        
+				        <div class="m-t-0">
+					        <md-list flex>
+							  <md-list-item class="" aria-label="{{file.title}}"
+							  		ng-repeat="file in selectedEntry.attachments  | filter:'!image/'" ng-click="openAttachment(file.url)">
+							  		<fileicon file="file" showtitle="true"></fileicon>
+							  		<i class="icon pe-7s-close md-secondary text-muted f-25"
+							  			ng-click="removeAttachment(file)" aria-label="Delete"></i>
+							  		<md-divider ng-if="!$last"></md-divider>
+							  </md-list-item>
+				              
+							</md-list>
+				        </div>
+		            
+			            <div>
+							
+							<div id="progressBar" ng-show="showProgress">
+								<md-progress-linear md-mode="indeterminate" ng-disabled="disabled"></md-progress-linear>
+							</div>
+							<div class="m-t-10 align-right">
+								<label for="file-upload-btn" class="btn btn-inverse">
+								    Add attachment
+								</label>
+								<file-upload loc="F" on-change="onfileUploadChange"></file-upload>
+							</div>
+						</div>
+		            
+		            </div>
+			  	</div>
+			  	
+			  	<div class="panel panel-tags collapsed">
+					<div class="panel-heading">
+		                <h3 class="panel-title">People</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+					
+		            <div class="panel-body" style="display: none;">						
+						<md-contact-chips ng-model="selectedEntry.people" readonly="false"
+							md-contacts="querySearch($query)" filter-selected="true"
+					    	placeholder="+ Person" 
+					    	secondary-placeholder="+ Person"
+					    	md-require-match="true" md-autoselect="true"
+					    	md-contact-name="name">					    	
+						</md-contact-chips>					 
+		            </div>
+				</div>
+
+				<tageditor title="Tags" model="selectedEntry" filter="{forJournal: true}"></tageditor>
+			  
+			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
+				  	<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
+				  	<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
+			  	</div>
+			  
+			  
+			  	<div class="m-t-15" ng-show="isEdit">
+				  	<a href="" ng-Click="archiveEntry()" class="btn btn-danger btn-block f-17"
+					  	ng-hide="selectedEntry.archived">
+					  Archive {{gs.currWorkspace.Terminology.memoAlias}}
+				  	</a>
+				  	<a href="" ng-Click="restoreEntry()" class="btn btn-primary btn-block f-17"
+					  	ng-show="selectedEntry.archived">
+					  Restore {{gs.currWorkspace.Terminology.memoAlias}}
+				  	</a>
+			  	</div>
+		    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,143 @@
+﻿.blog-intro {
+    padding-top: 160px;
+    background-color: #fff;
+}
+
+.blog-intro h3 {
+    margin-bottom: 70px;
+}
+
+.blog-intro .leftcol {
+    padding-right: 100px;
+    border-right: solid 1px #E6E9EA;
+}
+
+.blog-intro .rightcol {
+    padding-left: 100px;
+}
+
+.blog {
+    padding-bottom: 120px;
+
+    h2 {
+        font-size: 15px;
+        color: @default;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        &:after {
+            content: " ";
+            border: solid 1px @primary;
+            display: block;
+            width: 75px;
+            margin: 25px auto;
+        }
+    }
+
+    .btn {
+        margin-top: 50px;
+    }
+
+    .posts {
+        padding-left: 15px;
+
+        .img {
+            position: relative;
+            margin-bottom: 50px;
+            z-index: 1;
+            overflow: hidden;
+            .border-radius(@border-radius);
+
+            &:nth-child(n) {
+                margin-right: 5px;
+            }
+
+            &:first-child {
+                margin-left: -15px;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            img {
+                display: block;
+                margin: 0;
+                padding: 0;
+                height: auto;
+            }
+        }
+    }
+
+
+
+    .overlay {
+        display: block;
+        position: absolute;
+        z-index: 20;
+        background: @primary;
+        overflow: hidden;
+        .transition(all 0.5s);
+    }
+
+    a {
+        &.expand {
+            display: block;
+            position: absolute;
+            z-index: 100;
+            text-align: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            line-height: 30px;
+        }
+    }
+
+
+    .overlay-effect {
+        .img {
+            i {
+                font-size: 30px;
+            }
+
+            &:hover {
+                .overlay {
+                    height: 100%;
+                    opacity: .8;
+                }
+
+                img {
+                    .transform(translate3d(0, 0, 0));
+                }
+            }
+
+            img {
+                .calc(width, ~'100% + 40px') !important;
+                .transition(opacity 0.35s, transform 0.35s);
+                .transform(translate3d(-40px, 0, 0));
+            }
+        }
+
+        .overlay {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .overlay a.expand {
+            left: 0;
+            right: 0;
+            bottom: 47%;
+            margin: 0 auto -30px auto;
+            font-weight: 300;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+}

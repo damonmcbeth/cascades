@@ -1,0 +1,200 @@
+
+<div ng-cloak style="height: 100%">
+	<div class="utility-container">
+		<div class="utility-menu">
+	        <ul class="menu-buttons">
+	            <li>
+	                <a href="" id="new-message" ng-Click="newTask()">
+	                    <i class="icon pe-7s-plus"></i>
+	                    <span class="text">New {{gs.currWorkspace.Terminology.taskAlias}}</span>
+	                </a>
+	            </li> 
+	            <li>
+	            	<md-menu md-offset="0 15">
+			          <md-button aria-label="Open layout menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
+			            <i class="icon pe-7s-repeat"></i>
+			          </md-button>
+			          
+			          <md-menu-content width="3">
+			          	<md-menu-item>
+				          <md-button class="menu-subheader" disabled="disabled">
+				            Organize by:
+				          </md-button>
+				        </md-menu-item>
+			            <md-menu-item ng-repeat="item in ['Status', 'Schedule', 'Priority']">
+			              <md-button ng-click="updateViewBy(item)">{{item}}</md-button>
+			            </md-menu-item>
+			            <md-menu-divider></md-menu-divider>
+			            <md-menu-item>
+				          <md-button class="menu-subheader" disabled="disabled">
+				            Order by:
+				          </md-button>
+				        </md-menu-item>
+			            <md-menu-item ng-repeat="orderItem in ['Schedule', 'Title', 'Priority']">
+			              <md-button ng-click="updateOrderBy(orderItem)">{{orderItem}}</md-button>
+			            </md-menu-item>
+			          </md-menu-content>
+			          
+			        </md-menu>
+	            </li>
+	            <li>
+	            	<md-menu md-offset="0 15">
+			          <md-button aria-label="Open more menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
+			            <i class="icon pe-7s-more"></i>
+			          </md-button>
+			          
+			          <md-menu-content width="3">
+			            <md-menu-item>
+			              <md-button ng-click="archiveTasks()">
+			              	<md-icon class="pe-7s-box1 f-25"></md-icon>Archive completed
+			              </md-button>
+			            </md-menu-item>
+			            <md-menu-item ng-hide="showArchived">
+			              <md-button ng-click="toggleArchived()">
+			              	Show archived
+			              </md-button>
+			            </md-menu-item>
+			            <md-menu-item ng-show="showArchived">
+			              <md-button ng-click="toggleArchived()">
+			              	Hide archived
+			              </md-button>
+			            </md-menu-item>
+			          </md-menu-content>
+			        </md-menu>
+	            </li>
+	        </ul>
+	        <ul class="menu-buttons secondary">
+	            
+
+	        </ul>
+	    </div>
+	</div>
+	
+    <div class="page-container">
+	    
+	    <div class="w-200" style="overflow-y: auto !important;">
+            <div class="m-15 p-5">
+	            <h4>Open {{gs.currWorkspace.Terminology.projectAliasPlural}}</h4>
+	            <md-divider class="m-b-10"></md-divider>
+	            			
+				<md-radio-group ng-model="selectedProject" ng-click="buildSummary()">
+			      <div ng-repeat="project in allProjects | filter:{isDone: false} | orderBy:'title'" class="row">
+			        <div flex layout="row" >
+			          <md-radio-button flex ng-value="project" class="md-primary m-t-10 projectSelector" >
+			            {{project.title}}
+			          </md-radio-button>
+			        </div>
+			      </div>
+			    </md-radio-group>
+			    
+			    
+			    
+			    <div class="m-t-30">
+				    <h4>Assignees</h4>
+				    <md-divider class="m-b-10"></md-divider>
+				    
+	                <div ng-repeat="person in assignees | orderBy:'name'" ng-class="{'agile-list-highlight-2' : person.isSelected }"
+	                	 ng-click="toggleSelected(person)" class="m-b-5 m-t-5 p-5 select-list-item">
+	                        <avatar size="xs" img="person.avatar" state="person.state" name="person.name" type="person.avatarType"></avatar>
+	                        <span class="p-l-10 f-15">{{person.first}}</span>
+	                </div>
+			    </div> 
+	        </div>
+	    </div>
+	    
+	    <div class="grp-container" style="overflow-y: auto !important; width: 300px !important">
+            <div class="widget m-0" style="height: 100%;">
+                <div class="p-r-20 p-l-20 p-t-5 p-b-20 align-center ">
+                    <h3 ng-click="openProjectDetails()">{{selectedProject.title}}</h3>
+                    <div class="f-15 b-400">
+                        {{selectedProject.typeName | uppercase}}
+                    </div>
+                    <div class="f-15 m-t-5">
+                        {{ selectedProject.start | amCalendar:null:gs.pref.calShortFormats}}
+                        <span ng-show="selectedProject.end != null"> - </span> 
+                        {{ selectedProject.end | amCalendar:null:gs.pref.calShortFormats}}
+                    </div>
+                    <div class="f-15 m-t-5">
+                        <span><a href="" ng-click="openPersonDetails(selectedProject.ownerId)">{{selectedProject.ownerName}}</a></span>
+                    </div>
+                    <div class="f-15 m-t-5">
+                        Revenue: {{selectedProject.revenue | currency:"$":0 }}
+                    </div>
+                    <div class="m-t-5"><ctag ng-repeat="tag in selectedProject.tags"></ctag></div>
+                </div>
+                
+                <div class="m-t-5 m-b-20 align-center">
+                	<span class="m-l-5" ng-repeat="person in selectedProject.people">
+				    	<avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"
+				    		ng-click="openPersonDetails(person.id)"></avatar>
+				    </span>
+			    </div>
+                
+                <div class="align-center m-t-20">
+	                <canvas class="chart chart-doughnut" chart-data="sumData" chart-labels="sumLabel"
+	                		chart-colors="gs.pref.colors"></canvas>
+	                
+                </div>
+                <div class="chart-legend-container">
+                    <div class="row">
+                    	<div ng-repeat="legend in sumLegend">
+                        	<div class="chart-legend" ng-style="{'border-color': legend.color}">
+                            	<div><span class="chart-legend-value">{{legend.percent | number:0 }}%</span> ({{legend.data}})</div>
+                            	<div>{{legend.label}}</div>
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="align-center">
+	                <div class="p-10 f-14 border-top-1 border-bottom-1 border-left-0 border-right-0 border-muted"
+		                ng-hide="selectedProject.notes == null || selectedProject.notes == ''" ng-bind-html="formatContent(selectedProject.notes)" style="text-align: justify; width: 100%"> 
+		            </div>
+                </div>
+                
+                <div class="text-muted f-10 m-t-15 m-b-10 align-center">
+                    <div class="m-t-5">Created by {{selectedProject.createdName}} on {{selectedProject.created | amCalendar:null:gs.pref.calFormats}}</div>
+				  	<div>Last update by {{selectedProject.updatedName}} on {{selectedProject.updated | amCalendar:null:gs.pref.calFormats}}</div>
+			  	</div>
+	        </div>
+	    </div>
+	    
+	    <div class="grp-container" ng-repeat="group in grouping">
+			<div class="grp-hdr">{{group.label}}</div>
+			<div class="task-container">
+				<ul id="{{getFilterId(group)}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list"
+					ng-class="{'agile-list-disabled-dd' : disabledDD}" ng-model="taskList">
+                    <li class="ui-sortable" ng-repeat="task in taskList | filter:getFilter(group) | orderBy:determineOrder" ng-Click="openTaskDetails(task)" ng-class="{'agile-list-highlight' : task.hasHighlightTag, 'agile-list-highlight-2' : task.hasSelectedOwner }"
+                    id="{{task.$id}}">
+                        <div>
+                           	<div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
+							<span class="pull-right badge f-9 m-l-5" ng-class="{'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}
+							</span>
+                        </div>
+                        <div class="list-title f-14" ng-class="{'task-done' : task.archived }">{{task.title}}</div>
+                        <div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">
+                                {{task.due | amCalendar:null:gs.pref.calFormats}}
+                        </div>
+                        <div class="list-title-3">
+	                        {{task.ownerName}}
+				    	</div>
+				    	<div class="list-title-3" ng-show="task.hasChecklist">
+	                        Checklist: {{getTotalChecklistDone(task.checklist)}} out of {{task.checklist.length}} done
+				    	</div>
+						<div>
+							<ctag ng-repeat="tag in task.tags"></ctag>
+						</div>
+						
+                    </li>
+                </ul>
+			</div>
+		</div>
+		
+		&nbsp;
+		
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-controller="MainController">
+<head>
+    <!-- 
+    [1. Meta Tags]
+    -->
+    <meta charset="utf-8" />
+    <title>CASCADES</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="assets/img/Timeline-128.png" type="image/x-icon">
+    <!--
+    [2. Css References]
+    -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" id="link-bootstrap" />
+    <!--link rel="stylesheet" href="#null" type="text/css" id="link-bootstrap-rtl" /-->
+    <link rel="stylesheet" href="assets/css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="assets/css/app.css" type="text/css" id="link-app" />
+    <link rel="stylesheet" href="assets/css/less/skins/dark-green.css" type="text/css" id="link-app" />
+    <link rel="stylesheet" href="assets/css/demo.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/pe-icon-7-stroke.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/pe-icon-7-filled.css" type="text/css" />
+    <link rel="stylesheet" href="assets/js/lib/am-datetimepicker/css/material-datetimepicker.css" type="text/css" />
+    <link rel="stylesheet" href="assets/js/lib/spectrum/spectrum.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/summernote.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/hotkeys.css" type="text/css" />
+    
+    <script src="assets/js/lib/nameparser/parse-names.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+	<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDesh4UPgrqBiB80p777aeeRSDd_N2geJA",
+		    authDomain: "temporal-potion-575.firebaseapp.com",
+		    databaseURL: "https://temporal-potion-575.firebaseio.com",
+		    storageBucket: "temporal-potion-575.appspot.com",
+		    messagingSenderId: "251993041995"
+		  };
+		  firebase.initializeApp(config);
+		  
+	</script>
+	
+</head>
+<body style="overflow:hidden;">	
+    <div class="animsition">
+        <!--
+        [3. Sidebar Menu]
+        -->
+        <div class="sidebar menu" data-ng-include="'views/partials/sidebar.html'" data-ng-controller="SidebarController">
+        </div>
+        <!--
+        [4. Sidebar Browse Form]
+        -->
+        <div ng-class="{'sidebar' : true, 'form' : true, 'collapsed' : nav.sideFormHidden }" ng-include="nav.activeSideForm">
+        </div>
+        <!--
+        [4.1 Sidebar View Form]
+        -->
+        <div ng-class="{'sidebar' : true, 'form' : true, 'view' : true, 'collapsed' : nav.sideViewFormHidden }" ng-include="nav.activeSideViewForm">
+        </div>
+        <!--
+        [4.2 Sidebar Edit Form]
+        -->
+        <div ng-class="{'sidebar' : true, 'form' : true, 'edit' : true, 'collapsed' : nav.sideEditFormHidden }" ng-include="nav.activeSideEditForm">
+        </div>
+        <!--
+        [5. Main Page Content]
+        -->
+        <div class="main-content">
+            <!--
+            [5.1. Page Header]
+            -->
+            <div class="content-header">
+                <!--
+                [5.1.1. BreadCrumb]
+                -->
+                <div ncy-breadcrumb></div><span style="color: #fff">.</span>
+
+                <!--
+                [5.1.2. Header Buttons]
+                -->
+                <ul class="header-actions">
+                    <li class="actions-stretch-menu" id="action-stretch-menu" style="background-color: #fff">
+                        <div class="icon"></div> 
+                    </li>
+                    <li id="action-new">
+                        <a ng-click="nav.newTask()" class="text-primary">
+                            <i class="pe-7f-plus pe-fw"></i>
+                        </a>
+                    </li>
+                    <li id="action-dashboard" class="mobile-quick-nav">
+                        <a ui-sref="mywork.dashboard">
+                            <i class="pe-7s-id pe-fw"></i>
+                        </a>
+                    </li>
+                    <li id="action-my-tasks">
+                        <a ng-click="nav.showTasks()">
+                            <i class="pe-7s-check  pe-fw"></i>
+                        </a>
+                    </li>
+                    <li id="action-my-projects" class="mobile-quick-nav">
+                        <a ui-sref="projects.activeprojects">
+                            <i class="pe-7s-portfolio  pe-fw"></i>
+                        </a>
+                    </li>
+
+                    <li id="action-clients">
+                        <a ng-click="nav.showPeople()">
+                            <i class="pe-7s-users pe-fw"></i>
+                        </a>
+                    </li>
+                    <li id="action-journal" class="mobile-quick-nav">
+                        <a ui-sref="journal.inbox">
+                            <i class="pe-7s-notebook pe-fw"></i>
+                        </a>
+                    </li>
+                    
+                    <li id="action-timeline" class="mobile-quick-nav">
+                        <a ui-sref="calendar.today">
+                            <i class="pe-7s-clock pe-fw"></i>
+                        </a>
+                    </li>
+                    
+                    <li id="action-recent">
+                        <a ng-click="nav.showMyTimeline()">
+                            <i class="pe-7s-timer pe-fw"></i>
+                        </a>
+                    </li>
+                    
+                    <li id="action-settings">
+                        <a ng-click="nav.showPref()">
+                            <i style="vertical-align: super">
+                            	<avatar size="xs" img="gs.currProfile.avatar" name="gs.currProfile.name" type="gs.currProfile.avatarType"></avatar>
+                            </i>
+                        </a>
+                    </li>
+                    <li id="action-menu-collapse">
+                        <a>
+                            <i class="pe-7s-menu"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--
+            [5.3. Page Body]
+            -->
+            <div resize ng-class="{'content-body': true, 'body-full': hasFullContainer, 'body-full-horz': hasFullContainerHorz}" ui-view height-offset="75">
+            </div>
+        </div>
+        <!--
+        [6. JavaScript References]
+        -->
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkmEv4V-jNS9DsoH1XXSeyaUl6w2epPCc&libraries=places"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/modernizr.custom.js"></script>
+        <script src="assets/js/lib/animsition/animsition.min.js"></script>
+        <script src="assets/js/lib/angular/angular.min.js"></script>
+        <script src="assets/js/lib/angular/angular-animate.min.js"></script>
+        <script src="assets/js/lib/angular/angular-touch.min.js"></script>
+        <script src="assets/js/lib/angular/ui-bootstrap-tpls.min.js"></script>
+        <script src="assets/js/lib/angular/angular-ui-router.min.js"></script>
+        <script src="assets/js/lib/angular/ocLazyLoad.min.js"></script>
+        <script src="assets/js/lib/angular/angular-breadcrumb.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-sanitize.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+        
+        <script src="assets/js/lib/moment/moment2.min.js"></script> 
+        <script src="assets/js/lib/moment/angular-moment.js"></script> 
+        <script src="assets/js/lib/am-datetimepicker/js/angular-material-datetimepicker151.js"></script> 
+        <script src="assets/js/lib/chartjs/Chart2.min.js"></script> 
+        <script src="assets/js/lib/chartjs/angular-chart.js"></script> 
+        <script src="assets/js/lib/ui-sortable/sortable.js"></script>
+        <script src="assets/js/lib/summernote/summernote.min.js"></script>
+        <script src="assets/js/lib/summernote/angular-summernote.js"></script>
+        <script src="assets/js/lib/maps/gmaps.js"></script> 
+        <script src="assets/js/lib/spectrum/spectrum.js"></script>
+        <script src="assets/js/lib/easypiechart/angular.easypiechart.js"></script>
+        <script src="assets/js/lib/knob/jquery.knob.js"></script>
+        <script src="assets/js/lib/hotkeys/hotkeys.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+        <!--script src="assets/js/lib/timer/angular-timer.js"></script-->
+         
+        
+        <script src="assets/js/main.js"></script>
+        <script src="assets/js/app/app.module.js"></script>
+        <script src="assets/js/app/app.config.js"></script>
+        <script src="assets/js/app/app.routes.js"></script>
+        
+        <script src="assets/js/app/services/globalNav.service.js"></script>
+        <script src="assets/js/app/services/globalSettings.service.js"></script>
+        <script src="assets/js/app/services/tag.service.js"></script>
+        <script src="assets/js/app/services/people.service.js"></script>
+        <script src="assets/js/app/services/people.activity.service.js"></script>
+        <script src="assets/js/app/services/project.service.js"></script>
+        <script src="assets/js/app/services/insights.service.js"></script>
+        <script src="assets/js/app/services/task.service.js"></script>
+        <script src="assets/js/app/services/activity.service.js"></script>
+        <script src="assets/js/app/services/task.activity.service.js"></script>
+        <script src="assets/js/app/services/project.activity.service.js"></script>
+        <script src="assets/js/app/services/journal.service.js"></script>
+        <script src="assets/js/app/services/journal.activity.service.js"></script>
+        <script src="assets/js/app/services/reminder.service.js"></script>
+        <script src="assets/js/app/services/reminder.activity.service.js"></script>
+        <script src="assets/js/app/services/tickets.service.js"></script>
+        <script src="assets/js/app/services/storage.service.js"></script>
+        <script src="assets/js/app/services/message.service.js"></script>
+        
+        <!--script src="assets/js/lib/am-datetimepicker/js/angular-material-datetimepicker.js"></script-->
+        <script src="assets/js/app/filter/phone.filter.js"></script>
+        <script src="assets/js/app/directives/resize.directive.js"></script>
+        <script src="assets/js/app/directives/tag.directive.js"></script>
+        <script src="assets/js/app/directives/tagEditor.directive.js"></script>
+        <script src="assets/js/app/directives/avatar.directive.js"></script>
+        <script src="assets/js/app/directives/easypiechart.directive.js"></script>
+        <script src="assets/js/app/directives/panel.directive.js"></script>
+        <script src="assets/js/app/directives/postrenderAction.directive.js"></script>
+        <script src="assets/js/app/directives/fileUpload.directive.js"></script>
+        <script src="assets/js/app/controllers/fileUpload.controller.js"></script>
+        <script src="assets/js/app/controllers/main.controller.js"></script>
+        <script src="assets/js/app/controllers/dashboard.controller.js"></script>
+        <script src="assets/js/app/controllers/sidebar.controller.js"></script>
+        <script src="assets/js/app/controllers/tag.controller.js"></script> 
+        <script src="assets/js/app/controllers/taskboard.controller.js"></script> 
+        <script src="assets/js/app/controllers/tasks.controller.js"></script> 
+        <script src="assets/js/app/controllers/task.details.controller.js"></script> 
+        <script src="assets/js/app/controllers/clients.controller.js"></script> 
+        <script src="assets/js/app/controllers/tickets.controller.js"></script>
+        <script src="assets/js/app/controllers/ticket.details.controller.js"></script> 
+        <script src="assets/js/app/controllers/people.controller.js"></script> 
+        <script src="assets/js/app/controllers/person.details.controller.js"></script>
+        <script src="assets/js/app/controllers/person.edit.controller.js"></script>
+        <script src="assets/js/app/controllers/project.controller.js"></script> 
+        <script src="assets/js/app/controllers/project.details.controller.js"></script> 
+        <script src="assets/js/app/controllers/project.taskboard.controller.js"></script> 
+        <script src="assets/js/app/controllers/project.edit.controller.js"></script> 
+        <script src="assets/js/app/controllers/organization.controller.js"></script> 
+        <script src="assets/js/app/controllers/recent.timeline.controller.js"></script> 
+        <script src="assets/js/app/controllers/journal.controller.js"></script> 
+        <script src="assets/js/app/controllers/journal.edit.controller.js"></script> 
+        <script src="assets/js/app/controllers/reminders.controller.js"></script>
+        <script src="assets/js/app/controllers/reminder.edit.controller.js"></script>
+        <script src="assets/js/app/controllers/timeline.controller.js"></script>
+        <script src="assets/js/app/directives/fileicon.directive.js"></script> 
+        
+    </div>
+</body>
+</html>

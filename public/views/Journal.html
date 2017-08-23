@@ -1,0 +1,43 @@
+<div ng-cloak style="width: 100%;">
+	<div class="utility-container">
+		<div class="utility-menu">
+	        <ul class="menu-buttons">
+	            <li>
+	                <a href="" id="new-message" ng-Click="newEntry()">
+	                    <i class="icon pe-7s-plus"></i>
+	                    <span class="text">New {{itemLabel}}</span>
+	                </a>
+	            </li> 
+	            <li>
+	                <a href="">
+	                    <i class="icon pe-7s-more"></i>
+	                </a>
+	            </li> 
+
+	        </ul>
+	    </div>
+	</div>
+	
+	<div class="page-container-vert">
+		
+		<div class="p-b-15 p-t-10">
+            <input type="text" class="form-control" placeholder="Search"
+               	ng-model="search">
+		</div>
+		
+		<section ng-repeat="group in grouping">			
+			<div class="page-header" ng-show="hasGroup(group, search)">
+			    <h2 class="header-text">{{group}}</h2>
+			</div>
+		
+			<div class="row">
+				<div class="card-animate" ng-repeat="entry in journal | filter:getFilter(group, search):false | orderBy:orderByFld:true" 
+					data-ng-include="'views/partials/journalEntryCard.html'"></div>
+			</div>
+		</section>
+    </div>
+</div>
+
+<script>
+
+</script>

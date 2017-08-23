@@ -1,0 +1,155 @@
+﻿.to-top {
+    height: 60px;
+    background-color: @primary;
+
+    .to-top-wrap {
+        height: 60px;
+        width: 70px;
+        position: absolute;
+        right: 0;
+        text-align: center;
+
+        a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            background-color: @primary-darker;
+
+            &:hover, &:focus {
+                background-color: darken(@primary, 5%);
+
+                i {
+                    color: #fff;
+                }
+            }
+        }
+
+        i {
+            font-size: 60px;
+            line-height: 60px;
+            color: lighten(@primary, 20%);
+        }
+    }
+
+
+
+    .row {
+        position: relative;
+    }
+}
+
+
+.footer {
+    background-color: @default-darker;
+    position: relative;
+
+    .footer-logo {
+        margin-top: 70px;
+
+        img {
+            height: 50px;
+        }
+    }
+
+    .footer-links {
+        margin: 0 0 120px 0;
+    }
+
+    p {
+        color: #ACB1B4;
+        font-size: 13px;
+    }
+
+    a {
+        color: #fff;
+
+        &:hover {
+            color: @primary;
+        }
+    }
+
+
+
+    ul {
+        &.footer-group {
+            border-top: solid 1px @default-darker;
+            padding-top: 25px;
+            margin-bottom: 45px;
+
+            li {
+                display: inline-block;
+                margin-right: 30px;
+
+                a {
+                    font-size: 13px;
+                    text-transform: uppercase;
+
+                    &:hover {
+                        color: @primary;
+                    }
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    .social {
+        position: absolute;
+        background-color: @default;
+        right: 0;
+        width: 40%;
+        height: 100%;
+        padding: 142px 0 0 70px;
+
+        p {
+            color: #fff;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+        }
+
+        a {
+            color: #fff;
+
+            &:hover {
+                color: #fff;
+            }
+
+            i {
+                margin-top: 20px;
+            }
+
+            &.twitter {
+                height: 60px;
+                width: 60px;
+                background-color: #1AB4EF;
+                border-radius: 3px;
+                font-size: 22px;
+                display: inline-block;
+                text-align: center;
+                margin-right: 20px;
+
+                &:hover, &:focus {
+                    background-color: #1590BF;
+                }
+            }
+
+            &.facebook {
+                height: 60px;
+                width: 60px;
+                background-color: #3B5898;
+                border-radius: 3px;
+                font-size: 22px;
+                display: inline-block;
+                text-align: center;
+
+                &:hover, &:focus {
+                    background-color: #324C85;
+                }
+            }
+        }
+    }
+}

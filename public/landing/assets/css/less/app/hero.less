@@ -1,0 +1,54 @@
+﻿.hero {
+    min-height: 750px;
+    background: url("../../../img/hero.jpg") center center;
+    background-size: cover;
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(22, 22, 22, 0.85);
+    }
+
+    p {
+        &.description {
+            color: #fff;
+            font-size: 23px;
+            font-weight: 200;
+            margin-bottom: 80px;
+        }
+    }
+
+
+    .down-arrow {
+        color: #fff;
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+
+        a {
+            color: #fff;
+
+            i {
+                font-size: 45px;
+                font-weight: 200;
+            }
+        }
+    }
+
+    h1 {
+        font-family: @font-family-primary;
+        font-weight: 200;
+        color: #fff;
+        margin-bottom: 40px;
+    }
+
+
+    .hero-content {
+        padding-top: 26%;
+    }
+}

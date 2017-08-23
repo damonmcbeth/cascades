@@ -1,0 +1,26 @@
+<div class="panel panel-tags" >
+	<div class="panel-heading">
+	    <h3 class="panel-title">{{title}}</h3>
+	    <div class="panel-tools">
+	        <panel-collapse></panel-collapse>
+	    </div>
+	</div>
+	<div class="panel-body">
+	    <md-chips class="custom-chips" ng-model="model.tags" readonly="false"
+	    	secondary-placeholder="+Tag" placeholder="Enter a tag" md-require-match="true">
+	    	
+	    	<md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" 
+	    		md-items="item in querySearch(searchText)" md-item-text="item.name" md-autoselect="true" placeholder="+Tag">
+	    		<span md-highlight-text="searchText">{{item.label}}</span>
+			</md-autocomplete>
+	    	
+			<md-chip-template>
+	        	<span style="vertical-align: middle">
+					<span class="tag-label" ng-style="{'background-color': $chip.color, 'line-height': '15px'}">&nbsp;</span>
+					{{$chip.label}}
+				</span>
+			</md-chip-template>
+	    </md-chips>
+	    <div style="padding: 5px; text-align: right"><a href="" ng-click="manageTags($event)">MANAGER TAGS</a></div>
+	</div>
+</div>

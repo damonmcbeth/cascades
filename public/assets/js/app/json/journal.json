@@ -1,0 +1,312 @@
+[
+{
+"id": "1",
+"title": "Phone call",
+"content": "Food truck fixie locavore, accusamus mcsweeneys marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.",
+"status": "Read",
+"duration": 33,
+"targetId": "",
+"target": null,
+"tagIds": [
+1
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [],
+"createdById": "12345",
+"created": "new Date()",
+"createdBy": null,
+"lastUpdatedById": "12345",
+"lastUpdated": "new Date()",
+"lastUpdatedBy": null
+},
+{
+"id": "2",
+"title": "Consultation meeting minutes",
+"content": "Which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. Which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+"status": "Unread",
+"duration": 142,
+"start": "moment().subtract(1, 'days')",
+"targetId": "12345",
+"target": null,
+"tagIds": [
+3,
+4
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+{
+"title": "CLEMSON 2016 National Champs",
+"url": "http://www.gannett-cdn.com/-mm-/2b87849fdcf52de539948cf64dcbf9180f034a9e/c=0-0-1858-2478&r=537&c=0-0-534-712/local/-/media/2016/04/09/USATODAY/USATODAY/635957955044984065-USP-NCAA-FOOTBALL-CFP-NATIONAL-CHAMPIONSHIP-ALABA-78805488.JPG",
+"type": "IMAGE",
+"source": ""
+},
+{
+"title": "Ducati Monster",
+"url": "https://s-media-cache-ak0.pinimg.com/originals/00/8a/6e/008a6e8548577e2076fd85567032ce36.jpg",
+"type": "IMAGE",
+"source": ""
+},
+{
+"title": "Field Report",
+"url": "https://www.dropbox.com/s/qaikul7h20vbaj1/Project%20Spread%20G8.xlsx?dl=0",
+"type": "EXCEL",
+"source": "DROPBOX"
+},
+{
+"title": "Proposal",
+"url": "https://www.dropbox.com/s/hegjz746bvwynyo/Sample.docx?dl=0",
+"type": "WORD",
+"source": "DROPBOX"
+},
+{
+"title": "Evernote SAMPLE",
+"url": "https://www.evernote.com/l/ABq5NfC6gixGHaKnszCRF9Dq8EJU4qu-Cb8",
+"type": "NOTE",
+"source": "EVERNOTE"
+}
+],
+"createdById": "12345",
+"created": "moment().subtract(5, 'days')",
+"createdBy": null,
+"lastUpdatedById": "12345",
+"lastUpdated": "moment().subtract(1, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "3",
+"title": "Client visit",
+"content": "Many desktop publishing packages and web page editors now use <b>Lorem Ipsum</b> as their default. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default. <br/><br/>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default. Many desktop publishing packages and web page editors now use <u>Lorem Ipsum</u> as their default. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default.",
+"status": "Unread",
+"duration": 0,
+"targetId": "",
+"target": null,
+"tagIds": [
+4
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [],
+"createdById": "2",
+"created": "moment().subtract(30, 'days')",
+"createdBy": null,
+"lastUpdatedById": "2",
+"lastUpdated": "moment().subtract(3, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "4",
+"title": "While you were out",
+"content": "We recently sent an email seeking your valuable feedback on your recent service experience through a brief online survey. If you had the opportunity to complete the survey, thank you for sharing your time and ideas. If not, we would still like to hear from you. Please visit this link to access the survey when you have some time.<br/> Which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+"status": "Unread",
+"duration": 0,
+"targetId": "12345",
+"target": null,
+"tagIds": [],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+{
+"title": "Product line up",
+"url": "http://www.imore.com/sites/imore.com/files/styles/xlarge_wm_blw/public/field/image/2016/03/iphone-6s-plus-iphons-6s-iphone-se-front-hero.jpg?itok=7NmLxOxt",
+"type": "IMAGE",
+"source": ""
+}
+],
+"createdById": "12345",
+"created": "moment().subtract(5, 'days')",
+"createdBy": null,
+"lastUpdatedById": "12345",
+"lastUpdated": "moment().subtract(5, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "5",
+"title": "Status update",
+"content": "Accusamus mcsweeneys marfa nulla single-origin coffee squid.",
+"status": "Read",
+"duration": 0,
+"targetId": "3",
+"target": null,
+"tagIds": [
+2
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+{
+"title": "December status report",
+"url": "",
+"type": "WORD",
+"source": ""
+}
+],
+"createdById": "3",
+"created": "moment().subtract(23, 'days')",
+"createdBy": null,
+"lastUpdatedById": "2",
+"lastUpdated": "moment().subtract(23, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "6",
+"title": "Consultation call",
+"content": "Minutes, also known as protocols or, informally, notes, are the instant written record of a meeting or hearing. They typically describe the events of the meeting and may include a list of attendees, a statement of the issues considered by the participants, and related responses or decisions for the issues.",
+"status": "Read",
+"duration": 14,
+"targetId": "",
+"target": null,
+"tagIds": [
+1
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [],
+"createdById": "12345",
+"created": "moment().subtract(2, 'days')",
+"createdBy": null,
+"lastUpdatedById": "12345",
+"lastUpdated": "moment().subtract(2, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "7",
+"title": "Kickoff meeting minutes",
+"content": "This article was prepared by Wild Apricot to help the volunteers and/or staff of small non-profits and membership organizations who may be new to the task of taking and preparing meeting minutes for committees or Boards of Directors.",
+"status": "Unread",
+"duration": 60,
+"start": "moment().subtract(10, 'days')",
+"targetId": "12345",
+"target": null,
+"tagIds": [
+3,
+4
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+{
+"title": "Brainstorm",
+"url": "http://i.imgur.com/VRV2Hen.png",
+"type": "IMAGE",
+"source": ""
+},
+{
+"title": "Portfolio budget",
+"url": "https://www.dropbox.com/s/qaikul7h20vbaj1/Project%20Spread%20G8.xlsx?dl=0",
+"type": "EXCEL",
+"source": "DROPBOX"
+}
+],
+"createdById": "12345",
+"created": "moment().subtract(9, 'days')",
+"createdBy": null,
+"lastUpdatedById": "12345",
+"lastUpdated": "moment().subtract(9, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "8",
+"title": "Brianstorm thoughts",
+"content": "The structure of team pages ensures that you and your teammates always get credit for the work that you do<br/>Many desktop publishing packages and web page editors now use <b>Lorem Ipsum</b> as their default. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default. <br/><br/>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default. Many desktop publishing packages and web page editors now use <u>Lorem Ipsum</u> as their default. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default.",
+"status": "Unread",
+"duration": 0,
+"targetId": "",
+"target": null,
+"tagIds": [
+4
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [],
+"createdById": "2",
+"created": "new Date()",
+"createdBy": null,
+"lastUpdatedById": "2",
+"lastUpdated": "new Date()",
+"lastUpdatedBy": null
+},
+{
+"id": "9",
+"title": "Customer complaint",
+"content": "We recently sent an email seeking your valuable feedback on your recent service experience through a brief online survey. If you had the opportunity to complete the survey, thank you for sharing your time and ideas. If not, we would still like to hear from you. Please visit this link to access the survey when you have some time.<br/> Which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+"status": "Read",
+"duration": 0,
+"targetId": "12345",
+"target": null,
+"tagIds": [],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+{
+"title": "Brainstorm 1",
+"url": "https://t3.ftcdn.net/jpg/01/13/49/70/240_F_113497041_uRQ4Avyr09W7mEMGImSRqJP87z9pHFt1.jpg",
+"type": "IMAGE",
+"source": ""
+},
+{
+"title": "Brainstorm 2",
+"url": "http://www.innercirclelabs.com/wp-content/uploads/2016/04/brainstorming.png",
+"type": "IMAGE",
+"source": ""
+}
+],
+"createdById": "12345",
+"created": "moment().subtract(5, 'days')",
+"createdBy": null,
+"lastUpdatedById": "12345",
+"lastUpdated": "moment().subtract(5, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "10",
+"title": "Submitted document",
+"content": "Accusamus mcsweeneys marfa nulla single-origin coffee squid. Accusamus mcsweeneys marfa nulla single-origin coffee squid.",
+"status": "Read",
+"duration": 0,
+"targetId": "3",
+"target": null,
+"tagIds": [
+2
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+{
+"title": "December status report",
+"url": "",
+"type": "WORD",
+"source": ""
+}
+],
+"createdById": "3",
+"created": "moment().subtract(23, 'days')",
+"createdBy": null,
+"lastUpdatedById": "2",
+"lastUpdated": "moment().subtract(23, 'days')",
+"lastUpdatedBy": null
+},
+{
+"id": "11",
+"title": "Prepare for Y2K",
+"content": "Is anything going to work next year. If not, I want to take vacation.",
+"status": "Read",
+"duration": 0,
+"targetId": "3",
+"target": null,
+"tagIds": [
+2
+],
+"tags": [],
+"hasHighlightTag": false,
+"attachments": [
+],
+"createdById": "3",
+"created": "moment().subtract(18, 'years')",
+"createdBy": null,
+"lastUpdatedById": "2",
+"lastUpdated": "moment().subtract(18, 'years')",
+"lastUpdatedBy": null
+}
+]

@@ -1,0 +1,81 @@
+
+<div class="col-sm-6">
+	<div class="widget-container">
+		<div class="widget" style="min-height: 300px;" ng-class="{'agile-list-highlight' : project.hasHighlightTag }"> 
+		    
+		    <div class="f-17 p-10 p-l-15 p-r-15 v-a-middle border-bottom-1 border-muted b-400 text-default">
+				<div class="pull-right">
+					<a class="text-default" style="text-decoration: none" href="" ng-click="openProjectDetails(project.$id)">
+		            	<i class="pe-7s-edit f-20"></i>
+		            </a>				    
+				    <a class="text-default m-l-5" ui-sref="projects.taskboard({id: project.$id})">
+		            	<i class="pe-7s-keypad f-20"></i>
+		            </a>
+				</div>
+				
+		    	<!--div class="f-10 label label-done pull-right m-r-5" ng-show="project.isDone">COMPLETED</div-->
+		    	<div md-ink-ripple class="text-default" ng-click="openProjectDetails(project.$id)">{{gs.currWorkspace.Terminology.projectAlias}}: {{project.title}}</div>
+		    	
+		    </div>
+		    
+		    <div class="p-10 p-l-15 p-r-15">			    
+			    <div class="row">
+				    <div class="col w-90 h-90 m-b-20 m-r-20">
+                        <div easypiechart options="cardOptions" percent="project.perComp" style="text-align: center">
+	                     	<span class="text-default f-25" 
+	                     		style="position: absolute; line-height: 90px; text-align: center; width: 90px">
+	                     		{{project.perComp | number:0 }}%</span>
+                        </div>
+		            </div>
+		            
+		            <div class="col">
+			            <div class="f-10 label label-done" ng-show="project.isDone">COMPLETED</div>
+			            
+                        <div class="f-13 b-400 m-t-10">
+                            {{project.typeName | uppercase}}
+                        </div>
+                        <div class="f-13 m-t-5">
+                            {{ project.start | amCalendar:null:gs.pref.calShortFormats}} 
+                            <span ng-show="project.end != null"> - </span> 
+                            {{ project.end | amCalendar:null:gs.pref.calShortFormats}}
+                        </div>
+                        <div class="f-13 m-t-5" ng-show="project.revenue > 0">
+                            Revenue: {{project.revenue | currency:"$":0 }}
+                        </div>
+                        
+                        <div class="f-13 b-300 m-t-5">
+                            <a href="" class="text-default" ng-click="openPersonDetails(project.ownerId)">{{project.ownerName}}</a>
+                        </div>
+                        
+                        <div class="m-t-10"><ctag ng-repeat="tag in project.tags"></ctag></div>
+                        
+                        <div class="f-13 b-300 m-t-10">
+                            <span class="m-r-5" ng-repeat="person in project.people">
+						    	<avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"
+						    		ng-click="openPersonDetails(person.id)" ></avatar>
+						    </span>
+                        </div>
+                        
+                        
+                        
+                        <!--div class="text-muted f-10 m-t-15">
+						  	<div class="m-t-5">Created by {{project.createdName}} on {{project.created | amCalendar:null:gs.pref.calFormats}}</div>
+						  	<div>Last update by {{project.updatedName}} on {{project.updated | amCalendar:null:gs.pref.calFormats}}</div>
+					  	</div-->
+                    </div>             
+			    </div>
+			    
+			    <!--div class="row m-t-15" style="padding-left: 105px;">
+				    <div class="pull-right">
+					    <span class="m-l-5" ng-repeat="person in project.people">
+					    	<avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"
+					    		ng-click="openPersonDetails(person.id)" ></avatar>
+					    </span>
+				    </div>
+			    </div-->	
+			    
+		    </div>
+		</div>
+	</div>
+</div>
+ 

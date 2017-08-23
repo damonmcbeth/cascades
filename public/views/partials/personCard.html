@@ -1,0 +1,28 @@
+
+<div class="col-sm-3">
+	<div class="widget-container" ng-click="openDetails(person)">
+		<div class="widget text-default" md-ink-ripple style="min-height: 290px;" ng-class="{'agile-list-highlight' : person.hasHighlightTag }"> 
+		    <div class="p-15 p-t-20 align-center">			    
+				<avatar size="md" img="person.avatar" state="person.state" type="person.avatarType"></avatar>
+				<h4>{{person.name}}</h4>
+				<div class="text-primary">{{person.title | uppercase}}</div>
+				                
+                <div class="f-17 text-default m-t-10">
+                    <i class="pe-7s-user pe-fw m-r-5" ng-show="person.isUser && !person.isAdmin"><md-tooltip>User</md-tooltip></i>
+                    <i class="pe-7f-user pe-fw m-r-5" ng-show="person.isAdmin"><md-tooltip>Admin</md-tooltip></i>
+                    
+                    
+                    <i class="pe-7s-call pe-fw m-r-5" ng-hide="person.primaryPhone == null || person.primaryPhone == ''"><md-tooltip>
+                    	{{ person.primaryPhone | tel}}</md-tooltip></i>
+                    <a href="mailto:{{selectedPerson.email}}" class="text-default">
+	                    <i class="pe-7s-mail pe-fw m-r-5" ng-hide="person.primaryEmail == null || person.primaryEmail == ''"><md-tooltip>
+	                    {{person.primaryEmail}}</md-tooltip></i></a>
+                </div>
+                
+                <div class="m-t-5"><ctag ng-repeat="tag in person.tags"></ctag></div>
+                
+		    </div>
+		</div>
+	</div>
+</div>
+ 

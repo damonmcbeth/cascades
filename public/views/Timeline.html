@@ -1,0 +1,74 @@
+﻿<div ng-cloak style="width: 100%;">
+	<div class="utility-container">
+		<div class="utility-menu">
+	        <ul class="menu-buttons">
+	            <!--li>
+	            	<md-menu md-offset="0 15">
+			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
+			            <i class="icon pe-7s-repeat"></i>
+			          </md-button>
+			          
+			          <md-menu-content width="3">
+			            <md-menu-item>
+				          <md-button class="menu-subheader" disabled="disabled">
+				            Order by:
+				          </md-button>
+				        </md-menu-item>
+			            <md-menu-item ng-repeat="orderItem in ['First name', 'Last name']">
+			              <md-button ng-click="updateOrderBy(orderItem)">{{orderItem}}</md-button>
+			            </md-menu-item>
+			          </md-menu-content>
+			          
+			        </md-menu>
+	            </li-->
+	        </ul>
+	    </div>
+	</div>
+	
+	<div class="page-container-vert">
+		
+		<div ng-show="showCustom" layout="row">
+			<md-input-container class="md-block p-b-0" flex="100">
+			  	<label>From</label>
+			  	<input mdc-datetime-picker date="true" time="false" type="text" id="start"
+					ng-model="sDate" class="md-input" ok-text="Done" short-time="true"
+					format="ddd, MMMM D, YYYY" today-text="Now" show-todays-date 
+					 ng-change="populateActivity()">
+			</md-input-container>
+				
+			<md-input-container class="md-block p-b-0" flex="100">
+			  	<label>To</label>
+			  	<input mdc-datetime-picker date="true" time="false" type="text" id="start"
+					ng-model="eDate" class="md-input" ok-text="Done" short-time="true"
+					format="ddd, MMMM D, YYYY" today-text="Now" show-todays-date 
+					ng-change="populateActivity()">
+			</md-input-container>
+		</div>
+		
+		
+		<div class="p-b-15 p-t-10 m-b-25"> 
+            <input type="text" class="form-control" placeholder="Search"
+               	ng-model="search">
+		</div>
+
+		<div>
+			
+		<ul class="timeline" ng-show="activity == null || activity.length == 0" >	
+		    <li class="timeline-node" >
+		        <a class="btn btn-primary">No activity</a>
+		    </li>
+		</ul>	
+			
+		<ul class="timeline" ng-repeat="group in grouping | orderBy:'updated':false" >	
+		    <li class="timeline-node" ng-show="hasGroup(group)" >
+		        <a class="btn btn-primary">{{group}}</a>
+		    </li>
+		    
+		    <li ng-repeat="act in activity | filter:{groupingLabel: group, $: search}:false | orderBy:'updated':false"
+		    	data-ng-include="'views/partials/timelineExpandedEntry.html'"
+		    	ng-class="{'timeline-reverse' : $index % 2 == 0}">
+		    </li>
+		</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+<html>
+	<head>
+		
+		<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+		
+	</head>
+	
+	<body>
+		<h1>FIRE</h1>
+		
+		
+<pre id="object">
+</pre>
+
+<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDesh4UPgrqBiB80p777aeeRSDd_N2geJA",
+		    authDomain: "temporal-potion-575.firebaseapp.com",
+		    databaseURL: "https://temporal-potion-575.firebaseio.com",
+		    storageBucket: "temporal-potion-575.appspot.com",
+		    messagingSenderId: "251993041995"
+		  };
+		  firebase.initializeApp(config);
+		  
+		  var database = firebase.database();
+		  
+		  const preObject = document.getElementById('object');
+		  
+		  var dbRef = firebase.database().ref().child('Users/DZZUmYa6eLRJXXzrdKHGOAhztHB3');
+		  dbRef.on('value', snap => {
+			  preObject.innerText = JSON.stringify(snap.val(), null, 3);
+		  });
+		  
+		</script>
+	</body>
+</html>

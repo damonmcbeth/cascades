@@ -1,0 +1,103 @@
+
+<div  ng-cloak style="width: 100%;">
+	<div class="utility-container">
+		<div class="utility-menu">
+	        <ul class="menu-buttons">
+	            <li>
+	                <a href="" id="new-message" ng-Click="newClient()">
+	                    <i class="icon pe-7s-plus"></i>
+	                    <span class="text">New {{type}}</span>
+	                </a>
+	            </li> 
+	            <li>
+	            	<md-menu md-offset="0 15">
+			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
+			            <i class="icon pe-7s-repeat"></i>
+			          </md-button>
+			          
+			          <md-menu-content width="3">
+			            <md-menu-item>
+				          <md-button class="menu-subheader" disabled="disabled">
+				            Order by:
+				          </md-button>
+				        </md-menu-item>
+			            <md-menu-item ng-repeat="orderItem in ['First name', 'Last name']">
+			              <md-button ng-click="updateOrderBy(orderItem)">{{orderItem}}</md-button>
+			            </md-menu-item>
+			          </md-menu-content>
+			          
+			        </md-menu>
+	            </li>
+	            <li>
+	                <a href="">
+	                    <i class="icon pe-7s-more"></i>
+	                </a>
+	            </li> 
+
+	        </ul>
+	    </div>
+	</div>
+	
+	<div class="page-container-vert">
+		
+		<div class="p-b-15 p-t-10" ng-show="cardView">
+            <input type="text" class="form-control" placeholder="{{type}} Search"
+               	ng-model="search.name">
+		</div>
+		
+		<div class="row" ng-show="cardView">			
+			<div class="card-animate" ng-repeat="person in people | filter:search:false | orderBy:orderByFld" 
+				data-ng-include="'views/partials/personCard.html'"></div>
+		</div>
+			
+	    <div class="panel panel-white" ng-hide="cardView">
+            <div class="panel-body" style="overflow-x: auto">
+                <div class="form-group">
+                   <input type="text" class="form-control" placeholder="{{type}} Search"
+                    	ng-model="search.$">
+                </div>
+	            
+            	<div class="flip-scroll">
+			    <table class="table table-hover f-14 flip-content">
+		            <thead class="flip-content">
+		                <tr>
+		                    <th class="avatar_lg_placeholder" hide-sm hide-xs>&nbsp;</th>
+		                    <th class="avatar_lg_placeholder" hide-gt-sm>&nbsp;</th>
+		                    <th>First</th>
+		                    <th>Last</th>
+		                    <th>Primary Phone</th>
+		                    <th>Other Phone</th>
+		                    <th>Email</th>
+		                    <th>Tags</th>
+		                    <th class="table-notes" hide-gt-sm>Notes</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr ng-repeat="person in people | filter:search:false | orderBy:orderByFld" ng-click="openDetails(person)"
+		                	ng-class="{'agile-list-highlight' : person.hasHighlightTag }"
+			                ng-animate="'animate'" >
+		                    <td class="avatar_lg_placeholder" hide-sm hide-xs>
+			                    <avatar size="sm" img="person.avatar" state="person.state"  name="person.name"></avatar>
+		                    </td>
+		                    <td class="avatar_lg_placeholder" hide-gt-sm>
+			                    <avatar size="md" img="person.avatar" state="person.state" name="person.name"></avatar>
+		                    </td>
+		                    <td ng-class="{'b-400' : !orderLast}">{{person.first}}</td>
+		                    <td ng-class="{'b-400' : orderLast}">{{person.last}}</td>
+		                    <td>{{person.primaryPhone | tel }}</td>
+		                    <td>{{person.secondaryPhone | tel }}</td>
+		                    <td><a href="mailto:{{person.email}}">{{person.primaryEmail}}</a></td>
+		                    <td><ctag ng-repeat="tag in person.tags"></ctag></td>
+		                    <td class="table-notes w-250" hide-gt-sm><p>{{person.notes}}</p></td>
+		                </tr>
+		            </tbody>
+		        </table>
+		        </div>
+	        </div>
+	    </div>
+    </div>
+</div>
+
+<script>
+
+</script>

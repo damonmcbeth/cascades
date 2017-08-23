@@ -1,0 +1,165 @@
+﻿.navigation {
+    .transition(all 300ms ease-in-out);
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+
+    &.fixed {
+        position: fixed;
+        background-color: @default;
+        z-index: 999;
+        width: 100%;
+        border-bottom: 3px solid @primary;
+    }
+
+
+   
+}
+ .header {
+        padding: 40px 0 30px;
+        position: relative;
+        width: 1170px;
+        margin: 0 auto;
+        .transition(padding 300ms ease-in-out);
+
+        a {
+            color: #fff;
+            font-size: 13px;
+
+            img {
+                height: 50px;
+                margin-top: -10px;
+            }
+
+            &.login {
+                margin-right: 20px;
+            }
+        }
+
+        ul {
+            &.primary-nav {
+                margin: 0 0 0 35px;
+                padding: 0;
+
+                li {
+                    display: inline;
+
+                    &:last-child a {
+                        padding-right: 0;
+                    }
+
+                    a {
+                        color: #fff;
+                        padding-right: 25px;
+                        font-size: 15px;
+
+                        &:hover {
+                            color: @primary;
+                        }
+                    }
+                }
+            }
+
+            &.member-actions {
+                li {
+                    display: inline;
+
+                    a {
+                        color: #fff;
+
+                        &:hover {
+                            color: @primary;
+                        }
+                    }
+                }
+            }
+        }
+
+        .logo {
+            display: inline-block;
+        }
+
+        .header-nav {
+            display: inline-block;
+        }
+
+        .member-actions {
+            position: absolute;
+            right: 0;
+            top: 41px;
+            .transition(all 300ms ease-in-out);
+        }
+    }
+
+    .header-nav {
+        &.open {
+            visibility: visible;
+            opacity: 0.9;
+            .transition(opacity 0.5s);
+        }
+    }
+
+    .nav-toggle {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        z-index: 999999;
+        padding: 10px 35px 16px 0;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+
+        span {
+            &, &:before, &:after {
+                content: "";
+                position: absolute;
+                display: block;
+                width: 35px;
+                height: 3px;
+                border-radius: 1px;
+                background: #fff;
+                cursor: pointer;
+                .transition(all 300ms ease-in-out);
+            }
+
+
+            &:before {
+                top: -10px;
+            }
+
+
+            &:after {
+                bottom: -10px;
+            }
+        }
+
+        .active {
+            span {
+                background-color: transparent;
+
+                &:before, &:after {
+                    top: 0;
+                }
+
+                &:before {
+                    .transform(rotate(45deg));
+                }
+
+                &:after {
+                    top: 10px;
+                    .transform(translatey(-10px) rotate(-45deg));
+                }
+            }
+        }
+    }
+
+    .navicon {
+        position: absolute;
+        height: 26px;
+        right: 10px;
+        top: 48px;
+        visibility: hidden;
+        .transition(all 300ms ease-in-out);
+    }

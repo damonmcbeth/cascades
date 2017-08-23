@@ -1,0 +1,201 @@
+[
+{
+"type": "ACCESS",
+"targetId": "1",
+"targetType": "Project",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(1, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "5",
+"targetType": "Project",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(2, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "3",
+"targetType": "Person",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(4, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "4",
+"targetType": "Person",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(4, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "8",
+"targetType": "Person",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(4, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "5",
+"targetType": "Person",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(4, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "9",
+"targetType": "Person",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(4, 'days')",
+"createdById": "12345"
+},
+{
+"type": "ACCESS",
+"targetId": "7",
+"targetType": "Person",
+"personId": null,
+"projectId": null,
+"created": "moment().subtract(4, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "1",
+"targetType": "Project",
+"personId": null,
+"projectId": "1",
+"created": "moment().subtract(30, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "2",
+"targetType": "Project",
+"personId": null,
+"projectId": "2",
+"created": "moment().subtract(50, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "3",
+"targetType": "Project",
+"personId": null,
+"projectId": "3",
+"created": "moment().subtract(30, 'days')",
+"createdById": "12345"
+},
+{
+"type": "DONE",
+"targetId": "5",
+"targetType": "Project",
+"personId": null,
+"projectId": "5",
+"created": "moment().subtract(1, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "4",
+"targetType": "Project",
+"personId": null,
+"projectId": "4",
+"created": "moment().subtract(130, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "5",
+"targetType": "Project",
+"projectId": "5",
+"created": "moment().subtract(23, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "19",
+"targetType": "Person",
+"projectId": "1",
+"created": "moment().subtract(29, 'days')",
+"createdById": "12345"
+},
+{
+"type": "CREATE",
+"targetId": "7",
+"targetType": "Person",
+"projectId": "1",
+"created": "moment().subtract(29, 'days')",
+"createdById": "12345"
+},
+{
+"type": "UPDATE",
+"targetId": "5",
+"targetType": "Project",
+"projectId": "5",
+"created": "moment().subtract(18, 'days')",
+"createdById": "3"
+},
+{
+"type": "CREATE",
+"targetId": "18",
+"targetType": "Person",
+"projectId": "5",
+"created": "moment().subtract(22, 'days')",
+"createdById": "2"
+},
+{
+"type": "DONE",
+"targetId": "8",
+"targetType": "Task",
+"projectId": "5",
+"created": "moment().subtract(10, 'days')",
+"createdById": "12345"
+},
+{
+"type": "DONE",
+"targetId": "5",
+"targetType": "Task",
+"projectId": "1",
+"created": "moment().subtract(9, 'days')",
+"createdById": "3"
+},
+{
+"type": "DONE",
+"targetId": "6",
+"targetType": "Task",
+"projectId": "1",
+"created": "moment().subtract(12, 'days')",
+"createdById": "2"
+},
+{
+"type": "OWNER_CHANGE",
+"targetId": "1",
+"targetType": "Project",
+"projectId": "1",
+"personId": "12345",
+"created": "moment().subtract(25, 'days')",
+"createdById": "2"
+},
+{
+"type": "DELEGATE",
+"targetId": "1",
+"targetType": "Task",
+"projectId": "1",
+"personId": "2",
+"created": "moment().subtract(25, 'days')",
+"createdById": "12345"
+}
+]

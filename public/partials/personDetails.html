@@ -1,0 +1,129 @@
+<div id="taskbar" class="sidebar-content" ng-controller="PersonDetailsController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span style="font-weight: 300 !important">{{selectedPerson.name}}</span>
+        </div>
+        
+        <div class="header-description v-a-middle" ng-show="showDetails">
+            <a href="" style="color: #fff" ng-click="cancelEdit()">
+            	Close
+            </a>
+            <a href="" class="pull-right" style="color: #fff" ng-click="editPerson()">
+            	Edit
+            </a>
+        </div>
+    </div>
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">
+        <div ng-show="showDetails" class="">
+	        <div>
+		        <div class="widget-container profile">
+		            <div class="widget">
+		                <div class="row p-10">
+		                    <div class="col w-120 h-120 align-center bg-primary">
+		                        <avatar size="xl" img="selectedPerson.avatar" state="'Established'" name="seletedPerson.name"
+		                        		type="selectedPerson.avatarType"></avatar>
+		                    </div>
+		                    <div class="col p-5 p-l-20 f-13 b-300">
+		                        <div class="f-17 b-500">
+		                            {{selectedPerson.name}}
+		                        </div>
+		                        <div ng-hide="selectedPerson.title == null || selectedPerson.title == ''">
+		                            {{selectedPerson.title | uppercase}}
+		                        </div>
+		                        <div class="text-muted m-t-10" ng-hide="selectedPerson.primaryEmail == null || selectedPerson.primaryEmail == ''">
+		                            <span><a href="mailto:{{selectedPerson.primaryEmail}}">{{ selectedPerson.primaryEmail}}</a></span>
+		                        </div>
+		                        <div class="text-muted m-t-5" ng-hide="selectedPerson.primaryPhone == null || selectedPerson.primaryPhone == ''">
+		                            <span>{{ selectedPerson.primaryPhone | tel}}</span>
+		                        </div>
+		                        <div class="text-muted m-t-5" ng-hide="selectedPerson.secondaryPhone == null || selectedPerson.secondaryPhone == ''">
+		                            <span>{{ selectedPerson.secondaryPhone | tel}}</span>
+		                        </div>
+		                        <div class="m-t-5"><ctag ng-repeat="tag in selectedPerson.tags"></ctag></div>
+		                    </div>
+		                </div>
+		                
+		            </div>
+		        </div>
+	        </div>
+	        
+	        <div class="p-15 f-14 bg-muted border-top-1 border-bottom-1 border-muted"
+                ng-hide="selectedPerson.notes == '' || selectedPerson.notes == null">
+                {{selectedPerson.notes}} 
+            </div>
+	        
+	        <div class="">
+		        <uib-accordion close-others="true">
+		            <uib-accordion-group heading="{{addr.type}}: {{addr.address}}" is-open="false"  panel-class="panel-default" ng-repeat="addr in selectedPerson.addresses"
+		            	ng-click="buildAddressMap(addr, $index)">
+		                <div id="addr{{$index}}" class="map-container" layout-align="center center">
+			                <md-progress-circular md-mode="indeterminate" class="md-hue-2" md-diameter="30"></md-progress-circular>
+		                </div>
+		            </uib-accordion-group>
+		        </uib-accordion>
+		    </div>
+		    
+		    <md-tabs class="m-t-10" md-dynamic-height md-border-bottom>
+		      <md-tab label="Timeline">
+		        <md-content style="height: 100%">
+		        	<section ng-repeat="group in activityGrouping">
+			        	<md-subheader class="md-primary subheader-top">{{group}}</md-subheader>
+			        	<md-divider></md-divider>
+		
+				        <div class="p-10 p-l-15 p-r-15">
+				            <ul class="timeline timeline-condensed">
+				                <li ng-repeat="act in activity | filter: {groupingLabel: group, personId: selectedPerson.$id} | orderBy:'updated':true"
+				                	data-ng-include="'views/partials/timelineEntry.html'">
+				                </li>
+				            </ul>
+				        </div>
+		        	</section>
+		        </md-content>
+		      </md-tab>
+		      <md-tab label="{{gs.currWorkspace.Terminology.projectAliasPlural}}">
+		        <md-content>
+		        	<md-list flex>
+					  <md-list-item class="md-3-line" ng-repeat="project in projects | filter: {$:selectedPerson.$id} | orderBy:'title'" 
+					  	ng-click="openProjectDetails(project)">
+					    <div class="md-list-item-text">
+						  <div class="f-10 label label-done pull-right m-r-10" ng-show="project.isDone">COMPLETED</div>
+					      <div class="list-title">{{ project.title }}</div>
+					      <div class="list-title-2">{{ project.typeName | uppercase }}</div>
+					      <div class="list-title-3">{{ project.start | amCalendar:null:gs.pref.calShortFormats}} 
+                            <span ng-show="project.end != null"> - </span> 
+                            {{ project.end | amCalendar:null:gs.pref.calShortFormats}}</div>
+					    </div>	    
+					    <md-divider></md-divider>
+					  </md-list-item>
+					</md-list>	  
+		          
+		        </md-content>
+		      </md-tab>
+		      <md-tab label="{{gs.currWorkspace.Terminology.memoAliasPlural}}">
+		        <md-content>
+		          <md-list flex>
+					  <md-list-item class="md-2-line" ng-repeat="entry in entries | filter: {$:selectedPerson.$id} | orderBy:'updated':true" 
+					  	ng-click="openEntryDetails(entry)">
+					  	
+					  	<i class="pe-fw f-25 p-5 m-r-5"
+					    	ng-class="{'pe-7s-light' : entry.type == 'Idea', 'pe-7s-call' : entry.type == 'Phone call', 
+				    				'pe-7s-date' : entry.type == 'Meeting', 'pe-7s-note2' : entry.type == 'Memo',
+				    				'pe-7s-copy-file' : entry.type == 'Document', 'pe-7s-photo' : entry.type == 'Image'}"><md-tooltip>{{entry.type}}</md-tooltip></i>
+					  	
+					    <div class="md-list-item-text">
+					      <div class="list-title">{{ entry.title }}</div>
+					      <div class="list-title-2">{{entry.updated | amCalendar:null:gs.pref.calFormats}}</div>
+					    </div>	    
+					    <md-divider></md-divider>
+					  </md-list-item>
+					</md-list>	
+		        </md-content>
+		      </md-tab>
+		    </md-tabs>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,232 @@
+<div ng-controller="OrganizationController" ng-cloak >
+	<div class="minimal-company p-b-15">
+	    <div class="f-35 b-300 v-a-top">
+		    <span class="p-r-15">{{gs.currWorkspace.name}}</span>
+		</div>	
+	    <div class="company-desc b-300 f-15 text-muted">{{gs.currWorkspace.description}}</div>
+	</div>
+		
+	<md-tabs class="m-t-10" md-dynamic-height md-border-bottom>
+		
+		<md-tab label="Preferences">
+			
+				<div class="bg-primary p-10 m-t-10">
+					<button type="button" class="btn btn-primary" ng-click="cancelEdit()">CANCEL</button>
+					<button type="button" class="btn btn-primary pull-right" ng-click="saveOrg()">SAVE</button>
+				</div>
+				
+				<form name="orgForm" class="">
+					<div class="panel panel-default m-t-0">
+						<div class="panel-body">
+					        <md-input-container class="md-block m-t-25 p-b-0">
+						        <label>Workspace Title</label>
+						        <textarea ng-model="editableOrg.name" rows="3" md-maxlength="40" md-detect-hidden="true" required>
+						        <div class="hint">E.g. Company/Organization name, Owner, Informal grouping, etc.</div>
+						        </textarea>
+						    </md-input-container>
+						    
+						    <md-input-container class="md-block p-b-0">
+						        <label>Workspace Description</label>
+						        <textarea ng-model="editableOrg.description" rows="3" md-maxlength="255" md-detect-hidden="true">
+						        </textarea>
+						    </md-input-container>
+					    </div>
+					</div>
+					
+					<div class="panel panel-inverse m-t-0">
+						<div class="panel-heading">
+							<h4 class="panel-title">Terminology</h4>
+						</div>
+						<div class="panel-body">
+							<h4 class="b-400 m-t-20">What term do you use to represent Projects?</h4>
+						    <md-content layout-gt-sm="row" layout-padding>
+							    <div flex="100">
+									<md-input-container style="width: 100%">
+								        <label>Project</label>
+								        <input ng-model="editableOrg.Terminology.projectAlias">
+								        <div class="hint">E.g. Case, Initiative, Event, etc.</div>
+								    </md-input-container>
+							    </div>
+							    <div flex="100">
+								    <md-input-container style="width: 100%">
+								        <label>Project plural form</label>
+								        <input ng-model="editableOrg.Terminology.projectAliasPlural">
+								    </md-input-container>
+							    </div>
+						    </md-content>
+						    
+						    <h4 class="b-400">What term do you use to represent Clients?</h4>
+						    <md-content layout-gt-sm="row" layout-padding>
+							    <div flex="100">
+									<md-input-container style="width: 100%">
+								        <label>Client</label>
+								        <input ng-model="editableOrg.Terminology.clientAlias">
+								        <div class="hint">E.g. Customer, Patient, Buyer, etc.</div>
+								    </md-input-container>
+							    </div>
+							    <div flex="100">
+								    <md-input-container style="width: 100%">
+								        <label>Client plural form</label>
+								        <input ng-model="editableOrg.Terminology.clientAliasPlural">
+								    </md-input-container>
+							    </div>
+						    </md-content>
+						    
+						    <h4 class="b-400">What term do you use to represent Tasks?</h4>
+						    <md-content layout-gt-sm="row" layout-padding>
+							    <div flex="100">
+									<md-input-container style="width: 100%">
+								        <label>Task</label>
+								        <input ng-model="editableOrg.Terminology.taskAlias">
+								        <div class="hint">E.g. Todo, Work item, Action item, etc.</div>
+								    </md-input-container>
+							    </div>
+							    <div flex="100">
+								    <md-input-container style="width: 100%">
+								        <label>Task plural form</label>
+								        <input ng-model="editableOrg.Terminology.taskAliasPlural">
+								    </md-input-container>
+							    </div>
+						    </md-content>
+						    
+						    <h4 class="b-400">What term do you use to represent Notes?</h4>
+						    <md-content layout-gt-sm="row" layout-padding>
+							    <div flex="100">
+									<md-input-container style="width: 100%">
+								        <label>Note</label>
+								        <input ng-model="editableOrg.Terminology.memoAlias">
+								        <div class="hint">E.g. Notes, Memos, Comments, etc.</div>
+								    </md-input-container>
+							    </div>
+							    <div flex="100">
+								    <md-input-container style="width: 100%">
+								        <label>Note plural form</label>
+								        <input ng-model="editableOrg.Terminology.memoAliasPlural">
+								    </md-input-container>
+							    </div>
+						    </md-content>
+						</div>
+					</div>
+				</form>		
+		</md-tab>
+		
+		<md-tab label="Subscription">
+			<div class="panel panel-default m-t-10">
+				<div class="panel-body">
+				<div class="bg-muted p-15">
+					<div class="list-title pull-right"><span class="b-400">Renewal: </span>{{gs.currWorkspace.Subscription.renewal | amCalendar:null:gs.pref.calMidFormats}}</div>
+					<div class="list-title">
+						<span class="b-400">Current Plan: </span>
+						{{gs.currWorkspace.Subscription.plan}}
+					</div>
+				</div>
+			
+			
+				<div class="row p-20">
+		            <div class="col-sm-4" style="visibility: visible;">
+		                <ul class="pricing-plan list-unstyled">
+		                    <li class="pricing-title">
+		                        Individual
+		                    </li>
+		                    <li class="pricing-desc">
+		                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+		                    </li>
+		                    <li class="pricing-price">
+		                        <span>$16</span> / month
+		                    </li>
+		                    <li>
+		                        Dashboards
+		                    </li>
+		                    <li>
+		                        Projects view
+		                    </li>
+		                    <li>
+		                        Contacts
+		                    </li>
+		                    <li>
+		                        Calendar
+		                    </li>
+		                    <li>
+		                        AngularJs
+		                    </li>
+		                    <li>
+		                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+		                    </li>
+		                </ul>
+		            </div>
+		
+		            <div class="col-sm-4" style="visibility: visible;">
+		                <ul class="pricing-plan list-unstyled selected">
+		                    <li class="pricing-title">
+		                        Small Business
+		                    </li>
+		                    <li class="pricing-desc">
+		                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+		                    </li>
+		                    <li class="pricing-price">
+		                        <span>$22</span> / month
+		                    </li>
+		                    <li>
+		                        Dashboards
+		                    </li>
+		                    <li>
+		                        Projects view
+		                    </li>
+		                    <li>
+		                        Contacts
+		                    </li>
+		                    <li>
+		                        Calendar
+		                    </li>
+		                    <li>
+		                        AngularJs
+		                    </li>
+		                    <li>
+		                        <strong>Support platform</strong>
+		                    </li>
+		                    <li class="plan-action">
+		                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+		                    </li>
+		                </ul>
+		            </div>
+		
+		            <div class="col-sm-4" style="visibility: visible;">
+		                <ul class="pricing-plan list-unstyled">
+		                    <li class="pricing-title">
+		                        Enterprise
+		                    </li>
+		                    <li class="pricing-desc">
+		                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+		                    </li>
+		                    <li class="pricing-price">
+		                        <span>$160</span> / month
+		                    </li>
+		                    <li>
+		                        Dashboards
+		                    </li>
+		                    <li>
+		                        Projects view
+		                    </li>
+		                    <li>
+		                        Contacts
+		                    </li>
+		                    <li>
+		                        Calendar
+		                    </li>
+		                    <li>
+		                        AngularJs
+		                    </li>
+		                    <li>
+		                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+		                    </li>
+		                </ul>
+		            </div>
+		        </div>
+			</div>
+			</div>
+		</md-tab>
+		
+	</md-tabs>
+	
+</div>
+

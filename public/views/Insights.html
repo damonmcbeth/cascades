@@ -1,0 +1,173 @@
+<div ng-controller="OrganizationController" ng-cloak >
+<div class="minimal-company p-b-15">
+	    <div class="f-35 b-300 v-a-top">
+		    <span class="p-r-15">{{gs.currWorkspace.name}}</span>
+		</div>	
+	    <div class="company-desc b-300 f-15 text-muted">{{gs.currWorkspace.description}}</div>
+	</div>
+
+<div class="panel panel-default m-t-20">
+				<div class="panel-body">
+			
+				    <div class="row org-dashboard">
+				        <div class="col-sm-4 data-info">
+				            <div class="widget p-10 bg-transparent">
+				                <div class="">
+				                    <div class="f-13">
+				                        {{gs.currWorkspace.Terminology.clientAliasPlural}}
+				                    </div>
+				                    <div class="f-35">
+				                        24
+				                    </div>
+				                </div>
+				                <div>
+				                    <div class="sparkline" data-width="100%" data-height="50px" data-sparkline="line" data-linewidth="1" 
+				                        	data-highlightlinecolor="#fff" data-highlightspotcolor="#fff" data-linecolor="primary"
+					                        data-fillcolor="transparent" data-maxspotcolor="#ffce55" data-minspotcolor="#fafafa" 
+						                    data-spotcolor="#fafafa" data-spotradius="0" data-set="6,6,5,4,1,7,9,6,7,6,3,6,7">				                    </div>
+				                </div>
+				                <div class="m-t-10">
+				                    <div class="f-13">
+				                        6 Month Growth: 80%
+				                    </div>
+				                </div>
+				                <div class="row m-t-20">
+				                    <div class="col-xs-6">
+				                        <div class="f-20 text-primary">
+				                            120
+				                        </div>
+				                        <div class="f-13">
+				                            New {{gs.currWorkspace.Terminology.clientAliasPlural}}
+				                        </div>
+				                    </div>
+				                    <div class="col-xs-6">
+				                        <div class="f-20 text-primary">
+				                            86
+				                        </div>
+				                        <div class="f-13">
+				                            Active {{gs.currWorkspace.Terminology.clientAliasPlural}}
+				                        </div>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        <div class="col-sm-4 data-info">
+				            <div class="widget p-10 bg-transparent">
+				                <div class="">
+				                    <div class="f-13">
+				                        {{gs.currWorkspace.Terminology.projectAliasPlural}}
+				                    </div>
+				                    <div class="f-35">
+				                        108<span class="f-20"></span>
+				                    </div>
+				                </div>
+				                <div>
+				                    <div class="sparkline" data-width="100%" data-height="50px" data-sparkline="line" data-linewidth="1" data-highlightlinecolor="#fff"
+				                         data-highlightspotcolor="#fff" data-linecolor="default" data-fillcolor="transparent" data-maxspotcolor="#ffce55"
+				                         data-minspotcolor="#fafafa" data-spotcolor="#fafafa" data-spotradius="0"
+				                         data-set="9,6,1,8,1,2,1,2,2,4,9,9,9">
+				                    </div>
+				                </div>
+				                <div class="m-t-10">
+				                    <div class="f-13">
+				                        6 Month Growth: 14%
+				                    </div>
+				                </div>
+				                <div class="row m-t-20">
+				                    <div class="col-xs-6">
+				                        <div class="f-20 text-primary">
+				                            25
+				                        </div>
+				                        <div class="f-13">
+				                            New {{gs.currWorkspace.Terminology.projectAliasPlural}}
+				                        </div>
+				                    </div>
+				                    <div class="col-xs-6">
+				                        <div class="f-20 text-primary">
+				                            12
+				                        </div>
+				                        <div class="f-13">
+				                            Active {{gs.currWorkspace.Terminology.projectAliasPlural}}
+				                        </div>
+				                    </div>
+				                </div>
+				            </div>
+				
+				        </div>
+				        <div class="col-sm-4 data-info">
+				            <div class="widget p-10 bg-transparent">
+				                <div class="">
+				                    <div class="f-13">
+				                        Revenue
+				                    </div>
+				                    <div class="f-35">
+				                        $24.2<span class="f-20">K</span>
+				                    </div>
+				                </div>
+				                <div>
+				                    <div class="sparkline" data-width="100%" data-height="50px" data-sparkline="line" data-linewidth="1" data-highlightlinecolor="#fff"
+				                         data-highlightspotcolor="#fff" data-linecolor="danger" data-fillcolor="transparent" data-maxspotcolor="#ffce55"
+				                         data-minspotcolor="#fafafa" data-spotcolor="#fafafa" data-spotradius="0"
+				                         data-set="1,3,3,5,1,4,3,7,2,8,6,6,4">
+				                    </div>
+				                </div>
+				                <div class="m-t-10">
+				                    <div class="f-13">
+				                        6 Month Growth: 25<span class="f-11">%</span>
+				                    </div>
+				                </div>
+				                <div class="row m-t-20">
+				                    <div class="col-xs-6">
+				                        <div class="f-20 text-primary">
+				                            $148K
+				                        </div>
+				                        <div class="f-13">
+				                            Current Month
+				                        </div>
+				                    </div>
+				                    
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+			</div>
+</div>		
+
+<script>
+    $(document).ready(function () {
+	    var drawSparkline = function () {
+			
+	
+	        var sparklinelines = $('[data-sparkline=line]');
+	        $.each(sparklinelines, function () {		        
+	            $(this).sparkline(yima.stringToIntArray($(this).data('set')), {
+	                type: 'line',
+	                disableHiddenCheck: true,
+	                height: $(this).data('height'),
+	                width: $(this).data('width'),
+	                fillColor: yima.getcolor($(this).data('fillcolor')),
+	                lineColor: yima.getcolor($(this).data('linecolor')),
+	                spotRadius: $(this).data('spotradius'),
+	                lineWidth: $(this).data('linewidth'),
+	                spotColor: yima.getcolor($(this).data('spotcolor')),
+	                minSpotColor: yima.getcolor($(this).data('minspotcolor')),
+	                maxSpotColor: yima.getcolor($(this).data('maxspotcolor')),
+	                highlightSpotColor: yima.getcolor($(this).data('highlightspotcolor')),
+	                highlightLineColor: yima.getcolor($(this).data('highlightlinecolor'))
+	            });
+	        });
+	    };
+	
+	    drawSparkline();
+	
+	    var resizeChart;
+	
+	    $(window).resize(function (e) {
+	        clearTimeout(resizeChart);
+	        resizeChart = setTimeout(function () {
+	            drawSparkline();
+	        }, 200);
+	    });
+	});
+</script>
