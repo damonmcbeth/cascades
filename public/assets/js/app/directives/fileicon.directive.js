@@ -38,6 +38,6 @@ angular.module('app').directive('fileicon', function() {
 	    restrict: 'E',
 	    scope: { size: '@', file: '=', showtitle: '@'},
         controller: controller,
-        templateUrl: '/seed/Partials/fileicon.html'
+        templateUrl: '/partials/fileicon.html'
     }
 });

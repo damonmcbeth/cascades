@@ -5,17 +5,17 @@
     
     app.factory('globalNav', ['$rootScope', '$state', function($rootScope, $state) {
 		var nav = {
-			FORM_BLANK: "/seed/Partials/blank.html",
-			FORM_TASK: "/seed/Partials/tasks.html",
-			FORM_TASK_DETAILS: "/seed/Partials/taskDetails.html",
-			FORM_PEOPLE: "/seed/Partials/people.html",
-			FORM_PERSON_DETAILS: "/seed/Partials/personDetails.html",
-			FORM_PERSON_EDIT: "/seed/Partials/personEdit.html",
-			FORM_PROJECTS: "/seed/Partials/projectDetails.html",
-			FORM_PROJECTS_EDIT: "/seed/Partials/projectEdit.html",
-			FORM_JOURNAL_ENTRY_EDIT: "/seed/Partials/journalEntryEdit.html",
-			FORM_REMINDER_EDIT: "/seed/Partials/reminderEdit.html",
-			FORM_TICKET_DETAILS: "/seed/Partials/ticketDetails.html",
+			FORM_BLANK: "/partials/blank.html",
+			FORM_TASK: "/partials/tasks.html",
+			FORM_TASK_DETAILS: "/partials/taskDetails.html",
+			FORM_PEOPLE: "/partials/people.html",
+			FORM_PERSON_DETAILS: "/partials/personDetails.html",
+			FORM_PERSON_EDIT: "/partials/personEdit.html",
+			FORM_PROJECTS: "/partials/projectDetails.html",
+			FORM_PROJECTS_EDIT: "/partials/projectEdit.html",
+			FORM_JOURNAL_ENTRY_EDIT: "/partials/journalEntryEdit.html",
+			FORM_REMINDER_EDIT: "/partials/reminderEdit.html",
+			FORM_TICKET_DETAILS: "/partials/ticketDetails.html",
 			activeSideForm: "",
 			activeSideEditForm: "",
 			activeSideViewForm: "",
@@ -102,21 +102,21 @@
 	        nav.hideSideEditForm();
 	        
 	        nav.sideViewFormHidden = false;
-	        nav.activeSideViewForm = "/seed/Partials/help.html";
+	        nav.activeSideViewForm = "/partials/help.html";
         }
         
         nav.showPref = function() {
 	        nav.hideSideEditForm();
 	        
 	        nav.sideViewFormHidden = false;
-	        nav.activeSideViewForm = "/seed/Partials/settings.html";
+	        nav.activeSideViewForm = "/partials/settings.html";
         }
         
         nav.showMyTimeline = function() {
 	        nav.hideSideEditForm();
 	        
 	        nav.sideViewFormHidden = false;
-	        nav.activeSideViewForm = "/seed/Partials/timeline.html";
+	        nav.activeSideViewForm = "/partials/timeline.html";
         }
         
         //Edit Actions
@@ -389,15 +389,15 @@
 		}
 		
 		nav.gotoSignin = function() {
-			window.location.replace("/seed/Login.html");
+			window.location.replace("/Login.html");
 		}
 		
 		nav.gotoUnauthorized = function() {
-			window.location.replace("/seed/Error401.html");
+			window.location.replace("/Error401.html");
 		}
 		
 		nav.gotoError = function(errMsg) {
-			window.location.replace("/seed/error");
+			window.location.replace("/error");
 		}
 		
 		nav.clearDefaultProject = function() {

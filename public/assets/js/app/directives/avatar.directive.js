@@ -26,6 +26,6 @@ angular.module('app').directive('avatar', function() {
 	    restrict: 'E',
 	    scope: { size: '@', img: '=', state: '=', name: '=', type: '='},
 	    controller: controller,
-        templateUrl: '/seed/Partials/avatar.html'
+        templateUrl: '/partials/avatar.html'
     }
 });

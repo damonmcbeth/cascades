@@ -2,7 +2,7 @@
     var initilize = function() {
         $(document).ready(function () {
             if (!Modernizr.mq('(max-width: 1600px)')) {
-                $(".sidebar.form").load(yima.getAssetPath("Partials/Chat.html"));
+                $(".sidebar.form").load(yima.getAssetPath("partials/Chat.html"));
                 yima.toggleFormSidebar('Chat');
             }
             //Initial DataTable

@@ -1,12 +1,12 @@
 ﻿var yimaPage = function() {
     var initilize = function() {
         if (!Modernizr.mq('(max-width: 1600px)')) {
-            $(".sidebar.form").load(yima.getAssetPath("Partials/SearchIcons.html"));
+            $(".sidebar.form").load(yima.getAssetPath("partials/SearchIcons.html"));
             yima.toggleFormSidebar('Search-Icon');
         }
 
         $('#action-search a').unbind('click').click(function() {
-            $(".sidebar.form").load(yima.getAssetPath("Partials/SearchIcons.html"));
+            $(".sidebar.form").load(yima.getAssetPath("partials/SearchIcons.html"));
             yima.toggleFormSidebar('Search-Icon');
             $('#action-stretch-menu').removeClass('open');
         });

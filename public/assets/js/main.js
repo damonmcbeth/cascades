@@ -258,7 +258,7 @@ var yima = function() {
             //[Help Form (Header Action)]
             //--
             //$('#action-help a').click(function() {
-            //    $(".sidebar.form").load("/seed/Partials/Help.html");
+            //    $(".sidebar.form").load("/partials/Help.html");
             //    toggleFormSidebar('Help');
 
             //    $('#action-stretch-menu').removeClass('open');
@@ -268,7 +268,7 @@ var yima = function() {
             //[Settings Form (Header Action)]
             //--
             //$('#action-settings a').click(function() {
-                //$(".sidebar.form").load("/seed/Partials/Settings.html");
+                //$(".sidebar.form").load("/partials/Settings.html");
             //    toggleFormSidebar('Settings');
             //    $('#action-stretch-menu').removeClass('open');
             //});
@@ -277,7 +277,7 @@ var yima = function() {
             //[Search Form (Header Action)]
             //--
             $('#action-search a').click(function() {
-                $(".sidebar.form").load("/seed/Partials/Search.html");
+                $(".sidebar.form").load("/partials/Search.html");
                 toggleFormSidebar('Search');
                 $('#action-stretch-menu').removeClass('open');
             });
@@ -286,7 +286,7 @@ var yima = function() {
             //[Client Form (Header Action)]
             //--
             //$('#action-clients a').click(function() {
-            //    $(".sidebar.form").load("/seed/Partials/clients.html");
+            //    $(".sidebar.form").load("/partials/clients.html");
             //    toggleFormSidebar('Clients');
             //    $('#action-stretch-menu').removeClass('open');
             //});
@@ -295,7 +295,7 @@ var yima = function() {
             //[Tasks Form (Header Action)]
             //--
             //$('#action-my-tasks a').click(function() {
-            //    $(".sidebar.form").load("/seed/Partials/tasks.html");
+            //    $(".sidebar.form").load("/partials/tasks.html");
             //    toggleFormSidebar('Tasks');
             //    $('#action-stretch-menu').removeClass('open');
             //});

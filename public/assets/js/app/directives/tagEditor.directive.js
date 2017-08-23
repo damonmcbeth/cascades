@@ -81,6 +81,6 @@ angular.module('app').directive('tageditor', function() {
 	    restrict: 'E',
 	    scope: { title: '@', model: '=', filter: '=' },
 	    controller: controller,
-        templateUrl: '/seed/Partials/tagEditor.html'
+        templateUrl: '/partials/tagEditor.html'
     }
 });
