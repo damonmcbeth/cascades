@@ -3,8 +3,8 @@
 
     var app = angular.module('app');
 	
-	app.factory('messageService', ['$filter', '$q', 'globalSettings', '$firebase', '$firebaseObject', 
-								function($filter, $q, globalSettings, $firebase, $firebaseObject) {
+	app.factory('messageService', ['$filter', '$q', '$http', 'globalSettings', '$firebase', '$firebaseObject', 
+								function($filter, $q, $http, globalSettings, $firebase, $firebaseObject) {
 		
 		function MessageService() {
 			var self = this;
@@ -101,6 +101,33 @@
 			
 			self.setTokenSentToServer = function(sent) {
 			    window.localStorage.setItem('sentToServer', sent ? 1 : 0);
+			}
+
+			self.sendMessage = function(notifTo, notifTitle, notifBody, notifIcon) {
+				var req = {
+					method: 'POST',
+					url: 'https://fcm.googleapis.com/fcm/send',
+					Authorization:key=AIzaSyZ-1u...0GBYzPu7Udno5aA,
+					headers: {
+					  "Content-Type": application/json
+					},
+					data: { "to": notifTo.notificationToken,
+						"notification": {
+							"title": notifTitle,
+							"body": notifBody,
+							"icon": notifIcon 
+						}
+					}
+				};
+
+				$http(req).then(function successCallback(response) {
+					  // this callback will be called asynchronously
+					  // when the response is available
+					}, function errorCallback(response) {
+					  // called asynchronously if an error occurs
+					  // or server returns response with an error status.
+					});
+
 			}
 			
 

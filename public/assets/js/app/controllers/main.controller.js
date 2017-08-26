@@ -48,12 +48,10 @@
         }
         
         $scope.initHotKeys = function() {
-	        /*
-		        'backspace', 'tab', 'enter', 'shift', 'ctrl', 'alt',
+	        /*  'backspace', 'tab', 'enter', 'shift', 'ctrl', 'alt',
 		        'capslock', 'esc', 'space', 'pageup', 'pagedown', 'end', 'home', 'left',
 		        'up', 'right', 'down', 'ins', 'del',
-		        */
-	        
+		    */
 	        
 	        hotkeys.add({ combo: 'ctrl+d',
 			    			description: 'Show Desktop',

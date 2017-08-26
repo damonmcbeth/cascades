@@ -393,7 +393,8 @@
 		}
 		
 		nav.gotoUnauthorized = function() {
-			window.location.replace("/Error401.html");
+			//window.location.replace("/Error401.html");
+			nav.gotoSignin();
 		}
 		
 		nav.gotoError = function(errMsg) {
