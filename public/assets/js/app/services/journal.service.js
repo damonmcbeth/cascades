@@ -4,9 +4,9 @@
     var app = angular.module('app');
     
     
-    app.factory('journalService', ['$http', '$q', '$filter', 'globalSettings', 'tagService', 'peopleService', 'projectService', 'insightsService', '$firebaseArray', 
+    app.factory('journalService', ['$http', '$q', '$filter', 'globalSettings', 'tagService', 'peopleService', 'projectService', 'messageService', 'insightsService', '$firebaseArray', 
     
-    function($http, $q, $filter, globalSettings, tagService, peopleService, projectService, insightsService, $firebaseArray) {
+    function($http, $q, $filter, globalSettings, tagService, peopleService, projectService, messageService, insightsService, $firebaseArray) {
 		
 		function JournalService() {
 			var self = this;
@@ -228,6 +228,7 @@
 								  tagService.saveTagsForItem(ref.key, tagService.TYPE_JOURNAL, edited.tags);
 								  peopleService.savePeopleForItem(ref.key, peopleService.TYPE_JOURNAL, edited.people);
 
+								  self.notifyTarget(edited);
 								  self.determineHighlightEntries();
 								  deferred.resolve(orig);
 								  
@@ -247,6 +248,7 @@
 								  
 								  self.calculateSince(entry);
 								  self.calculateSummary(orig, edited);
+								  self.notifyTarget(edited, orig);
 								  self.determineHighlightEntries();
 								  deferred.resolve(orig);
 								}, 
@@ -260,7 +262,15 @@
 				
 				return deferred.promise;
 		    };
-		    
+			
+			self.notifyTarget = function(edited, orig) {
+			    if (edited.targetId != null && (orig == null || edited.targetId != orig.targetId)) {
+					if (edited.target.notificationToken != null) {
+						messageService.sendMessage(edited.target.notificationToken, "SOMEBODY SENT YOU a MESSAGE", "/assets/img/Timeline-128.png");
+					}
+			    }
+		    }
+
 		    self.calculateSummary = function(orig, edited) {
 			    if (edited.targetId != null) {			    
 			    	insightsService.calculateUserJournalSummary(edited.targetId);

@@ -6,10 +6,12 @@
         .controller('DashboardController', DashboardController);
 
     DashboardController.$inject = ['$scope', '$state', '$window', '$filter', 'globalSettings', 'globalNav', 'tagService', 
-    							'taskService', 'activityService', 'projectService', 'journalService', 'insightsService', 'reminderService'];
+								'taskService', 'activityService', 'projectService', 'journalService', 'insightsService', 'reminderService',
+							'messageService'];
 
     function DashboardController($scope, $state, $window, $filter, globalSettings, globalNav, tagService,
-    						taskService, activityService, projectService, journalService, insightsService, reminderService) {
+							taskService, activityService, projectService, journalService, insightsService, reminderService,
+						messageService) {
         
 
         $scope.$state = $state;        
@@ -106,7 +108,11 @@
 			        });
 			});
 		}
-        
+
+		$scope.sendTestMessage = function() {
+			messageService.sendMessage("fxrn5l7oFdY:APA91bFEFRl4a5N2_fB_Pr_YqpBwfD6zjkd2FHKppvcrFqge75", "HELLO WORLD", "/assets/img/Timeline-128.png");
+		}
+		
         //$scope.openPersonDetails = function(pid) {
         //    $scope.nav.openPeopleDetails(pid);
         //}

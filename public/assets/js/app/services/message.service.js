@@ -76,23 +76,23 @@
 			}
 			
 			self.displayMessage = function(payload) {
-				globalSettings.showInfoToast("GOT Message!!!!");
+				globalSettings.showMsgToast(payload.notification.title, payload.notification.body, payload.notification.icon);
 			}
 			
 			self.sendTokenToServer = function(currentToken) {
-			    if (!self.isTokenSentToServer()) {
+			    //if (!self.isTokenSentToServer()) {
 				    globalSettings.log("message.service", "sendTokenToServer", "Sending token to server...");
 				    
 				    self.getCurrentUser().then(
 					    function(currUser) {
 						    currUser.notificationToken = currentToken;
 						    currUser.$save();
-						    self.setTokenSentToServer(true);
+						    //self.setTokenSentToServer(true);
 					})
 				    
-			    } else {
-				    globalSettings.log("message.service", "sendTokenToServer", "Token already sent to server so won\'t send it again unless it changes");
-			    }
+			    //} else {
+				//    globalSettings.log("message.service", "sendTokenToServer", "Token already sent to server so won\'t send it again unless it changes");
+			    //}
 			}
 			
 			self.isTokenSentToServer = function() {
@@ -103,31 +103,33 @@
 			    window.localStorage.setItem('sentToServer', sent ? 1 : 0);
 			}
 
-			self.sendMessage = function(notifTo, notifTitle, notifBody, notifIcon) {
-				var req = {
-					method: 'POST',
-					url: 'https://fcm.googleapis.com/fcm/send',
-					Authorization:key=AIzaSyZ-1u...0GBYzPu7Udno5aA,
-					headers: {
-					  "Content-Type": application/json
-					},
-					data: { "to": notifTo.notificationToken,
-						"notification": {
-							"title": notifTitle,
-							"body": notifBody,
-							"icon": notifIcon 
-						}
-					}
-				};
-
-				$http(req).then(function successCallback(response) {
-					  // this callback will be called asynchronously
-					  // when the response is available
-					}, function errorCallback(response) {
-					  // called asynchronously if an error occurs
-					  // or server returns response with an error status.
-					});
-
+			self.sendMessage = function(notifTo, notifBody, notifIcon) {
+				self.getCurrentUser().then(
+					function(currUser) {
+						var req= {
+							method: 'POST',
+							url: 'https://fcm.googleapis.com/fcm/send',
+							headers: {
+								"Authorization": "key=AAAAOqv0rEs:APA91bE0cGlnAk18xThXCqWYZXbTuz-TbXppp1GFN3vpPNtDsUPjtz7qFYkyC_HRqHPkoGDPOUZatyVc-5nSaOqmA8KUYDQU0izly7oSt8hRTzt6zn3kOBrQu0j9uczYrC5jvOj8U7Ar",
+								"Content-Type": "application/json"
+							},
+							"data": {
+								"to": currUser.notificationToken,
+								"notification": {
+									"title": "CASCADES",
+									"body": notifBody,
+									"icon": notifIcon,
+									"itemId": "SAMPLE"
+								}
+							}
+						};
+		
+						$http(req).then(function successCallback(response) {
+								globalSettings.log("message.service", "sendMessage", "Message sent successfully");
+							}, function errorCallback(response) {
+								globalSettings.log("message.service", "sendMessage", response.status);
+						});
+				});
 			}
 			
 

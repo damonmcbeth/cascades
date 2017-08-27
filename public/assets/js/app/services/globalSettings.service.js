@@ -776,7 +776,11 @@
 						self.logError("globalSettings.service", "sendPasswordResetEmail:Error", error);
 				});
 		    }
-		    
+			
+			self.showMsgToast = function(title, msg, icon) {
+			    self.showToast(msg, "msg", icon);
+		    }
+
 		    self.showInfoToast = function(msg) {
 			    self.showToast(msg, "info");
 		    }
@@ -790,16 +794,17 @@
 		    }
 		    
 		    
-		    self.showToast = function(msg, type) {
-			    var theme = (type == undefined) ? "" : "md-" + type + "-toast-theme";
+		    self.showToast = function(msg, type, toastIcon) {
+				var toastType = (type == "msg") ? "info" : type;
+			    var theme = (type == undefined) ? "" : "md-" + toastType + "-toast-theme";
 			    var icon = "";
 			    
 			    switch (type) {
 				    case "info": icon = '<i class="icon pe-7s-info f-20 m-r-10"></i>'; break;
 				    case "error": icon = '<i class="icon pe-7s-attention f-20 m-r-10"></i>'; break;
-				    case "success": icon = '<i class="icon pe-7f-check f-20 m-r-10"></i>'; break;
+					case "success": icon = '<i class="icon pe-7f-check f-20 m-r-10"></i>'; break;
+					case "msg": icon = '<image class="avatar-xs img-circle m-r-10" src="'+ toastIcon + '"></image>'; break;
 			    }
-			    
 			    
 			    var tmp = '<md-toast class="' + theme +'">' +
 					          '<div class="md-toast-content">' +
@@ -807,7 +812,6 @@
 					          msg +
 					          '</div>' +
 							  '</md-toast>';
-			    
 			    
 			    $mdToast.show({
 				    hideDelay: 2500,

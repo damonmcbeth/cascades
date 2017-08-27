@@ -1,11 +1,11 @@
 // Import and configure the Firebase SDK
 // These scripts are made available when the app is served or deployed on Firebase Hosting
 // If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup
-importScripts('/__/firebase/3.9.0/firebase-app.js');
-importScripts('/__/firebase/3.9.0/firebase-messaging.js');
-importScripts('/__/firebase/init.js');
+//importScripts('/__/firebase/3.9.0/firebase-app.js');
+//importScripts('/__/firebase/3.9.0/firebase-messaging.js');
+//importScripts('/__/firebase/init.js');
 
-const messaging = firebase.messaging();
+//const messaging = firebase.messaging();
 
 /**
  * Here is is the code snippet to initialize Firebase Messaging in the Service
@@ -35,7 +35,7 @@ const messaging = firebase.messaging();
 // background (Web app is closed or not in browser focus) then you should
 // implement this optional method.
 // [START background_handler]
-messaging.setBackgroundMessageHandler(function(payload) {
+/**messaging.setBackgroundMessageHandler(function(payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
   const notificationTitle = 'Background Message Title';
@@ -46,5 +46,5 @@ messaging.setBackgroundMessageHandler(function(payload) {
 
   return self.registration.showNotification(notificationTitle,
       notificationOptions);
-});
+});**/
 // [END background_handler]
