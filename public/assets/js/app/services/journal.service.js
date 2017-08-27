@@ -217,7 +217,8 @@
 			
 			self.saveEntry = function (edited, orig) {
 			    var deferred = $q.defer();
-			    
+				var origTargetId = (orig == null) ? null : orig.targetId;
+				
 			    self.getAllEntries().then(
 					function(entries) {
 						if (orig == null) {
@@ -247,8 +248,8 @@
 								  peopleService.savePeopleForItem(ref.key, peopleService.TYPE_JOURNAL, edited.people);
 								  
 								  self.calculateSince(entry);
-								  self.calculateSummary(orig, edited);
-								  self.notifyTarget(edited, orig);
+								  self.calculateSummary(origTargetId, edited);
+								  self.notifyTarget(edited, origTargetId);
 								  self.determineHighlightEntries();
 								  deferred.resolve(orig);
 								}, 
@@ -263,21 +264,21 @@
 				return deferred.promise;
 		    };
 			
-			self.notifyTarget = function(edited, orig) {
-			    if (edited.targetId != null && (orig == null || edited.targetId != orig.targetId)) {
+			self.notifyTarget = function(edited, origTargetId) {
+			    if (edited.targetId != null && (origTargetId == null || edited.targetId != origTargetId)) {
 					if (edited.target.notificationToken != null) {
 						messageService.sendMessage(edited.target.notificationToken, "SOMEBODY SENT YOU a MESSAGE", "/assets/img/Timeline-128.png");
 					}
 			    }
 		    }
 
-		    self.calculateSummary = function(orig, edited) {
+		    self.calculateSummary = function(origTargetId, edited) {
 			    if (edited.targetId != null) {			    
 			    	insightsService.calculateUserJournalSummary(edited.targetId);
 			    }
 			    
-			    if (edited.targetId != orig.targetId && orig.targetId != null) {
-				    insightsService.calculateUserJournalSummary(orig.targetId);
+			    if (edited.targetId != origTargetId && origTargetId != null) {
+				    insightsService.calculateUserJournalSummary(origTargetId);
 			    }
 		    }
 		    
