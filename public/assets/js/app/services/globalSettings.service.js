@@ -796,7 +796,8 @@
 		    
 		    self.showToast = function(msg, type, toastIcon) {
 				var toastType = (type == "msg") ? "info" : type;
-			    var theme = (type == undefined) ? "" : "md-" + toastType + "-toast-theme";
+				var theme = (type == undefined) ? "" : "md-" + toastType + "-toast-theme";
+				var delay = (type == "msg") ? 5000 : 2500; 
 			    var icon = "";
 			    
 			    switch (type) {
@@ -814,7 +815,7 @@
 							  '</md-toast>';
 			    
 			    $mdToast.show({
-				    hideDelay: 2500,
+				    hideDelay: delay,
 				    position: 'top right',
 				    template: tmp
 			    });

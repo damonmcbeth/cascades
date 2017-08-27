@@ -86,7 +86,8 @@
 				    self.getCurrentUser().then(
 					    function(currUser) {
 						    currUser.notificationToken = currentToken;
-						    currUser.$save();
+							currUser.$save();
+							globalSettings.log("message.service", "sendTokenToServer", "Updated token on Server");
 						    //self.setTokenSentToServer(true);
 					})
 				    
@@ -104,31 +105,27 @@
 			}
 
 			self.sendMessage = function(notifTo, notifBody, notifIcon) {
-				self.getCurrentUser().then(
-					function(currUser) {
-						var req= {
-							method: 'POST',
-							url: 'https://fcm.googleapis.com/fcm/send',
-							headers: {
-								"Authorization": "key=AAAAOqv0rEs:APA91bE0cGlnAk18xThXCqWYZXbTuz-TbXppp1GFN3vpPNtDsUPjtz7qFYkyC_HRqHPkoGDPOUZatyVc-5nSaOqmA8KUYDQU0izly7oSt8hRTzt6zn3kOBrQu0j9uczYrC5jvOj8U7Ar",
-								"Content-Type": "application/json"
-							},
-							"data": {
-								"to": currUser.notificationToken,
-								"notification": {
-									"title": "CASCADES",
-									"body": notifBody,
-									"icon": notifIcon,
-									"itemId": "SAMPLE"
-								}
-							}
-						};
-		
-						$http(req).then(function successCallback(response) {
-								globalSettings.log("message.service", "sendMessage", "Message sent successfully");
-							}, function errorCallback(response) {
-								globalSettings.log("message.service", "sendMessage", response.status);
-						});
+				var req= {
+					method: 'POST',
+					url: 'https://fcm.googleapis.com/fcm/send',
+					headers: {
+						"Authorization": "key=AAAAOqv0rEs:APA91bE0cGlnAk18xThXCqWYZXbTuz-TbXppp1GFN3vpPNtDsUPjtz7qFYkyC_HRqHPkoGDPOUZatyVc-5nSaOqmA8KUYDQU0izly7oSt8hRTzt6zn3kOBrQu0j9uczYrC5jvOj8U7Ar",
+						"Content-Type": "application/json"
+					},
+					"data": {
+						"to": notifTo,
+						"notification": {
+							"title": "CASCADES",
+							"body": notifBody,
+							"icon": notifIcon
+						}
+					}
+				};
+
+				$http(req).then(function successCallback(response) {
+						globalSettings.log("message.service", "sendMessage", "Message sent successfully");
+					}, function errorCallback(response) {
+						globalSettings.log("message.service", "sendMessage", response.status);
 				});
 			}
 			
