@@ -61,10 +61,11 @@
 		      <md-tab id="tabWorkspace">
 		        <md-tab-label>Workspace</md-tab-label>
 		        <md-tab-body>
+					<div data-ng-include="'partials/settings_workspace.html'"></div>
 		        	<div class="p-15 f-14">
-<pre>
-{{ gs.currWorkspace | json }}
-</pre>
+<!--pre>
+{{ gs.userWorkspaces | json }}
+</pre-->
 		        	</div>
 
 		        </md-tab-body>

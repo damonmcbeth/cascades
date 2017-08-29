@@ -1,0 +1,44 @@
+  <form ng-cloak>
+    <md-dialog-content style="height: 100%">
+        <div id="md-dialog-content" class="dialog-content" ng-cloak>
+		    <div class="dialog-header p-15 f-15" style="background-color: rgb(245,245,245)">
+			    
+		        <div class="header-description v-a-middle" ng-show="!showDetails">
+		            <a href="" id="new-message" ng-Click="showDetails=!showDetails">
+		                New Workspace
+		            </a>    
+		        </div>
+		        
+		        <div class="header-description v-a-middle" ng-show="showDetails">
+		            <a href="" ng-click="cancelEdit()">
+		            	Cancel
+		            </a>
+		            <a href="" class="pull-right" ng-click="saveTag()">
+		            	Save
+		            </a>
+		        </div>
+		    </div>
+		    
+		    <div class="dialog-body" style="width: 100%; height: 100%">
+		        <md-content style="height: 100%; width: 100%" ng-show="!showDetails">
+		            <md-list flex>
+					  <md-list-item class="" ng-repeat="wrkSpc in gs.userWorkspaces | orderBy:'name'" ng-click="openDetails(tag)">
+					    <div class="md-list-item">
+					      <div class="list-title">
+						      {{wrkSpc.name}}
+						  </div>
+					    </div>
+					    <md-divider ></md-divider>
+					    
+					  </md-list-item>              
+					</md-list>
+			    </md-content>
+			    
+		        <div ng-show="showDetails" class="p-20">
+					<div data-ng-include="'views/Organization.html'"></div>
+		        </div>
+		    </div>
+        </div>
+      </div>
+    </md-dialog-content>
+  </form>
