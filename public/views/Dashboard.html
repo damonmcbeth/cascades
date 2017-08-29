@@ -135,7 +135,7 @@
                 </div>
                 <div>
 	                <md-list flex>
-						<md-list-item class="md-3-line" ng-repeat="act in activity | filter:recentNotesFilter | orderBy:'created':true | limitTo:gs.pref.journal.recent" 
+						<md-list-item class="md-2-line" ng-repeat="act in activity | filter:recentNotesFilter | orderBy:'created':true | limitTo:gs.pref.journal.recent" 
 	                    	ng-click="openJournalDetails(act.targetId)">
 	                        
                         	<div class="activity-document-icon">

@@ -333,7 +333,10 @@
 		    };
 		    
 		    self.saveTask = function (edited, orig) {
-			    var deferred = $q.defer();
+				var deferred = $q.defer();
+				var origOwnerId = (orig == null) ? null : orig.ownerId;
+			    var origDelegateId = (orig == null) ? null : orig.delegateId;
+			    
 				
 				if (edited.status == 'Done') { 
 				    edited.isDone = true;   
@@ -360,6 +363,8 @@
 								  tagService.saveTagsForItem(ref.key, tagService.TYPE_TASKS, edited.tags);
 								  
 								  self.determineState(tasks);
+								  self.notifyOwner(edited);
+								  self.notifyDelegate(edited);
 								  self.determineHighlightTasks();
 								  self.broadcastChange();
 								  deferred.resolve(orig);
@@ -378,6 +383,8 @@
 								  tagService.saveTagsForItem(ref.key, tagService.TYPE_TASKS, edited.tags);
 								  
 								  self.determineState(tasks);
+								  self.notifyOwner(edited, origOwnerId);
+								  self.notifyDelegate(edited, origDelegateId);
 								  self.determineHighlightTasks();
 								  self.broadcastChange();
 								  deferred.resolve(orig);
@@ -393,7 +400,31 @@
 				);
 				
 				return deferred.promise;
-		    };
+			};
+			
+			self.notifyOwner = function(edited, origOwnerId) {
+			    if (edited.ownerId != null && (origOwnerId == null || edited.ownerId != origOwnerId)) {
+					if (edited.owner.notificationToken != null) {
+						var msg = edited.updatedName + " assigned you a task: " + edited.title;
+						var icon = globalSettings.currProfile.avatar;
+						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
+
+						messageService.sendMessage(edited.owner.notificationToken, msg, icon);
+					}
+			    }
+			}
+			
+			self.notifyDelegate = function(edited, origDelegateId) {
+			    if (edited.delegateId != null && (origDelegateId == null || edited.delegateId != origDelegateId)) {
+					if (edited.delegate.notificationToken != null) {
+						var msg = edited.updatedName + " assigned you a task: " + edited.title;
+						var icon = globalSettings.currProfile.avatar;
+						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
+
+						messageService.sendMessage(edited.owner.notificationToken, msg, icon);
+					}
+			    }
+		    }
 		    
 		    self.buildProjectSummaryList = function(origTask, editedTask) {
 			    var projects = [];

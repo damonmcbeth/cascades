@@ -804,7 +804,7 @@
 				    case "info": icon = '<i class="icon pe-7s-info f-20 m-r-10"></i>'; break;
 				    case "error": icon = '<i class="icon pe-7s-attention f-20 m-r-10"></i>'; break;
 					case "success": icon = '<i class="icon pe-7f-check f-20 m-r-10"></i>'; break;
-					case "msg": icon = '<image class="avatar-xs img-circle m-r-10" src="'+ toastIcon + '"></image>'; break;
+					case "msg": icon = '<image class="avatar-sm img-circle m-r-10" src="'+ toastIcon + '"></image>'; break;
 			    }
 			    
 			    var tmp = '<md-toast class="' + theme +'">' +

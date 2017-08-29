@@ -267,7 +267,11 @@
 			self.notifyTarget = function(edited, origTargetId) {
 			    if (edited.targetId != null && (origTargetId == null || edited.targetId != origTargetId)) {
 					if (edited.target.notificationToken != null) {
-						messageService.sendMessage(edited.target.notificationToken, "SOMEBODY SENT YOU a MESSAGE", "/assets/img/Timeline-128.png");
+						var msg = edited.updatedName + " sent you a message: " + edited.title;
+						var icon = globalSettings.currProfile.avatar;
+						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
+
+						messageService.sendMessage(edited.target.notificationToken, msg, icon);
 					}
 			    }
 		    }

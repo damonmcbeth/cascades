@@ -283,7 +283,8 @@
 			}		    
 		    
 		    self.saveProject = function (edited, orig) {
-			    var deferred = $q.defer();
+				var deferred = $q.defer();
+				var origOwnerId = (orig == null) ? null : orig.ownerId;
 			    
 			    self.getAllProjects().then(
 					function(projects) {
@@ -295,6 +296,7 @@
 								  tagService.saveTagsForItem(ref.key, tagService.TYPE_PROJECTS, edited.tags);
 								  peopleService.savePeopleForItem(ref.key, peopleService.TYPE_PROJECTS, edited.people);
 
+								  self.notifyOwner(edited);
 								  self.determineHighlightProjects();
 								  deferred.resolve(orig);
 								  
@@ -311,7 +313,8 @@
 								  tagService.saveTagsForItem(ref.key, tagService.TYPE_PROJECTS, edited.tags);
 								  peopleService.savePeopleForItem(ref.key, peopleService.TYPE_PROJECTS, edited.people);
 								  
-								  self.calculateSummary(orig, edited);
+								  self.calculateSummary(origOwnerId, edited);
+								  self.notifyOwner(edited, origOwnerId);
 								  self.determineHighlightProjects();
 								  deferred.resolve(orig);
 								}, 
@@ -325,14 +328,26 @@
 				
 				return deferred.promise;
 		    };
-		    
-		    self.calculateSummary = function(orig, edited) {
+			
+			self.notifyOwner = function(edited, origOwnerId) {
+			    if (edited.ownerId != null && (origOwnerId == null || edited.ownerId != origOwnerId)) {
+					if (edited.owner.notificationToken != null) {
+						var msg = edited.updatedName + " assigned you a project: " + edited.title;
+						var icon = globalSettings.currProfile.avatar;
+						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
+
+						messageService.sendMessage(edited.owner.notificationToken, msg, icon);
+					}
+			    }
+		    }
+
+		    self.calculateSummary = function(origOwnerId, edited) {
 			    if (edited.ownerId != null) {			    
 			    	insightsService.calculateUserProjectSummary(edited.ownerId);
 			    }
 			    
-			    if (edited.ownerId != orig.ownerId && orig.ownerId != null) {
-				    insightsService.calculateUserProjectSummary(orig.ownerId);
+			    if (edited.ownerId != origOwnerId && origOwnerId != null) {
+				    insightsService.calculateUserProjectSummary(origOwnerId);
 			    }
 		    }
 		    
