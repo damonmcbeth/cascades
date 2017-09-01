@@ -13,7 +13,7 @@
 	    <md-content class="settings" style="height: 100%">
 		    <md-tabs md-dynamic-height="true">
 		      <md-tab id="tabProfile">
-		        <md-tab-label>SUMMARY</md-tab-label>
+		        <md-tab-label>Preferences</md-tab-label>
 		        <md-tab-body>
 		        	<div class="p-10" style="background-color: #f1f3f2">
 				        <form name="profileForm">
@@ -44,7 +44,42 @@
 					                
 						            
 					            </div>
-					        </div>
+							</div>
+							
+							<div class="panel panel-default">
+					            <div class="panel-body">
+									<a href="" class="btn btn-inverse btn-block f-15">
+										Reset Password
+									</a>
+
+									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true">
+										Send emails for notifications
+									</md-switch>
+									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true">
+										Enable desktop notifications
+									</md-switch>
+					            </div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-body f-14">
+									<div class="f-30 b-300">
+										<span class="p-r-15">{{gs.currWorkspace.name}}</span>
+									</div>	
+									<div class="company-desc b-300 text-muted m-b-10">{{gs.currWorkspace.description}}</div>
+									<md-divider></md-divider>
+									<div class="m-t-10">Subscription: {{gs.currWorkspace.Subscription.plan}}</div>
+									<div class="">Next Renewal: {{gs.currWorkspace.Subscription.renewal | amCalendar:null:gs.pref.calMidFormats}}</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-body">
+									
+								</div>
+							</div>
+								
+								
 				        </form>
 		        	</div>
 		        
@@ -115,6 +150,19 @@
 		        <md-tab-label>People</md-tab-label>
 		        <md-tab-body>
 		        	People
+
+		        </md-tab-body>
+			  </md-tab>
+			  <md-tab id="tabPeople">
+		        <md-tab-label>About</md-tab-label>
+		        <md-tab-body>
+					<div class="align-center p-10">
+						<div><image src="/assets/img/Timeline-128.png"></image></div>
+						<div class="f-35 b-300">CASCADES</div>
+						<div class="m-b-15">BETA</div>
+						<pre></pre>
+						<div>Copyright @copy; 2017 CASCADES</div>
+					</div>
 
 		        </md-tab-body>
 		      </md-tab>

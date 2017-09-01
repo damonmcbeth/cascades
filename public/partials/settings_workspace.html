@@ -1,6 +1,6 @@
   <form ng-cloak>
     <md-dialog-content style="height: 100%">
-        <div id="md-dialog-content" class="dialog-content" ng-cloak>
+        <div id="md-dialog-content" class="dialog-content" ng-controller="OrganizationController" ng-cloak>
 		    <div class="dialog-header p-15 f-15" style="background-color: rgb(245,245,245)">
 			    
 		        <div class="header-description v-a-middle" ng-show="!showDetails">
@@ -34,8 +34,93 @@
 					</md-list>
 			    </md-content>
 			    
-		        <div ng-show="showDetails" class="p-20">
-					<div data-ng-include="'views/Organization.html'"></div>
+		        <div ng-show="showDetails" class="p-10" style="background-color: #f1f3f2">
+					<form name="orgForm" class="">
+						<div class="panel panel-default m-t-0">
+							<div class="panel-body">
+								<md-input-container class="md-block m-t-25 p-b-0">
+									<label>Workspace Title</label>
+									<textarea ng-model="editableOrg.name" rows="3" md-maxlength="40" md-detect-hidden="true" required>
+									<div class="hint">E.g. Company/Organization name, Owner, Informal grouping, etc.</div>
+									</textarea>
+								</md-input-container>
+								
+								<md-input-container class="md-block p-b-0">
+									<label>Workspace Description</label>
+									<textarea ng-model="editableOrg.description" rows="3" md-maxlength="255" md-detect-hidden="true">
+									</textarea>
+								</md-input-container>
+							</div>
+						</div>
+						
+						<div class="panel panel-inverse m-t-0">
+							<div class="panel-body">
+								<span class="b-500 f-15">What term do you use to represent Clients?</span>
+								<md-content layout-gt-sm="row" layout-padding>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Client</label>
+											<input ng-model="editableOrg.Terminology.clientAlias">
+										</md-input-container>
+									</div>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Client plural form</label>
+											<input ng-model="editableOrg.Terminology.clientAliasPlural">
+										</md-input-container>
+									</div>
+								</md-content>
+
+								<span class="b-500 f-15">What term do you use to represent Projects?</span>
+								<md-content layout-gt-sm="row" layout-padding>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Project</label>
+											<input ng-model="editableOrg.Terminology.projectAlias">
+										</md-input-container>
+									</div>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Project plural form</label>
+											<input ng-model="editableOrg.Terminology.projectAliasPlural">
+										</md-input-container>
+									</div>
+								</md-content>
+								
+								<span class="b-500 f-15">What term do you use to represent Tasks?</span>
+								<md-content layout-gt-sm="row" layout-padding>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Task</label>
+											<input ng-model="editableOrg.Terminology.taskAlias">
+										</md-input-container>
+									</div>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Task plural form</label>
+											<input ng-model="editableOrg.Terminology.taskAliasPlural">
+										</md-input-container>
+									</div>
+								</md-content>
+								
+								<span class="b-500 f-15">What term do you use to represent Notes?</span>
+								<md-content layout-gt-sm="row" layout-padding>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Note</label>
+											<input ng-model="editableOrg.Terminology.memoAlias">
+										</md-input-container>
+									</div>
+									<div flex="100">
+										<md-input-container style="width: 100%">
+											<label>Note plural form</label>
+											<input ng-model="editableOrg.Terminology.memoAliasPlural">
+										</md-input-container>
+									</div>
+								</md-content>
+							</div>
+						</div>
+					</form>
 		        </div>
 		    </div>
         </div>
