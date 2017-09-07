@@ -51,7 +51,7 @@
 				  <md-list-item class="md-3-line md-long-text" ng-repeat="task in taskList | filter:getFilter(group) | orderBy:'due'" ng-click="openDetails(task)">
 				    <md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateIsDone(task)"></md-checkbox>
 				    <div class="md-list-item-text">
-					  <div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
+					    <div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
 				      <div ng-class="{'list-title' : true, 'task-done' : task.archived }">{{task.title}}</div>
 				      <div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div>
 				      
