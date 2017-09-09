@@ -4,9 +4,9 @@
     var app = angular.module('app');
 	
 	app.factory('taskService', ['$filter', '$http', '$q', '$rootScope', 'globalSettings', 'projectService', 
-								'tagService', 'insightsService', 'peopleService', '$firebaseArray', 
+								'tagService', 'insightsService', 'peopleService', 'messageService', '$firebaseArray', 
 								function($filter, $http, $q, $rootScope, globalSettings, projectService, 
-										tagService, insightsService, peopleService, $firebaseArray) {
+										tagService, insightsService, peopleService, messageService, $firebaseArray) {
 		
 		function TaskService() {
 			var self = this;

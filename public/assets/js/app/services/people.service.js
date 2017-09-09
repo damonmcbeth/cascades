@@ -137,7 +137,10 @@
 		            result.created = src.created;
 		            result.createdName = src.createdName;
 		            result.updated = src.updated;
-		            result.updatedName = src.updatedName;
+					result.updatedName = src.updatedName;
+					
+					result.sendEmails = src.sendEmails;
+					result.sendNotifications = src.sendNotifications;
 		            
 		            self.cloneAddresses(src, result);
 		            
@@ -168,7 +171,9 @@
 		            tags: [],
 		            addresses: [],
 		            active: true,
-		            notes: ''
+					notes: '',
+					sendEmails: true,
+					sendNotifications: true
 				};
 			};
 			
@@ -272,7 +277,9 @@
 								state: src.state,
 					            active: src.active,
 					            addresses: src.addresses,
-					            notes: src.notes == null ? null : src.notes
+								notes: src.notes == null ? null : src.notes,
+								sendEmails: src.sendEmails,
+								sendNotifications: src.sendNotifications
 							};
 							
 				globalSettings.updateTimestamp(result);			
@@ -301,7 +308,9 @@
 	            result.notes = src.notes == null ? null : src.notes;
 	            result.addresses = src.addresses;
 	            result.hasHighlightTag = false;
-	            result.tags = null;
+				result.tags = null;
+				result.sendEmails = src.sendEmails;
+				result.sendNotifications = src.sendNotifications;
 	            
 	            globalSettings.updateTimestamp(result);
 	            

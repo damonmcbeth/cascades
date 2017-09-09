@@ -1,6 +1,6 @@
 
 
-<div class="settingsbar sidebar-content" id="settingsbar">
+<div class="settingsbar sidebar-content" id="settingsbar" ng-controller="SettingsController">
     <div class="sidebar-header" style="height: auto">
         <div class="header-title">
             <span>Preferences</span>
@@ -13,7 +13,7 @@
 	    <md-content class="settings" style="height: 100%">
 		    <md-tabs md-dynamic-height="true">
 		      <md-tab id="tabProfile">
-		        <md-tab-label>Preferences</md-tab-label>
+		        <md-tab-label>Profile</md-tab-label>
 		        <md-tab-body>
 		        	<div class="p-10" style="background-color: #f1f3f2">
 				        <form name="profileForm">
@@ -23,20 +23,20 @@
 						            <div class="row p-10 align-center">
 					                    <div class="col">
 						                    <div class="align-center m-b-10">
-						                        <avatar size="lg" img="gs.currProfile.avatar" state="'Established'" 
-						                        		name="gs.currProfile.name" type="gs.currProfile.avatarType"></avatar>
+						                        <avatar size="lg" img="currPerson.avatar" state="'Established'" 
+						                        		name="currPerson.name" type="currPerson.avatarType"></avatar>
 						                    </div>
 					                    
 											<div>
-												<h4>{{gs.currProfile.name}}</h4>
+												<h4>{{currPerson.name}}</h4>
 											</div>
 									        
 					                        <div class="f-12 b-300 text-muted m-t-5">
-					                            <span>{{ gs.currProfile.status | uppercase }}</span>
+					                            <span>{{ currPerson.status | uppercase }}</span>
 					                        </div>
 					                        
 					                        <div class="b-400 m-t-20">
-						                        <a href="" class="m-r-5" ng-click="openPersonDetails(gs.currProfile.person)">EDIT PROFILE</a>|
+						                        <a href="" class="m-r-5" ng-click="openPersonDetails(currPerson.$id)">EDIT PROFILE</a>|
 						                        <a href="" class="m-l-5" ng-click="signOut()">SIGN OUT</a>
 						                    </div>
 					                    </div>
@@ -46,14 +46,14 @@
 							
 							<div class="panel panel-default">
 					            <div class="panel-body">
-									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true">
+									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true" ng-model="currPerson.sendEmails" ng-change="updatePerson()">
 										Send emails for notifications
 									</md-switch>
-									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true">
+									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true" ng-model="currPerson.sendNotifications" ng-change="updatePerson()">
 										Enable desktop notifications
 									</md-switch>
 
-									<a href="" class="btn btn-inverse btn-block f-15">
+									<a href="" class="btn btn-inverse btn-block f-15 m-t-25" ng-click="resetPassword()">
 										Reset Password
 									</a>
 					            </div>
