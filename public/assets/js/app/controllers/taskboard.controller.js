@@ -81,10 +81,10 @@
 	        projectService.getAllProjects().then(
 		        function(projects) {
 			        var tmp = projects.map(function(proj) {
-			            return {label:proj.title, code:proj.$id, active:false, isSelected:false}
+			            return {label:proj.title, code:proj.$id, active:false, isSelected:false, isDone:proj.isDone}
 			        });
 			        
-			        tmp.push({label:projectService.notAssigned.title, code:'!', active:false, isSelected:false});
+			        tmp.push({label:projectService.notAssigned.title, code:'!', active:false, isSelected:false, isDone:false});
 			        
 			        var owner = globalSettings.currProfile.person;
 			        var tlen = $scope.taskList.length;
@@ -102,7 +102,7 @@
 				        }
 			        }
 			        
-			        $scope.projects = tmp;
+			        $scope.projects = $filter('filter')(tmp, {isDone: false});
 			        deferred.resolve(true);
 
 		        }

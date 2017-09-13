@@ -309,8 +309,8 @@
 	            result.addresses = src.addresses;
 	            result.hasHighlightTag = false;
 				result.tags = null;
-				result.sendEmails = src.sendEmails;
-				result.sendNotifications = src.sendNotifications;
+				result.sendEmails = src.sendEmails == null ? true : src.sendEmails;
+				result.sendNotifications = src.sendNotifications == null ? true : src.sendNotifications;
 	            
 	            globalSettings.updateTimestamp(result);
 	            

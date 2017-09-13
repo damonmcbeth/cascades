@@ -313,6 +313,7 @@
 								  tagService.saveTagsForItem(ref.key, tagService.TYPE_PROJECTS, edited.tags);
 								  peopleService.savePeopleForItem(ref.key, peopleService.TYPE_PROJECTS, edited.people);
 								  
+								  //self.calProjectSummary(edited.$id);
 								  self.calculateSummary(origOwnerId, edited);
 								  self.notifyOwner(edited, origOwnerId);
 								  self.determineHighlightProjects();
@@ -327,7 +328,11 @@
 				);
 				
 				return deferred.promise;
-		    };
+			};
+			
+			//self.calProjectSummary = function(projId) {
+			//	insightsService.calProjectSummary(projId);
+			//}
 			
 			self.notifyOwner = function(edited, origOwnerId) {
 			    if (edited.ownerId != null && (origOwnerId == null || edited.ownerId != origOwnerId)) {

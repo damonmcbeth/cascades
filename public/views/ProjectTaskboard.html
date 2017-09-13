@@ -78,16 +78,14 @@
 	            <md-divider class="m-b-10"></md-divider>
 	            			
 				<md-radio-group ng-model="selectedProject" ng-click="buildSummary()">
-			      <div ng-repeat="project in allProjects | filter:{isDone: false} | orderBy:'title'" class="row">
-			        <div flex layout="row" >
+			      <div ng-repeat="project in allProjects | filter:{show:true} | orderBy:'title'" class="row">
+			        <div flex layout="row">
 			          <md-radio-button flex ng-value="project" class="md-primary m-t-10 projectSelector" >
 			            {{project.title}}
 			          </md-radio-button>
 			        </div>
 			      </div>
 			    </md-radio-group>
-			    
-			    
 			    
 			    <div class="m-t-30">
 				    <h4>Assignees</h4>
@@ -105,10 +103,12 @@
 	    <div class="grp-container" style="overflow-y: auto !important; width: 300px !important">
             <div class="widget m-0" style="height: 100%;">
                 <div class="p-r-20 p-l-20 p-t-5 p-b-20 align-center ">
-                    <h3 ng-click="openProjectDetails()">{{selectedProject.title}}</h3>
+											
+										<h3 ng-click="openProjectDetails()">{{selectedProject.title}}</h3>
                     <div class="f-15 b-400">
                         {{selectedProject.typeName | uppercase}}
-                    </div>
+										</div>
+
                     <div class="f-15 m-t-5">
                         {{ selectedProject.start | amCalendar:null:gs.pref.calShortFormats}}
                         <span ng-show="selectedProject.end != null"> - </span> 
@@ -120,7 +120,9 @@
                     <div class="f-15 m-t-5">
                         Revenue: {{selectedProject.revenue | currency:"$":0 }}
                     </div>
-                    <div class="m-t-5"><ctag ng-repeat="tag in selectedProject.tags"></ctag></div>
+										<div class="m-t-5 m-b-5"><ctag ng-repeat="tag in selectedProject.tags"></ctag></div>
+										
+										<div class="f-10 label label-done" ng-show="selectedProject.isDone">COMPLETED</div>
                 </div>
                 
                 <div class="m-t-5 m-b-20 align-center">

@@ -5,45 +5,54 @@
         .module('app')
         .controller('OrganizationController', OrganizationController);
 
-    OrganizationController.$inject = ['$scope', '$state', 'globalSettings', 'globalNav', 'projectService', 'peopleService'];
+    OrganizationController.$inject = ['$scope', '$state', 'globalSettings', 'globalNav', 'projectService'];
 
-    function OrganizationController($scope, $state, globalSettings, globalNav, projectService, peopleService) {
+    function OrganizationController($scope, $state, globalSettings, globalNav, projectService) {
         $scope.$state = $state;        
         $scope.gs = globalSettings;
         
-        $scope.editableOrg = {};
-        
-        $scope.search = {isAdmin:true};
+        $scope.editableWrkSpc = {};
+        $scope.wrkSpc;
+        $scope.currUser;
+        $scope.showDetails = false;
 
-        $scope.initEditableOrg = function() {
-	        $scope.editableOrg = globalSettings.cloneWorkspace(globalSettings.currWorkspace);
-        }
-        
         globalSettings.initSettings().then(
 	        function() {
-		         $scope.org = globalSettings.currWorkspace;
-				 $scope.initEditableOrg();
+                $scope.initCurrentUser();
 	        }
         )
-        
-        peopleService.getAllPeople().then(
-	        function(people) {
-		        $scope.admins = people;
-	        }
-        )
+
+        $scope.initCurrentUser = function() {
+            $scope.currUser = globalSettings.currProfile;
+        }
                 
-        $scope.saveOrg = function() {
-	        globalSettings.saveOrg($scope.editableOrg, globalSettings.currWorkspace);
-	        $scope.initEditableOrg();
-	        
+        $scope.saveWrkSpc= function() {
+	        globalSettings.saveOrg($scope.editableWrkSpc, $scope.wrkSpc);
+            $scope.showDetails = false;
+            globalSettings.showSuccessToast('Workspace updated.');
         }
         
         $scope.cancelEdit = function() {
-	        $scope.initEditableOrg();
+	        $scope.showDetails = false;
         }
         
-        $scope.openDetails = function(admin) {
-            globalNav.openPeopleDetails(admin);
+        $scope.openDetails = function(wrkSpc) {
+            globalSettings.getWorkspace(wrkSpc.$id).then(
+                function(w) {
+                    $scope.wrkSpc = w;
+                    $scope.editableWrkSpc = globalSettings.cloneWorkspace(w);
+                    $scope.showDetails = true;
+                }
+            )
+        }
+
+        $scope.setAsDefault = function() {
+            $scope.currUser.defaultWorkspace = $scope.wrkSpc.$id;
+            $scope.currUser.$save().then(
+                function(result) {
+                    globalSettings.showSuccessToast('Workspace set as default.');
+                }
+            )  
         }
         
     }

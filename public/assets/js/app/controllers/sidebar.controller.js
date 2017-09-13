@@ -14,9 +14,6 @@
 	    $scope.selectedWrkSpace = {};
 	    $scope.wrkSpcs;
 	    
-	    
-	    
-	    
 	    globalSettings.initSettings().then(
         	function() {        
 	        	$scope.initSelectedWrkSpace();
@@ -60,21 +57,9 @@
 	        journalService.determineHighlightEntries();
         }
         
-        /**$scope.determineAvatarUrl = function() {
-	        var profile = globalSettings.currProfile;
-	        var result = "";
-	        
-	        if (profile != null && profile.avatar !== undefined) {
-		        if (profile.avatarType == "Custom") {
-			        result = profile.avatar;
-		        } else {
-			        result = "assets/img/avatars/" + profile.avatar;
-		        }
-	        }
-	        
-	        return result;
-        }**/
-        
+        $scope.openWorkspaces = function() {
+			globalNav.showPref();
+		}
         
         $scope.selectWrkSpc = function() {
 	        globalSettings.log("SidebarController", "selectWrkSpc", $scope.selectedWrkSpace.wrkSpc)

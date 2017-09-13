@@ -13,25 +13,31 @@
 		            <a href="" ng-click="cancelEdit()">
 		            	Cancel
 		            </a>
-		            <a href="" class="pull-right" ng-click="saveTag()">
+		            <a href="" class="pull-right" ng-click="saveWrkSpc()">
 		            	Save
 		            </a>
 		        </div>
 		    </div>
 		    
 		    <div class="dialog-body" style="width: 100%; height: 100%">
-		        <md-content style="height: 100%; width: 100%" ng-show="!showDetails">
-		            <md-list flex>
-					  <md-list-item class="md-3-line" ng-repeat="wrkSpc in gs.userWorkspaces | orderBy:'name'" ng-click="openDetails(tag)">
-						<div class="md-list-item-text">
-							<div class="list-title">{{wrkSpc.name}}</div>
-							<div class="list-title-2">Subscription: {{gs.currWorkspace.Subscription.plan}}</div>
-							<div class="list-title-2">Next Renewal: {{gs.currWorkspace.Subscription.renewal | amCalendar:null:gs.pref.calMidFormats}}</div>
-						</div>
-					    <md-divider ></md-divider>
-					    
-					  </md-list-item>              
-					</md-list>
+		        <md-content class="p-10" style="height: 100%; width: 100%; background-color: #f1f3f2" ng-show="!showDetails">
+					<div class="panel panel-default m-t-0">
+						<md-list flex>
+							<md-list-item class="md-3-line" ng-repeat="wrkSpc in gs.userWorkspaces | orderBy:'name'" ng-click="openDetails(wrkSpc)">
+								<i class="pe-7s-albums m-r-10 f-20"></i>
+								<div class="md-list-item-text">
+									<div class="list-title">{{wrkSpc.name}}</div>
+									<div class="list-title-3">Subscription: {{gs.currWorkspace.Subscription.plan}}</div>
+									<div class="list-title-3">Next Renewal: {{gs.currWorkspace.Subscription.renewal | amCalendar:null:gs.pref.calMidFormats}}</div>
+								</div>
+								<div class="md-secondary p-10">
+									<span class="label label-primary f-9" ng-show="wrkSpc.$id == currUser.defaultWorkspace">DEFAULT</span>
+								</div>
+								<md-divider ></md-divider>
+								
+							</md-list-item>              
+						</md-list>
+					</div>
 			    </md-content>
 			    
 		        <div ng-show="showDetails" class="p-10" style="background-color: #f1f3f2">
@@ -39,82 +45,113 @@
 						<div class="panel panel-default m-t-0">
 							<div class="panel-body">
 								<md-input-container class="md-block m-t-25 p-b-0">
-									<label>Workspace Title</label>
-									<textarea ng-model="editableOrg.name" rows="3" md-maxlength="40" md-detect-hidden="true" required>
+									<label>Title</label>
+									<textarea class="primary-input" ng-model="editableWrkSpc.name" rows="3" md-maxlength="40" md-detect-hidden="true" required>
 									<div class="hint">E.g. Company/Organization name, Owner, Informal grouping, etc.</div>
 									</textarea>
 								</md-input-container>
 								
 								<md-input-container class="md-block p-b-0">
-									<label>Workspace Description</label>
-									<textarea ng-model="editableOrg.description" rows="3" md-maxlength="255" md-detect-hidden="true">
+									<label>Description</label>
+									<textarea ng-model="editableWrkSpc.description" rows="3" md-maxlength="255" md-detect-hidden="true">
 									</textarea>
 								</md-input-container>
+
+								<a href="" class="btn btn-inverse btn-block f-15 m-t-25" ng-click="setAsDefault()">
+									Make this my default Workspace 
+								</a>
 							</div>
 						</div>
 						
 						<div class="panel panel-inverse m-t-0">
 							<div class="panel-body">
-								<span class="b-500 f-15">What term do you use to represent Clients?</span>
+								<md-input-container class="md-block">
+									<label>Subscription</label>
+									<md-select ng-model="editableWrkSpc.Subscription.plan">
+										<md-option ng-repeat="sub in availSub" value="{{sub.label}}" >
+										{{sub.label}}
+										</md-option>
+									</md-select>
+								</md-input-container>
+
+								<md-input-container class="md-block p-b-0">
+									<label>Next renewal</label>
+									<input ng-model="editableWrkSpc.Subscription.renewal">
+									</textarea>
+								</md-input-container>
+
+								<md-input-container class="md-block">
+									<label>Auto-delete activity after</label>
+									<md-radio-group ng-model="selectedTask.priority" layout="row">
+										<md-radio-button value="{{priority.code}}" class="md-primary"
+											ng-repeat="priority in priorities">{{priority.label}}</md-radio-button>
+									</md-radio-group>
+								</md-input-container>
+							</div>
+						</div>
+
+						<div class="panel panel-inverse m-t-0">
+							<div class="panel-body">
+								<span class="b-400 f-15">What term do you use to represent Clients?</span>
 								<md-content layout-gt-sm="row" layout-padding>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Client</label>
-											<input ng-model="editableOrg.Terminology.clientAlias">
+											<input ng-model="editableWrkSpc.Terminology.clientAlias">
 										</md-input-container>
 									</div>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Client plural form</label>
-											<input ng-model="editableOrg.Terminology.clientAliasPlural">
+											<input ng-model="editableWrkSpc.Terminology.clientAliasPlural">
 										</md-input-container>
 									</div>
 								</md-content>
 
-								<span class="b-500 f-15">What term do you use to represent Projects?</span>
+								<span class="b-400 f-15">What term do you use to represent Projects?</span>
 								<md-content layout-gt-sm="row" layout-padding>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Project</label>
-											<input ng-model="editableOrg.Terminology.projectAlias">
+											<input ng-model="editableWrkSpc.Terminology.projectAlias">
 										</md-input-container>
 									</div>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Project plural form</label>
-											<input ng-model="editableOrg.Terminology.projectAliasPlural">
+											<input ng-model="editableWrkSpc.Terminology.projectAliasPlural">
 										</md-input-container>
 									</div>
 								</md-content>
 								
-								<span class="b-500 f-15">What term do you use to represent Tasks?</span>
+								<span class="b-400 f-15">What term do you use to represent Tasks?</span>
 								<md-content layout-gt-sm="row" layout-padding>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Task</label>
-											<input ng-model="editableOrg.Terminology.taskAlias">
+											<input ng-model="editableWrkSpc.Terminology.taskAlias">
 										</md-input-container>
 									</div>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Task plural form</label>
-											<input ng-model="editableOrg.Terminology.taskAliasPlural">
+											<input ng-model="editableWrkSpc.Terminology.taskAliasPlural">
 										</md-input-container>
 									</div>
 								</md-content>
 								
-								<span class="b-500 f-15">What term do you use to represent Notes?</span>
+								<span class="b-400 f-15">What term do you use to represent Notes?</span>
 								<md-content layout-gt-sm="row" layout-padding>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Note</label>
-											<input ng-model="editableOrg.Terminology.memoAlias">
+											<input ng-model="editableWrkSpc.Terminology.memoAlias">
 										</md-input-container>
 									</div>
 									<div flex="100">
 										<md-input-container style="width: 100%">
 											<label>Note plural form</label>
-											<input ng-model="editableOrg.Terminology.memoAliasPlural">
+											<input ng-model="editableWrkSpc.Terminology.memoAliasPlural">
 										</md-input-container>
 									</div>
 								</md-content>

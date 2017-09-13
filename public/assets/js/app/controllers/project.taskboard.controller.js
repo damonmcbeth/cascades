@@ -93,25 +93,26 @@
 			var len = projects.length;
 			var defProj = globalSettings.currWorkspace.Settings.Project.defaultProject;
 			
-			
 			if ($scope.initId != null && $scope.initId != "") {
 				defProj = $scope.initId;
 				$scope.initId = null;
 			}
 				
-			if (defProj != null) {
+			//if (defProj != null) {
 				for (var i=0; i<len; i++) {
-					if (defProj == projects[i].$id) {
+					if (defProj != null && defProj == projects[i].$id) {
 						result = projects[i];
-						break;
+						projects[i].show = true;
+						//break;
+					} else {
+						projects[i].show = !projects[i].isDone;
 					}
 				}
-			}
-			
+			//}
 			
 			return result;
 		}
-		
+
 		$scope.populateProjects = function() {
 			var deferred = $q.defer();
 			

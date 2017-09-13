@@ -10,6 +10,16 @@
 	    function GlobalSettings() {
 			var self = this;
 			
+			self.CSS_COLOR_NAMES = ["#DCDCDC", "#e48701", "#a5bc4e", "#1b95d9", "#caca9e",
+				"#6693b0", "#f05e27", "#86d1e4", "#e4f9a0",
+				"#ffd512", "#75b000", "#0662b0", "#ede8c6",
+				"#cc3300", "#d1dfe7", "#52d4ca", "#c5e05d",
+				"#e7c174", "#fff797", "#c5f68f", "#bdf1e6",
+				"#9e987d", "#eb988d", "#91c9e5", "#93dc4a",
+				"#ffb900", "#9ebbcd", "#009797", "#0db2c2",
+				"#46BFBD", "#FDB45C", "#949FB1", 
+				"#4D5360", "#803690", "#00ADF9"];
+			
 			self.pref = {
 				org: {},
 				project:{
@@ -63,15 +73,7 @@
 					lastWeek: "h:mma",
 					sameElse: "h:mma"
 					},
-				colors: [
-					"#DCDCDC", 
-					"#46BFBD", 
-					"#FDB45C", 
-					"#949FB1", 
-					"#4D5360", 
-					"#803690", 
-					"#00ADF9"
-					],
+				colors: self.CSS_COLOR_NAMES,
 				avatars: [
 					"1.png",
 					"2.png",
@@ -264,6 +266,20 @@
 				return deferred.promise;
 			}
 			
+			self.getWorkspace = function(workspaceKey) {
+				var deferred = $q.defer();
+				
+				var lookupKey = "Workspaces/" + workspaceKey;
+				var workspaceRef = firebase.database().ref().child(lookupKey);
+				var wrkSpc = $firebaseObject(workspaceRef);
+				wrkSpc.$loaded().then(
+					function(data) {
+						deferred.resolve(wrkSpc);
+					}
+				)
+
+				return deferred.promise;
+			}
 			
 			self.loadWorkspace = function(workspaceKey) {
 				var deferred = $q.defer();
@@ -277,7 +293,6 @@
 					}
 				)
 
-				
 				return deferred.promise;
 			}
 			
