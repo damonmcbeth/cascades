@@ -350,7 +350,8 @@
         $scope.sumData = [];
         $scope.sumLabel = [];
         $scope.sumLegend = [];
-        $scope.chartOptions = { colors : $scope.gs.pref.colors };
+		$scope.chartOptions = { colors : $scope.gs.pref.colors,
+								responsive : false  };
         
         $scope.determineSummaryData = function() {
             var summary = []; 

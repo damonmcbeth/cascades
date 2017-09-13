@@ -42,7 +42,8 @@
 		        $scope.sumData = [];
 		        $scope.sumLabel = [];
 		        $scope.sumLegend = [];
-		        $scope.chartOptions = { colors : globalSettings.pref.colors };
+				$scope.chartOptions = { colors : globalSettings.pref.colors, 
+										responsive : false };
 	        	
 	        	$scope.populateTasks().then(
 		        	function(cont) {
