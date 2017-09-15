@@ -99,7 +99,11 @@
 					"22.png",
 					"23.png",
 					"24.png"
-				]
+				],
+				subscriptionPlans: ['Basic',
+									 'Pro',
+									 'Business'
+									]
 			};
 		
 			self.INITIALIZED = "I";
@@ -653,11 +657,11 @@
 	            result.Terminology.taskAliasPlural = src.Terminology.taskAliasPlural;
 	            result.Terminology.memoAlias = src.Terminology.memoAlias;
 	            result.Terminology.memoAliasPlural = src.Terminology.memoAliasPlural;
-	            /*result.subscription = {
-		            	key: src.subscription.key,
-		            	plan: src.subscription.plan,
-		            	renewal: src.subscription.renewal
-		            };*/
+	            result.Subscription = {
+		            	plan: src.Subscription.plan,
+						renewal: src.Subscription.renewal,
+						autoDelete: src.autoDelete
+		            };
 	            
 	            return result;
 		    };

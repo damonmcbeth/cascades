@@ -16,6 +16,12 @@
         $scope.currUser;
         $scope.showDetails = false;
 
+        $scope.autoDeleteTypes = [{ label: '30 days', value: 30},
+                                    { label: '60 days', value: 60},
+                                    { label: '90 days', value: 90},
+                                    { label: 'Never', value: -1}
+                                ];
+
         globalSettings.initSettings().then(
 	        function() {
                 $scope.initCurrentUser();

@@ -4,9 +4,9 @@
 		    <div class="dialog-header p-15 f-15" style="background-color: rgb(245,245,245)">
 			    
 		        <div class="header-description v-a-middle" ng-show="!showDetails">
-		            <a href="" id="new-message" ng-Click="showDetails=!showDetails">
+		            <!--a href="" id="new-message" ng-Click="showDetails=!showDetails">
 		                New Workspace
-		            </a>    
+		            </a-->    
 		        </div>
 		        
 		        <div class="header-description v-a-middle" ng-show="showDetails">
@@ -17,7 +17,8 @@
 		            	Save
 		            </a>
 		        </div>
-		    </div>
+			</div>
+			<md-divider ></md-divider>
 		    
 		    <div class="dialog-body" style="width: 100%; height: 100%">
 		        <md-content class="p-10" style="height: 100%; width: 100%; background-color: #f1f3f2" ng-show="!showDetails">
@@ -65,26 +66,19 @@
 						
 						<div class="panel panel-inverse m-t-0">
 							<div class="panel-body">
-								<md-input-container class="md-block">
-									<label>Subscription</label>
-									<md-select ng-model="editableWrkSpc.Subscription.plan">
-										<md-option ng-repeat="sub in availSub" value="{{sub.label}}" >
-										{{sub.label}}
-										</md-option>
-									</md-select>
+								<label>Subscription</label>
+								<md-input-container class="md-block">	
+									<md-radio-group ng-model="editableWrkSpc.Subscription.plan" layout="row">
+										<md-radio-button value="{{sub}}" class="md-primary"
+											ng-repeat="sub in gs.pref.subscriptionPlans">{{sub}}</md-radio-button>
+									</md-radio-group>
 								</md-input-container>
 
-								<md-input-container class="md-block p-b-0">
-									<label>Next renewal</label>
-									<input ng-model="editableWrkSpc.Subscription.renewal">
-									</textarea>
-								</md-input-container>
-
+								<label>Auto-delete activity after</label>
 								<md-input-container class="md-block">
-									<label>Auto-delete activity after</label>
-									<md-radio-group ng-model="selectedTask.priority" layout="row">
-										<md-radio-button value="{{priority.code}}" class="md-primary"
-											ng-repeat="priority in priorities">{{priority.label}}</md-radio-button>
+									<md-radio-group ng-model="editableWrkSpc.Subscription.autoDelete" layout="row">
+										<md-radio-button value="{{adType.value}}" class="md-primary"
+											ng-repeat="adType in autoDeleteTypes">{{adType.label}}</md-radio-button>
 									</md-radio-group>
 								</md-input-container>
 							</div>

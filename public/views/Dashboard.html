@@ -4,7 +4,7 @@
 </div>
 
 <div class="row m-l-0 m-r-0 m-b-25" ng-show="hasReminder">
-	<div class="reminder-alert p-10 border-left-4" style="border-color: #6f2828; border-left-style: solid"
+	<div class="reminder-alert p-10"
 		ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
 		<div>
 			<span class="f-11 text-muted" ng-if="reminder.allday">All day</span>

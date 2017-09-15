@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="sidebar-body" resize height-offset="75" style="width: 100%">
-	    <md-content class="settings" style="height: 100%">
+	    <md-content class="settings" style="height: 100%; background-color: #f1f3f2">
 		    <md-tabs md-dynamic-height="true">
 		      <md-tab id="tabProfile">
 		        <md-tab-label>Profile</md-tab-label>
@@ -36,7 +36,7 @@
 					                        </div>
 					                        
 					                        <div class="b-400 m-t-20">
-						                        <a href="" class="m-r-5" ng-click="openPersonDetails(currPerson.$id)">EDIT PROFILE</a>|
+						                        <a href="" class="m-r-5" ng-click="openPersonDetails(currPerson.$id)">PROFILE DETAILS</a>|
 						                        <a href="" class="m-l-5" ng-click="signOut()">SIGN OUT</a>
 						                    </div>
 					                    </div>
@@ -83,16 +83,7 @@
 
 		        </md-tab-body>
 			  </md-tab>
-			  <md-tab id="tabShortCut">
-					<md-tab-label>Shortcut Keys</md-tab-label>
-					<md-tab-body>
-							<div class="p-15 f-14">
-<pre>
-{{ gs.currProfile.Workspaces | json }}
-</pre>
-							</div>
-					</md-tab-body>
-				  </md-tab>
+			  
 		      <md-tab id="tabTags">
 		        <md-tab-label>Tags</md-tab-label>
 		        <md-tab-body>
@@ -101,7 +92,7 @@
 		        </md-tab-body>
 		      </md-tab>
 		      <md-tab id="tabTasks">
-		        <md-tab-label>Tasks</md-tab-label>
+		        <md-tab-label>{{gs.currWorkspace.Terminology.taskAliasPlural}}</md-tab-label>
 		        <md-tab-body>
 		        	<div class="p-15 f-14">
 <pre>
@@ -115,7 +106,7 @@
 		        </md-tab-body>
 		      </md-tab>
 		      <md-tab id="tabPeople">
-		        <md-tab-label>{{gs.currWorkspace.Terminology.projectAlias}}</md-tab-label>
+		        <md-tab-label>{{gs.currWorkspace.Terminology.projectAliasPlural}}</md-tab-label>
 		        <md-tab-body>
 		        	<div class="p-10" style="background-color: #f1f3f2">
 		        		<form name="projectForm">
@@ -135,9 +126,9 @@
 		        </md-tab-body>
 		      </md-tab>
 		      <md-tab id="tabPeople">
-		        <md-tab-label>People</md-tab-label>
+		        <md-tab-label>{{gs.currWorkspace.Terminology.clientAliasPlural}}</md-tab-label>
 		        <md-tab-body>
-		        	People
+		        	
 
 		        </md-tab-body>
 			  </md-tab>
@@ -148,7 +139,6 @@
 						<div><image src="/assets/img/Timeline-128.png"></image></div>
 						<div class="f-35 b-300">CASCADES</div>
 						<div class="m-b-15">BETA</div>
-						<pre class="h-m-200"></pre>
 						<div>Copyright &copy; 2017 CASCADES</div>
 					</div>
 
