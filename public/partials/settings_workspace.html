@@ -1,7 +1,7 @@
   <form ng-cloak>
     <md-dialog-content style="height: 100%">
-        <div id="md-dialog-content" class="dialog-content" ng-controller="OrganizationController" ng-cloak>
-		    <div class="dialog-header p-15 f-15" style="background-color: rgb(245,245,245)">
+        <div id="md-dialog-content" class="dialog-content" style="background-color: #f1f3f2" ng-controller="OrganizationController" ng-cloak>
+		    <div class="dialog-header p-15 f-15" ng-show="showDetails">
 			    
 		        <div class="header-description v-a-middle" ng-show="!showDetails">
 		            <!--a href="" id="new-message" ng-Click="showDetails=!showDetails">
@@ -18,7 +18,7 @@
 		            </a>
 		        </div>
 			</div>
-			<md-divider ></md-divider>
+			<md-divider  ng-show="showDetails"></md-divider>
 		    
 		    <div class="dialog-body" style="width: 100%; height: 100%">
 		        <md-content class="p-10" style="height: 100%; width: 100%; background-color: #f1f3f2" ng-show="!showDetails">
