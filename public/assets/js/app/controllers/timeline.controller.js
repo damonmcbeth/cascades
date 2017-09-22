@@ -13,7 +13,8 @@
 	    
 	    $scope.sDate = moment().startOf('day').toDate();
 	    $scope.eDate = moment().endOf('day').toDate();
-	    $scope.showCustom = false;
+		$scope.showCustom = false;
+		$scope.range = $stateParams.rng;
 	    	    
 	    switch($stateParams.rng) {
 		    case "yesterday": 

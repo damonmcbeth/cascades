@@ -1,9 +1,17 @@
 
-<div class="col-sm-3">
-	<div class="widget-container" ng-click="openDetails(person)">
+<div class="col-xs-6 col-sm-3 col-lg-2">
+	<div class="p-15 p-t-20 align-center" ng-click="openDetails(person)"
+		md-ink-ripple style="min-height: 210px;" ng-class="{'agile-list-highlight' : person.hasHighlightTag }">			    
+		<avatar size="lg" img="person.avatar" state="person.state" type="person.avatarType"></avatar>
+		<h4>{{person.name}}</h4>
+		<div class="m-t-5"><ctag ng-repeat="tag in person.tags"></ctag></div>
+	</div>
+
+
+	<!--div class="widget-container" ng-click="openDetails(person)">
 		<div class="widget text-default" md-ink-ripple style="min-height: 290px;" ng-class="{'agile-list-highlight' : person.hasHighlightTag }"> 
 		    <div class="p-15 p-t-20 align-center">			    
-				<avatar size="md" img="person.avatar" state="person.state" type="person.avatarType"></avatar>
+				<avatar size="lg" img="person.avatar" state="person.state" type="person.avatarType"></avatar>
 				<h4>{{person.name}}</h4>
 				<div class="text-primary">{{person.title | uppercase}}</div>
 				                
@@ -23,6 +31,6 @@
                 
 		    </div>
 		</div>
-	</div>
+	</div-->
 </div>
  

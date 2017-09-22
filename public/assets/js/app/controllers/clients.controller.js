@@ -31,7 +31,7 @@
 		        	$scope.search = {type:'Team member', $:''};
 		        	$scope.type = 'Team Member';
 		        } else {
-			        $scope.search = {active:true, type:'client', $:''};
+			        $scope.search = {type:'Client', $:''};
 		        }
         });
         

@@ -13,6 +13,11 @@
         
         $scope.currPerson = {};
     
+        $scope.defaultGroupings = [{ label: 'Schedule', value: 'Schedule'},
+            { label: 'Status', value: 'State'},
+            { label: 'Priority', value: 'Priority'}
+        ];
+
         globalSettings.initSettings().then(
 	        function() {
                 $scope.initCurrentPerson();
