@@ -112,9 +112,11 @@
 											<input flex type="number" ng-model="taskDueSoon" aria-label="due soon" aria-controls="red-slider">
 										</md-input-container>
 									</md-slider-container>
+								</div>
+							</div>
 
-
-
+							<div class="panel panel-default">
+								<div class="panel-body">
 									<label>List default grouping</label>
 									<md-input-container class="md-block m-b-20">	
 										<md-radio-group ng-model="taskQuickGroup" layout="row">
@@ -122,6 +124,8 @@
 												ng-repeat="g1 in defaultGroupings">{{g1.label}}</md-radio-button>
 										</md-radio-group>
 									</md-input-container>
+
+									<md-divider></md-divider>
 	
 									<label>Board default grouping</label>
 									<md-input-container class="md-block">
