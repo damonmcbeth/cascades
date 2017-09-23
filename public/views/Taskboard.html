@@ -47,23 +47,21 @@
 											<md-menu-content>
 			
 													<md-menu-item>
-																	<md-menu>
-																			<md-menu-item>
-																			<md-button>Group by</md-button></md-menu-item>
-																			<md-menu-content>
-																					<md-menu-item ng-repeat="item1 in ['Status', 'Schedule', 'Priority', projectLabel]">
-																							<md-button aria-label="update view" ng-click="updateViewBy(item1)">{{item1}}</md-button>
-																					</md-menu-item>
-																			</md-menu-content>
-																	</md-menu>
-															
+															<md-menu>
+																	<md-menu-item><md-button>Group by</md-button></md-menu-item>
+																	<md-menu-content>
+																			<md-menu-item ng-repeat="item1 in ['Status', 'Schedule', 'Priority', projectLabel]">
+																					<md-button aria-label="update view" ng-click="updateViewBy(item1)">{{item1}}</md-button>
+																			</md-menu-item>
+																	</md-menu-content>
+															</md-menu>
 													</md-menu-item>
 
 													<md-divider></md-divider>
 
 													<md-menu-item>
 															<md-button ng-click="archiveTasks()">
-																	<!--md-icon class="pe-7s-box1 f-25"--></md-icon>Archive completed
+																	</md-icon>Archive completed
 															</md-button>
 													</md-menu-item>
 
