@@ -33,7 +33,8 @@
         
 		        $scope.viewByFld = 'Status';
 		        $scope.orderByFld = 'due';
-		        
+				$scope.selectMode = false;
+				
 		        $scope.taskTotal = 0;
 		        
 		        $scope.today = new Date();
@@ -314,7 +315,11 @@
         }
         
         $scope.openTaskDetails = function(taskItem) {
-            $scope.nav.openTaskDetails(taskItem.$id);
+			if (!$scope.selectMode) {
+				$scope.nav.openTaskDetails(taskItem.$id);
+			} else {
+				taskItem.selectedActionItem = !taskItem.selectedActionItem;
+			}
         }
         
         $scope.determineSummaryData = function(taskSummary) {
@@ -371,7 +376,11 @@
 		            $scope.determineSummaryColors($scope.sumLegend);
 		        }
 	        )
-        }
+		}
+		
+		$scope.toggleSelect = function() {
+			$scope.selectMode = !$scope.selectMode;
+		}
          
         
         taskService.registerController($scope.buildSummary);

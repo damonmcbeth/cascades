@@ -2409,6 +2409,15 @@ Utility bar
   height: 50px;
   padding: 10px;
 }
+.utility-container .utility-menu .menu-buttons li a.toggle {
+  color: #212121;
+  background-color: #f1f3f2;
+}
+
+.utility-container .utility-menu .menu-buttons li a.toggle .icon {
+  color: #212121;
+}
+
 .utility-container .utility-menu .menu-buttons li a:hover {
   text-decoration: none;
 }
