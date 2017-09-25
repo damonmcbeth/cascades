@@ -10,24 +10,119 @@
 	                </a>
 				</li> 
 							
-				<li>
-	                <a href="" id="toggle-message" ng-Click="toggleSelect()" ng-class="{'toggle' : selectMode}">
-										  <i class="icon pe-7s-magic-wand"></i>
-	                    <span class="text">Select {{gs.currWorkspace.Terminology.taskAlias}}</span>
+				<li ng-hide="selectMode">
+	                <a href="" id="toggle-message" ng-Click="toggleSelect()">
+						<i class="icon pe-7s-magic-wand"></i>
+	                    <span class="text">Select</span>
 	                </a>
 				</li> 
 				
 				<li ng-show="selectMode">
-					<a href="" id="toggle-message">
-						<span class="text m-t-5">Update selected</span>
+					<a href="" class="toggle p-t-5">
+						<md-menu>
+							<md-button aria-label="Open menu" class="md-icon-button m-0 p-0" ng-click="$mdOpenMenu($event)">
+								<i class="icon pe-7s-date"></i>
+							</md-button>
+							
+							<md-menu-content width="3">
+								<md-menu-item>
+									<md-button class="menu-subheader" disabled="disabled">
+										Change due date to:
+									</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item ng-repeat="item in ['This evening', 'Tomorrow morning', 'Tomorrow evening', '2 days from now', 'Next week']">
+									<md-button aria-label="update view" ng-click="updateDueDate(item)">{{item}}</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item>
+									<md-button aria-label="remove due date" ng-click="removeDueDate()">Remove due date</md-button>
+								</md-menu-item>
+							</md-menu-content>
+						</md-menu>
 					</a>
 				</li> 
+				<li ng-show="selectMode">
+					<a href="" class="toggle p-t-5">
+						<md-menu>
+							<md-button aria-label="Open menu" class="md-icon-button m-0 p-0" ng-click="$mdOpenMenu($event)">
+								<i class="icon pe-7s-flag"></i>
+							</md-button>
+							
+							<md-menu-content width="3">
+								<md-menu-item>
+									<md-button class="menu-subheader" disabled="disabled">
+										Change priority to:
+									</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item ng-repeat="item in ['High', 'Medium', 'Low', 'None']">
+									<md-button aria-label="update view" ng-click="updatePriority(item)">{{item}}</md-button>
+								</md-menu-item>
+							</md-menu-content>
+						</md-menu>
+					</a>
+				</li>
+				<li ng-show="selectMode">
+					<a href="" class="toggle p-t-5">
+						<md-menu>
+							<md-button aria-label="Open menu" class="md-icon-button m-0 p-0" ng-click="$mdOpenMenu($event)">
+								<i class="icon pe-7s-ticket"></i>
+							</md-button>
+							
+							<md-menu-content width="3">
+								<md-menu-item>
+									<md-button class="menu-subheader" disabled="disabled">
+										Add tag:
+									</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item ng-repeat="tag in tags | filter:{forTasks: true} | orderBy:'label'">
+									<md-button aria-label="update view" ng-click="updateTag(tag)">{{tag.label}}</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item>
+									<md-button aria-label="remove tags" ng-click="removeAllTags()">Remove all tags</md-button>
+								</md-menu-item>
+							</md-menu-content>
+						</md-menu>
+					</a>
+				</li> 
+				<li ng-show="selectMode">
+					<a href="" class="toggle p-t-5">
+						<md-menu>
+							<md-button aria-label="Open menu" class="md-icon-button m-0 p-0" ng-click="$mdOpenMenu($event)">
+								<i class="icon pe-7s-portfolio"></i>
+							</md-button>
+							
+							<md-menu-content width="3">
+								<md-menu-item>
+									<md-button class="menu-subheader" disabled="disabled">
+										Assign {{gs.currWorkspace.Terminology.projectAlias}}:
+									</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item ng-repeat="project in projects | orderBy:'label'">
+									<md-button aria-label="update view" ng-click="updateProject(project)">{{project.label}}</md-button>
+								</md-menu-item>
+							</md-menu-content>
+						</md-menu>
+					</a>
+				</li> 
+				<li ng-show="selectMode">
+						<a href="" id="toggle-message" ng-Click="toggleSelect()" class="toggle"
+							style="padding-right: 15px; background-color: #fff">
+							<span class="text m-t-5">
+									<i class="icon pe-7s-close"></i>
+							</span>
+						</a>
+				</li>
 
 
-	            <!--li>
+	            <li>
 	            	<md-menu md-offset="0 15">
 			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
-			            <i class="icon pe-7s-more"></i>
+			            <i class="icon pe-7s-repeat"></i>
 			          </md-button>
 			          
 			          <md-menu-content width="3">
@@ -51,8 +146,8 @@
 			          </md-menu-content>
 			          
 			        </md-menu>
-	            </li-->
-	            <li>
+	            </li>
+	            <li class="m-r-15">
 	            	<md-menu md-offset="0 15">
 						<md-button aria-label="Open more menu" class="md-icon-button m-0 p-0 p-t-5" 
 							ng-click="$mdOpenMenu($event)" md-no-ink>
@@ -60,7 +155,7 @@
 			          	</md-button>
 											
 						<md-menu-content>	
-							<md-menu-item>
+							<!--md-menu-item>
 								<md-button>Group by</md-button>
 								<md-menu-content>
 									<md-menu-item ng-repeat="item1 in ['Status', 'Schedule', 'Priority', projectLabel]">
@@ -69,7 +164,7 @@
 								</md-menu-content>
 							</md-menu-item>
 						
-							<md-divider></md-divider>
+							<md-divider></md-divider-->
 
 							<md-menu-item>
 								<md-button ng-click="archiveTasks()">
@@ -91,69 +186,22 @@
 			          	</md-menu-content>
 			        </md-menu>
 	            </li>
-
 	        </ul>
 	    </div>
-	
-
-
 	</div>
 	
     <div class="page-container">
 	    
 	    <div class="w-200" style="overflow-y: auto !important;">
             <div class="m-15 p-5">
-	            <!--h4>{{gs.currWorkspace.Terminology.projectAliasPlural}}</h4>
-	            <md-divider class="m-b-10"></md-divider>
-	            			
-				<div ng-repeat="project in projects | filter:{active: true} | orderBy:'title'" ng-class="{'agile-list-highlight-2' : project.isSelected }"
-                	 ng-click="toggleProjectSelected(project)" class="m-b-5 m-t-5 p-5 select-list-item">
-                        <span class="p-l-10 f-15">{{project.label}}</span>
-                </div>
-                
-                <div class="m-t-30"-->
-
-						<md-menu-bar style="z-index: 8888888 !important">
-								
-								
-								<md-menu>
-								  <button ng-click="$mdMenu.open()">
-									View
-								  </button>
-								  <md-menu-content>
-									<md-menu-item type="checkbox" ng-model="ctrl.settings.printLayout">Print layout</md-menu-item>
-									<md-menu-item class="md-indent">
-									  <md-menu>
-										<md-button ng-click="$mdMenu.open()">Mode</md-button>
-										<md-menu-content width="3">
-										  <md-menu-item type="radio" ng-model="ctrl.settings.presentationMode" value="'presentation'">Presentation</md-menu-item>
-										  <md-menu-item type="radio" ng-model="ctrl.settings.presentationMode" value="'edit'">Edit</md-menu-item>
-										  <md-menu-item type="radio" ng-model="ctrl.settings.presentationMode" value="'modifiable'">Modifiable</md-menu-item>
-										</md-menu-content>
-									  </md-menu>
-									</md-menu-item>
-									<md-menu-divider></md-menu-divider>
-									<md-menu-item type="checkbox" ng-model="ctrl.settings.showRuler">Show ruler</md-menu-item>
-									<md-menu-item type="checkbox" ng-model="ctrl.settings.showEquationToolbar">Show equation toolbar</md-menu-item>
-									<md-menu-item type="checkbox" ng-model="ctrl.settings.showSpellingSuggestions">Show spelling suggestions</md-menu-item>
-									<md-menu-divider></md-menu-divider>
-									<md-menu-item type="checkbox" ng-model="ctrl.settings.compactControls">Compact controls</md-menu-item>
-									<md-menu-item type="checkbox" ng-model="ctrl.settings.fullScreen">Full screen</md-menu-item>
-								  </md-menu-content>
-								</md-menu>
-								
-							  </md-menu-bar>
-
-
-				    <h4>Delegates</h4>
-				    <md-divider class="m-b-10"></md-divider>
-				    
-	                <div ng-repeat="person in delegates | orderBy:'name'" ng-class="{'agile-list-highlight-2' : person.isSelected }"
-	                	 ng-click="toggleSelected(person)" class="m-b-5 m-t-5 p-5 select-list-item">
-	                        <avatar size="xs" img="person.avatar" state="person.state" name="person.name" type="person.avatarType"></avatar>
-	                        <span class="p-l-10 f-15">{{person.first}}</span>
-	                </div>
-			    <!--/div--> 
+				<h4>Delegates</h4>
+				<md-divider class="m-b-10"></md-divider>
+				
+				<div ng-repeat="person in delegates | orderBy:'name'" ng-class="{'agile-list-highlight-2' : person.isSelected }"
+						ng-click="toggleSelected(person)" class="m-b-5 m-t-5 p-5 select-list-item">
+						<avatar size="xs" img="person.avatar" state="person.state" name="person.name" type="person.avatarType"></avatar>
+						<span class="p-l-10 f-15">{{person.first}}</span>
+				</div>
 	        </div>
 	    </div>
 	    
@@ -166,7 +214,6 @@
                 <div class="align-center m-t-20">
 	                <canvas class="chart chart-doughnut" chart-data="sumData" chart-labels="sumLabel"
 	                		chart-colors="gs.pref.colors"></canvas>
-	                
                 </div>
                 <div class="chart-legend-container">
                     <div class="row">
@@ -186,11 +233,11 @@
 			<div class="task-container">
 				<ul id="{{getFilterId(group)}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list"
 					ng-class="{'agile-list-disabled-dd' : disabledDD}" ng-model="taskList">
-                    <li class="ui-sortable" ng-repeat="task in taskList | filter:getFilter(group) | orderBy:determineOrder" ng-Click="openTaskDetails(task)" ng-class="{'agile-list-highlight' : task.hasHighlightTag, 'agile-list-highlight-2' : task.hasSelectedOwner }"
-											id="{{task.$id}}">
+					<li class="ui-sortable" ng-repeat="task in taskList | filter:getFilter(group) | orderBy:determineOrder" ng-Click="openTaskDetails(task)" 
+						ng-class="{'agile-list-highlight' : task.hasHighlightTag, 'agile-list-highlight-2' : task.hasSelectedOwner }"
+						id="{{task.$id}}">
 						<md-checkbox aria-label="Select" md-no-ink ng-model="task.selectedActionItem"
-							ng-show="selectMode"></md-checkbox>
-
+							ng-show="selectMode" ng-disabled="true"></md-checkbox>
                         <div>
                            	<div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
 							<span class="pull-right badge f-10 m-l-5" ng-class="{'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}

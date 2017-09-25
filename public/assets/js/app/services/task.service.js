@@ -506,7 +506,8 @@
 	            result.hasSelectedOwner = false;
 	            result.hasChecklist = src.hasChecklist == null ? false : src.hasChecklist;
 	            result.checklist = src.checklist;
-	            result.tags = null;
+				result.tags = null;
+				result.selectedActionItem = null;
 	            
 	            globalSettings.updateTimestamp(result);
 	            

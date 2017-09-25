@@ -12,11 +12,15 @@
         $scope.nav = globalNav;
         $scope.gs = globalSettings;
         
-        $scope.showArchived = false;
+		$scope.showArchived = false;
+		$scope.selectMode = false;
         
         $scope.taskList = [];
-        $scope.activeProjects = [];
-        $scope.delegates = [];
+		$scope.activeProjects = [];
+		$scope.allProjects = [];
+		$scope.delegates = [];
+		
+		$scope.tags = [];
         
         globalSettings.initSettings().then(
         	function() {
@@ -50,7 +54,8 @@
 		        	function(cont) {
 			        	$scope.populateProjects().then(
 				        	function(projLoaded) {
-					        	$scope.populatePeople();
+								$scope.populatePeople();
+								$scope.populateTags();
 	        	
 					        	var defaultGroup = globalSettings.currPreferences.Settings.Task.taskBoardGroup;
 						        defaultGroup = (defaultGroup == "Project") ? $scope.projectLabel : defaultGroup;
@@ -61,7 +66,15 @@
 		        	}
 	        	)
 	        	
-        });
+		});
+		
+		$scope.populateTags = function() {
+		    tagService.getAllTags().then (
+			    function(tags) {
+					$scope.tags = tags;
+				}
+		    );
+	    }
         
         $scope.populateTasks = function() {
 	       var deferred = $q.defer();
@@ -79,9 +92,10 @@
         $scope.populateProjects = function() {
 	        var deferred = $q.defer();
 	        
-	        
 	        projectService.getAllProjects().then(
 		        function(projects) {
+					$scope.allProjects = projects;
+
 			        var tmp = projects.map(function(proj) {
 			            return {label:proj.title, code:proj.$id, active:false, isSelected:false, isDone:proj.isDone}
 			        });
@@ -379,9 +393,144 @@
 		}
 		
 		$scope.toggleSelect = function() {
+			if ($scope.selectMode) {
+				var len = $scope.taskList.length;
+				
+				for (var i=0; i<len; i++) {
+					$scope.taskList[i].selectedActionItem = false;
+				}
+			}
+
 			$scope.selectMode = !$scope.selectMode;
 		}
-         
+		
+		$scope.hasSelected = function() {
+			var result = false;
+			var len = $scope.taskList.length;
+
+			for (var i=0; i<len; i++) {
+				if ($scope.taskList[i].selectedActionItem == true) {
+					result = true;
+					break;
+				}
+			}
+
+			return result;
+		}
+
+		$scope.updateDueDate = function(target) {
+			var value = null;
+
+			switch (target) {
+				case 'In 2 hours': value = moment().startOf('hour').add(2, 'hours').toDate(); break; 
+				case 'In 4 hours': value = moment().startOf('hour').add(4, 'hours').toDate(); break; 
+				case 'This evening': value = moment().startOf('day').add(18, 'hours').toDate(); break;
+				case 'Tomorrow morning': value = moment().startOf('day').add(1, 'days').add(8, 'hours').toDate(); break; 
+				case 'Tomorrow evening': value = moment().startOf('day').add(1, 'days').add(18, 'hours').toDate();break; 
+				case '2 days from now': value = moment().startOf('hour').add(2, 'days').toDate(); break; 
+				case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate();
+			}
+
+			$scope.groupUpdateTasks('due', value);
+		}
+
+		$scope.updatePriority = function(target) {
+			var value = null;
+
+			switch (target) {
+				case 'High': value = "H"; break;
+				case 'Medium': value = "M"; break;
+				case 'Low': value = "L"; break;
+				case 'None': value = "N"; break; 
+			}
+
+			$scope.groupUpdateTasks('priority', value);
+		}
+
+		$scope.updateProject = function(target) {
+			$scope.groupUpdateTasks('project', target);
+		}
+
+		$scope.updateTag = function(target) {
+			$scope.groupUpdateTasks('tag', target);
+		}
+
+		$scope.removeAllTags = function(target) {
+			$scope.groupUpdateTasks('removeTags', null);
+		}
+
+		$scope.removeDueDate = function(target) {
+			$scope.groupUpdateTasks('due', null);
+		}
+
+		$scope.groupUpdateTasks = function(fld, val) {
+			if ($scope.hasSelected()) {
+				var len = $scope.taskList.length;
+				
+				for (var i=0; i<len; i++) {
+					if ($scope.taskList[i].selectedActionItem == true) {
+						$scope.updateTask(fld, val, $scope.taskList[i]);
+					}
+				}
+				globalSettings.showSuccessToast(globalSettings.currWorkspace.Terminology.taskAlias + ' updated.');
+
+			}
+
+			//$scope.toggleSelect();
+		}
+
+		$scope.updateTask = function(fld, val, orig) {
+			$scope.cloneTask(orig).then(
+				function(task) {
+					switch (fld) {
+						case 'removeTags': task.tags = []; break;
+						case 'tag': $scope.addUniqueTag(task, val); break;
+						case 'project': $scope.assignProjectToTask(task, val); break;
+						default: task[fld] = val;
+					}
+					taskActivityService.saveTask(task, orig);
+				}
+			)
+		}
+
+		$scope.assignProjectToTask = function(task, project) {
+			var proj = $scope.allProjects.$getRecord(project.code);
+
+			task.projectId = proj.$id;
+			task.project = proj;
+		}
+
+		$scope.addUniqueTag = function(task, tag) {
+			var found = false;
+			var len = task.tags.length;
+			var tags = task.tags;
+
+			for (var i=0; i<len; i++) {
+				if (tags[i].$id == tag.$id) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				task.tags.push(tag);
+			}
+		}
+
+		$scope.cloneTask = function(taskItem) {
+			var deferred = $q.defer();
+
+			taskService.cloneTask(taskItem, null).then(
+				function(clonedTask) {
+					tagService.retrieveTags(taskItem.tags).then(
+						function(tags) {
+							clonedTask.tags = tags;
+							deferred.resolve(clonedTask);	
+					});   	  
+			});
+
+			return deferred.promise;
+		}
         
         taskService.registerController($scope.buildSummary);
     
