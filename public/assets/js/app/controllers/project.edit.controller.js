@@ -90,7 +90,7 @@
 		        $scope.selectedProject.typeName = null;
 		        $scope.selectedProject.typeId = null;
 	        } else {
-		        $scope.selectedProject.typeName = $scope.selectedProject.type.name;
+		        $scope.selectedProject.typeName = $scope.selectedProject.type.title;
 		        $scope.selectedProject.typeId = $scope.selectedProject.type.$id;
 	        }
 	        

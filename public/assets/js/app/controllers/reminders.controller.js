@@ -148,7 +148,8 @@
 	                allDayText: "All day",
 	                eventLimit: true,
 	                businessHours: true,
-	                navLinks: true,
+					navLinks: true,
+					timezone: "local",
 	                droppable: false,
 	                events: $scope.events,
 	                eventClick: function(calEvent) {

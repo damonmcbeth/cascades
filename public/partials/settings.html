@@ -96,21 +96,27 @@
 		        <md-tab-body>
 		        	<div class="f-14">
 						<md-content class="p-10" style="height: 100%; width: 100%; background-color: #f1f3f2" ng-show="!showDetails">
-							<div class="panel panel-inverse">
-							</div>
-
 							<div class="panel panel-default">
 								<div class="panel-body">
 
-									<label>Due soon</label>
+									<label>{{gs.currWorkspace.Terminology.taskAlias}} due soon</label>
+									<!--md-input-container class="md-block">	
+											<md-radio-group ng-model="currPreferences.Settings.Task.soon" layout="column" ng-change="updateUserPreferences()">
+												<md-radio-button value="{{tsOptions.value}}" class="md-primary"
+													ng-repeat="tsOptions in taskDueSoonOptions">{{tsOptions.label}}</md-radio-button>
+											</md-radio-group>
+									</md-input-container-->
+
 									<md-slider-container class="m-b-20">
-										<span>days</span>
-										<md-slider flex min="0" max="365" ng-model="taskDueSoon" aria-label="due soon" id="red-slider"
-											class="md-primary"></md-slider>
-										</md-slider>
 										<md-input-container>
-											<input flex type="number" ng-model="taskDueSoon" aria-label="due soon" aria-controls="red-slider">
+											<input flex type="number" ng-model="currPreferences.Settings.Task.soon" aria-label="due soon" 
+												ng-change="updateUserPreferences()" aria-controls="red-slider">
 										</md-input-container>
+										
+										<span class="m-r-10">days</span>
+										<md-slider flex min="0" max="60" ng-model="currPreferences.Settings.Task.soon" aria-label="due soon" id="red-slider"
+											class="md-primary" ng-mouseup="updateUserPreferences()"></md-slider>
+										</md-slider>
 									</md-slider-container>
 								</div>
 							</div>
@@ -118,18 +124,18 @@
 							<div class="panel panel-default">
 								<div class="panel-body">
 									<label>List default grouping</label>
-									<md-input-container class="md-block m-b-20">	
-										<md-radio-group ng-model="taskQuickGroup" layout="row">
+									<md-input-container class="md-block">	
+										<md-radio-group ng-model="currPreferences.Settings.Task.quickGroup" layout="row" ng-change="updateUserPreferences()">
 											<md-radio-button value="{{g1.value}}" class="md-primary"
 												ng-repeat="g1 in defaultGroupings">{{g1.label}}</md-radio-button>
 										</md-radio-group>
 									</md-input-container>
 
-									<md-divider></md-divider>
+									<md-divider class="m-b-20"></md-divider>
 	
 									<label>Board default grouping</label>
 									<md-input-container class="md-block">
-										<md-radio-group ng-model="taskBoardGroup" layout="row">
+										<md-radio-group ng-model="currPreferences.Settings.Task.taskBoardGroup" layout="row" ng-change="updateUserPreferences()">
 											<md-radio-button value="{{g2.value}}" class="md-primary"
 												ng-repeat="g2 in defaultGroupings">{{g2.label}}</md-radio-button>
 										</md-radio-group>
@@ -137,7 +143,7 @@
 
 									<label>Board default sorting</label>
 									<md-input-container class="md-block">
-										<md-radio-group ng-model="taskBoardOrder" layout="row">
+										<md-radio-group ng-model="currPreferences.Settings.Task.taskBoardOrder" layout="row" ng-change="updateUserPreferences()">
 											<md-radio-button value="{{g2.value}}" class="md-primary"
 												ng-repeat="g2 in defaultGroupings">{{g2.label}}</md-radio-button>
 										</md-radio-group>
@@ -150,21 +156,27 @@
 									<h3 class="panel-title">{{gs.currWorkspace.Terminology.taskAlias}} Status</h3>
 								</div>
 								
-								<div class="panel-body p-0">
-									<md-list flex>
-										<md-list-item class="md-1-line" ng-repeat="taskState in gs.currWorkspace.Settings.Task.states | orderBy:'order'" >
-											<i class="pe-7s-close-circle m-r-10 f-20 text-danger" ng-show="taskState.editable"></i>
-											<i class="pe-7s-less m-r-10 f-20 text-muted" ng-hide="taskState.editable"></i>
-											<div class="md-list-item-text">
-												<div class="list-title">{{taskState.label}}</div>
-											</div>
-											<div class="md-secondary p-10" ng-hide="taskState.label =='Done'">
-												<i class="pe-7f-menu m-r-10 f-27 text-muted"></i>
-											</div>
-											<md-divider ></md-divider>
+								<div class="panel-body p-5">
+										<div class="m-b-10 m-t-10" style="min-height: 150px">
+											<div class="p-5" layout="row">
+												<input ng-model="newTaskStatus" class="checklist-item" placeholder="Enter new status" 
+														type="text" flex="100">
+												
+												<i class="icon pe-7f-plus text-primary f-25 p-5 p-t-10"
+														ng-click="addTaskStatus()" aria-label="Add"></i>
+											</div>	
 											
-										</md-list-item>              
-									</md-list>
+											<div ng-repeat="taskState in gs.currWorkspace.Settings.Task.states | orderBy:'order'" class="p-5" layout="row">
+												<i class="pe-7f-menu m-r-10 f-20 text-muted  p-t-10" style="color: #ccc" ng-show="taskState.editable"></i>
+												<i class="m-r-10 f-20 p-t-10" ng-hide="taskState.editable" style="width: 20px">&nbsp;</i>
+												<input id="taskStateItem_{{$index}}" ng-model="taskState.label" class="checklist-item" 
+														type="text" flex="100" ng-disabled="!taskState.editable">
+												<i class="icon pe-7s-less text-muted f-25 p-5 p-t-10" ng-hide="taskState.editable"></i>
+
+												<i class="icon pe-7s-close-circle text-danger f-25 p-5 p-t-10" ng-show="taskState.editable"
+														ng-click="removeTaskState(taskState)" aria-label="Delete"></i>
+											</div>	
+										</div>
 								</div>
 							</div>
 						</md-content>

@@ -4,8 +4,8 @@
     var app = angular.module('app');
     
     
-    app.factory('projectService', ['$http', '$q', '$filter', 'globalSettings', 'tagService', 'peopleService', 'insightsService', '$firebaseArray',  
-    	function($http, $q, $filter, globalSettings, tagService, peopleService, insightsService, $firebaseArray) {
+    app.factory('projectService', ['$http', '$q', '$filter', 'globalSettings', 'tagService', 'peopleService', 'insightsService', 'messageService', '$firebaseArray',  
+    	function($http, $q, $filter, globalSettings, tagService, peopleService, insightsService, messageService, $firebaseArray) {
 		
 		function ProjectService() {
 			var self = this;
@@ -366,7 +366,7 @@
 								ownerId: src.ownerId,
 								ownerName: src.owner == null ? null : src.owner.name,
 								typeId: src.type == null ? null : src.type.$id,
-								typeName: src.type == null ? null : src.type.name,
+								typeName: src.type == null ? null : src.type.title,
 								isDone: src.isDone,
 								perComp: src.perComp,
 								revenue: src.revenue,
@@ -389,7 +389,7 @@
 	            result.ownerId = src.ownerId;
 	            result.ownerName = (src.owner == "" || src.owner == null) ? null : src.owner.name;
 	            result.typeId = src.type == null ? null : src.type.$id;
-				result.typeName = src.type == null ? null : src.type.name;
+				result.typeName = src.type == null ? null : src.type.title;
 	            result.start = src.start == null ? null : src.start.getTime();
 	            result.end = src.end == null ? null : src.end.getTime();
 	            result.revenue = src.revenue;

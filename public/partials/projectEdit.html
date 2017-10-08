@@ -44,7 +44,7 @@
 					  	<label>Type</label>
 					  	<md-select ng-model="selectedProject.type" ng-model-options="{trackBy: '$value.$id'}" ng-change="updateType()">
 			              <md-option ng-repeat="projectType in projectTypes" ng-value="projectType" >
-			                {{projectType.name}}
+			                {{projectType.title}}
 			              </md-option>
 			            </md-select>
 					  </md-input-container>

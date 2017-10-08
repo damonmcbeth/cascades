@@ -867,9 +867,11 @@
 		    }
 		    
 		    self.logError = function (module, funct, msg) {
+				var m = (msg.message != undefined ? msg.message : (msg != undefined) ? null : msg);
+
 			    var ticket = {
-				    		name: "Error occured: " + msg.message,
-				    		details: msg.stack,
+				    		name: "Error occured: " + m,
+				    		details: (msg.stack == undefined ? null : msg.stack),
 				    		module: module,
 				    		method: funct,
 				    		type: "Automated",
