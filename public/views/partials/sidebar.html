@@ -338,6 +338,24 @@
                     </li>
                 </ul>
             </li>
+
+            <li ng-class="{'active open': $state.includes('support')}">
+                <a ui-sref="support.welcome">
+                    <i class="pe-7s-help1"></i>
+                    <span>Support</span>
+                </a>
+                <ul>
+	                <li class="submenu-title">
+                        <span>Support</span>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="support.welcome">
+	                        <!--i class="pe-7s-help1"></i-->
+                            <span>Welcome</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

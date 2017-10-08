@@ -237,6 +237,42 @@
                 }
             })
 
+            .state('support', {
+                abstract: true,
+                template: "<ui-view/>",
+                ncyBreadcrumb: {
+                    label: 'Support'
+                },
+                data: {
+                    //icon: 'pe-7s-id',
+                },
+                resolve: {
+	                
+                }
+            })
+            .state('support.welcome', {
+	            url: "/support/welcome",
+                templateUrl: 'views/Support.html',
+                ncyBreadcrumb: {
+                    label: 'Welcome'
+                },
+                data: {
+                    hasFullContainer: true,
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    'assets/js/pages/blank.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+
 
 
             .state('inbox', {
