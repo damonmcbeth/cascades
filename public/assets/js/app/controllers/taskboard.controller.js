@@ -28,7 +28,12 @@
 				$scope.taskAlias = globalSettings.currWorkspace.Terminology.taskAlias;
 				$scope.projectLabel = globalSettings.currWorkspace.Terminology.projectAlias;
 	        	
-	        	$scope.taskStates = taskService.getTaskStates();
+				taskService.getTaskStates().then(
+					function(list){
+						$scope.taskStates = list;
+					}
+				)
+
 		        $scope.priorities = taskService.priorities;
 		        $scope.taskSchedule = taskService.taskSchedule;
 		        $scope.taskSummary = taskService.taskSummary;

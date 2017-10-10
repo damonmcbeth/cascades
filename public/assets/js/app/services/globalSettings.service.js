@@ -623,7 +623,20 @@
 				firebase.database().ref().update(updates);
 			}
 			
-			
+			self.retrieveWorkspaceTaskStatus = function() {
+				var deferred = $q.defer();
+				
+	        	var lookupKey = "Workspaces/" + self.currWorkspace.$id + "/Settings/Task/states"; 
+				var prefRef = firebase.database().ref().child(lookupKey);
+				
+				var list = $firebaseArray(prefRef);
+				list.$loaded().then( 
+					function(data) {
+						deferred.resolve(list);
+				});
+	        	
+	        	return deferred.promise;
+			}
 			
 			self.selectWrkSpc = function(wrkSpc) {
 				var deferred = $q.defer();

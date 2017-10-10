@@ -56,10 +56,17 @@
 				return result;
 			}
 			
-			
 			self.getTaskStates = function() {
-				var tmp = globalSettings.currWorkspace.Settings.Task.states;
-				return $filter('orderBy')(tmp,'order');
+				var deferred = $q.defer();
+
+				globalSettings.retrieveWorkspaceTaskStatus().then(
+					function(list) {
+						var taskStatusList = $filter('orderBy')(list,'order');
+						deferred.resolve(taskStatusList);
+					}
+				)
+
+				return deferred.promise;
 			}
 			
 			self.getAllTasks = function() {

@@ -32,12 +32,24 @@
             { label: 'In 60 days', value: 60}
         ];
 
+        $scope.taskStatus = null;
+        $scope.taskStatusList = [];
+
         globalSettings.initSettings().then(
 	        function() {
                 $scope.initCurrentPerson();
                 $scope.initPreferences();
+                $scope.initTaskStatusList();
 	        }
         )
+
+        $scope.initTaskStatusList = function() {
+            globalSettings.retrieveWorkspaceTaskStatus().then(
+                function(list) {
+                    $scope.taskStatusList = list;
+                }
+            )
+        }
 
         $scope.initPreferences = function() {
             $scope.currWorkspace = globalSettings.currWorkspace;
@@ -85,15 +97,45 @@
                     label: $scope.newTaskStatus,
                     order: 1
                 };
-    
-                var list = globalSettings.currWorkspace.Settings.Task.states;
-                console.log(list);
-                //$scope.selectedTask.checklist.push(tmp);
-                //var itemIndex = $scope.selectedTask.checklist.length - 1;
-            
-                //$scope.itemIndex = itemIndex;
+                $scope.newTaskStatus = "";
+
+                $scope.taskStatusList.$add(tmp).then(
+                    function(ref) {
+                        globalSettings.log("settings.controller", "addTaskStatus", "Added task status: " +  ref.key);
+                    }, 
+                    function(error) {
+                        globalSettings.logError("settings.controller", "addTaskStatus", error);
+                        deferred.resolve(orig);
+                });   
             }
         }
+
+        $scope.removeTaskState = function(taskState) {
+            $scope.taskStatusList.$remove(taskState).then(
+                function(ref) {
+                    globalSettings.log("settings.controller", "removeTaskState", "Remove task status: " +  taskState.$id);
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.controller", "removeTaskState", error);
+                    deferred.resolve(orig);
+            });   
+        }
+
+        $scope.sortableOptions = {
+            connectWith: ".connectList",
+            disabled: false,
+            dropId: null,
+            update: function(event, ui) {
+	            console.log("update");
+            },
+            stop: function(event, ui) {
+	            globalSettings.log("task.service", "stop", "stop");
+	            
+	            globalSettings.log("task.service", "stop", "stop.dropId: " + this.dropId);
+	            globalSettings.log("task.service", "stop", "stop.taskId: " + this.taskId);
+	            
+            }
+        };
         
     }
 }());

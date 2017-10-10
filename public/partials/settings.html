@@ -157,17 +157,19 @@
 								</div>
 								
 								<div class="panel-body p-5">
-										<div class="m-b-10 m-t-10" style="min-height: 150px">
-											<div class="p-5" layout="row">
-												<input ng-model="newTaskStatus" class="checklist-item" placeholder="Enter new status" 
-														type="text" flex="100">
+										<div class="m-b-10 m-t-10 sortable-list connectList" ui-sortable="sortableOptions" style="min-height: 150px">
+											<div class="p-5 m-b-10" layout="row">
+												<input ng-model="newTaskStatus" class="checklist-item m-l-10" 
+														placeholder="Enter new status" type="text" flex="100"
+														ng-keydown="$event.keyCode === 13 && addTaskStatus()">
 												
 												<i class="icon pe-7f-plus text-primary f-25 p-5 p-t-10"
 														ng-click="addTaskStatus()" aria-label="Add"></i>
 											</div>	
 											
-											<div ng-repeat="taskState in gs.currWorkspace.Settings.Task.states | orderBy:'order'" class="p-5" layout="row">
-												<i class="pe-7f-menu m-r-10 f-20 text-muted  p-t-10" style="color: #ccc" ng-show="taskState.editable"></i>
+											<div ng-repeat="taskState in taskStatusList | orderBy:'order'" class="p-5 ui-sortable" layout="row"
+												ng-class="{'not-sortable': !taskState.editable}">
+												<i class="pe-7f-menu m-r-10 f-20 text-muted p-t-10" style="color: #ccc; cursor:move" ng-show="taskState.editable"></i>
 												<i class="m-r-10 f-20 p-t-10" ng-hide="taskState.editable" style="width: 20px">&nbsp;</i>
 												<input id="taskStateItem_{{$index}}" ng-model="taskState.label" class="checklist-item" 
 														type="text" flex="100" ng-disabled="!taskState.editable">
@@ -227,3 +229,18 @@
 	    </md-content>
     </div>
 </div>
+
+
+<script>
+	$( function() {
+	  $( "#sortable" ).sortable({
+		revert: true
+	  });
+	  $( "#draggable" ).draggable({
+		connectToSortable: "#sortable",
+		helper: "clone",
+		revert: "invalid"
+	  });
+	  $( "ul, li" ).disableSelection();
+	} );
+</script>

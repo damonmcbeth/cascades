@@ -28,7 +28,11 @@
 	    
 	    $scope.checklistItem;
 	    
-	    $scope.taskStates = taskService.getTaskStates();
+		taskService.getTaskStates().then(
+			function(list){
+				$scope.taskStates = list;
+			}
+		)
 	    
         $scope.selectedTask = taskService.newTask();
         $scope.selectedTaskSrc = null;
