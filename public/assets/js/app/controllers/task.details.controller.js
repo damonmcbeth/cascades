@@ -25,14 +25,9 @@
 	    $scope.showHints = false;
 	    $scope.projects = [];
 	    $scope.people = [];
-	    
+		$scope.taskStates = [];
+		
 	    $scope.checklistItem;
-	    
-		taskService.getTaskStates().then(
-			function(list){
-				$scope.taskStates = list;
-			}
-		)
 	    
         $scope.selectedTask = taskService.newTask();
         $scope.selectedTaskSrc = null;
@@ -40,17 +35,23 @@
         $scope.initView = function() {
 	        var deferred = $q.defer();
 			
-			peopleService.getAllPeople().then(
-				function(people) {
-					$scope.owners = people;
-					
-					projectService.getAllProjects().then(
-						function(projects) {
-							$scope.projects = projects;
-							deferred.resolve(true);	
+			taskService.getTaskStates().then(
+				function(list){
+					$scope.taskStates = list;
+
+					peopleService.getAllPeople().then(
+						function(people) {
+							$scope.owners = people;
+							
+							projectService.getAllProjects().then(
+								function(projects) {
+									$scope.projects = projects;
+									deferred.resolve(true);	
+							});
 					});
-			});
-			    				
+				}
+			)
+
 			return deferred.promise;
         }
                         

@@ -35,21 +35,21 @@
 				$scope.taskAlias = globalSettings.currWorkspace.Terminology.taskAlias;
 				$scope.projAliasPlural = globalSettings.currWorkspace.Terminology.projectAliasPlural;
 				$scope.projectLabel = globalSettings.currWorkspace.Terminology.projectAlias;
-        
+		
+				$scope.priorities = taskService.priorities;
+		        $scope.taskSchedule = taskService.taskSchedule;
+		        $scope.taskSummary = taskService.taskSummary;
+
+				$scope.populateTags();
+
 				taskService.getTaskStates().then(
 					function(list){
 						$scope.taskStates = list;
+						$scope.grouping = $scope.taskStates;
+						$scope.populateTasks();
 					}
 				)
 				
-		        $scope.priorities = taskService.priorities;
-		        $scope.taskSchedule = taskService.taskSchedule;
-		        $scope.taskSummary = taskService.taskSummary;
-		        $scope.grouping = $scope.taskStates;
-        
-				$scope.populateTasks();
-				$scope.populateTags();
-	        	
         });
 		
 		$scope.populateSummary = function() {

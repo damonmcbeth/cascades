@@ -665,62 +665,6 @@
 		    };
 		    
 		    
-		    self.calculateSummary = function(tasks, taskSum, broadcastChange) {
-			    var bc = true;
-			    if (broadcastChange !== undefined) {
-				    bc = broadcastChange;
-			    }
-			    
-		    	//self.determineState(tasks);
-		    	
-		    	taskSum.total = tasks.length;
-		    	taskSum.openTotal = ($filter('filter')(tasks, {isDone:false})).length; 
-		    	taskSum.delegated = taskSum.openTotal - ($filter('filter')(tasks, {delegateId:null, isDone:false})).length;
-			    
-			    taskSum.priority.high = ($filter('filter')(tasks, {priority:'H'})).length;
-			    taskSum.priority.medium = ($filter('filter')(tasks, {priority:'M'})).length;
-			    taskSum.priority.low = ($filter('filter')(tasks, {priority:'L'})).length;
-			    taskSum.priority.none = ($filter('filter')(tasks, {priority:'N'})).length;
-			    
-			    //'Overdue,Due today,Due soon,Due later,No due date'
-			    taskSum.state.overdue = ($filter('filter')(tasks, {state:'Overdue', isDone:false})).length;
-			    taskSum.state.dueToday = ($filter('filter')(tasks, {state:'Due today', isDone:false})).length;
-			    taskSum.state.dueSoon = ($filter('filter')(tasks, {state:'Due soon', isDone:false})).length;
-			    taskSum.state.dueLater = ($filter('filter')(tasks, {state:'Due later', isDone:false})).length;
-			    taskSum.state.noDueDate = ($filter('filter')(tasks, {state:'No due date', isDone:false})).length;
-			    taskSum.state.done = ($filter('filter')(tasks, {isDone:true})).length;
-			    
-			    
-			    var i=0;
-			    var status = [];
-			    var cnt = 0;
-			    var tmp = globalSettings.pref.task.states;
-			    for (i=0; i<tmp.length; i++) {
-			    	cnt = ($filter('filter')(tasks, {status:tmp[i].label})).length;
-			    	status.push({data: cnt, label: tmp[i].label});
-			    }
-			    taskSum.status = status;
-			    
-			    
-			    var proj = [];
-			    cnt = 0;
-			    tmp = projectService.allProjects;
-			    for (i=0; i<tmp.length; i++) {
-			    	cnt = ($filter('filter')(tasks, {project:{id: tmp[i].id}, isDone:false})).length;
-			    	proj.push({data: cnt, label: tmp[i].title});
-			    }
-			    
-			    cnt = ($filter('filter')(tasks, {project:{id: null}, isDone:false})).length;
-			    proj.push({data: cnt, label: projectService.notAssigned.title});
-			
-			    taskSum.project = proj;
-			    
-			    if (bc) {
-			    	self.broadcastChange();
-			    }
-			    
-		    };
-		    
 		    self.determineHighlightTasks = function() {
 				var found = false;
 				

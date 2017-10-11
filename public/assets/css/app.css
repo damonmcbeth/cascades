@@ -1419,6 +1419,10 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+.not-sortable {
+  cursor:not-allowed !important;
+}
+
 .activity-document-icon {
 	background-color: #f3f3f3;
 	padding: 10px;

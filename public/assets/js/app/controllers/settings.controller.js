@@ -121,19 +121,40 @@
             });   
         }
 
+        $scope.updateTaskState = function(taskState) {
+            $scope.taskStatusList.$save(taskState).then(
+                function(ref) {
+                    globalSettings.log("settings.controller", "updateTaskState", "Updated task status: " +  taskState.$id);
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.controller", "updateTaskState", error);
+                    deferred.resolve(orig);
+            });   
+        }
+
+        $scope.updateOrder = function() {
+            var i = 0;
+            var len = $scope.taskStatusList.length;
+            var result = [];
+            var item = null;
+
+            console.log("PRINTING ORDER");
+            for (i=0; i<len; i++) {
+                item = $scope.taskStatusList[i];
+                console.log(i + ". " + item.label + " ORDER:" + item.order);
+                if (item.order != i) {
+                    item.neworder = i;
+                    result.push(item);
+                }
+            }
+            console.log("DONE");
+        }
+
         $scope.sortableOptions = {
-            connectWith: ".connectList",
-            disabled: false,
-            dropId: null,
-            update: function(event, ui) {
-	            console.log("update");
-            },
+            connectWith: ".connectTaskStateList",
             stop: function(event, ui) {
-	            globalSettings.log("task.service", "stop", "stop");
-	            
-	            globalSettings.log("task.service", "stop", "stop.dropId: " + this.dropId);
-	            globalSettings.log("task.service", "stop", "stop.taskId: " + this.taskId);
-	            
+                globalSettings.log("settings.controller", "stop", "stop");
+	            $scope.updateOrder();
             }
         };
         

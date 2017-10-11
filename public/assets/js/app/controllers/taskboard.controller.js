@@ -28,18 +28,10 @@
 				$scope.taskAlias = globalSettings.currWorkspace.Terminology.taskAlias;
 				$scope.projectLabel = globalSettings.currWorkspace.Terminology.projectAlias;
 	        	
-				taskService.getTaskStates().then(
-					function(list){
-						$scope.taskStates = list;
-					}
-				)
-
 		        $scope.priorities = taskService.priorities;
 		        $scope.taskSchedule = taskService.taskSchedule;
 		        $scope.taskSummary = taskService.taskSummary;
 		        
-		        $scope.grouping = $scope.taskStates;
-        
 		        $scope.viewByFld = 'Status';
 		        $scope.orderByFld = 'due';
 				$scope.selectMode = false;
@@ -54,23 +46,29 @@
 		        $scope.sumLegend = [];
 				$scope.chartOptions = { colors : globalSettings.pref.colors, 
 										responsive : false };
-	        	
-	        	$scope.populateTasks().then(
-		        	function(cont) {
-			        	$scope.populateProjects().then(
-				        	function(projLoaded) {
-								$scope.populatePeople();
-								$scope.populateTags();
-	        	
-					        	var defaultGroup = globalSettings.currPreferences.Settings.Task.taskBoardGroup;
-						        defaultGroup = (defaultGroup == "Project") ? $scope.projectLabel : defaultGroup;
-						        
-						        $scope.updateViewBy(defaultGroup);
-						        $scope.updateOrderBy(globalSettings.currPreferences.Settings.Task.taskBoardOrder);
-				        });
-		        	}
-	        	)
-	        	
+				
+				taskService.getTaskStates().then(
+					function(list){
+						$scope.taskStates = list;
+						$scope.grouping = $scope.taskStates;
+
+						$scope.populateTasks().then(
+							function(cont) {
+								$scope.populateProjects().then(
+									function(projLoaded) {
+										$scope.populatePeople();
+										$scope.populateTags();
+						
+										var defaultGroup = globalSettings.currPreferences.Settings.Task.taskBoardGroup;
+										defaultGroup = (defaultGroup == "Project") ? $scope.projectLabel : defaultGroup;
+										
+										$scope.updateViewBy(defaultGroup);
+										$scope.updateOrderBy(globalSettings.currPreferences.Settings.Task.taskBoardOrder);
+								});
+						})
+					}
+				)
+
 		});
 		
 		$scope.populateTags = function() {
@@ -89,8 +87,7 @@
 					$scope.taskList = tasks;
 					deferred.resolve(true);
 			});    
-			    
-			    				
+							
 			return deferred.promise;
 		}
         

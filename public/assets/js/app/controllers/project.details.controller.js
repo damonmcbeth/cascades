@@ -60,9 +60,7 @@
 	        	$scope.selectedProjectSrc = project;
 	        	$scope.selectedProject = project;
 	        	
-	        	//$scope.taskGrouping = globalSettings.currWorkspace.Settings.Task.states;
 	        	$scope.retrieveTasks(project.$id);
-	        	//$scope.retrieveClients(project);
 	        	$scope.refreshActivity();
 	        	
 	        	//actType, tar, tarId, tarType, pers, proj, detail1, detail2
@@ -79,26 +77,31 @@
         }
         
         $scope.retrieveTasks = function(projId) {
-	        taskService.getTasksForProject(projId).then(
-		        function(tasks) {
-			        var i = 0;
-					var tmpGrouping = [];
-					
-					var orderedList = globalSettings.currWorkspace.Settings.Task.states;
-					var len = orderedList.length;
-					var cnt;
-					
-					for (i=0; i<len; i++) {
-						cnt = ($filter('filter')(tasks, $scope.getFilter(orderedList[i]))).length;
-						if (cnt > 0) {
-							tmpGrouping.uniquePush(orderedList[i]);
+			taskService.getTaskStates().then(
+				function(list){
+					var orderedList = list;
+
+					taskService.getTasksForProject(projId).then(
+						function(tasks) {
+							var i = 0;
+							var tmpGrouping = [];
+							
+							var len = orderedList.length;
+							var cnt;
+							
+							for (i=0; i<len; i++) {
+								cnt = ($filter('filter')(tasks, $scope.getFilter(orderedList[i]))).length;
+								if (cnt > 0) {
+									tmpGrouping.uniquePush(orderedList[i]);
+								}
+							}
+							
+							$scope.taskGrouping = tmpGrouping;
+							$scope.tasks = tasks;
 						}
-					}
-					
-					$scope.taskGrouping = tmpGrouping;
-					$scope.tasks = tasks;
-		        }
-	        )
+					)
+				}
+			)
         }
         
         $scope.getFilter = function(val) {

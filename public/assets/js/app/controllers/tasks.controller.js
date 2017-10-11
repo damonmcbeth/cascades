@@ -37,7 +37,11 @@
 	    
 		    $scope.projects = projectService.allProjects;
 		    
-		    $scope.taskStates = globalSettings.currWorkspace.Settings.Task.states;
+			taskService.getTaskStates().then(
+				function(list){
+					$scope.taskStates = list;
+				}
+			)
 		    
 		}
         

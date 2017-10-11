@@ -256,24 +256,28 @@
 		    
 		    self.calculateTaskBoardSummary = function(srcTasks, person) {
 			    var deferred = $q.defer();
-			    			    
-		    	self.getProjects().then(
-			    	function(projects) {
-				    	var tasks = ($filter('filter')(srcTasks, {ownerId:person}));
-						var taskSum = self.buildTaskSummary(tasks);
-						
-						var tot = tasks.length;
-						var len = projects.length;
-						var val;
-						
-						for (var i=0; i<len; i++) {
-							val = ($filter('filter')(tasks, {projectId:projects[i].$id})).length;
-							taskSum.details.push({type: 'project', order: i, label: projects[i].title, data: val, percent: self.calPercentage(val, tot)});
-						}
-						
-						deferred.resolve(taskSum);
-			    	}
-		    	)
+							
+				globalSettings.retrieveWorkspaceTaskStatus().then(
+					function(taskStates) {
+						self.getProjects().then(
+							function(projects) {
+								var tasks = ($filter('filter')(srcTasks, {ownerId:person}));
+								var taskSum = self.buildTaskSummary(tasks, taskStates);
+								
+								var tot = tasks.length;
+								var len = projects.length;
+								var val;
+								
+								for (var i=0; i<len; i++) {
+									val = ($filter('filter')(tasks, {projectId:projects[i].$id})).length;
+									taskSum.details.push({type: 'project', order: i, label: projects[i].title, data: val, percent: self.calPercentage(val, tot)});
+								}
+								
+								deferred.resolve(taskSum);
+							}
+						)
+					}
+				)
 		    	
 		    	return deferred.promise;
 			    
@@ -343,7 +347,7 @@
 			    return result;
 		    }
 		    
-		    self.buildTaskSummary = function(tasks) {
+		    self.buildTaskSummary = function(tasks, taskStates) {
 			    var taskSum = {};
 			    var val;
 			    var tot = tasks.length;
@@ -377,10 +381,9 @@
 			    val = ($filter('filter')(tasks, {isDone:true})).length;
 			    taskSum.details.push({type: 'state', order: 6, label: 'Done', data: val, percent: self.calPercentage(val, tot)});
 			    
-			    var tmp = globalSettings.currWorkspace.Settings.Task.states;
-			    for (var i=0; i<tmp.length; i++) {
-				    val = ($filter('filter')(tasks, {status:tmp[i].label})).length;
-				    taskSum.details.push({type: 'status', order: tmp[i].order, label: tmp[i].label, data: val, percent: self.calPercentage(val, tot)});
+			    for (var i=0; i<taskStates.length; i++) {
+				    val = ($filter('filter')(tasks, {status:taskStates[i].label})).length;
+				    taskSum.details.push({type: 'status', order: taskStates[i].order, label: taskStates[i].label, data: val, percent: self.calPercentage(val, tot)});
 			    }
 			    
 			    return taskSum;
@@ -410,18 +413,20 @@
 				    function(project) {
 					    self.getTasksForProject(projId).then(
 						    function(tasks) {
-							    var taskSum = self.buildTaskSummary(tasks);
-							    							    
-							    self.saveProjectSummary(project, taskSum).then(
-								    function(r1) {
-									    self.updateProjectPerComp(project, taskSum.perComp, taskSum.openTotal);
-									    self.updateActiveAccessActivity(project, taskSum.perComp);
-									    
-									    deferred.resolve(true);
-								    }
-							    )
-							    
-							    
+								globalSettings.retrieveWorkspaceTaskStatus().then(
+									function(taskStates) {
+										var taskSum = self.buildTaskSummary(tasks, taskStates);
+																		
+										self.saveProjectSummary(project, taskSum).then(
+											function(r1) {
+												self.updateProjectPerComp(project, taskSum.perComp, taskSum.openTotal);
+												self.updateActiveAccessActivity(project, taskSum.perComp);
+												
+												deferred.resolve(true);
+											}
+										)
+									}
+								)
 						    });
 				    });
 				    

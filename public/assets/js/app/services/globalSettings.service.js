@@ -627,7 +627,7 @@
 				var deferred = $q.defer();
 				
 	        	var lookupKey = "Workspaces/" + self.currWorkspace.$id + "/Settings/Task/states"; 
-				var prefRef = firebase.database().ref().child(lookupKey);
+				var prefRef = firebase.database().ref().child(lookupKey).orderByChild("order");
 				
 				var list = $firebaseArray(prefRef);
 				list.$loaded().then( 
