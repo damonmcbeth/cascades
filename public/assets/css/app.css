@@ -1419,8 +1419,16 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
-.not-sortable {
+.datetimepicker {
+  margin-top: -25px !important;
+}
+
+.last-sortable {
   cursor:not-allowed !important;
+}
+
+input.not-sortable {
+  border-bottom-style: none !important;
 }
 
 .activity-document-icon {
@@ -2366,6 +2374,15 @@ md-radio-button ._md-off {
 md-input-container {
     margin-bottom: 0px;
     padding-bottom: 20px;
+}
+
+.md-autocomplete-suggestions-container.md-default-theme li .highlight, .md-autocomplete-suggestions-container li .highlight {
+  color: #900000 !important;
+}
+
+.md-autocomplete-suggestions-container{
+  margin-top: 2em;
+  width:auto;
 }
 
 md-radio-group {

@@ -18,6 +18,8 @@
             'ngAnimate',
             'ngSanitize',
             'firebase', 
-            'cfp.hotkeys'
+            'cfp.hotkeys',
+            'ui.bootstrap.datetimepicker',
+            'datetime'
         ]);
 }());

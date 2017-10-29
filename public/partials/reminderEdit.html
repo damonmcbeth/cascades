@@ -37,22 +37,30 @@
 				        	ng-change="handleAllDayChanged()">
 				          All day
 				        </md-switch>
-				        
-						<md-input-container class="md-block" ng-hide="selectedEntry.allday">
+
+						<md-input-container class="md-block p-b-0" flex="100" ng-hide="selectedEntry.allday">
 							<label>Start</label>
-							<input mdc-datetime-picker date="true" time="true" type="text" id="startdatetime"
-								ng-model="selectedEntry.start" class="md-input" ok-text="Next" short-time="true" ng-change="handleStartChanged()"
-								format="ddd, MMMM D, YYYY,  h:mma" today-text="Now" show-todays-date required>
-							
+							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
+								<input id="startdatetime" type="text" ng-model="selectedEntry.start" ng-disabled="false"
+									class="md-input " datetime="EEE, MMMM d, yyyy, h:mma" ng-change="handleStartChanged()"></input>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="selectedEntry.start"
+												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
+							</ul>
 						</md-input-container>
-						
-						<md-input-container class="md-block" ng-show="selectedEntry.allday">
+
+						<md-input-container class="md-block p-b-0" flex="100" ng-show="selectedEntry.allday">
 							<label>Start</label>
-							<input mdc-datetime-picker date="true" time="false" type="text" id="startdate"
-								ng-model="selectedEntry.start" class="md-input" ok-text="Ok" short-time="true" ng-change="handleStartChanged()"
-								format="ddd, MMMM D, YYYY" today-text="Today" show-todays-date required>
-							
-						</md-input-container>					  	
+							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
+								<input id="startdatetime" type="text" ng-model="selectedEntry.start" ng-disabled="false"
+									class="md-input " datetime="EEE, MMMM d, yyyy" ng-change="handleStartChanged()"></input>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="selectedEntry.start"
+												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
+							</ul>
+						</md-input-container>
 
 						<md-input-container class="md-block" ng-hide="selectedEntry.allday">
 							<label>End</label>
@@ -76,7 +84,7 @@
 				          Repeat reminder
 				        </md-switch>
 				        
-				        <div layout="row p-b-20" ng-show="selectedEntry.repeat">
+				        <div layout="row" ng-show="selectedEntry.repeat">
 							<md-input-container class="md-block">
 								<label>Every</label>
 						  		<md-select ng-model="selectedEntry.everyCount">
@@ -84,39 +92,31 @@
 					                {{everyCnt}}
 					              </md-option>
 					            </md-select>
-						  	</md-input-container>
+							</md-input-container>
+							  
 						  	<md-input-container class="md-block">
 						  		<md-select ng-model="selectedEntry.everyInterval" aria-label="Every interval">
-					              <md-option ng-repeat="eInt in ['days', 'weeks', 'months', 'years'] " ng-value="eInt" >
+					              <md-option ng-repeat="eInt in ['day(s)', 'week(s)', 'month(s)', 'year(s)'] " ng-value="eInt" >
 					                {{eInt}}
 					              </md-option>
 					            </md-select>
-						  	</md-input-container>
-					  	</div>
-					  	
-					  	<md-input-container class="md-block" ng-show="selectedEntry.repeat">
-							<label>Until</label>
-							<input mdc-datetime-picker date="true" time="false" type="text" id="untildatetime"
-								ng-model="selectedEntry.until" class="md-input" ok-text="Next" short-time="true"
-								format="ddd, MMMM D, YYYY" today-text="Now" show-todays-date>
-							
-						</md-input-container>
+							</md-input-container>
 
+							<md-input-container class="md-block m-l-20" flex="100">
+								<label>Until</label>
+								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
+									<input id="untildatetime" type="text" ng-model="selectedEntry.until" ng-disabled="false"
+										class="md-input " datetime="EEE, MMM d, yyyy"></input>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="left: -145px">
+									<datetimepicker data-ng-model="selectedEntry.until"
+													data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
+								</ul>
+							</md-input-container>
+						</div>
+						<div id="full-calendar" ng-show="selectedEntry.repeat"></div>  
 		            </div>
 		        </div>
-		        
-		        <div class="panel panel-tags collapsed" ng-show="selectedEntry.repeat">
-					<div class="panel-heading">
-		                <h3 class="panel-title">Schedule</h3>
-		                <div class="panel-tools">
-		                    <panel-collapse></panel-collapse>
-		                </div>
-		            </div>
-		            <div class="panel-body"  style="display: none;">
-					 	
-
-		            </div>
-				</div>
 				
 				<div class="panel panel-notes collapsed">
 					<div class="panel-heading">

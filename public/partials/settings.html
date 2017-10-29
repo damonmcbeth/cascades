@@ -96,6 +96,41 @@
 		        <md-tab-body>
 		        	<div class="f-14">
 						<md-content class="p-10" style="height: 100%; width: 100%; background-color: #f1f3f2" ng-show="!showDetails">
+							
+							<div class="panel panel-inverse">
+								<div class="panel-heading">
+									<h3 class="panel-title">{{gs.currWorkspace.Terminology.taskAlias}} Status</h3>
+								</div>
+								
+								<div class="panel-body p-5">
+										<div class="m-b-10 m-t-10"   style="min-height: 150px">
+											<div class="p-5 m-b-10" layout="row">
+												<input ng-model="newTaskStatus" class="checklist-item m-l-10" 
+														placeholder="Enter new status" type="text" flex="100"
+														ng-keydown="$event.keyCode === 13 && addTaskStatus()">
+												
+												<i class="icon pe-7f-plus text-primary f-25 p-5 p-t-10"
+														ng-click="addTaskStatus()" aria-label="Add"></i>
+											</div>	
+											
+											<div ui-sortable="sortableOptions" ng-model="taskStatusList" class="connectTaskStateList sortable-list">
+												<div ng-repeat="taskState in taskStatusList" class="p-5 ui-sortable" layout="row"
+													ng-class="{'not-sortable': !taskState.editable, 'last-sortable': $last}" style="background-color: #fff">
+													<i class="pe-7f-menu m-r-10 f-20 text-muted p-t-10" style="color: #ccc; cursor:move" ng-hide="$last"></i>
+													<i class="m-r-10 f-20 p-t-10" ng-show="$last" style="width: 20px">&nbsp;</i>
+													<input id="taskStateItem_{{$index}}" ng-model="taskState.label" class="checklist-item" 
+														ng-class="{'not-sortable': !taskState.editable}" style="font-weight: 400 !important"
+														type="text" flex="100" ng-disabled="!taskState.editable" ng-blur="updateTaskState(taskState)">
+													<i class="icon pe-7s-less text-muted f-25 p-5 p-t-10" ng-hide="taskState.editable"></i>
+
+													<i class="icon pe-7s-close-circle text-danger f-25 p-5 p-t-10" ng-show="taskState.editable"
+															ng-click="removeTaskState(taskState)" aria-label="Delete"></i>
+												</div>
+											</div>	
+										</div>
+								</div>
+							</div>
+
 							<div class="panel panel-default">
 								<div class="panel-body">
 
@@ -110,7 +145,8 @@
 									<md-slider-container class="m-b-20">
 										<md-input-container>
 											<input flex type="number" ng-model="currPreferences.Settings.Task.soon" aria-label="due soon" 
-												ng-change="updateUserPreferences()" aria-controls="red-slider">
+												ng-change="updateUserPreferences()" aria-controls="red-slider"
+												style="width: 60px">
 										</md-input-container>
 										
 										<span class="m-r-10">days</span>
@@ -123,7 +159,7 @@
 
 							<div class="panel panel-default">
 								<div class="panel-body">
-									<label>List default grouping</label>
+									<label>Quick list default grouping</label>
 									<md-input-container class="md-block">	
 										<md-radio-group ng-model="currPreferences.Settings.Task.quickGroup" layout="row" ng-change="updateUserPreferences()">
 											<md-radio-button value="{{g1.value}}" class="md-primary"
@@ -133,7 +169,7 @@
 
 									<md-divider class="m-b-20"></md-divider>
 	
-									<label>Board default grouping</label>
+									<label>{{gs.currWorkspace.Terminology.taskAlias}} board default grouping</label>
 									<md-input-container class="md-block">
 										<md-radio-group ng-model="currPreferences.Settings.Task.taskBoardGroup" layout="row" ng-change="updateUserPreferences()">
 											<md-radio-button value="{{g2.value}}" class="md-primary"
@@ -141,45 +177,13 @@
 										</md-radio-group>
 									</md-input-container>
 
-									<label>Board default sorting</label>
+									<label>{{gs.currWorkspace.Terminology.taskAlias}} board default sorting</label>
 									<md-input-container class="md-block">
 										<md-radio-group ng-model="currPreferences.Settings.Task.taskBoardOrder" layout="row" ng-change="updateUserPreferences()">
 											<md-radio-button value="{{g2.value}}" class="md-primary"
 												ng-repeat="g2 in defaultGroupings">{{g2.label}}</md-radio-button>
 										</md-radio-group>
 									</md-input-container>
-								</div>
-							</div>
-							
-							<div class="panel panel-inverse">
-								<div class="panel-heading">
-									<h3 class="panel-title">{{gs.currWorkspace.Terminology.taskAlias}} Status</h3>
-								</div>
-								
-								<div class="panel-body p-5">
-										<div class="m-b-10 m-t-10 sortable-list connectTaskStateList" ui-sortable="sortableOptions" ng-model="taskStatusList" style="min-height: 150px">
-											<div class="p-5 m-b-10" layout="row">
-												<input ng-model="newTaskStatus" class="checklist-item m-l-10" 
-														placeholder="Enter new status" type="text" flex="100"
-														ng-keydown="$event.keyCode === 13 && addTaskStatus()">
-												
-												<i class="icon pe-7f-plus text-primary f-25 p-5 p-t-10"
-														ng-click="addTaskStatus()" aria-label="Add"></i>
-											</div>	
-											
-											<div ng-repeat="taskState in taskStatusList" class="p-5 ui-sortable" layout="row"
-												ng-class="{'not-sortable': !taskState.editable}" style="background-color: #fff">
-												<i class="pe-7f-menu m-r-10 f-20 text-muted p-t-10" style="color: #ccc; cursor:move" ng-show="taskState.editable"></i>
-												<i class="m-r-10 f-20 p-t-10" ng-hide="taskState.editable" style="width: 20px">&nbsp;</i>
-												<input id="taskStateItem_{{$index}}" ng-model="taskState.label" class="checklist-item" 
-													ng-class="{'not-sortable': !taskState.editable}"
-													type="text" flex="100" ng-disabled="!taskState.editable" ng-blur="updateTaskState(taskState)">
-												<i class="icon pe-7s-less text-muted f-25 p-5 p-t-10" ng-hide="taskState.editable"></i>
-
-												<i class="icon pe-7s-close-circle text-danger f-25 p-5 p-t-10" ng-show="taskState.editable"
-														ng-click="removeTaskState(taskState)" aria-label="Delete"></i>
-											</div>	
-										</div>
 								</div>
 							</div>
 						</md-content>

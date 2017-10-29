@@ -41,53 +41,69 @@
 				              </md-option>
 				            </md-select>
 					  	</md-input-container>
-				        
-				        <div layout="row p-b-20">
+						
+						<div layout="row p-b-20">
 							<md-input-container class="md-block p-b-0" flex="100">
 								<label>Date</label>
-								<input mdc-datetime-picker date="true" time="true" type="text" id="duedatetime"
-									ng-model="selectedEntry.start" class="md-input" ok-text="Next" short-time="true"
-									format="ddd, MMMM D, YYYY,  h:mma" today-text="Now" show-todays-date >
-								
+								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
+									<input id="duedatetime" type="text" ng-model="selectedEntry.start" ng-disabled="false"
+										class="md-input " datetime="EEE, MMMM d, yyyy, h:mma"></input>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+									<datetimepicker data-ng-model="selectedEntry.start"
+													data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
+								</ul>
 							</md-input-container>
-							<i class="icon pe-7s-close text-muted f-25 p-5 m-t-15" ng-show="selectedEntry.start != null"
-									ng-click="clearStartDate()" aria-label="Clear"></i>
-					  	</div>
+							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-show="selectedEntry.start != null"
+										ng-click="clearStartDate()" aria-label="Clear"></i>
+						</div>
 					  	
 					  	<md-input-container class="md-block p-b-20">
 				            <label>Duration (mins)</label>
 				            <input ng-model="selectedEntry.duration" type="number" step="5.00">
 				        </md-input-container>
 					  	
-					  	<div layout="row p-b-20">					  
-						  	<md-input-container class="md-block" flex="100">
-				          		<label>Direct Message For</label>
-						  		<md-select ng-model="selectedEntry.target" ng-model-options="{trackBy: '$value.$id'}">
-						  		  <md-option value="{{null}}">
-							        Unassigned
-							      </md-option>
-					              <md-option ng-repeat="owner in owners | filter:{type:'Team member'} | orderBy: 'name' " ng-value="owner" >
-					                {{owner.name}}
-					              </md-option>
-					            </md-select>
-						  	</md-input-container>
-						  	<div class="p-l-15 p-t-15" ng-hide="selectedEntry.target == null">
-							  	<avatar size="sm" img="selectedEntry.target.avatar" state="selectedEntry.target.state" 
-							  		name="selectedEntry.target.name" type="selectedEntry.target.avatarType"></avatar> 
+						<div layout="row p-b-20">
+							<md-autocomplete flex
+								md-selected-item="selectedEntry.target"
+								md-search-text="ownerSearchText"
+								md-items="owner in owners | filter:{name:ownerSearchText} | orderBy: 'name' "
+								md-item-text="owner.name"
+								md-autoselect="true"
+								md-input-name="ownerautocompleteField"
+								md-require-match
+								md-floating-label="Direct message for">
+								<md-item-template>
+									<span md-highlight-text="ownerSearchText" md-highlight-flags="^i">{{owner.name}}</span>
+								</md-item-template>
+								<md-not-found>
+									No owners matching "{{ownerSearchText}}" were found.
+								</md-not-found>
+							</md-autocomplete>
+							<div class="p-l-15 p-t-15" ng-hide="selectedEntry.target == null">
+								<avatar size="sm" img="selectedEntry.target.avatar" state="selectedEntry.target.state" 
+									name="selectedEntry.target.name" type="selectedEntry.target.avatarType"></avatar> 
 							</div>
 						</div>
-						
-						<md-input-container class="md-block">
-				        	<label>{{gs.currWorkspace.Terminology.projectAlias}}</label>
-						  	<md-select ng-model="selectedEntry.project" ng-model-options="{trackBy: '$value.$id'}">
-						  		<md-option value="{{null}}">
-							        None
-							    </md-option>
-					            <md-option ng-repeat="proj in projects | orderBy: 'title'" ng-value="proj" >
-					                {{proj.title}}
-					            </md-option>
-					        </md-select>
-						</md-input-container>
+
+						<div layout="row p-b-20">
+							<md-autocomplete flex
+								md-selected-item="selectedEntry.project"
+								md-search-text="projectSearchText"
+								md-items="proj in projects | filter:{title:projectSearchText} | orderBy: 'title' "
+								md-item-text="proj.title"
+								md-autoselect="true"
+								md-input-name="projectautocompleteField"
+								md-require-match
+								md-floating-label="{{gs.currWorkspace.Terminology.projectAlias}}">
+								<md-item-template>
+									<span md-highlight-text="projectSearchText" md-highlight-flags="^i">{{proj.title}}</span>
+								</md-item-template>
+								<md-not-found>
+									No project matching "{{projectSearchText}}" were found.
+								</md-not-found>
+							</md-autocomplete>
+						</div>
 						
 						
 		            </div>
@@ -128,7 +144,6 @@
 				        </div>
 		            
 			            <div>
-							
 							<div id="progressBar" ng-show="showProgress">
 								<md-progress-linear md-mode="indeterminate" ng-disabled="disabled"></md-progress-linear>
 							</div>

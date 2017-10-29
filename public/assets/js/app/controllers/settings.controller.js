@@ -34,6 +34,7 @@
 
         $scope.taskStatus = null;
         $scope.taskStatusList = [];
+        $scope.taskStatusListSrc = [];
 
         globalSettings.initSettings().then(
 	        function() {
@@ -46,7 +47,8 @@
         $scope.initTaskStatusList = function() {
             globalSettings.retrieveWorkspaceTaskStatus().then(
                 function(list) {
-                    $scope.taskStatusList = list;
+                    $scope.taskStatusListSrc = list;
+                    $scope.refreshTaskStatusList();
                 }
             )
         }
@@ -90,6 +92,11 @@
            //peopleService.resetPassword($scope.currPerson);
         }
 
+        $scope.refreshTaskStatusList = function() {
+            $scope.taskStatusList = [];
+            $scope.taskStatusList.pushAll($scope.taskStatusListSrc);
+        }
+
         $scope.addTaskStatus = function() {
             if ($scope.newTaskStatus != null && $scope.newTaskStatus != "") {
                 var tmp = {
@@ -99,9 +106,10 @@
                 };
                 $scope.newTaskStatus = "";
 
-                $scope.taskStatusList.$add(tmp).then(
+                $scope.taskStatusListSrc.$add(tmp).then(
                     function(ref) {
                         globalSettings.log("settings.controller", "addTaskStatus", "Added task status: " +  ref.key);
+                        $scope.refreshTaskStatusList();
                     }, 
                     function(error) {
                         globalSettings.logError("settings.controller", "addTaskStatus", error);
@@ -111,9 +119,10 @@
         }
 
         $scope.removeTaskState = function(taskState) {
-            $scope.taskStatusList.$remove(taskState).then(
+            $scope.taskStatusListSrc.$remove(taskState).then(
                 function(ref) {
                     globalSettings.log("settings.controller", "removeTaskState", "Remove task status: " +  taskState.$id);
+                    $scope.refreshTaskStatusList();
                 }, 
                 function(error) {
                     globalSettings.logError("settings.controller", "removeTaskState", error);
@@ -122,7 +131,7 @@
         }
 
         $scope.updateTaskState = function(taskState) {
-            $scope.taskStatusList.$save(taskState).then(
+            $scope.taskStatusListSrc.$save(taskState).then(
                 function(ref) {
                     globalSettings.log("settings.controller", "updateTaskState", "Updated task status: " +  taskState.$id);
                 }, 
@@ -138,24 +147,25 @@
             var result = [];
             var item = null;
 
-            console.log("PRINTING ORDER");
+            //console.log("PRINTING ORDER");
             for (i=0; i<len; i++) {
                 item = $scope.taskStatusList[i];
                 console.log(i + ". " + item.label + " ORDER:" + item.order);
                 if (item.order != i) {
-                    item.neworder = i;
-                    result.push(item);
+                    item.order = i;
+                    $scope.taskStatusListSrc.$save(item);
                 }
             }
-            console.log("DONE");
+            //console.log("DONE");
         }
 
         $scope.sortableOptions = {
             connectWith: ".connectTaskStateList",
             stop: function(event, ui) {
                 globalSettings.log("settings.controller", "stop", "stop");
-	            $scope.updateOrder();
-            }
+                $scope.updateOrder();
+            },
+            items: "div:not(.last-sortable)"
         };
         
     }

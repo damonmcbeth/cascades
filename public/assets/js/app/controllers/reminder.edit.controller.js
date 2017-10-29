@@ -124,15 +124,56 @@
 		    		
 		    	reminderService.findEntry(globalNav.actionArg).then(
 		    		function(entry) {
-		    			$scope.openDetails(entry);
+						$scope.openDetails(entry);
+						$scope.initilizeCalendar();
 		    	});
 	    	} else if (globalNav.action == globalNav.ACTION_REMINDER_NEW) {
-		    	$scope.openDetails(null);
+				$scope.openDetails(null);
+				$scope.initilizeCalendar();
 	    	} 
 	    	
 	    	globalNav.clearAction();
     	}
-    	
+		
+		$scope.initilizeCalendar = function() {
+        	$(document).ready(function() {
+	        
+	            $('#full-calendar').fullCalendar({
+	                header: {
+	                    left: 'prev,next today',
+						center: 'title',
+						right: ''
+	                    //right: 'month,agendaWeek,basicDay'
+	                },
+	                editable: false,
+	                allDayText: "All day",
+	                eventLimit: true,
+	                businessHours: true,
+					navLinks: false,
+					timezone: "local",
+	                droppable: false,
+	                events: [
+						{
+							start: $scope.selectedEntry.start,
+							end: $scope.selectedEntry.end,
+							rendering: 'background'
+						}
+					]
+	                
+	            });
+	
+	            $('.fc-toolbar').find('.fc-button-group').addClass('btn-group');
+	            $('.fc-toolbar').find('.fc-button').addClass('btn btn-inverse');
+	            $('.fc-toolbar').find('.fc-prev-button').html($('<span />').attr('class', 'fa fa-angle-left'));
+	            $('.fc-toolbar').find('.fc-next-button').html($('<span />').attr('class', 'fa fa-angle-right'));
+	            
+	            $timeout(function () {
+			        $('#full-calendar').fullCalendar('render');
+			    }, 1000);
+			});
+    	}
+
+
     	$scope.clearStartDate = function() {
 	    	$scope.selectedEntry.start = null;
     	}
