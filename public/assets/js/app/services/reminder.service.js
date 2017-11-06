@@ -83,7 +83,7 @@
 		            end: moment().startOf('hour').add(1, 'hours').toDate(),
 		            repeat: false,
 		            everyCount: 1,
-		            everyInterval: "week(s)", 
+		            everyInterval: "weeks", 
 		            until: moment().add(1, 'months').toDate(),
 		            archived: false,
 		            notes: null

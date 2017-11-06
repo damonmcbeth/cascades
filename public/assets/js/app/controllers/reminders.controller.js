@@ -76,8 +76,8 @@
 						allDay: entry.allday,
 						type: "Reminder",
 						$id: entry.$id,	
-						borderColor: '#6f2828',
-						backgroundColor: '#ecd0d0'
+						borderColor: '#007982',
+						backgroundColor: '#caeaec'
 				};	
 				
 				reminders.push(tmp);
@@ -112,7 +112,7 @@
 									start: task.due,
 									type: "Task",
 									$id: task.$id,
-									backgroundColor: '#caeaec' 
+									backgroundColor: '#ddd' //'#caeaec' 
 								};
 								
 							reminders.push(tmp);

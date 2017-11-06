@@ -17,7 +17,9 @@
         $scope.gs = globalSettings;
         
         $scope.isEdit = true;
-        $scope.showHints = false;
+		$scope.showHints = false;
+		
+		$scope.calendarInit = false;
         
         $scope.dateFormat = "ddd, MMMM D, YYYY,  h:mma";
         
@@ -65,7 +67,8 @@
 				        reminderService.initEntry(tmp).then(
 					        function(initedEntry) {
 						    	$scope.selectedEntry = initedEntry;
-						    	$scope.setDefaultFocus();
+								$scope.setDefaultFocus();
+								$scope.refreshCalendar();
 					        }
 				        )
 				        
@@ -77,7 +80,8 @@
 							        function(tags) {
 								        clonedEntry.tags = tags;
 								        $scope.selectedEntry = clonedEntry;
-								        $scope.setDefaultFocus();
+										$scope.setDefaultFocus();
+										$scope.refreshCalendar();
 							    });   	  
 					    });
 		
@@ -125,25 +129,71 @@
 		    	reminderService.findEntry(globalNav.actionArg).then(
 		    		function(entry) {
 						$scope.openDetails(entry);
-						$scope.initilizeCalendar();
+						
 		    	});
 	    	} else if (globalNav.action == globalNav.ACTION_REMINDER_NEW) {
 				$scope.openDetails(null);
-				$scope.initilizeCalendar();
+				
 	    	} 
 	    	
 	    	globalNav.clearAction();
-    	}
+		}
+		
+		$scope.buildRepeatingEvents = function() {
+			var result = [];
+
+			if ($scope.selectedEntry.repeat) {
+				var tmpStart = $scope.selectedEntry.start;
+				var tmpEnd = $scope.selectedEntry.end;
+				
+				while(tmpStart <= $scope.selectedEntry.until) {
+					result.push($scope.createEvent(tmpStart, tmpEnd));
+
+					tmpStart = moment(tmpStart).add($scope.selectedEntry.everyCount, $scope.selectedEntry.everyInterval).toDate();
+					tmpEnd = moment(tmpEnd).add($scope.selectedEntry.everyCount, $scope.selectedEntry.everyInterval).toDate();
+				}
+			} else {
+				result.push($scope.createEvent($scope.selectedEntry.start, $scope.selectedEntry.end));
+			}
+			
+			return result;
+		}
+
+		$scope.createEvent = function(start, end) {
+			var result = [];
+			var adjustedEnd = moment(end).add(1, 'days').toDate();
+
+			result = {
+					start: start,
+					end: adjustedEnd,
+					rendering: 'background',
+					allDay: true,
+					color: '#007982'
+				};
+			
+			return result;
+		}
+
+		$scope.refreshCalendar = function() {
+			if (!$scope.calendarInit) {
+				$scope.initilizeCalendar();
+				$scope.calendarInit = true;
+			} else {
+				$('#full-calendar-edit').fullCalendar('removeEvents');
+				$('#full-calendar-edit').fullCalendar('renderEvents', $scope.buildRepeatingEvents(), true);
+			}
+		}
 		
 		$scope.initilizeCalendar = function() {
         	$(document).ready(function() {
-	        
-	            $('#full-calendar').fullCalendar({
+			
+				var events = $scope.buildRepeatingEvents();
+
+	            $('#full-calendar-edit').fullCalendar({
 	                header: {
-	                    left: 'prev,next today',
-						center: 'title',
-						right: ''
-	                    //right: 'month,agendaWeek,basicDay'
+	                    left: 'title',
+						center: '',
+						right: 'prev,next'
 	                },
 	                editable: false,
 	                allDayText: "All day",
@@ -152,14 +202,7 @@
 					navLinks: false,
 					timezone: "local",
 	                droppable: false,
-	                events: [
-						{
-							start: $scope.selectedEntry.start,
-							end: $scope.selectedEntry.end,
-							rendering: 'background'
-						}
-					]
-	                
+	                events: events
 	            });
 	
 	            $('.fc-toolbar').find('.fc-button-group').addClass('btn-group');
@@ -168,7 +211,7 @@
 	            $('.fc-toolbar').find('.fc-next-button').html($('<span />').attr('class', 'fa fa-angle-right'));
 	            
 	            $timeout(function () {
-			        $('#full-calendar').fullCalendar('render');
+			        $('#full-calendar-edit').fullCalendar('render');
 			    }, 1000);
 			});
     	}

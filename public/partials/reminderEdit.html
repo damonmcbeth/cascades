@@ -45,7 +45,7 @@
 									class="md-input " datetime="EEE, MMMM d, yyyy, h:mma" ng-change="handleStartChanged()"></input>
 							</a>
 							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<datetimepicker data-ng-model="selectedEntry.start"
+								<datetimepicker data-ng-model="selectedEntry.start" ng-change="refreshCalendar()"
 												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
 							</ul>
 						</md-input-container>
@@ -57,37 +57,43 @@
 									class="md-input " datetime="EEE, MMMM d, yyyy" ng-change="handleStartChanged()"></input>
 							</a>
 							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<datetimepicker data-ng-model="selectedEntry.start"
+								<datetimepicker data-ng-model="selectedEntry.start" ng-change="refreshCalendar()"
 												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
 							</ul>
 						</md-input-container>
 
-						<md-input-container class="md-block" ng-hide="selectedEntry.allday">
+						<md-input-container class="md-block p-b-0" flex="100" ng-hide="selectedEntry.allday">
 							<label>End</label>
-							<input mdc-datetime-picker date="true" time="true" type="text" id="enddatetime"
-								aria-label="End" ng-change="handleEndChanged()"
-								ng-model="selectedEntry.end" class="md-input" ok-text="Next" short-time="true"
-								format="ddd, MMMM D, YYYY,  h:mma" today-text="Now" show-todays-date required >
-							
+							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
+								<input id="enddatetime" type="text" ng-model="selectedEntry.end" ng-disabled="false"
+									class="md-input " datetime="EEE, MMMM d, yyyy, h:mma" ng-change="handleEndChanged()"></input>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="selectedEntry.end" ng-change="refreshCalendar()"
+												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
+							</ul>
+						</md-input-container>
+
+						<md-input-container class="md-block p-b-0" flex="100" ng-show="selectedEntry.allday">
+							<label>End</label>
+							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
+								<input id="enddatetime" type="text" ng-model="selectedEntry.end" ng-disabled="false"
+									class="md-input " datetime="EEE, MMMM d, yyyy" ng-change="handleEndChanged()"></input>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="selectedEntry.end" ng-change="refreshCalendar()"
+												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
+							</ul>
 						</md-input-container>
 					  	
-					  	<md-input-container class="md-block" ng-show="selectedEntry.allday">
-							<label>End</label>
-							<input mdc-datetime-picker date="true" time="false" type="text" id="enddate"
-								aria-label="End" ng-change="handleEndChanged()"
-								ng-model="selectedEntry.end" class="md-input" ok-text="Ok" short-time="true"
-								format="ddd, MMMM D, YYYY" today-text="Today" show-todays-date required >
-							
-						</md-input-container>
-					  	
-					  	<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.repeat">
+					  	<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.repeat" ng-change="refreshCalendar()">
 				          Repeat reminder
 				        </md-switch>
 				        
-				        <div layout="row" ng-show="selectedEntry.repeat">
+				        <div layout="row">
 							<md-input-container class="md-block">
 								<label>Every</label>
-						  		<md-select ng-model="selectedEntry.everyCount">
+						  		<md-select ng-model="selectedEntry.everyCount" ng-change="refreshCalendar()" ng-disabled="!selectedEntry.repeat">
 					              <md-option ng-repeat="everyCnt in everyCount " ng-value="everyCnt" >
 					                {{everyCnt}}
 					              </md-option>
@@ -95,8 +101,9 @@
 							</md-input-container>
 							  
 						  	<md-input-container class="md-block">
-						  		<md-select ng-model="selectedEntry.everyInterval" aria-label="Every interval">
-					              <md-option ng-repeat="eInt in ['day(s)', 'week(s)', 'month(s)', 'year(s)'] " ng-value="eInt" >
+								<md-select ng-model="selectedEntry.everyInterval" aria-label="Every interval" ng-change="refreshCalendar()"
+								  	ng-disabled="!selectedEntry.repeat">
+					              <md-option ng-repeat="eInt in ['days', 'weeks', 'months'] " ng-value="eInt" >
 					                {{eInt}}
 					              </md-option>
 					            </md-select>
@@ -105,27 +112,27 @@
 							<md-input-container class="md-block m-l-20" flex="100">
 								<label>Until</label>
 								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-									<input id="untildatetime" type="text" ng-model="selectedEntry.until" ng-disabled="false"
-										class="md-input " datetime="EEE, MMM d, yyyy"></input>
+									<input id="untildatetime" type="text" ng-model="selectedEntry.until" ng-disabled="!selectedEntry.repeat"
+										class="md-input " datetime="EEE, MMM d, yyyy" ng-change="refreshCalendar()"></input>
 								</a>
 								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="left: -145px">
-									<datetimepicker data-ng-model="selectedEntry.until"
+									<datetimepicker data-ng-model="selectedEntry.until"  ng-change="refreshCalendar()"
 													data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
 								</ul>
 							</md-input-container>
 						</div>
-						<div id="full-calendar" ng-show="selectedEntry.repeat"></div>  
+						<div id="full-calendar-edit"></div>  
 		            </div>
 		        </div>
 				
-				<div class="panel panel-notes collapsed">
+				<div class="panel panel-notes">
 					<div class="panel-heading">
 		                <h3 class="panel-title">Notes</h3>
 		                <div class="panel-tools">
 		                    <panel-collapse></panel-collapse>
 		                </div>
 		            </div>
-		            <div class="panel-body p-0" style="display: none;">
+		            <div class="panel-body p-0">
 			            <summernote airMode class="f-14" ng-model="selectedEntry.notes"></summernote>
 		            </div>
 			  	</div>
