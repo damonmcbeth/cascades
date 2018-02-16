@@ -378,7 +378,8 @@
 					    },
 					    Subscription: {
 						    plan: "Individual",
-						    renewal: moment().add(1, 'years').toDate()
+							renewal: moment().add(1, 'years').toDate(),
+							autoDelete: 90
 					    },
 					    Settings: {
 						    debug: false,
@@ -673,15 +674,38 @@
 	            result.Subscription = {
 		            	plan: src.Subscription.plan,
 						renewal: src.Subscription.renewal,
-						autoDelete: src.autoDelete
+						autoDelete: (src.Subscription.autoDelete == "" || src.Subscription.autoDelete == null) ? 90 : src.Subscription.autoDelete
 		            };
 	            
 	            return result;
 		    };
 		    
-		    self.saveOrg = function (edited, orig) {			    
+		    self.saveOrg = function (edited, orig) {
+				var nameChanged = (edited.name != orig.name);
+				
 				self.cloneWorkspace(edited, orig);
-				orig.$save();
+				orig.$save().then(
+					function(ref) {
+						self.log("globalSettings", "saveOrg", "Workspace updated");
+						
+						if (nameChanged) {
+							var currWrkspc = self.currPreferences
+							currWrkspc.name = edited.name
+
+							self.userWorkspaces.$save(currWrkspc).then(
+								function(ref) {
+									self.log("globalSettings", "saveOrg:NameChanged", "Workspace name updated");
+								},
+								function(error) {
+									self.logError("globalSettings", "saveOrg:NameChanged", error);
+								}
+							)
+						}
+					}, 
+					function(error) {
+						self.logError("globalSettings", "saveOrg", error);
+					}
+				);
 		    };
 		    
 		    
