@@ -11,6 +11,23 @@ exports.notify = functions.https.onRequest((request, response) => {
     response.send("Notify CASCADES people :)");
 });
 
+exports.updateTasks = functions.database
+        .ref('/App/Workspaces/{workspaceId}/Tasks/{taskId}')
+        .onWrite((event) => {
+                const updated = event.data.val();
+                const original = event.data.previous;
+
+                //console.log('Original task:', event.params.taskId, original);
+                //console.log('Updated task:', updated);
+                
+                return true;
+                //return event.data.ref.parent.child('uppercase').set(uppercase);
+});
+
+function cleanUp(task) {
+        return
+}
+
 //exports.cleanUpUserActivity = functions.database.ref('/App/Workspaces/{workspaceId}/UserActivity/{userId}/{userActivityId}')
 //    .onWrite(event => {
         // Grab the current value of what was written to the Realtime Database.
