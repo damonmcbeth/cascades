@@ -17,6 +17,12 @@ exports.updateTasks = functions.database
                 const updated = event.data.val();
                 const original = event.data.previous;
 
+                //TODO: Run Clean up tasks
+                //1 check if date changed or if new status is needed
+                //check if closed
+                //check if should notify
+                //capture change log
+
                 //console.log('Original task:', event.params.taskId, original);
                 //console.log('Updated task:', updated);
                 
