@@ -21,6 +21,13 @@ exports.updateTasks = functions.database
                         return null;
                 }
 
+                //Get Task Settings
+                //Check Schedule Status
+                //Check Done State
+                //Save Activity
+                //Calc Stats
+                //Notify
+
                 //const updated = event.data.val();
                 //const original = event.data.previous.val();
 
