@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+const moment = require('moment');
 
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -14,18 +15,28 @@ exports.notify = functions.https.onRequest((request, response) => {
 exports.updateTasks = functions.database
         .ref('/App/Workspaces/{workspaceId}/Tasks/{taskId}')
         .onWrite((event) => {
-                const updated = event.data.val();
-                const original = event.data.previous;
 
-                //TODO: Run Clean up tasks
-                //1 check if date changed or if new status is needed
-                //check if closed
-                //check if should notify
-                //capture change log
+                // Exit when the data is deleted.
+                if (!event.data.exists()) {
+                        return null;
+                }
 
-                //console.log('Original task:', event.params.taskId, original);
+                //Get Task Settings
+                //Check Schedule Status
+                //Check Done State
+                //Save Activity
+                //Calc Stats
+                //Notify
+
+                //const updated = event.data.val();
+                //const original = event.data.previous.val();
+
+                //console.log('Task Id:', event.params.taskId)
+                //console.log('Original task:', original);
                 //console.log('Updated task:', updated);
                 
+                //determineTaskState(updated)
+
                 return true;
                 //return event.data.ref.parent.child('uppercase').set(uppercase);
 });
@@ -33,6 +44,39 @@ exports.updateTasks = functions.database
 function cleanUp(task) {
         return
 }
+
+function determineTaskState(task) {
+        var bod = moment().startOf('day');
+        var eod = moment().endOf('day');
+        var soon = moment().add(5, 'days');
+        //var soon = moment().add(globalSettings.currPreferences.Settings.Task.soon, 'days');
+        
+        var prev = "";
+        var due = null;
+        
+        prev = task.state;
+        due = (task.due == undefined || task.due == null) ? null : moment(task.due);
+        
+        if (task.isDone) {
+                task.state = 'Done';
+        } else if (due == null) {
+                task.state = 'No due date';
+        } else if (due < bod) {
+                task.state = 'Overdue';
+        } else if (due >= bod && due <= eod) {
+                task.state = 'Due today';
+        } else if (due < soon) {
+                task.state = 'Due soon';			
+        } else {
+                task.state = 'Due later';
+        }
+        
+        console.log("Prev state:", prev, " Curr state:", task.state);
+        if (prev != task.state) {
+                
+        }
+        
+};
 
 //exports.cleanUpUserActivity = functions.database.ref('/App/Workspaces/{workspaceId}/UserActivity/{userId}/{userActivityId}')
 //    .onWrite(event => {
