@@ -1,3 +1,5 @@
+//import { user } from 'firebase-functions/lib/providers/auth';
+//
 const functions = require('firebase-functions');
 const moment = require('moment');
 
@@ -5,11 +7,11 @@ const moment = require('moment');
 // https://firebase.google.com/docs/functions/write-firebase-functions
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
- response.send("Hello from CASCADES!");
+        response.send("Hello from CASCADES!");
 });
 
 exports.notify = functions.https.onRequest((request, response) => {
-    response.send("Notify CASCADES people :)");
+        response.send("Notify CASCADES people :)");
 });
 
 exports.updateTasks = functions.database
@@ -21,25 +23,31 @@ exports.updateTasks = functions.database
                         return null;
                 }
 
-                //Get Task Settings
-                //Check Schedule Status
-                //Check Done State
-                //Save Activity
-                //Calc Stats
-                //Notify
+                const workspaceId = event.params.workspaceId;
+                const root = event.data.ref.root;
 
-                //const updated = event.data.val();
-                //const original = event.data.previous.val();
+                const updated = event.data.val();
+                const previous = event.data.previous.val();
+
+                const user = updated.updatedByUser;
+                const userid = updated.updatedBy;
 
                 //console.log('Task Id:', event.params.taskId)
                 //console.log('Original task:', original);
-                //console.log('Updated task:', updated);
-                
+                console.log('Updated task:', updated);
+
+                retrieveTaskSettings(user, workspaceId, root).then(snap => {
+                        console.log('Settings:', snap.val());
+                })
                 //determineTaskState(updated)
 
                 return true;
                 //return event.data.ref.parent.child('uppercase').set(uppercase);
 });
+
+function retrieveTaskSettings(user, workspaceId, root) {
+        return root.child(`/Users/${user}/Workspaces/${workspaceId}/Settings/Task`).once('value');
+}
 
 function cleanUp(task) {
         return
@@ -77,16 +85,3 @@ function determineTaskState(task) {
         }
         
 };
-
-//exports.cleanUpUserActivity = functions.database.ref('/App/Workspaces/{workspaceId}/UserActivity/{userId}/{userActivityId}')
-//    .onWrite(event => {
-        // Grab the current value of what was written to the Realtime Database.
-//        const original = event.data.val();
-//        console.log('Cleaning', event.params.userId, original);
-
-        //const uppercase = original.toUpperCase();
-        // You must return a Promise when performing asynchronous tasks inside a Functions such as
-        // writing to the Firebase Realtime Database.
-        // Setting an "uppercase" sibling in the Realtime Database returns a Promise.
-        //return event.data.ref.parent.child('uppercase').set(uppercase);
-//    });
