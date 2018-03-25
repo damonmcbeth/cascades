@@ -19,7 +19,7 @@ exports.updateTasks = functions.database
         .onWrite((event) => {
                 var updated;
                 var user;
-                var updates = [];
+                var updates = {};
 
                 const workspaceId = event.params.workspaceId;
                 const taskId = event.params.taskId;
@@ -53,15 +53,10 @@ exports.updateTasks = functions.database
 
                         determineTaskState(updated, setting_soon, updates, updateKey);
 
-                        if (updates.length > 0) {
-                                var update = []
-                                update[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
-                                updates.push(update);
-                                console.log('Updates:', updates);
+                        updates[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
+                        console.log('Updates:', updates);
 
-                                return root.update(updates);
-                        }
-                        
+                        //return root.update(updates); 
 
                 })
 
@@ -112,9 +107,7 @@ function determineTaskState(task, settings_soon, updates, updateKey) {
         
         //console.log("Prev state:", prev, " Curr state:", task.state);
         if (prev != task.state) {
-                var update = [];
-                update[updateKey + "/state"] = task.state;
-                updates.push(update);
+                updates[updateKey + "/state"] = task.state;
         }
         
 };
