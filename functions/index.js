@@ -17,19 +17,26 @@ exports.notify = functions.https.onRequest((request, response) => {
 exports.updateTasks = functions.database
         .ref('/App/Workspaces/{workspaceId}/Tasks/{taskId}')
         .onWrite((event) => {
-
-                // Exit when the data is deleted.
-                if (!event.data.exists()) {
-                        return null;
-                }
+                var updated;
+                var user;
+                var updates = [];
 
                 const workspaceId = event.params.workspaceId;
+                const taskId = event.params.taskId;
+                const updateKey = `/App/Workspaces/${workspaceId}/Tasks/${taskId}`
+
+                if (event.data.exists()) {
+                        updated = event.data.val();
+                        user = updated.updatedByUser;
+
+                        if (user == undefined || user == null || user == "CASCADES_CLOUD") {
+                                console.log('Exiting due to user being empty or CASCADES_CLOUD');
+                                return null;
+                        }
+                }
+
                 const root = event.data.ref.root;
-
-                const updated = event.data.val();
                 const previous = event.data.previous.val();
-
-                const user = updated.updatedByUser;
                 const userid = updated.updatedBy;
 
                 //console.log('Task Id:', event.params.taskId)
@@ -37,9 +44,26 @@ exports.updateTasks = functions.database
                 console.log('Updated task:', updated);
 
                 retrieveTaskSettings(user, workspaceId, root).then(snap => {
-                        console.log('Settings:', snap.val());
+                        var setting_soon = 10; 
+                        if (snap.exists()) {
+                                const settings = snap.val();
+                                //console.log('Settings:', settings, settings.soon);
+                                setting_soon = settings.soon;
+                        }
+
+                        determineTaskState(updated, setting_soon, updates, updateKey);
+
+                        if (updates.length > 0) {
+                                var update = []
+                                update[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
+                                updates.push(update);
+                                console.log('Updates:', updates);
+
+                                return root.update(updates);
+                        }
+                        
+
                 })
-                //determineTaskState(updated)
 
                 return true;
                 //return event.data.ref.parent.child('uppercase').set(uppercase);
@@ -49,15 +73,22 @@ function retrieveTaskSettings(user, workspaceId, root) {
         return root.child(`/Users/${user}/Workspaces/${workspaceId}/Settings/Task`).once('value');
 }
 
-function cleanUp(task) {
-        return
+function determineTaskStatus(task, prev, updates) {
+        /*if (edited.status == 'Done') { 
+                edited.isDone = true;   
+        } else {
+                edited.isDone = false;   
+        }
+                                    
+        if (edited.status != 'Not Started' && (edited.start == undefined || edited.start == null || edited.start == '')) {
+                edited.start = new Date();
+        }*/
 }
 
-function determineTaskState(task) {
+function determineTaskState(task, settings_soon, updates, updateKey) {
         var bod = moment().startOf('day');
         var eod = moment().endOf('day');
-        var soon = moment().add(5, 'days');
-        //var soon = moment().add(globalSettings.currPreferences.Settings.Task.soon, 'days');
+        var soon = moment().add(settings_soon, 'days');
         
         var prev = "";
         var due = null;
@@ -79,9 +110,11 @@ function determineTaskState(task) {
                 task.state = 'Due later';
         }
         
-        console.log("Prev state:", prev, " Curr state:", task.state);
+        //console.log("Prev state:", prev, " Curr state:", task.state);
         if (prev != task.state) {
-                
+                var update = [];
+                update[updateKey + "/state"] = task.state;
+                updates.push(update);
         }
         
 };
