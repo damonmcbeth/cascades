@@ -56,12 +56,13 @@ exports.updateTasks = functions.database
                         updates[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
                         console.log('Updates:', updates);
 
-                        //return root.update(updates); 
+                        root.update(updates).then(snap => {
+                                //console.log("UPDATED Task!!!!")
+                        }) 
 
                 })
 
                 return true;
-                //return event.data.ref.parent.child('uppercase').set(uppercase);
 });
 
 function retrieveTaskSettings(user, workspaceId, root) {
@@ -105,7 +106,6 @@ function determineTaskState(task, settings_soon, updates, updateKey) {
                 task.state = 'Due later';
         }
         
-        //console.log("Prev state:", prev, " Curr state:", task.state);
         if (prev != task.state) {
                 updates[updateKey + "/state"] = task.state;
         }
