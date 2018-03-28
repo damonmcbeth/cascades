@@ -2,6 +2,8 @@
 //firebase deploy --only functions
 const functions = require('firebase-functions');
 const moment = require('moment');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
 
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -11,12 +13,29 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 });
 
 exports.notify = functions.https.onRequest((request, response) => {
-        const to = "fr3-1dow4z0:APA91bEYUcRdYrWm8ZPfkgRWOfVi0Op1sfdaY_NblcA0ko6lYwQsPNNLc98Lq2rnS9huJ4bKPtFw7Xx975FDMd3-UsXuLbdsMYt2ZzqViwQiZT-2m6BAafvxEEX_wGKGNFHcwWIhPvQx";
-        const body = "This is a test message";
+        const to = "c6RbWRR8WxA:APA91bEoR24JaQUY62dV7TQJNm2-rItAFD0LMkvBT9UsAqHn4Ak1J-9XohOhaQ8A-xOq1VcouTwJMjhalSj9vTW_FWVXHViNLnLgGRYp0swnYqp9oLQ5sB-vGIIdVWp4RMBuxElv0NLk";
+        const message = "This is a test message";
         const icon = "https://firebasestorage.googleapis.com/v0/b/temporal-potion-575.appspot.com/o/Avatars%2F-KgR_dYIB3me1qg-MXi9%2FBABY_DAMON.jpg?alt=media&token=4e97f25e-8b86-4433-bccc-f1a4aeb135f1";
 
-        sendMessage(to, body, icon);
+        const funcName = "(sendMessage) ";
 
+        // Notification details.
+        const payload = {
+                notification: {
+                title: 'You have a new follower!',
+                body: message,
+                icon: icon,
+                },
+        };
+
+        const tokens = [to];
+
+        logMsg(funcName, admin.messaging().sendToDevice);
+        admin.messaging().sendToDevice(to, payload).then((response) => {
+                logMsg(funcName, 'Dry run successful:', response);
+        }).catch((error) => {
+                logMsg(funcName, 'Error during dry run:', error);
+        });
         
         response.send("Notify CASCADES people :)");
 });
@@ -67,7 +86,6 @@ exports.updateTasks = functions.database
                         root.update(updates).then(snap => {
                                 logMsg(funcName, "UPDATED Task");
 
-                                
                                 //Add Activity
                                 //Notify Users
                                 //Calculate stats
@@ -165,11 +183,17 @@ function determineTaskState(task, settings_soon, updates, updateKey) {
         
 };
 
-function sendMessage(notifTo, notifBody, notifIcon) {
+function sendMsg(notifTo, notifBody, notifIcon) {
         const funcName = "(sendMessage) ";
 
+        var dryRun = true;
+        admin.messaging().send(message, dryRun).then((response) => {
+                logMsg(funcName, 'Dry run successful:', response);
+        }).catch((error) => {
+                logMsg(funcName, 'Error during dry run:', error);
+        });
 
-        admin.sendMessage()
+
         var req= {
                 method: 'POST',
                 url: 'https://fcm.googleapis.com/fcm/send',
@@ -187,11 +211,11 @@ function sendMessage(notifTo, notifBody, notifIcon) {
                 }
         };
 
-        $http(req).then(function successCallback(response) {
-                logMsg(funcName, "Message sent successfully");
-        }, function errorCallback(response) {
-                logMsg(funcName, response.status);
-        });
+        //$http(req).then(function successCallback(response) {
+        //        logMsg(funcName, "Message sent successfully");
+        //}, function errorCallback(response) {
+        //        logMsg(funcName, response.status);
+        //});
 }
 
 function logMsg() {
