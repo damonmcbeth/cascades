@@ -87,7 +87,7 @@ exports.updateTasks = functions.database
                                 logMsg(funcName, "UPDATED Task");
 
                                 //Add Activity
-                                //Notify Users
+                                notifyTaskAssignment(updated, previous, workspaceId, root);
                                 //Calculate stats
                         }) 
 
@@ -95,6 +95,16 @@ exports.updateTasks = functions.database
 
                 return true;
 });
+
+function notifyTaskAssignment(task, prev, workspaceId, root) {
+        //if assignment has changed the send it
+
+        var msg = `You have been assigned task: ${task.title}`;
+        var icon;
+        var user = task.ownerId
+
+        sendMsg(user, workspaceId, root, msg);
+}
 
 function retrieveTaskSettings(user, workspaceId, root) {
         return root.child(`/Users/${user}/Workspaces/${workspaceId}/Settings/Task`).once('value');
@@ -183,39 +193,42 @@ function determineTaskState(task, settings_soon, updates, updateKey) {
         
 };
 
-function sendMsg(notifTo, notifBody, notifIcon) {
-        const funcName = "(sendMessage) ";
+function sendMsg(user, workspaceId, root, message, icon) {
+        const funcName = "(sendMsg) ";
+        const payloadIcon = (icon == undefined) ? "https://cascades.phenom-ideas.com/assets/img/Timeline_White_128.png" : icon;
 
-        var dryRun = true;
-        admin.messaging().send(message, dryRun).then((response) => {
-                logMsg(funcName, 'Dry run successful:', response);
-        }).catch((error) => {
-                logMsg(funcName, 'Error during dry run:', error);
-        });
-
-
-        var req= {
-                method: 'POST',
-                url: 'https://fcm.googleapis.com/fcm/send',
-                headers: {
-                        "Authorization": "key=AAAAOqv0rEs:APA91bE0cGlnAk18xThXCqWYZXbTuz-TbXppp1GFN3vpPNtDsUPjtz7qFYkyC_HRqHPkoGDPOUZatyVc-5nSaOqmA8KUYDQU0izly7oSt8hRTzt6zn3kOBrQu0j9uczYrC5jvOj8U7Ar",
-                        "Content-Type": "application/json"
+        const payload = {
+                notification: {
+                        title: 'CASCADES',
+                        body: message,
+                        icon: payloadIcon,
                 },
-                "data": {
-                        "to": notifTo,
-                        "notification": {
-                                "title": "CASCADES",
-                                "body": notifBody,
-                                "icon": notifIcon
-                        }
-                }
         };
+        logMsg(funcName, "Notification payload: ", payload);
 
-        //$http(req).then(function successCallback(response) {
-        //        logMsg(funcName, "Message sent successfully");
-        //}, function errorCallback(response) {
-        //        logMsg(funcName, response.status);
-        //});
+        retrieveTaskSettings(user, workspaceId, root).then(snap => {
+                var token; 
+                if (snap.exists()) {
+                        const user = snap.val();
+                        logMsg(funcName, "user: ", user);
+                        token = user.notificationToken;
+                }
+
+                if (token == undefined || token == null) {
+                        logMsg(funcName, "Recipient token is undefined.");
+                } else {
+                        admin.messaging().sendToDevice(token, payload).then((response) => {
+                                logMsg(funcName, 'Notification successful:', response);
+                        }).catch((error) => {
+                                logMsg(funcName, 'Error during notification:', error);
+                        });
+                }
+        })
+
+}
+
+function retrieveUser(user, workspaceId, root) {
+        return root.child(`/App/Workspaces/${workspaceId}/People/${user}`).once('value');
 }
 
 function logMsg() {
