@@ -2,7 +2,9 @@
 //firebase deploy --only functions
 const functions = require('firebase-functions');
 const moment = require('moment');
+const _ = require('lodash');
 const admin = require('firebase-admin');
+
 admin.initializeApp(functions.config().firebase);
 
 // Create and Deploy Your First Cloud Functions
@@ -79,6 +81,7 @@ exports.updateTasks = functions.database
 
                         determineTaskStatus(updated, previous, updates, updateKey);
                         determineTaskState(updated, setting_soon, updates, updateKey);
+                        updateTaskSummary(updated, previous, workspaceId, root, updates);
 
                         updates[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
                         logMsg(funcName, 'Updates:', updates);
@@ -88,7 +91,7 @@ exports.updateTasks = functions.database
 
                                 //Add Activity
                                 notifyTaskAssignment(updated, previous, workspaceId, root);
-                                //Calculate stats
+                                
                         }) 
 
                 })
@@ -225,6 +228,97 @@ function sendMsg(user, workspaceId, root, message, icon) {
                 }
         })
 
+}
+
+function buildSummaryList(updated, previous, list) {
+        var result = list;
+
+        if (updated != null && updated != undefined) {
+                result.push(updated);
+        }
+
+        if (previous != null && previous != undefined && updated != previous) {
+                result.push(previous);
+        }
+
+        return result;
+}
+
+function updateTaskSummary(updated, previous, workspaceId, root) {
+        const funcName = "(updateTaskSummary) ";
+
+        var people = [];
+        var projects = [];
+
+        people = buildSummaryList(updated.ownerId, previous.ownerId, people);
+        people = buildSummaryList(updated.delegateId, previous.delegateId, people);
+        logMsg(funcName, "people:", people);
+
+        var taskSum;
+        var i=0;
+        var len=people.length;
+        var lookupKey;
+        
+        retrieveAllTasks(workspaceId, root).then(snap => {
+                if (snap.exists()) {
+                        const tasks = snap.val();
+                        for (i=0; i<len; i++) {
+                                taskSum = { total: 0,
+                                                openTotal: 0,
+                                                delegated: 0,
+                                                dueToday: 0,
+                                                dueSoon: 0,
+                                                overdue: 0
+                                };
+                                
+                                calTaskSummaryForPerson(tasks, people[i], taskSum);
+                                saveTaskSummary(people[i], taskSum);
+                        }
+                        
+                        /*if (projects != null) {
+                                len = projects.length;
+                                i=0;
+                                
+                                for (i=0; i<len; i++) {
+                                        self.calProjectSummary(projects[i]);
+                                }
+                        }*/
+                }
+        });
+}
+
+function calTaskSummaryForPerson(tasks, person, taskSum) {
+        const funcName = "(calTaskSummaryForPerson) ";
+        
+        var taskValues = _.values(tasks);
+        var filteredTasks = _.filter(taskValues, { 'ownerId': person });
+
+        logMsg(funcName, "tasks count:", taskValues.length, "tasks:", taskValues);
+        logMsg(funcName, "person:", person);
+        logMsg(funcName, "filteredTasks count:", filteredTasks.length, "filteredTasks:", filteredTasks);
+        
+        taskSum.total = filteredTasks.length;
+        taskSum.openTotal = _.filter(filteredTasks, {'isDone':false}).length; 
+        taskSum.delegated = _.filter(filteredTasks, {delegateId:'', isDone:false}).length;
+        
+        taskSum.overdue = _.filter(filteredTasks, {state:'Overdue', isDone:false}).length;
+        taskSum.dueToday = _.filter(filteredTasks, {state:'Due today', isDone:false}).length;
+        taskSum.dueSoon = _.filter(filteredTasks, {state:'Due soon', isDone:false}).length;
+        
+        logMsg(funcName, "taskSum:", taskSum);
+
+        return taskSum;
+}
+
+function saveTaskSummary(workspaceId, person, taskSum, updates) {
+        var updateKey = "App/Workspaces/" + globalSettings.currWorkspace.$id 
+                                                    + "/Summary/" + person + "/Task"; 
+        updates[updateKey] = taskSum;       
+}
+
+
+function retrieveAllTasks(workspaceId, root) {
+        return root.child(`/App/Workspaces/${workspaceId}/Tasks`).once('value');
 }
 
 function retrieveUser(user, workspaceId, root) {
