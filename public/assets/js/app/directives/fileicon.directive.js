@@ -21,10 +21,12 @@ angular.module('app').directive('fileicon', function() {
 				
 				case "pdf": result = "pdf"; break;
 				
+				case "m4a":
 				case "mp3": result = "music"; break;
 				case "ppt": 
 				case "pptx": result = "ppt"; break;
 				case "html": result = "html"; break;
+				case "m4v":
 				case "mp4": result = "media"; break;
 				 
 			}

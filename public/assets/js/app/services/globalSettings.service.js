@@ -39,7 +39,8 @@
 					"Image",
 					"Idea",
 					"Meeting",
-					"Document"
+					"Document",
+					"Food"
 				],
 				calFormats: {
 					sameDay: "[Today at ] h:mma",
