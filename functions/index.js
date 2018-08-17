@@ -74,6 +74,20 @@ exports.updateJournal = functions.database
 
                 if (shouldUpdateJournalStats(updated, previous)) {
                         logMsg(funcName, 'shouldUpdateJournalStats:', true);
+                        retrieveAllJournalEntries(workspaceId, root).then(snap => {
+                                if (snap.exists()) {
+                                        const journal = snap.val();
+                                        var entries = _.values(journal);
+                                        var filteredEntries = _.reject(entries, { 'archived': true });
+
+                                        logMsg(funcName, "filtered Entries", filteredEntries.length);
+
+                                        
+                                }
+                        });
+
+
+
                 } else {
                         logMsg(funcName, 'shouldUpdateJournalStats:', false);
                 }
