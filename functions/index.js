@@ -40,7 +40,7 @@ exports.notify = functions.https.onRequest((request, response) => {
         });
         
         response.send("Notify CASCADES people :)");
-});
+}); 
 
 exports.updateJournal = functions.database
         .ref('/App/Workspaces/{workspaceId}/Journal/{journalId}')
