@@ -1,4 +1,4 @@
-//import { user } from 'firebase-functions/lib/providers/auth';
+                                                                                                //import { user } from 'firebase-functions/lib/providers/auth';
 //firebase deploy --only functions
 const functions = require('firebase-functions');
 const moment = require('moment');
@@ -40,6 +40,43 @@ exports.notify = functions.https.onRequest((request, response) => {
         });
         
         response.send("Notify CASCADES people :)");
+});
+
+exports.updateJournal = functions.database
+        .ref('/App/Workspaces/{workspaceId}/Journal/{journalId}')
+        .onWrite((event) => {
+                var updated;
+                var user;
+                var updates = {};
+
+                const funcName = "(updateTasks) ";
+                const workspaceId = event.params.workspaceId;
+                const journalId = event.params.journalId;
+                const updateKey = `/App/Workspaces/${workspaceId}/Journal/${journalId}`
+                
+                if (event.data.exists()) {
+                        updated = event.data.val();
+                        user = updated.updatedByUser;
+
+                        if (user == undefined || user == null || user == "CASCADES_CLOUD") {
+                                logMsg(funcName, 'Exiting due to user being empty or CASCADES_CLOUD');
+                                return null;
+                        }
+                }
+                
+                const root = event.data.ref.root;
+                const previous = event.data.previous.val();
+                const userid = updated.updatedBy;
+
+                logMsg(funcName, 'Journal Entry Id:', event.params.journalId);
+                logMsg(funcName, 'Original entry:', previous);
+                logMsg(funcName, 'Updated entry:', updated);
+                
+
+        
+        })
+        
+        return true;
 });
 
 exports.updateTasks = functions.database
@@ -316,6 +353,9 @@ function saveTaskSummary(workspaceId, person, taskSum, updates) {
         updates[updateKey] = taskSum;       
 }
 
+function retrieveAllJournalEntries(workspaceId, root) {
+        return root.child(`/App/Workspaces/${workspaceId}/Journal`).once('value');
+}
 
 function retrieveAllTasks(workspaceId, root) {
         return root.child(`/App/Workspaces/${workspaceId}/Tasks`).once('value');
