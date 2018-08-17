@@ -49,7 +49,7 @@ exports.updateJournal = functions.database
                 var user;
                 var updates = {};
 
-                const funcName = "(updateTasks) ";
+                const funcName = "(updateJournal) ";
                 const workspaceId = event.params.workspaceId;
                 const journalId = event.params.journalId;
                 const updateKey = `/App/Workspaces/${workspaceId}/Journal/${journalId}`
@@ -58,10 +58,10 @@ exports.updateJournal = functions.database
                         updated = event.data.val();
                         user = updated.updatedByUser;
 
-                        if (user == undefined || user == null || user == "CASCADES_CLOUD") {
-                                logMsg(funcName, 'Exiting due to user being empty or CASCADES_CLOUD');
-                                return null;
-                        }
+                        //if (user == undefined || user == null || user == "CASCADES_CLOUD") {
+                        //        logMsg(funcName, 'Exiting due to user being empty or CASCADES_CLOUD');
+                        //        return null;
+                        //}
                 }
                 
                 const root = event.data.ref.root;
@@ -72,15 +72,18 @@ exports.updateJournal = functions.database
                 logMsg(funcName, 'Original entry:', previous);
                 logMsg(funcName, 'Updated entry:', updated);
 
-                shouldUpdateJournalStats(updated, previous);
+                if (shouldUpdateJournalStats(updated, previous)) {
+                        logMsg(funcName, 'shouldUpdateJournalStats:', true);
+                } else {
+                        logMsg(funcName, 'shouldUpdateJournalStats:', false);
+                }
                 
                 return true;
 });
 
 function shouldUpdateJournalStats(entry, prev) {
         const funcName = "(shouldUpdateJournalStats) ";
-        var opt = {}
-        var result = false;
+        var opt = {};
 
         opt.hasPrev = prev != undefined && prev != null;
         opt.hasEntry = entry != undefined && entry != null;
@@ -88,8 +91,8 @@ function shouldUpdateJournalStats(entry, prev) {
         opt.isNew = opt.hasEntry && !opt.hasPrev;
         opt.isChanged = opt.hasEntry && opt.hasPrev;
 
-        opt.prevRead = (opt.hasPrev) ? prev.archived : false;
-        opt.entryRead = (opt.hasEntry) ? task.archived : false;
+        opt.prevRead = (opt.hasPrev) ? prev.status == "Read" : false;
+        opt.entryRead = (opt.hasEntry) ? entry.staus == "Read" : false;
 
         opt.readChanged = opt.prevRead != opt.entryRead;
         opt.archivedChanged = (opt.isChanged) ? entry.archived != prev.archived : false;
@@ -97,7 +100,11 @@ function shouldUpdateJournalStats(entry, prev) {
 
         logMsg(funcName, "opt: ", opt)
 
-        return result;
+        if (opt.archivedChanged || opt.readChanged || opt.isNew) {
+                return true;
+        }
+
+        return false;
 }
 
 exports.updateTasks = functions.database
