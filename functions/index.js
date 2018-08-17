@@ -71,13 +71,34 @@ exports.updateJournal = functions.database
                 logMsg(funcName, 'Journal Entry Id:', event.params.journalId);
                 logMsg(funcName, 'Original entry:', previous);
                 logMsg(funcName, 'Updated entry:', updated);
-                
 
-        
-        })
-        
-        return true;
+                shouldUpdateJournalStats(updated, previous);
+                
+                return true;
 });
+
+function shouldUpdateJournalStats(entry, prev) {
+        const funcName = "(shouldUpdateJournalStats) ";
+        var opt = {}
+        var result = false;
+
+        opt.hasPrev = prev != undefined && prev != null;
+        opt.hasEntry = entry != undefined && entry != null;
+
+        opt.isNew = opt.hasEntry && !opt.hasPrev;
+        opt.isChanged = opt.hasEntry && opt.hasPrev;
+
+        opt.prevRead = (opt.hasPrev) ? prev.archived : false;
+        opt.entryRead = (opt.hasEntry) ? task.archived : false;
+
+        opt.readChanged = opt.prevRead != opt.entryRead;
+        opt.archivedChanged = (opt.isChanged) ? entry.archived != prev.archived : false;
+        opt.isArchived = (opt.hasEntry) ? entry.archived : false;
+
+        logMsg(funcName, "opt: ", opt)
+
+        return result;
+}
 
 exports.updateTasks = functions.database
         .ref('/App/Workspaces/{workspaceId}/Tasks/{taskId}')
