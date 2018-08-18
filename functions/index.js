@@ -46,17 +46,16 @@ exports.updateJournal = functions.database
         .ref('/App/Workspaces/{workspaceId}/Journal/{journalId}')
         .onWrite((event) => {
                 var updated;
-                var user;
                 var updates = {};
+                var updateKey;
 
                 const funcName = "(updateJournal) ";
                 const workspaceId = event.params.workspaceId;
                 const journalId = event.params.journalId;
-                const updateKey = `/App/Workspaces/${workspaceId}/Journal/${journalId}`
                 
                 if (event.data.exists()) {
                         updated = event.data.val();
-                        user = updated.updatedByUser;
+                //        user = updated.updatedByUser;
 
                         //if (user == undefined || user == null || user == "CASCADES_CLOUD") {
                         //        logMsg(funcName, 'Exiting due to user being empty or CASCADES_CLOUD');
@@ -68,32 +67,77 @@ exports.updateJournal = functions.database
                 const previous = event.data.previous.val();
                 const userid = updated.updatedBy;
 
-                logMsg(funcName, 'Journal Entry Id:', event.params.journalId);
-                logMsg(funcName, 'Original entry:', previous);
-                logMsg(funcName, 'Updated entry:', updated);
+                //logMsg(funcName, 'Journal Entry Id:', event.params.journalId);
+                //logMsg(funcName, 'Original entry:', previous);
+                //logMsg(funcName, 'Updated entry:', updated);
 
                 if (shouldUpdateJournalStats(updated, previous)) {
-                        logMsg(funcName, 'shouldUpdateJournalStats:', true);
+                        //logMsg(funcName, 'shouldUpdateJournalStats:', true);
                         retrieveAllJournalEntries(workspaceId, root).then(snap => {
                                 if (snap.exists()) {
                                         const journal = snap.val();
                                         var entries = _.values(journal);
                                         var filteredEntries = _.reject(entries, { 'archived': true });
 
-                                        logMsg(funcName, "filtered Entries", filteredEntries.length);
+                                        //logMsg(funcName, "filtered Entries", filteredEntries.length);
 
-                                        
+                                        root.child(`/Users`).once('value').then(usersSnap => {
+                                                if (usersSnap.exists()) {
+                                                        var users = usersSnap.val();
+                                                        var keys = _.keys(users);
+                                                        var len = keys.length;
+                                                        var wrkSpcs;
+                                                        var user;
+                                                        var personId;
+                                                        var readFlag;
+                                                        var totalUnread = 0; 
+                                                        var filter = {};
+                                
+                                                        for (i=0; i<len; i++) {
+                                                                user = users[keys[i]]; 
+                                                                //logMsg(funcName, "user:", user);
+
+                                                                if (user["status"] == "active") {
+                                                                        if (includesWorkspace(workspaceId, user)) {
+                                                                                personId = user["person"];
+                                                                                readFlag = `READ_${personId}`;
+                                                                                filter = {};
+                                                                                filter[readFlag] = "Y";
+                                                                                //logMsg(funcName, 'filter:', filter);
+
+                                                                                totalUnread = (_.reject(filteredEntries, filter)).length;
+
+                                                                                updateKey = `/App/Workspaces/${workspaceId}/Summary/${personId}/Journal/unread`;
+                                                                                updates[updateKey] = totalUnread; 
+                                                                        }
+                                                                }
+                                                        }
+                                
+                                                        //logMsg(funcName, 'Updates:', updates);
+                                                        root.update(updates).then(snap => {
+                                                                logMsg(funcName, "UPDATED Journal Stats");                                                                
+                                                        }) 
+                                                }
+                                        });    
                                 }
                         });
 
-
-
                 } else {
-                        logMsg(funcName, 'shouldUpdateJournalStats:', false);
+                        //logMsg(funcName, 'shouldUpdateJournalStats:', false);
                 }
                 
                 return true;
 });
+
+function includesWorkspace(workspaceId, user) {
+        const funcName = "(includesWorkspace) ";
+        var wrkSpcs = _.keys(user.Workspaces);
+        var fIndex = _.indexOf(wrkSpcs, workspaceId)
+
+        //logMsg(funcName, "fIndex:", fIndex);
+
+       return (fIndex != -1);
+}
 
 function shouldUpdateJournalStats(entry, prev) {
         const funcName = "(shouldUpdateJournalStats) ";
@@ -106,7 +150,7 @@ function shouldUpdateJournalStats(entry, prev) {
         opt.isChanged = opt.hasEntry && opt.hasPrev;
 
         opt.prevRead = (opt.hasPrev) ? prev.status == "Read" : false;
-        opt.entryRead = (opt.hasEntry) ? entry.staus == "Read" : false;
+        opt.entryRead = (opt.hasEntry) ? entry.status == "Read" : false;
 
         opt.readChanged = opt.prevRead != opt.entryRead;
         opt.archivedChanged = (opt.isChanged) ? entry.archived != prev.archived : false;
@@ -405,6 +449,31 @@ function retrieveAllTasks(workspaceId, root) {
 
 function retrieveUser(user, workspaceId, root) {
         return root.child(`/App/Workspaces/${workspaceId}/People/${user}`).once('value');
+}
+
+function retrieveAllActiveUsers(workspaceId, root) {
+        const funcName = "(retrieveAllUsers) ";
+
+        root.child(`/Users`).once('value').then(snap => {
+                if (snap.exists()) {
+                        var users = _.values(snap.val());
+                        var activeUsers = _.filter(users, { 'status': "active" });
+                        var filteredUsers = [];
+                        var len = activeUsers.length;
+                        var wrkSpcs;
+
+                        for (i=0; i<len; i++) {
+                                wrkSpcs = _.keys(activeUsers[i].Workspaces);
+                                logMsg(funcName, "wrkSpcs:", wrkSpcs);
+
+                                filteredUsers.push(activeUsers[i]);
+                        }
+
+                        return filteredUsers;
+                }
+        });
+
+        return null
 }
 
 function logMsg() {
