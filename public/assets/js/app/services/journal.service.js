@@ -106,7 +106,8 @@
 		            content: '',
 		            status: 'Unread',
 		            duration: 0,
-		            start: null,
+					start: null,
+					end: null,
 		            archived: false,
 		            tags: [],
 		            attachments: [],
@@ -133,7 +134,8 @@
 	            	result.targetId = src.targetId == undefined ? null : src.targetId;
 					result.target = src.target;
 					result.targetName = src.targetName;
-					result.start = src.start == undefined ? null : new Date(src.start);
+					result.start = src.start == undefined ? null :  moment(src.start).toDate(); //new Date(src.start);
+					result.end = src.end == undefined ? null : new Date(src.end);
 					result.archived = src.archived;
 					result.projectId = src.projectId == undefined ? null : src.projectId;
 					
@@ -297,6 +299,7 @@
 								targetName: src.targetId == null ? null : src.target.name,
 								archived: src.archived == null ? false : src.archived,
 								start: src.start == null ? null : src.start.getTime(),
+								end: src.end == null ? null : src.end.getTime(),
 								projectId: src.projectId,
 								projectName: src.project == null ? null : src.project.title,
 				    			attachments: src.attachments
@@ -319,6 +322,7 @@
 				result.targetName = src.targetId == null ? null : src.target.name;
 				result.since = null;
 				result.start = src.start == null ? null : src.start.getTime();
+				result.end = src.end == null ? null : src.end.getTime();
 				result.archived = src.archived == null ? false : src.archived;
 				result.projectId = src.projectId;
 	            result.projectName = (src.project == "" || src.project == null) ? null : src.project.title;
@@ -389,11 +393,14 @@
 					function(entries) {
 						var entry = self.lookupEntry(entryId, entries);
 						var person = globalSettings.currProfile.person;
+						var readFlag = "READ_" + globalSettings.currProfile.person;
 						
-						if (entry != null && entry.status != "Read" && person == entry.targetId) {
-							entry.status = "Read";
-							globalSettings.updateTimestamp(entry);
+						if (entry != null && entry[readFlag] != "Y") {
+							//entry.status = "Read";
+							//globalSettings.updateTimestamp(entry);
 							
+							entry[readFlag] = "Y";
+
 							entries.$save(entry).then(
 								function(result) {
 									deferred.resolve(true);

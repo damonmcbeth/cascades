@@ -25,10 +25,12 @@
 		    airMode: false,
 		    toolbar: [
 			    ['para', ['style']],
-	            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['fontsize', ['fontsize']],
 	            ['fontclr', ['color']],
 	            ['alignment', ['ul', 'ol', 'paragraph']],
-	            ['insert', ['link', 'table', 'hr']],
+				['insert', ['link', 'table', 'hr']],
+				['misc', ['undo']],
 	            ['view', ['fullscreen', 'codeview']]
 	        ]
 		};
@@ -220,9 +222,29 @@
 		        	return (contact.name.toLowerCase().indexOf(lowercaseQuery) != -1);
 		    };
 	    }
+		
+		$scope.handleStartChanged = function() {
+	    	$scope.cleanUpDateRange();
+    	}
     	
+    	$scope.cleanUpDateRange = function() {
+	    	if ($scope.selectedEntry.end != null && $scope.selectedEntry.start.getTime() >= $scope.selectedEntry.end.getTime()) {
+		    	var end = moment($scope.selectedEntry.start).add(1, 'hours');
+		    	$scope.selectedEntry.end = end.toDate();
+	    	}
+    	}
+    	
+    	$scope.handleEndChanged = function() {
+	    	$scope.cleanUpDateRange();
+    	}
+
     	$scope.clearStartDate = function() {
-	    	$scope.selectedEntry.start = null;
+			$scope.selectedEntry.start = null;
+			$scope.clearEndDate();
+		}
+		
+		$scope.clearEndDate = function() {
+	    	$scope.selectedEntry.end = null;
     	}
     	
     	$scope.onfileUploadChange = function onChange(loc, fileList, uploadCtrl) {
@@ -250,7 +272,8 @@
 	    	if (item != null) {
 		    	$scope.selectedEntry.attachments.splice($scope.selectedEntry.attachments.indexOf(item), 1);
 		    }
-    	}
+		}
+		
     
     	globalNav.registerEditController(globalNav.ACTION_JOURNAL_ENTRY, $scope.initAction);
     	

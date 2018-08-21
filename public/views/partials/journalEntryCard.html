@@ -28,10 +28,12 @@
 
 
 			    <div class="m-t-5 p-15 f-14 bg-muted border-top-1 border-bottom-1 border-muted"
-		            style="width: 100%; height: 380px" layout="column">
+					style="width: 100%; height: 380px" layout="column">
+
+					<div class="b-400 f-11 label label-primary w-60 m-b-5" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>
+
 			        <div class="f-12 b-300 text-default m-b-5" ng-hide="entry.targetId == null">
 	                    <span class="b-500">FOR: {{entry.targetName}}</span>
-	                    <span class="pull-right b-400 f-11 label" ng-class="{'label-primary' : entry.status == 'Read', 'label-danger' : entry.status != 'Read'}">{{entry.status | uppercase }}</span>
 	                </div>    
 	                
 	                <div class="f-12 b-400 m-b-5" ng-hide="entry.projectName == null">
@@ -39,11 +41,13 @@
 	                </div>
 	                
 	                <div class="f-12 b-400 m-b-5" ng-hide="entry.start == null">
-	                    {{entry.start | amCalendar:null:gs.pref.calFormats}}
+						{{entry.start | amCalendar:null:gs.pref.calFormats}}
+						<span ng-show="entry.end != null"> - </span> 
+                        {{ entry.end | amCalendar:null:gs.pref.calFormats}}
 	                </div>
 	                
-	                <div class="f-12 b-400 m-b-10" ng-hide="entry.duration == 0">
-	                    Duration: {{entry.duration | amDurationFormat : 'minute'}}
+	                <div class="f-12 b-400 m-b-10" ng-hide="entry.end == null || entry.start == null">
+	                    Duration: {{ determineDuration(entry) }}
 	                </div>
 	                
 	                <div class="f-12 m-b-10" ng-hide="(entry.people == null || entry.people.length == 0)">
@@ -53,7 +57,7 @@
 					    </span>
                     </div>
 			            
-			        <md-divider ng-hide="entry.duration == 0 && entry.projectName == null && entry.start == null && entry.target == null && (entry.people == null || entry.people.length == 0)"></md-divider>    
+			        <md-divider ng-hide="entry.projectName == null && entry.start == null && entry.target == null && (entry.people == null || entry.people.length == 0)"></md-divider>    
 			            
 			        <div flex="100" class="journalEntry-img-cont" ng-repeat="pic in entry.attachments | filter:'image/' | limitTo:2">
 					    <a href="{{pic.url}}" target="_blank">

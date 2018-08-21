@@ -19,13 +19,17 @@
         $scope.grouping = [];
         $scope.orderByFld = 'updated';
         
-        $scope.search = '';
+		$scope.search = '';
+		
+		$scope.readFlag = '';
         
         
         globalSettings.initSettings().then(
 			function() {
 				$scope.memoAliasPlural = globalSettings.currWorkspace.Terminology.memoAliasPlural;
 				$scope.org = globalSettings.currWorkspace.Terminology;
+
+				$scope.readFlag = "READ_" + globalSettings.currProfile.person;
 				
 				if ($scope.display == "Ideas") {
 					$scope.itemLabel = "Idea";
@@ -84,7 +88,14 @@
         $scope.newEntry = function() {
             $scope.nav.newJournalEntry();
         }
-        
+		
+		$scope.determineDuration = function(entry) {
+			var start = moment(entry.start);
+			var end = moment(entry.end);
+
+			return end.from(start, true);
+		}
+
         $scope.determineContentHeight = function(entry) {
 	        var result = "100%";
 	        

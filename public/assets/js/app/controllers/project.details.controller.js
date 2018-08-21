@@ -6,10 +6,10 @@
         .controller('ProjectDetailsController', ProjectDetailsController);
 
     ProjectDetailsController.$inject = ['$scope', '$rootScope', '$state', '$window', '$filter', '$sce', 'globalSettings', 
-    	'globalNav', 'peopleService', 'projectService', 'activityService', 'taskService', 'taskActivityService'];
+    	'globalNav', 'peopleService', 'projectService', 'activityService', 'taskService', 'taskActivityService', 'journalService'];
 
     function ProjectDetailsController($scope, $rootScope, $state, $window, $filter, $sce, globalSettings, globalNav, 
-    			peopleService, projectService, activityService, taskService, taskActivityService) {
+    			peopleService, projectService, activityService, taskService, taskActivityService, journalService) {
 	    			
         $scope.$state = $state;
         $scope.gs = globalSettings;
@@ -42,7 +42,8 @@
 	    
 	    $scope.selectedProject = null;
         $scope.selectedProjectSrc = null;
-        
+		
+		$scope.entries = null;
         $scope.tasks = null;
         $scope.people = null;
         $scope.taskGrouping = null;
@@ -60,7 +61,8 @@
 	        	$scope.selectedProjectSrc = project;
 	        	$scope.selectedProject = project;
 	        	
-	        	$scope.retrieveTasks(project.$id);
+				$scope.retrieveTasks(project.$id);
+				$scope.retrieveJournal(project.$id);
 	        	$scope.refreshActivity();
 	        	
 	        	//actType, tar, tarId, tarType, pers, proj, detail1, detail2
@@ -102,6 +104,13 @@
 					)
 				}
 			)
+		}
+		
+		$scope.retrieveJournal = function(projId) {
+	        journalService.getAllEntries().then(
+			   	function(entries) {
+			   		$scope.entries = entries; 	
+			});
         }
         
         $scope.getFilter = function(val) {
@@ -185,6 +194,10 @@
     	
     	$scope.updateTaskIsDone = function(item, status) {
 	        taskActivityService.updateStatus(item, item.isDone);
+        }
+    	
+        $scope.openEntryDetails = function(entry) {
+            globalNav.openJournalEditDetails(entry.$id);
         }
     	
     	globalNav.registerViewController(globalNav.ACTION_PROJECT, $scope.initAction);

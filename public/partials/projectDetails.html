@@ -144,9 +144,25 @@
 		    </md-tab>
 		      
 		    <md-tab label="{{gs.currWorkspace.Terminology.memoAliasPlural}}">
-		        <md-content class="md-padding">
-		          <p></p>
-		        </md-content>
+		        <md-content>
+					<md-list flex>
+						<md-list-item class="md-2-line" ng-repeat="entry in entries | filter: {$:selectedProject.$id} | orderBy:'updated':true" 
+							ng-click="openEntryDetails(entry)">
+							
+							<i class="pe-fw f-25 p-5 m-r-5"
+							  ng-class="{'pe-7s-light' : entry.type == 'Idea', 'pe-7s-call' : entry.type == 'Phone call', 
+									  'pe-7s-date' : entry.type == 'Meeting', 'pe-7s-note2' : entry.type == 'Memo',
+									  'pe-7s-copy-file' : entry.type == 'Document', 'pe-7s-photo' : entry.type == 'Image',
+									  'pe-7s-coffee' : entry.type == 'Food'}"><md-tooltip>{{entry.type}}</md-tooltip></i>
+							
+						  <div class="md-list-item-text">
+							<div class="list-title">{{ entry.title }}</div>
+							<div class="list-title-2">{{entry.updated | amCalendar:null:gs.pref.calFormats}}</div>
+						  </div>	    
+						  <md-divider></md-divider>
+						</md-list-item>
+					  </md-list>	
+				  </md-content>
 		    </md-tab>
 		      
 		    </md-tabs>

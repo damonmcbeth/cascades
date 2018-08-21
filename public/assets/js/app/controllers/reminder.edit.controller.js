@@ -218,7 +218,8 @@
 
 
     	$scope.clearStartDate = function() {
-	    	$scope.selectedEntry.start = null;
+			$scope.selectedEntry.start = null;
+			$scope.selectedEntry.end = null;
     	}
     	
     	$scope.handleAllDayChanged = function() {
