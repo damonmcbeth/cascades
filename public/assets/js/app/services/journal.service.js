@@ -396,10 +396,9 @@
 						var readFlag = "READ_" + globalSettings.currProfile.person;
 						
 						if (entry != null && entry[readFlag] != "Y") {
-							//entry.status = "Read";
-							//globalSettings.updateTimestamp(entry);
-							
 							entry[readFlag] = "Y";
+							entry.markRead = globalSettings.currProfile.person;
+							entry.updatedByUser = globalSettings.authUser.uid;
 
 							entries.$save(entry).then(
 								function(result) {
