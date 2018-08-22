@@ -47,20 +47,25 @@ exports.updateJournal = functions.database
         .onWrite((event) => {
                 var updated;
                 var updates = {};
-                var updateKey;
+                var updateUser;
 
                 const funcName = "(updateJournal) ";
                 const workspaceId = event.params.workspaceId;
                 const journalId = event.params.journalId;
                 
+                var updateKey =`/App/Workspaces/${workspaceId}/Journal/${journalId}`
+
                 if (event.data.exists()) {
                         updated = event.data.val();
-                //        user = updated.updatedByUser;
+                        updateUser = updated.updatedByUser;
 
-                        //if (user == undefined || user == null || user == "CASCADES_CLOUD") {
-                        //        logMsg(funcName, 'Exiting due to user being empty or CASCADES_CLOUD');
-                        //        return null;
-                        //}
+                        if (updateUser == undefined || updateUser == null || updateUser == "CASCADES_CLOUD") {
+                                logMsg(funcName, 'Exiting due to user being empty or CASCADES_CLOUD');
+                                return null;
+                        } else {
+                                updates[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";
+                                updates[updateKey + "/markRead"] = null; 
+                        }
                 }
                 
                 const root = event.data.ref.root;
@@ -86,7 +91,7 @@ exports.updateJournal = functions.database
                                                         var users = usersSnap.val();
                                                         var keys = _.keys(users);
                                                         var len = keys.length;
-                                                        var wrkSpcs;
+                                                        //var wrkSpcs;
                                                         var user;
                                                         var personId;
                                                         var readFlag;
@@ -111,20 +116,17 @@ exports.updateJournal = functions.database
                                                                                 updates[updateKey] = totalUnread; 
                                                                         }
                                                                 }
-                                                        }
-                                
-                                                        //logMsg(funcName, 'Updates:', updates);
-                                                        root.update(updates).then(snap => {
-                                                                logMsg(funcName, "UPDATED Journal Stats");                                                                
-                                                        }) 
+                                                        } 
                                                 }
                                         });    
                                 }
                         });
-
-                } else {
-                        //logMsg(funcName, 'shouldUpdateJournalStats:', false);
                 }
+
+                //logMsg(funcName, 'Updates:', updates);
+                root.update(updates).then(snap => {
+                        logMsg(funcName, "UPDATED Journal Stats");                                                                
+                });
                 
                 return true;
 });
@@ -149,10 +151,10 @@ function shouldUpdateJournalStats(entry, prev) {
         opt.isNew = opt.hasEntry && !opt.hasPrev;
         opt.isChanged = opt.hasEntry && opt.hasPrev;
 
-        opt.prevRead = (opt.hasPrev) ? prev.status == "Read" : false;
-        opt.entryRead = (opt.hasEntry) ? entry.status == "Read" : false;
+        //opt.prevRead = (opt.hasPrev) ? prev.status == "Read" : false;
+        opt.entryRead = (opt.hasEntry) ? entry.markRead != null : false;
 
-        opt.readChanged = opt.prevRead != opt.entryRead;
+        opt.readChanged = opt.entryRead;
         opt.archivedChanged = (opt.isChanged) ? entry.archived != prev.archived : false;
         opt.isArchived = (opt.hasEntry) ? entry.archived : false;
 
