@@ -1,11 +1,10 @@
-                                                                                                //import { user } from 'firebase-functions/lib/providers/auth';
 //firebase deploy --only functions
 const functions = require('firebase-functions');
 const moment = require('moment');
 const _ = require('lodash');
 const admin = require('firebase-admin');
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -44,19 +43,19 @@ exports.notify = functions.https.onRequest((request, response) => {
 
 exports.updateJournal = functions.database
         .ref('/App/Workspaces/{workspaceId}/Journal/{journalId}')
-        .onWrite((event) => {
+        .onWrite((event, context) => {
                 var updated;
                 var updates = {};
                 var updateUser;
 
                 const funcName = "(updateJournal) ";
-                const workspaceId = event.params.workspaceId;
-                const journalId = event.params.journalId;
+                const workspaceId = context.params.workspaceId;
+                const journalId = context.params.journalId;
                 
                 var updateKey =`/App/Workspaces/${workspaceId}/Journal/${journalId}`
 
-                if (event.data.exists()) {
-                        updated = event.data.val();
+                if (event.after.exists()) {
+                        updated = event.after.val();
                         updateUser = updated.updatedByUser;
 
                         if (updateUser == undefined || updateUser == null || updateUser == "CASCADES_CLOUD") {
@@ -68,13 +67,12 @@ exports.updateJournal = functions.database
                         }
                 }
                 
-                const root = event.data.ref.root;
-                const previous = event.data.previous.val();
-                const userid = updated.updatedBy;
+                const root = event.after.ref.root;
+                const previous = event.after.val();
 
-                //logMsg(funcName, 'Journal Entry Id:', event.params.journalId);
-                //logMsg(funcName, 'Original entry:', previous);
-                //logMsg(funcName, 'Updated entry:', updated);
+                logMsg(funcName, 'Journal Entry Id:', context.params.journalId);
+                logMsg(funcName, 'Original entry:', previous);
+                logMsg(funcName, 'Updated entry:', updated);
 
                 if (shouldUpdateJournalStats(updated, previous)) {
                         //logMsg(funcName, 'shouldUpdateJournalStats:', true);
@@ -91,7 +89,6 @@ exports.updateJournal = functions.database
                                                         var users = usersSnap.val();
                                                         var keys = _.keys(users);
                                                         var len = keys.length;
-                                                        //var wrkSpcs;
                                                         var user;
                                                         var personId;
                                                         var readFlag;
@@ -100,7 +97,7 @@ exports.updateJournal = functions.database
                                 
                                                         for (i=0; i<len; i++) {
                                                                 user = users[keys[i]]; 
-                                                                //logMsg(funcName, "user:", user);
+                                                                logMsg(funcName, "user:", user);
 
                                                                 if (user["status"] == "active") {
                                                                         if (includesWorkspace(workspaceId, user)) {
@@ -108,7 +105,7 @@ exports.updateJournal = functions.database
                                                                                 readFlag = `READ_${personId}`;
                                                                                 filter = {};
                                                                                 filter[readFlag] = "Y";
-                                                                                //logMsg(funcName, 'filter:', filter);
+                                                                                logMsg(funcName, 'filter:', filter);
 
                                                                                 totalUnread = (_.reject(filteredEntries, filter)).length;
 
@@ -123,7 +120,7 @@ exports.updateJournal = functions.database
                         });
                 }
 
-                //logMsg(funcName, 'Updates:', updates);
+                logMsg(funcName, 'Updates:', updates);
                 root.update(updates).then(snap => {
                         logMsg(funcName, "UPDATED Journal Stats");                                                                
                 });
