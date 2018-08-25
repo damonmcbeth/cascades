@@ -8,11 +8,20 @@
 	                    <span class="text">New {{itemLabel}}</span>
 	                </a>
 	            </li> 
-	            <!--li>
-	                <a href="">
-	                    <i class="icon pe-7s-more"></i>
-	                </a>
-	            </li--> 
+				<li>
+	            	<md-menu md-offset="0 15">
+			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
+			            <i class="icon pe-7s-more"></i>
+			          </md-button>
+			          
+			          <md-menu-content width="3">
+			            <md-menu-item>
+			              <md-button ng-click="markAllRead()">Mark all read</md-button>
+			            </md-menu-item>
+			          </md-menu-content>
+			          
+			        </md-menu>
+	            </li>
 
 	        </ul>
 	    </div>

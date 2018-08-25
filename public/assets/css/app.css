@@ -1419,6 +1419,10 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+.note-palette-title {
+  color: #333;
+}
+
 .datetimepicker {
   margin-top: -25px !important;
 }
@@ -3118,10 +3122,10 @@ Utility bar
   transition: all 0.3s ease;
   background-color: #ffffff;
   right: 0;
-  width: 460px;
+  width: 560px;
 }
 .sidebar.form.collapsed {
-  right: -460px;
+  right: -560px;
   /*visibility: hidden;*/
 }
 .sidebar.form.collapsed ~ .main-content {
@@ -3326,7 +3330,7 @@ Utility bar
     margin-left: 0 !important;
   }
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 560px) {
   .sidebar.form {
     width: 100%;
   }
@@ -3700,7 +3704,7 @@ Utility bar
     top: 4px;
   }
   .sidebar.form:not(.collapsed) ~ .main-content .content-header .header-actions {
-    right: 460px;
+    right: 560px;
   }
 }
 @media only screen and (max-width: 500px) {

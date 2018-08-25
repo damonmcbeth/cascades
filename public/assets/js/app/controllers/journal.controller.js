@@ -115,7 +115,7 @@
 		        if (images == 1) {
 			        tmp = tmp - 180;
 		        } else if (images > 1) {
-			        tmp = tmp - 215;
+			        tmp = tmp - 180; //215
 		        } 
 		        
 		        if (files > 0) {

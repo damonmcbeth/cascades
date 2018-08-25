@@ -43,7 +43,7 @@ exports.notify = functions.https.onRequest((request, response) => {
 
 exports.updateJournal = functions.database
         .ref('/App/Workspaces/{workspaceId}/Journal/{journalId}')
-        .onWrite((event, context) => {
+        .onWrite((change, context) => {
                 var updated;
                 var updates = {};
                 var updateUser;
@@ -54,8 +54,8 @@ exports.updateJournal = functions.database
                 
                 var updateKey =`/App/Workspaces/${workspaceId}/Journal/${journalId}`
 
-                if (event.after.exists()) {
-                        updated = event.after.val();
+                if (change.after.exists()) {
+                        updated = change.after.val();
                         updateUser = updated.updatedByUser;
 
                         if (updateUser == undefined || updateUser == null || updateUser == "CASCADES_CLOUD") {
@@ -67,22 +67,22 @@ exports.updateJournal = functions.database
                         }
                 }
                 
-                const root = event.after.ref.root;
-                const previous = event.after.val();
+                const root = change.after.ref.root;
+                const previous = change.after.val();
 
                 logMsg(funcName, 'Journal Entry Id:', context.params.journalId);
                 logMsg(funcName, 'Original entry:', previous);
                 logMsg(funcName, 'Updated entry:', updated);
 
                 if (shouldUpdateJournalStats(updated, previous)) {
-                        //logMsg(funcName, 'shouldUpdateJournalStats:', true);
+                        logMsg(funcName, 'shouldUpdateJournalStats:', true);
                         retrieveAllJournalEntries(workspaceId, root).then(snap => {
                                 if (snap.exists()) {
                                         const journal = snap.val();
                                         var entries = _.values(journal);
                                         var filteredEntries = _.reject(entries, { 'archived': true });
 
-                                        //logMsg(funcName, "filtered Entries", filteredEntries.length);
+                                        logMsg(funcName, "filtered Entries", filteredEntries.length);
 
                                         root.child(`/Users`).once('value').then(usersSnap => {
                                                 if (usersSnap.exists()) {
@@ -97,7 +97,7 @@ exports.updateJournal = functions.database
                                 
                                                         for (i=0; i<len; i++) {
                                                                 user = users[keys[i]]; 
-                                                                logMsg(funcName, "user:", user);
+                                                                //logMsg(funcName, "user:", user);
 
                                                                 if (user["status"] == "active") {
                                                                         if (includesWorkspace(workspaceId, user)) {
@@ -105,7 +105,7 @@ exports.updateJournal = functions.database
                                                                                 readFlag = `READ_${personId}`;
                                                                                 filter = {};
                                                                                 filter[readFlag] = "Y";
-                                                                                logMsg(funcName, 'filter:', filter);
+                                                                                //logMsg(funcName, 'filter:', filter);
 
                                                                                 totalUnread = (_.reject(filteredEntries, filter)).length;
 
@@ -115,15 +115,20 @@ exports.updateJournal = functions.database
                                                                 }
                                                         } 
                                                 }
+
+                                                logMsg(funcName, 'Updates:', updates);
+                                                root.update(updates).then(snap => {
+                                                        logMsg(funcName, "Journal Stats updated");                                                                
+                                                });
                                         });    
                                 }
                         });
+                } else {
+                        logMsg(funcName, 'Updates:', updates);
+                        root.update(updates).then(snap => {
+                                logMsg(funcName, "Journal Stats not updated");                                                                
+                        });
                 }
-
-                logMsg(funcName, 'Updates:', updates);
-                root.update(updates).then(snap => {
-                        logMsg(funcName, "UPDATED Journal Stats");                                                                
-                });
                 
                 return true;
 });
@@ -166,18 +171,18 @@ function shouldUpdateJournalStats(entry, prev) {
 
 exports.updateTasks = functions.database
         .ref('/App/Workspaces/{workspaceId}/Tasks/{taskId}')
-        .onWrite((event) => {
+        .onWrite((change, context) => {
                 var updated;
                 var user;
                 var updates = {};
 
                 const funcName = "(updateTasks) ";
-                const workspaceId = event.params.workspaceId;
-                const taskId = event.params.taskId;
+                const workspaceId = context.params.workspaceId;
+                const taskId = context.params.taskId;
                 const updateKey = `/App/Workspaces/${workspaceId}/Tasks/${taskId}`
 
-                if (event.data.exists()) {
-                        updated = event.data.val();
+                if (change.after.exists()) {
+                        updated = change.after.val();
                         user = updated.updatedByUser;
 
                         if (user == undefined || user == null || user == "CASCADES_CLOUD") {
@@ -186,15 +191,15 @@ exports.updateTasks = functions.database
                         }
                 }
 
-                const root = event.data.ref.root;
-                const previous = event.data.previous.val();
+                const root = change.after.ref.root;
+                const previous = change.before.val();
                 const userid = updated.updatedBy;
 
-                logMsg(funcName, 'Task Id:', event.params.taskId);
+                logMsg(funcName, 'Task Id:', context.params.taskId);
                 logMsg(funcName, 'Original task:', previous);
                 logMsg(funcName, 'Updated task:', updated);
 
-                retrieveTaskSettings(user, workspaceId, root).then(snap => {
+                return retrieveTaskSettings(user, workspaceId, root).then(snap => {
                         var setting_soon = 10; 
                         if (snap.exists()) {
                                 const settings = snap.val();
@@ -203,22 +208,22 @@ exports.updateTasks = functions.database
 
                         determineTaskStatus(updated, previous, updates, updateKey);
                         determineTaskState(updated, setting_soon, updates, updateKey);
-                        updateTaskSummary(updated, previous, workspaceId, root, updates);
+                        updateTaskSummary(updated, previous, workspaceId, root, updates).then(result2 => {
+                                updates[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
+                                logMsg(funcName, 'Updates:', updates);
+                
+                                root.update(updates).then(snap => {
+                                        logMsg(funcName, "UPDATED Task");
+                
+                                        //Add Activity
+                                        return notifyTaskAssignment(updated, previous, workspaceId, root);
+                                        
+                                }) 
+                        });
+                        
+                });
 
-                        updates[updateKey + "/updatedByUser"] = "CASCADES_CLOUD";  
-                        logMsg(funcName, 'Updates:', updates);
-
-                        root.update(updates).then(snap => {
-                                logMsg(funcName, "UPDATED Task");
-
-                                //Add Activity
-                                notifyTaskAssignment(updated, previous, workspaceId, root);
-                                
-                        }) 
-
-                })
-
-                return true;
+                //return true;
 });
 
 function notifyTaskAssignment(task, prev, workspaceId, root) {
@@ -366,7 +371,7 @@ function buildSummaryList(updated, previous, list) {
         return result;
 }
 
-function updateTaskSummary(updated, previous, workspaceId, root) {
+function updateTaskSummary(updated, previous, workspaceId, root, updates) {
         const funcName = "(updateTaskSummary) ";
 
         var people = [];
@@ -381,7 +386,7 @@ function updateTaskSummary(updated, previous, workspaceId, root) {
         var len=people.length;
         var lookupKey;
         
-        retrieveAllTasks(workspaceId, root).then(snap => {
+        return retrieveAllTasks(workspaceId, root).then(snap => {
                 if (snap.exists()) {
                         const tasks = snap.val();
                         for (i=0; i<len; i++) {
@@ -394,9 +399,10 @@ function updateTaskSummary(updated, previous, workspaceId, root) {
                                 };
                                 
                                 calTaskSummaryForPerson(tasks, people[i], taskSum);
-                                saveTaskSummary(people[i], taskSum);
+                                saveTaskSummary(workspaceId, people[i], taskSum, updates);
                         }
                         
+                        return true;
                         /*if (projects != null) {
                                 len = projects.length;
                                 i=0;
@@ -433,7 +439,7 @@ function calTaskSummaryForPerson(tasks, person, taskSum) {
 }
 
 function saveTaskSummary(workspaceId, person, taskSum, updates) {
-        var updateKey = "App/Workspaces/" + globalSettings.currWorkspace.$id 
+        var updateKey = "App/Workspaces/" + workspaceId 
                                                     + "/Summary/" + person + "/Task"; 
         updates[updateKey] = taskSum;       
 }
@@ -453,7 +459,7 @@ function retrieveUser(user, workspaceId, root) {
 function retrieveAllActiveUsers(workspaceId, root) {
         const funcName = "(retrieveAllUsers) ";
 
-        root.child(`/Users`).once('value').then(snap => {
+        return root.child(`/Users`).once('value').then(snap => {
                 if (snap.exists()) {
                         var users = _.values(snap.val());
                         var activeUsers = _.filter(users, { 'status': "active" });
@@ -472,7 +478,7 @@ function retrieveAllActiveUsers(workspaceId, root) {
                 }
         });
 
-        return null
+        //return null
 }
 
 function logMsg() {

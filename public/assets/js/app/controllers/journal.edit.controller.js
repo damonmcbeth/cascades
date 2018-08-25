@@ -24,11 +24,12 @@
 		    height: 300,
 		    airMode: false,
 		    toolbar: [
-			    ['para', ['style']],
-				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['para', ['style']],
+				['fontname', ['fontname']],
+				['color', ['color']],
 				['fontsize', ['fontsize']],
-	            ['fontclr', ['color']],
-	            ['alignment', ['ul', 'ol', 'paragraph']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['alignment', ['ul', 'ol', 'paragraph']],
 				['insert', ['link', 'table', 'hr']],
 				['misc', ['undo']],
 	            ['view', ['fullscreen', 'codeview']]

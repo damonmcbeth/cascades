@@ -59,7 +59,7 @@
 			            
 			        <md-divider ng-hide="entry.projectName == null && entry.start == null && entry.target == null && (entry.people == null || entry.people.length == 0)"></md-divider>    
 			            
-			        <div flex="100" class="journalEntry-img-cont" ng-repeat="pic in entry.attachments | filter:'image/' | limitTo:2">
+			        <div flex="100" class="journalEntry-img-cont" ng-repeat="pic in entry.attachments | filter:'image/' | limitTo:1">
 					    <a href="{{pic.url}}" target="_blank">
 			        	<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
 			        		class="journalEntry-img">
