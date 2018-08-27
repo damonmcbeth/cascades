@@ -174,6 +174,8 @@
 								<avatar size="sm" img="selectedEntry.target.avatar" state="selectedEntry.target.state" 
 									name="selectedEntry.target.name" type="selectedEntry.target.avatarType"></avatar> 
 							</div>
+							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-hide="selectedEntry.target == null"
+								   ng-click="clearTarget()" aria-label="Clear"></i>
 						</div>
 
 		            </div>
@@ -181,7 +183,7 @@
 			  	
 			  	<div class="panel panel-tags collapsed">
 					<div class="panel-heading">
-		                <h3 class="panel-title">People</h3>
+		                <h3 class="panel-title">Related People</h3>
 		                <div class="panel-tools">
 		                    <panel-collapse></panel-collapse>
 		                </div>

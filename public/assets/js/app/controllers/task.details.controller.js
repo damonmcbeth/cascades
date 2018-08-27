@@ -203,6 +203,16 @@
     	
     	$scope.clearDueDate = function() {
 	    	$scope.selectedTask.due = null;
+		}
+		
+		$scope.clearDelegate = function() {
+			$scope.selectedTask.delegate = null;
+			$scope.delegateSearchText = null;
+		}
+		
+		$scope.clearOwner = function() {
+			$scope.selectedTask.owner = null;
+			$scope.ownerSearchText = null;
     	}
     
     	globalNav.registerEditController(globalNav.ACTION_TASK, $scope.initAction);

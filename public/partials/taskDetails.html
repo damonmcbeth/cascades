@@ -138,6 +138,8 @@
 								<avatar size="sm" img="selectedTask.owner.avatar" state="selectedTask.owner.state" 
 									name="selectedTask.owner.name" type="selectedTask.owner.avatarType"></avatar> 
 							</div>
+							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-hide="selectedTask.owner == null"
+								   ng-click="clearOwner()" aria-label="Clear"></i>
 						</div>
 
 						<div layout="row p-b-20">
@@ -161,6 +163,8 @@
 									<avatar size="sm" img="selectedTask.delegate.avatar" state="selectedTask.delegate.state" 
 										name="selectedTask.delegate.name" type="selectedTask.delegate.avatarType"></avatar>
 							</div>
+							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-hide="selectedTask.delegate == null"
+								   ng-click="clearDelegate()" aria-label="Clear"></i>
 						</div>
 		            </div>
 				</div>

@@ -518,6 +518,10 @@
 			$scope.groupUpdateTasks('project', target);
 		}
 
+		$scope.updateAssignment = function(target) {
+			$scope.groupUpdateTasks('owner', target);
+		}
+		
 		$scope.updateTag = function(target) {
 			$scope.groupUpdateTasks('tag', target);
 		}
@@ -553,11 +557,17 @@
 						case 'removeTags': task.tags = []; break;
 						case 'tag': $scope.addUniqueTag(task, val); break;
 						case 'project': $scope.assignProjectToTask(task, val); break;
+						case 'owner': $scope.assignOwnerToTask(task, val); break;
 						default: task[fld] = val;
 					}
 					taskActivityService.saveTask(task, orig);
 				}
 			)
+		}
+
+		$scope.assignOwnerToTask = function(task, person) {
+			task.ownerId = person.$id;
+			task.owner = person;
 		}
 
 		$scope.assignProjectToTask = function(task, project) {

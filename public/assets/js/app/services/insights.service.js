@@ -283,10 +283,10 @@
 			    
 		    };
 		    
-		    self.calculateUserJournalSummary = function(uid) {
+		    /*self.calculateUserJournalSummary = function(uid) {
 			    var deferred = $q.defer();
-			    			    
-		    	self.getJournal().then(
+				
+				self.getJournal().then(
 			    	function(entries) {
 				    	var total = ($filter('filter')(entries, {targetId:uid, status:'Unread'})).length;
 						
@@ -308,7 +308,7 @@
 		    	)
 		    	
 		    	return deferred.promise;
-		    }
+		    }*/
 		    
 		    self.calculateUserProjectSummary = function(uid) {
 			    var deferred = $q.defer();

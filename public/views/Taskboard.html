@@ -63,6 +63,33 @@
 						</md-menu>
 					</a>
 				</li>
+
+				<li ng-show="selectMode">
+					<a href="" class="toggle p-t-5">
+						<md-menu>
+							<md-button aria-label="Open menu" class="md-icon-button m-0 p-0" ng-click="$mdOpenMenu($event)">
+								<i class="icon pe-7s-users"></i>
+							</md-button>
+							
+							<md-menu-content width="3">
+								<md-menu-item>
+									<md-button class="menu-subheader" disabled="disabled">
+										Assign owner:
+									</md-button>
+								</md-menu-item>
+								<md-divider></md-divider>
+								<md-menu-item ng-repeat="tm in team | filter:{type: 'Team member'} | orderBy:'name'">
+									<md-button aria-label="update view" ng-click="updateAssignment(tm)">{{tm.name}}</md-button>
+								</md-menu-item>
+								<!--md-divider></md-divider>
+								<md-menu-item>
+									<md-button aria-label="remove tags" ng-click="removeAllTags()">Remove all tags</md-button>
+								</md-menu-item-->
+							</md-menu-content>
+						</md-menu>
+					</a>
+				</li> 
+
 				<li ng-show="selectMode">
 					<a href="" class="toggle p-t-5">
 						<md-menu>
@@ -248,7 +275,7 @@
                                 {{ task.due | amCalendar:null:gs.pref.calFormats}}
                         </div>
                         <div class="list-title-3" ng-show="task.projectName != null">
-                                {{gs.currWorkspace.Terminology.projectAlias}}: {{task.projectName}}
+                                {{task.projectName}}
 						</div>
 						<div class="list-title-3" ng-show="task.hasChecklist">
 	                        Checklist: {{getTotalChecklistDone(task.checklist)}} out of {{task.checklist.length}} done

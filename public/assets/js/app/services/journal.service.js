@@ -271,7 +271,12 @@
 					if (edited.target.notificationToken != null) {
 						var msg = edited.updatedName + " sent you a message: " + edited.title;
 						var icon = globalSettings.currProfile.avatar;
-						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
+						var iconType = globalSettings.currProfile.avatarType;
+
+						if (iconType != "Custom") {
+							var imgPath = globalSettings.pref.people.imagePath;
+							icon = imgPath + icon;
+						}
 
 						messageService.sendMessage(edited.target.notificationToken, msg, icon);
 					}
@@ -279,13 +284,13 @@
 		    }
 
 		    self.calculateSummary = function(origTargetId, edited) {
-			    if (edited.targetId != null) {			    
+			    /*if (edited.targetId != null) {			    
 			    	insightsService.calculateUserJournalSummary(edited.targetId);
 			    }
 			    
 			    if (edited.targetId != origTargetId && origTargetId != null) {
 				    insightsService.calculateUserJournalSummary(origTargetId);
-			    }
+			    }*/
 		    }
 		    
 		    self.createEntryForSave = function(src) {
@@ -405,7 +410,7 @@
 									deferred.resolve(true);
 							})
 							
-							insightsService.calculateUserJournalSummary(entry.targetId);
+							//insightsService.calculateUserJournalSummary(entry.targetId);
 
 						}
 					}

@@ -145,10 +145,6 @@
 	        } else {
 	        	$scope.selectedEntry.targetName = $scope.selectedEntry.target.first + " " + $scope.selectedEntry.target.last;
 	        	$scope.selectedEntry.targetId = ($scope.selectedEntry.target == null) ? null : $scope.selectedEntry.target.$id;
-	        	
-	        	if ($scope.selectedEntry.targetId != $scope.selectedEntrySrc.targetId) {
-		        	$scope.selectedEntry.status = "Unread";
-	        	}
 	        }
 	        
 	        if ($scope.selectedEntry.project == null || $scope.selectedEntry.project == "") {
@@ -274,6 +270,11 @@
 		    	$scope.selectedEntry.attachments.splice($scope.selectedEntry.attachments.indexOf(item), 1);
 		    }
 		}
+
+		$scope.clearTarget = function() {
+			$scope.selectedEntry.target = null;
+			$scope.ownerSearchText = null;
+    	}
 		
     
     	globalNav.registerEditController(globalNav.ACTION_JOURNAL_ENTRY, $scope.initAction);

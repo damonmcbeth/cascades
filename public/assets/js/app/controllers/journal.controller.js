@@ -64,7 +64,8 @@
 		    var filter;
 		    
 	        if ($scope.display == "My") {
-				filter = {targetId: globalSettings.currProfile.person, $:search, since:grp};
+				filter = {$:search, since:grp, archived: false};
+				filter[$scope.readFlag] = "!Y";
 			} else if ($scope.display == "Archived") {
 				filter = {archived: true, $:search, since:grp};
 			} else if ($scope.display == "Ideas") {
@@ -74,7 +75,30 @@
 			}
 			
 			return filter;
-    	}
+		}
+		
+		$scope.markAllRead = function() {
+			var filter = {};
+			var search = $scope.search;
+		    
+	        if ($scope.display == "My") {
+				filter = {$:search, archived: false};
+				filter[$scope.readFlag] = "!Y";
+			} else if ($scope.display == "Archived") {
+				filter = {archived: true, $:search};
+			} else if ($scope.display == "Ideas") {
+				filter = {type: "Idea", $:search};
+			} else {
+				filter = {archived: false, $:search};
+			}
+
+			var filteredList = $filter('filter')($scope.journal, filter);
+			var len = filteredList.length;
+		    
+		    for (var i=0; i<len; i++) {
+				journalService.markAsRead(filteredList[i].$id);
+			}
+		}
 
 		
 		$scope.formatContent = function(content) {

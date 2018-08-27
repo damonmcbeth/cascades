@@ -43,12 +43,12 @@
 					"Food"
 				],
 				calFormats: {
-					sameDay: "[Today at ] h:mma",
-					nextDay: "[Tomorrow at ] h:mma",
-					nextWeek: "dddd [at] h:mma",
-					lastDay: "[Yesterday at ] h:mma",
-					lastWeek: "[Last] dddd [at] h:mma",
-					sameElse: "ddd, MMM D, YYYY,  h:mma"
+					sameDay: "[Today at] h:mm a",
+					nextDay: "[Tomorrow at] h:mm a",
+					nextWeek: "dddd [at] h:mm a",
+					lastDay: "[Yesterday at] h:mm a",
+					lastWeek: "[Last] dddd [at] h:mm a",
+					sameElse: "ddd MMMM D, YYYY [at] h:mm a"
 					},
 				calShortFormats: {
 					sameDay: "[Today]",
