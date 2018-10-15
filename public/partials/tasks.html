@@ -55,7 +55,7 @@
 				      <div ng-class="{'list-title' : true, 'task-done' : task.archived }">{{task.title}}</div>
 				      <div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div>
 				      
-				      <div class="list-title-3" ng-hide="task.projectName==null">{{task.projectName}}</div>
+				      <div class="list-title-3" ng-hide="task.projectName==null">{{gs.currWorkspace.Terminology.projectAlias}}: {{task.projectName}}</div>
 				    </div>
 				    <div class="md-secondary p-10">
                			<span ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}</span>

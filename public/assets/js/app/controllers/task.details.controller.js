@@ -65,9 +65,14 @@
 				        var tmp = taskService.newTask();
 				        
 				        var defProj = globalSettings.currWorkspace.Settings.Project.defaultProject;
-						tmp.projectId = (globalNav.defaultProject == null) ? defProj : globalNav.defaultProject;	
+						tmp.projectId = (globalNav.defaultProject == null) ? defProj : globalNav.defaultProject;
+						
+						if (globalNav.defaultPerson != null)  {
+							tmp.relatedId = globalNav.defaultPerson;
+						}
 
-					    globalNav.clearDefaultProject();
+						globalNav.clearDefaultProject();
+						globalNav.clearDefaultPerson();
 				        
 				        taskService.initTask(tmp).then(
 					        function(initedTask) {
@@ -116,7 +121,8 @@
 	        if ($scope.selectedTask.delegate == "") {
 		        $scope.selectedTask.delegate = null;
 	        }
-	        
+			
+			$scope.selectedTask.relatedId = ($scope.selectedTask.related == null) ? null : $scope.selectedTask.related.$id;
 	        $scope.selectedTask.ownerId = ($scope.selectedTask.owner == null) ? null : $scope.selectedTask.owner.$id;
 	        $scope.selectedTask.delegateId = ($scope.selectedTask.delegate == null) ? null : $scope.selectedTask.delegate.$id;
 	        
@@ -213,6 +219,11 @@
 		$scope.clearOwner = function() {
 			$scope.selectedTask.owner = null;
 			$scope.ownerSearchText = null;
+		}
+		
+		$scope.clearRelated = function() {
+			$scope.selectedTask.related = null;
+			$scope.relatedSearchText = null;
     	}
     
     	globalNav.registerEditController(globalNav.ACTION_TASK, $scope.initAction);

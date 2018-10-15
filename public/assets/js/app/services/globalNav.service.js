@@ -32,7 +32,8 @@
 		
 		nav.actionArg = null;
         nav.action = null;
-        nav.defaultProject = null;
+		nav.defaultProject = null;
+		nav.defaultPerson = null;
         
         nav.ACTION_TASK = 'ACTION_TASK';
         nav.ACTION_TASK_OPEN_DETAILS = 'ACTION_TASK_OPEN_DETAILS';
@@ -241,6 +242,14 @@
 			
 			this.launchTaskDetails();
 		}
+
+		nav.newTaskForPerson = function(personId) {
+			this.clearAction();
+			this.action = this.ACTION_TASK_NEW;
+			this.defaultPerson = personId;	
+			
+			this.launchTaskDetails();
+		}
         
         nav.launchTaskDetails = function() {
 			if (this.isActiveEdit(this.FORM_TASK_DETAILS)){
@@ -403,6 +412,10 @@
 		
 		nav.clearDefaultProject = function() {
 			nav.defaultProject = null;
+		}
+
+		nav.clearDefaultPerson = function() {
+			nav.defaultPerson = null;
 		}
 		
 		return nav;

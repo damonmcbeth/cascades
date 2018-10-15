@@ -89,7 +89,8 @@
 		        <md-content class="p-0">
 		        	<div class="p-10 f-14 v-a-middle">
 			        	<a href="" id="new-message" class="text-primary" ng-Click="openTaskDetails()">
-				        	<i class="icon pe-7f-plus f-20"></i>
+							<!--i class="icon pe-7f-plus f-20"></i-->
+							New {{gs.currWorkspace.Terminology.taskAlias}}
 			            </a>
 			            
 			            <a class="pull-right p-l-10 text-primary" ui-sref="projects.taskboard({id: selectedProject.$id})" ng-click="cancelEdit()">
@@ -104,7 +105,7 @@
 				        	<md-divider></md-divider>
 				            <md-list flex>
 							  <md-list-item class="md-3-line md-long-text" ng-repeat="task in tasks | filter:getFilter(taskGroup) | orderBy:'due'" ng-click="openTaskDetails(task)">
-							    <md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateIsDone(task)"></md-checkbox>
+							    <md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateTaskIsDone(task)"></md-checkbox>
 							    <div class="md-list-item-text">
 								  <div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
 							      <div ng-class="{'list-title' : true, 'task-done' : task.isDone }">{{task.title}}</div>

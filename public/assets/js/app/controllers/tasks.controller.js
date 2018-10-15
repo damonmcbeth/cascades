@@ -19,7 +19,8 @@
         $scope.populateTasks = function() {
 	        taskService.getAllTasks().then(
 				function(tasks) {
-					$scope.taskList = tasks;
+					var owner = globalSettings.currProfile.person;
+					$scope.taskList = $filter('filter')(tasks, {$:owner});
 			});
 		}
 		
@@ -92,16 +93,14 @@
         }
 	    
 	    $scope.getFilter = function(val) {
-		    var owner = globalSettings.currProfile.person;
-		    
-	        switch ($scope.viewByFld) {
+			switch ($scope.viewByFld) {
 	            case 'Priority':
-	                return {priority: val.code, ownerId: owner, archived: '!', $:$scope.search};
+	                return {priority: val.code, archived: '!', $:$scope.search};
 	            case 'Schedule':
-	                return {state: val.label, ownerId: owner, archived: '!', $:$scope.search};
+	                return {state: val.label, archived: '!', $:$scope.search};
 	            default:
-	                return {status: val.label, ownerId: owner, archived: '!', $:$scope.search}
-	        }
-    	}
+					return {status: val.label, archived: '!', $:$scope.search};
+			}	
+		}
     }
 }());

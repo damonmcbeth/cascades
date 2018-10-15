@@ -21,7 +21,7 @@
 		        <div class="panel panel-default">
 		            <div class="panel-body">
 		                <md-input-container class="md-block p-b-0">
-			            	<label>Title</label>
+			            	<label>{{gs.currWorkspace.Terminology.taskAlias}}</label>
 			            	<textarea name="title" id="taskTitle" class="primary-input" ng-model="selectedTask.title" 
 			            		rows="3" md-maxlength="140" autofocus="true" required></textarea>
 			            	
@@ -93,9 +93,6 @@
 		            </div>
 		        </div>
 		        
-		        
-
-		        
 				<div class="panel panel-default">
 		            <div class="panel-body">
 						<div layout="row p-b-20">
@@ -115,6 +112,31 @@
 									No project matching "{{projectSearchText}}" were found.
 								</md-not-found>
 							</md-autocomplete>
+						</div>
+
+						<div layout="row p-b-20">
+							<md-autocomplete flex
+								md-selected-item="selectedTask.related"
+								md-search-text="relatedSearchText"
+								md-items="related in owners | filter:{name:relatedSearchText} | orderBy: 'name' "
+								md-item-text="related.name"
+								md-autoselect="true"
+								md-input-name="relatedAutocompleteField"
+								md-require-match
+								md-floating-label="Related to">
+								<md-item-template>
+									<span md-highlight-text="relatedSearchText" md-highlight-flags="^i">{{related.name}}</span>
+								</md-item-template>
+								<md-not-found>
+									No people matching "{{relatedSearchText}}" were found.
+								</md-not-found>
+							</md-autocomplete>
+							<div class="p-l-15 p-t-15" ng-hide="selectedTask.related == null">
+								<avatar size="sm" img="selectedTask.related.avatar" state="selectedTask.related.state" 
+									name="selectedTask.related.name" type="selectedTask.related.avatarType"></avatar> 
+							</div>
+							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-hide="selectedTask.related == null"
+								   ng-click="clearRelated()" aria-label="Clear"></i>
 						</div>
 												
 						<div layout="row p-b-20">

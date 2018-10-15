@@ -100,6 +100,25 @@
 				return deferred.promise;
 			};
 			
+			self.getTasksForPerson = function(projId) {
+			    var deferred = $q.defer();
+			    
+				globalSettings.initSettings().then(
+					function() {
+						var lookupKey = "App/Workspaces/" + globalSettings.currWorkspace.$id + "/Tasks"; 
+						var ref = firebase.database().ref().child(lookupKey).orderByChild("relatedId").equalTo(projId);
+						
+						var tasks = $firebaseArray(ref);
+						tasks.$loaded().then( 
+							function(data) {
+								deferred.resolve(tasks);
+					});
+				});
+				
+				return deferred.promise;
+			};
+
+
 			self.getTasksForProject = function(projId) {
 			    var deferred = $q.defer();
 			    
@@ -154,6 +173,7 @@
 				for (var i=0; i<len; i++) {
 					self.assignPerson(tasks[i], tasks[i].ownerId, "owner");
 					self.assignPerson(tasks[i], tasks[i].delegateId, "delegate");
+					self.assignPerson(tasks[i], tasks[i].relatedId, "related");
 					self.assignPerson(tasks[i], tasks[i].createdById, "createdBy");
 					self.assignPerson(tasks[i], tasks[i].lastUpdatedById, "lastUpdatedBy");
 					
@@ -226,7 +246,8 @@
 		            result.status = src.status;
 		            result.$id = src.$id;
 		            result.notes = src.notes;
-		            result.ownerId = src.ownerId == undefined ? null : src.ownerId;
+					result.ownerId = src.ownerId == undefined ? null : src.ownerId;
+					result.relatedId = src.relatedId == undefined ? null : src.relatedId;
 		            result.delegateId = src.delegateId == undefined ? null : src.delegateId;
 		            result.start = src.start == undefined ? null : new Date(src.start);
 		            result.state = src.state;
@@ -261,12 +282,18 @@
 							function(delegate) {
 								task.delegate = delegate;
 								
-								projectService.findProject(task.projectId).then(
-									function(project) {
-										task.project = project;
-										deferred.resolve(task);
+								peopleService.findPerson(task.relatedId).then(
+									function(related) {
+										task.related = related;
+										
+										projectService.findProject(task.projectId).then(
+											function(project) {
+												task.project = project;
+												deferred.resolve(task);
+		
+										});	
+								});
 
-								});	
 						});
 				});
 		        
@@ -299,7 +326,9 @@
 					            project: '',
 					            notes: '',
 					            ownerId: globalSettings.currProfile.person,
-					            owner: null,
+								owner: null,
+								relatedId: null,
+								related: null,
 					            delegateId: null,
 					            delegate: null,
 					            start: null,
@@ -477,6 +506,8 @@
 								notes: src.notes,
 								ownerId: src.ownerId,
 								ownerName: src.owner == null ? null : src.owner.name,
+								relatedId: src.relatedId,
+								relatedName: src.related == null ? null : src.related.name,
 								delegateId: src.delegateId,
 								delegateName: src.delegate == null ? null : src.delegate.name,
 								projectId: src.projectId,
@@ -501,7 +532,9 @@
 	            result.status = src.status;
 	            result.notes = src.notes;
 	            result.ownerId = src.ownerId;
-	            result.ownerName = (src.owner == "" || src.owner == null) ? null : src.owner.name;
+				result.ownerName = (src.owner == "" || src.owner == null) ? null : src.owner.name;
+				result.relatedId = src.relatedId;
+	            result.relatedName = (src.related == "" || src.related == null) ? null : src.related.name;
 	            result.delegateId = src.delegateId;
 	            result.delegateName = (src.delegate == "" || src.delegate == null) ? null : src.delegate.name;
 	            result.start = src.start == null ? null : src.start.getTime();

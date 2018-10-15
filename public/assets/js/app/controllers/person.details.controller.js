@@ -5,10 +5,10 @@
         .module('app')
         .controller('PersonDetailsController', PersonDetailsController);
 
-    PersonDetailsController.$inject = ['$scope', '$rootScope', '$state', '$window', '$filter', 'globalSettings', 
-    	'globalNav', 'peopleService', 'projectService', 'activityService', 'journalService'];
+    PersonDetailsController.$inject = ['$scope', '$rootScope', '$state', '$window', '$filter', 'globalSettings', '$sce', 
+    	'globalNav', 'peopleService', 'projectService', 'activityService', 'journalService', 'taskService', 'taskActivityService'];
 
-    function PersonDetailsController($scope, $rootScope, $state, $window, $filter, globalSettings, globalNav, peopleService, projectService, activityService, journalService) {
+    function PersonDetailsController($scope, $rootScope, $state, $window, $filter, globalSettings, $sce, globalNav, peopleService, projectService, activityService, journalService, taskService, taskActivityService) {
         $scope.$state = $state;        
         $scope.nav = globalNav;
         $scope.gs = globalSettings;
@@ -23,6 +23,8 @@
 		$scope.activity = null;
 		$scope.projects = null;
 		$scope.entries = null;
+		$scope.tasks = null;
+		$scope.taskGrouping = null;
 	    $scope.activityGrouping = null;	
 	    $scope.hideAvatar = true;
 	    
@@ -40,10 +42,49 @@
 	        	$scope.refreshActivity();
 	        	$scope.populateProject();
 				$scope.populateJournal();
+				$scope.populateTasks(person.$id);
 	        	activityService.addAccessActivity(activityService.TYPE_ACCESS, person, person.$id, activityService.TAR_TYPE_PERSON, person);   	
 	        }
         }
-        
+		
+		$scope.formatContent = function(content) {
+			return $sce.trustAsHtml(content);
+		}
+
+		$scope.populateTasks = function(personId) {
+	        if ($scope.selectedPerson != null) {
+				taskService.getTaskStates().then(
+					function(list){
+						var orderedList = list;
+
+						taskService.getTasksForPerson(personId).then(
+							function(tasks) {
+								var i = 0;
+								var tmpGrouping = [];
+								
+								var len = orderedList.length;
+								var cnt;
+								
+								for (i=0; i<len; i++) {
+									cnt = ($filter('filter')(tasks, $scope.getFilter(orderedList[i]))).length;
+									if (cnt > 0) {
+										tmpGrouping.uniquePush(orderedList[i]);
+									}
+								}
+								
+								$scope.taskGrouping = tmpGrouping;
+								$scope.tasks = tasks;
+							}
+						)
+					}
+				)
+			}
+		}
+		
+		$scope.getFilter = function(val) {
+	        return {status: val.label, isDone: false};
+    	}
+
         $scope.populateJournal = function() {
 	        if ($scope.selectedPerson != null) {
 		    	journalService.getAllEntries().then(
@@ -101,7 +142,19 @@
 			}); 
 	        
         }
-        
+		
+		$scope.openTaskDetails = function(taskItem) {
+	    	if (taskItem == null) {
+		    	globalNav.newTaskForPerson($scope.selectedPerson.$id);
+		    } else {
+	    		globalNav.openTaskDetails(taskItem.$id);
+	    	}
+		}
+
+		$scope.updateTaskIsDone = function(item) {
+	        taskActivityService.updateStatus(item, item.isDone);
+        }
+
         $scope.openProjectDetails = function(project) {
 	        $scope.closeDetails();
             $scope.nav.openProjectDetails(project.$id);

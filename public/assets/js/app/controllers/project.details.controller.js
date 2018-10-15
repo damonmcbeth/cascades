@@ -192,7 +192,7 @@
 	    	globalNav.openPeopleDetails(personId);
     	}
     	
-    	$scope.updateTaskIsDone = function(item, status) {
+    	$scope.updateTaskIsDone = function(item) {
 	        taskActivityService.updateStatus(item, item.isDone);
         }
     	

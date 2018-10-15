@@ -39,8 +39,20 @@
 					"Image",
 					"Idea",
 					"Meeting",
+					"Event",
 					"Document",
-					"Food"
+					"Food",
+					"Recipe",
+					"Restaurant",
+					"Workout",
+					"Location",
+					"Sports",
+					"Shopping",
+					"Media",
+					"Minutes",
+					"Games",
+					"Health",
+					"Money"
 				],
 				calFormats: {
 					sameDay: "[Today at] h:mm a",
