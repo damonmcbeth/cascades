@@ -36,27 +36,30 @@
 			    <div class="m-t-5 p-15 f-14 bg-muted border-top-1 border-bottom-1 border-muted"
 					style="width: 100%; height: 380px" layout="column">
 
-					<div class="b-400 f-11 label label-primary w-60 m-b-5" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>
+					<div class="f-9 label label-primary w-50 m-b-5" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>
 
-			        <div class="f-12 b-300 text-default m-b-5" ng-hide="entry.targetId == null">
+			        <!--div class="f-12 b-300 text-default m-b-5" ng-hide="entry.targetId == null">
 	                    <span class="b-500">FOR: {{entry.targetName}}</span>
-	                </div>    
-	                
-	                <div class="f-12 b-400 m-b-5" ng-hide="entry.projectName == null">
-	                    {{gs.currWorkspace.Terminology.projectAlias}}: {{entry.projectName}}
-	                </div>
+	                </div-->    
 	                
 	                <div class="f-12 b-400 m-b-5" ng-hide="entry.start == null">
-						{{entry.start | amCalendar:null:gs.pref.calFormats}}
+						When: {{entry.start | amCalendar:null:gs.pref.calShortFormats}}
 						<span ng-show="entry.end != null"> - </span> 
-                        {{ entry.end | amCalendar:null:gs.pref.calFormats}}
+						{{ entry.end | amCalendar:null:gs.pref.calShortFormats}}
+						<span ng-hide="entry.end == null || entry.start == null">
+							({{ determineDuration(entry) }})
+						</span>
+					</div>
+					
+					<div class="f-12 b-400 m-b-5" ng-hide="entry.url == null || entry.url == ''">
+	                    Website: <a href="{{entry.url}}" target="_blank">{{entry.url}}</a>
 	                </div>
-	                
-	                <div class="f-12 b-400 m-b-10" ng-hide="entry.end == null || entry.start == null">
-	                    Duration: {{ determineDuration(entry) }}
-	                </div>
-	                
-	                <div class="f-12 m-b-10" ng-hide="(entry.people == null || entry.people.length == 0)">
+					
+					<div class="f-12 b-400 m-b-5" ng-hide="entry.projectName == null">
+	                    {{gs.currWorkspace.Terminology.projectAlias}}: {{entry.projectName}}
+					</div>
+					
+	                <div class="f-12 m-b-10 m-t-5" ng-hide="(entry.people == null || entry.people.length == 0)">
                         <span class="m-r-5" ng-repeat="person in entry.people">
 					    	<avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"
 					    		ng-click="openPersonDetails(person.id)" ></avatar>

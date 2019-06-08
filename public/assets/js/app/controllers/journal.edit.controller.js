@@ -21,7 +21,7 @@
         
         $scope.content = "";
 	    $scope.options = {
-		    height: 300,
+		    height: 400,
 		    airMode: false,
 		    toolbar: [
 				['para', ['style']],
@@ -152,7 +152,17 @@
 		        $scope.selectedEntry.projectId = null;
 	        } else {
 		        $scope.selectedEntry.projectId = $scope.selectedEntry.project.$id;
-	        }
+			}
+			
+			if ($scope.selectedEntry.url != null && $scope.selectedEntry.url != "") {
+				var pattern = /^((http|https|ftp):\/\/)/;
+
+				if(!pattern.test($scope.selectedEntry.url)) {
+					$scope.selectedEntry.url = "http://" + $scope.selectedEntry.url;
+				}
+			} else {
+				$scope.selectedEntry.url = null;
+			}
 	        
         }
         

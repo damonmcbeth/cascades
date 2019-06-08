@@ -25,7 +25,7 @@
 }
 /*Sidebar*/
 .sidebar .sidebar-header {
-  background-color: #00828c;
+  background-color: #045c63; /*#282828;*/
 }
 .sidebar .sidebar-header .header-description {
   background-color: #007982;
@@ -35,7 +35,7 @@
   background-color: #007982;
 }
 .sidebar.menu .sidebar-menu .menu > li.active > a {
-  color: #00828c;
+  color: #ffffff; /*#00828c;*/
 }
 .sidebar.menu .sidebar-menu .menu > li > ul li.active a {
   color: #00828c;

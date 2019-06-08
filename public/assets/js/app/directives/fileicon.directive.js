@@ -9,25 +9,25 @@ angular.module('app').directive('fileicon', function() {
 		
 		$scope.determineFileIcon = function(url) {
 			var fName = $scope.determineFileType(url);
-			var result = "file";
+			var result = "icons8-document-75";
 			
 			
 			switch(fName) {
 				case "doc":
-				case "docx": result = "doc"; break;
+				case "docx": result = "icons8-document-75"; break;
 				
 				case "xls":
-				case "xlsx": result = "xls"; break;
+				case "xlsx": result = "icons8-microsoft-excel-75"; break;
 				
-				case "pdf": result = "pdf"; break;
+				case "pdf": result = "icons8-pdf-75"; break;
 				
 				case "m4a":
-				case "mp3": result = "music"; break;
+				case "mp3": result = "icons8-video-file-75"; break;
 				case "ppt": 
-				case "pptx": result = "ppt"; break;
-				case "html": result = "html"; break;
+				case "pptx": result = "icons8-microsoft-powerpoint-75"; break;
+				case "html": result = "icons8-website-75"; break;
 				case "m4v":
-				case "mp4": result = "media"; break;
+				case "mp4": result = "icons8-video-file-75"; break;
 				 
 			}
 			

@@ -7,18 +7,22 @@
 
     DashboardController.$inject = ['$scope', '$state', '$window', '$filter', 'globalSettings', 'globalNav', 'tagService', 
 								'taskService', 'activityService', 'projectService', 'journalService', 'insightsService', 'reminderService',
-							'messageService'];
+							'messageService', 'taskActivityService'];
 
     function DashboardController($scope, $state, $window, $filter, globalSettings, globalNav, tagService,
 							taskService, activityService, projectService, journalService, insightsService, reminderService,
-						messageService) {
+						messageService, taskActivityService) {
         
 
         $scope.$state = $state;        
         $scope.nav = globalNav;
-        $scope.gs = globalSettings;
-                
-        $scope.activity = [];
+		$scope.gs = globalSettings;
+		$scope.ac = activityService;
+		
+		$scope.tasks = [];
+		$scope.activity = [];
+		$scope.fullActivity = [];
+		$scope.grouping = [];
 		
 		$scope.cardOptions = {
             animate:{
@@ -44,17 +48,22 @@
         
         $scope.recentPeopleFilter = {targetType: activityService.TAR_TYPE_PERSON};
         $scope.recentProjectFilter = {targetType: activityService.TAR_TYPE_PROJECT};
-        $scope.recentNotesFilter = {targetType: activityService.TAR_TYPE_JOURNAL};
+		$scope.recentNotesFilter = {targetType: activityService.TAR_TYPE_JOURNAL};
         
         $scope.hasReminder = false;
         
         
         globalSettings.initSettings().then(
         	function() {
+				$scope.taskAliasPural = globalSettings.currWorkspace.Terminology.taskAliasPlural;
+				$scope.taskAlias = globalSettings.currWorkspace.Terminology.taskAlias;
+				$scope.currName = globalSettings.currProfile.name;
+
 	        	$scope.populateTasks();
 				$scope.populateSummary();
 				$scope.populateTags();
 				$scope.populateReminder();
+				$scope.populateActivity();
         });
         
         $scope.populateTags = function() {
@@ -80,9 +89,15 @@
 			});
 		}
 		
+		$scope.includeTask = function() {
+		    return function(item) {
+			  return !item.isDone && (item.state == 'Overdue' || item.state == 'Due today');
+		    }
+		}
+
 		$scope.includeReminder = function(prop) {
 		    return function(item) {
-		      return item[prop] <= new Date();
+		      return item[prop] <= moment().add(10, 'days').toDate();
 		    }
 		}
 		
@@ -100,6 +115,8 @@
 	        taskService.getAllTasks().then(
 				function(tasks) {
 					$scope.taskSummary = taskService.taskSummary;
+					var owner = globalSettings.currProfile.person;
+					$scope.tasks = $filter('filter')(tasks, {$:owner, isDone: false});
 					
 					activityService.getAccessActivity().then(
 				        function(activity) {
@@ -108,6 +125,30 @@
 			        });
 			});
 		}
+
+		$scope.populateActivity = function() {
+	        activityService.getRecentActivity().then(
+				function(act) {
+					var personKey = globalSettings.currProfile.person;
+					var filter = {createdBy: personKey};
+					
+					activityService.determineRecentActivityGrouping(filter).then(
+						function(tmpGrouping) {
+							$scope.fullActivity = act;
+							$scope.grouping = tmpGrouping;
+							
+					});
+			});
+		}		
+
+		$scope.openTaskDetails = function(taskItem) {
+	        var taskId = (taskItem == null) ? null : taskItem.$id;
+	        globalNav.openTaskDetails(taskId);
+		}
+		
+		$scope.updateIsDone = function(item, status) {
+	        taskActivityService.updateStatus(item, item.isDone);
+        }
 		
         //$scope.openPersonDetails = function(pid) {
         //    $scope.nav.openPeopleDetails(pid);

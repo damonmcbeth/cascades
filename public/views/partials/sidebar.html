@@ -1,14 +1,14 @@
 <div class="sidebar menu">
-    <div class="sidebar-header">
+    <div class="sidebar-header fullnav">
         <div class="header-brand">
             <div class="brand-logo">
-                <img src="assets/img/Timeline_White_128.png" alt="CASCADES" />
+                <img src="assets/img/logo/Logo-128.png" alt="CASCADES" />
             </div>
-            <div class="brand-slogan p-t-25">
+            <div class="brand-slogan p-t-20">
                 <div class="slogan-title">CASCADES</div>
             </div>
         </div>
-        <div class="header-notification p-l-10 p-r-10" id="header-notification">
+        <!--div class="header-notification p-l-10 p-r-10" id="header-notification">
             <md-select aria-label="Select Workspace" class="m-t-10 m-b-0 f-12 workspace" 
             	ng-model="selectedWrkSpace.wrkSpc" ng-change="selectWrkSpc()"
             	ng-model-options="{trackBy: '$value.$id'}">
@@ -18,14 +18,14 @@
             	
 				<md-option ng-repeat="wrkSpc in wrkSpcs" ng-value="wrkSpc" >{{wrkSpc.name}}</md-option>
 			</md-select>
-        </div>
+        </div-->
     </div>
     <div class="sidebar-menu" resize height-offset="125">
         <ul class="menu">
             <li ng-class="{'active open': $state.includes('mywork')}">
                 <a ui-sref="mywork.dashboard">
-                    <i class="pe-7s-id"></i>
-                    <span>My Work</span>
+                    <i class="pe-7s-check"></i> <!--i class="pe-7s-id"></i-->
+                    <span>{{gs.currWorkspace.Terminology.taskAliasPlural}}</span>
                 </a>
                 <ul>
                     <li class="submenu-title">
@@ -33,40 +33,48 @@
                     </li>
                     <li ui-sref-active="active">
                         <a ui-sref="mywork.dashboard">
-                            <i class="pe-7s-display1"></i>
-                            <span>Desktop</span>
+                            <i class="pe-7s-user"></i>
+                            <span>My Summary</span>
                         </a>
                     </li>
+                    
                     <li ui-sref-active="active">
-                        <a ui-sref="mywork.myjournal">
-                            <i class="pe-7s-notebook"></i>
-                            <span>Unread {{gs.currWorkspace.Terminology.memoAliasPlural}}</span>
+                        <a href="" ng-click="nav.showTasks()">
+                            <i class="pe-7s-check"></i>
+                            <span>My {{gs.currWorkspace.Terminology.taskAliasPlural}}</span>
                         </a>
                     </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="mywork.reminders">
-                            <i class="pe-7s-bell"></i>
-                            <span>Reminders</span>
-                        </a>
-                    </li>
+
                     <li ui-sref-active="active">
                         <a ui-sref="mywork.taskboard">
                             <i class="pe-7s-keypad"></i>
                             <span>{{gs.currWorkspace.Terminology.taskAlias}} board</span>
                         </a>
                     </li>
+                    <!--li ui-sref-active="active">
+                        <a ui-sref="mywork.myjournal">
+                            <i class="pe-7s-notebook"></i>
+                            <span>Unread {{gs.currWorkspace.Terminology.memoAliasPlural}}</span>
+                        </a>
+                    </li-->
                     <li ui-sref-active="active">
+                        <a ui-sref="mywork.reminders">
+                            <i class="pe-7s-date"></i>
+                            <span>Calendar & Reminders</span>
+                        </a>
+                    </li>
+                    <!--li ui-sref-active="active">
                         <a ui-sref="mywork.myprojects">
                             <i class="pe-7s-portfolio"></i>
                             <span>{{gs.currWorkspace.Terminology.projectAliasPlural}}</span>
                         </a>
-                    </li>
-					<li ui-sref-active="active">
+                    </li-->
+					<!--li ui-sref-active="active">
                         <a ui-sref="mywork.insights">
                             <i class="pe-7s-graph1"></i>
                             <span>Insights</span>
                         </a>
-                    </li>
+                    </li-->
                     <!--li ui-sref-active="active">
                         <a ui-sref="mywork.ideas">
                             <i class="pe-7s-light"></i>
@@ -75,26 +83,38 @@
                     </li-->
                     
                     <li class="submenu-title">
-                        <span>Administration</span>
+                        <span>Preferences</span>
                     </li>
                     <li ui-sref-active="active">
                         <a href="" ng-click="openWorkspaces()">
-                            <i class="pe-7s-albums"></i>
-                            <span>Workspace</span>
+                            <i class="pe-7s-id"></i>
+                            <span>Profile</span>
                         </a>
                     </li>
+                    <!--li ui-sref-active="active">
+                        <a href="" ng-click="openWorkspaces()">
+                            <i class="pe-7s-albums"></i>
+                            <span>Workspaces</span>
+                        </a>
+                    </li-->
                     <li ui-sref-active="active">
+                        <a href="" ng-click="openTags()">
+                            <i class="pe-7s-ticket"></i>
+                            <span>Tags</span>
+                        </a>
+                    </li>
+                    <!--li ui-sref-active="active">
                         <a ui-sref="mywork.team">
                             <i class="pe-7s-users"></i>
                             <span>Team members</span>
                         </a>
-                    </li>
-                    <li ui-sref-active="active">
+                    </li-->
+                    <!--li ui-sref-active="active">
                         <a ui-sref="mywork.tickets">
                             <i class="pe-7s-ticket"></i>
                             <span>Tickets</span>
                         </a>
-                    </li>
+                    </li-->
                     
                     <li class="submenu-divider" ng-show="$state.includes('mywork.taskboard')"></li>
                     
@@ -161,12 +181,12 @@
                             <span>{{gs.currWorkspace.Terminology.taskAlias}} board</span>
                         </a>
                     </li>
-                    <li ui-sref-active="active">
+                    <!--li ui-sref-active="active">
                         <a ui-sref="projects.reminders">
                             <i class="pe-7s-bell"></i>
                             <span>Reminders</span>
                         </a>
-                    </li>
+                    </li-->
                     
                     <li ui-sref-active="active">
                         <a ui-sref="projects.doneprojects">
@@ -339,7 +359,7 @@
                 </ul>
             </li>
 
-            <li ng-class="{'active open': $state.includes('support')}">
+            <!--li ng-class="{'active open': $state.includes('support')}">
                 <a ui-sref="support.welcome">
                     <i class="pe-7s-help2"></i>
                     <span>Support</span>
@@ -350,12 +370,12 @@
                     </li>
                     <li ui-sref-active="active">
                         <a ui-sref="support.welcome">
-	                        <!--i class="pe-7s-help1"></i-->
+	                        <i class="pe-7s-help1"></i>
                             <span>Welcome</span>
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li-->
         </ul>
     </div>
 </div>

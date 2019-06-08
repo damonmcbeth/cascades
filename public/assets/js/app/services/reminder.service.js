@@ -22,6 +22,8 @@
 				} else {
 					globalSettings.initSettings().then(
 						function() {
+							
+
 							if (globalSettings.shouldClearCache("reminderSer_Entries")) {
 								var lookupKey = "App/Workspaces/" + globalSettings.currWorkspace.$id + "/Reminder"; 
 								var ref = firebase.database().ref().child(lookupKey);

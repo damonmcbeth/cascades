@@ -1,9 +1,9 @@
 
-<div class="page-header m-t-0" ng-show="hasReminder">
+<!--div class="page-header m-t-0" ng-show="hasReminder">
     <h4 class="header-text"><i class="pe-7s-bell m-r-5"></i>Reminders</h4>
-</div>
+</div-->
 
-<div class="row m-l-0 m-r-0 m-b-25" ng-show="hasReminder">
+<!--div class="row m-l-0 m-r-0 m-b-25" ng-show="hasReminder">
 	<div class="reminder-alert p-10"
 		ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
 		<div>
@@ -14,14 +14,14 @@
 		</div>
 	</div>
 
-</div>
+</div-->
 
-<div class="page-header m-t-0">
-    <h4 class="header-text" >Summary</h4>
-</div>
+<!--div class="page-header m-t-0">
+    <h4 class="header-text" >{{gs.currWorkspace.Terminology.taskAlias}} Summary</h4>
+</div-->
 
 <div class="row">    
-    <div class="col-md-2 dashboard-widget">
+    <!--div class="col-md-2 dashboard-widget">
 	    <a ui-sref="mywork.myjournal">
         <div class="widget p-20 h-100 text-default" md-ink-ripple>
             <div>
@@ -33,21 +33,29 @@
             <div class="f-13 b-400">Unread</div>
         </div>
 	    </a>
-    </div>
+    </div-->
     
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="widget-container">
             <div class="widget">
+                <div md-ink-ripple class="f-15 p-10 p-l-15 p-r-15 border-bottom-1 border-muted b-400 text-default">
+                    <div class="pull-right f-20">
+                        <a ui-sref="mywork.taskboard" class="m-r-5 text-default"><i class="pe-7s-keypad"></i></a>
+                        <a href="" ng-click="nav.newTask()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
+                    </div>
+                    {{gs.currWorkspace.Terminology.taskAliasPlural | uppercase }}
+               </div>
+
                 <div class="p-20 task-widget">
                     <div class="row">
-                        <div class="col-sm-3 p-5 text-default" md-ink-ripple
+                        <div class="col-sm-3 border-primary border-left-5 p-5 p-l-10 text-default" md-ink-ripple
 	                        ng-click="nav.showTasks()">
-	                        <div>
+	                        <!--div>
 				                <div class="col">
 				                    <i class="pe-7s-check f-25 p-t-5 p-r-5 text-primary"></i>
-				                </div>
+				                </div-->
 								<div class="col f-25">{{summary.Task.dueToday}}</div>
-	                        </div>
+	                        <!--/div-->
                             <div class="f-13 b-400">Due today</div>
                         </div>
                         <div class="col-sm-3  border-danger border-left-5 p-5 p-l-10 text-default"
@@ -60,18 +68,57 @@
                             <div class="f-25">{{summary.Task.dueSoon}}</div>
                             <div class="f-13 b-400">Due soon</div>
                         </div>
-                        <div class="col-sm-3 border-primary border-left-5 p-5 p-l-10 text-default"
+                        <div class="col-sm-3 border-muted-darker border-left-5 p-5 p-l-10 text-default"
 	                        ng-click="nav.showTasks()" md-ink-ripple>
                             <div class="f-25">{{summary.Task.delegated}}</div>
                             <div class="f-13 b-400">Delegated</div>
                         </div>
+                    </div>
+
+                    <div class="border-top-1 border-muted f-12 m-t-15 p-t-10">
+                        <md-list flex>
+                            <md-list-item class="md-3-line md-long-text" ng-repeat="task in tasks | filter:includeTask() | orderBy:'due':true" 
+                                ng-click="openTaskDetails(task)">
+                                <md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateIsDone(task)"></md-checkbox>
+                                <div class="md-list-item-text p-l-10 p-r-8">
+                                    <div class="list-title-highlight-muted" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
+                                    <div class="list-title f-14">{{task.title}}</div>
+                                    <div class="list-title-2 f-12" ng-class="{'text-primary' : task.state != 'Overdue', 
+                                    'text-danger' : task.state == 'Overdue' }">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div> 
+                                    <div class="list-title-3 f-12" ng-hide="task.projectName==null">{{gs.currWorkspace.Terminology.projectAlias}}: {{task.projectName}}</div>                               
+                                </div>
+                                <div class="md-secondary f-9 m-r-10">
+                                    <span ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}</span>
+                                </div>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+                        </md-list>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-2 dashboard-widget">
+    <div class="col-sm-4" ng-show="hasReminder">
+        <div class="widget-container">
+            <div class="widget">
+                <div class="f-13 p-10 border-bottom-1 border-muted b-400">
+                    <i class="pe-7s-bell m-r-5"></i>REMINDERS
+                </div>
+                <div class="reminder-alert p-10"
+                    ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
+                    
+                    <div>
+                        <span class="f-11 text-primary b-500">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
+                        <span class="f-11 text-primary b-500" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span><br/>
+                        <span class="reminder-alert-content">{{reminder.title}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--div class="col-md-2 dashboard-widget">
 	    <a ui-sref="mywork.myprojects">
         <div class="widget p-15 h-100 text-default" md-ink-ripple>
             <div>
@@ -86,11 +133,12 @@
             </div>
         </div>
 	    </a>
-    </div>
+    </div-->
 </div>
 
+
 <div class="page-header">
-    <h4 class="header-text">Recent {{gs.currWorkspace.Terminology.projectAliasPlural}}</h4>
+    <h4 class="header-text">Recent activity</h4>
 </div>
 
 <div class="row">
@@ -100,14 +148,17 @@
 	<div class="f-13 p-l-20" ng-hide="hasRecentProjects()">No recent {{gs.currWorkspace.Terminology.projectAliasPlural | lowercase}}</div>
 </div>
 
-<div class="page-header">
+<!--div class="page-header">
     <h4 class="header-text">Recent Activity</h4>
-</div>
+</div-->
 <div class="row">
-	<div class="col-sm-5">
+	<div class="col-sm-4">
         <div class="widget-container">
-            <div class="widget" style="min-height: 400px">
+            <div class="widget" style="min-height: 440px">
                 <div class="f-13 p-10 border-bottom-1 border-muted b-400">
+                    <div class="pull-right f-17">
+                        <a href="" ng-click="nav.newPerson()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
+                    </div>
                     {{gs.currWorkspace.Terminology.clientAliasPlural | uppercase }}
                 </div>
                 
@@ -118,7 +169,7 @@
                         
                             <avatar size="sm" img="act.avatar" name="act.personName" type="act.avatarType"></avatar>
                             <div class="md-list-item-text p-l-15">
-                                <div class="list-title">{{act.personName}} </div>
+                                <div class="list-title f-15">{{act.personName}} </div>
                                 <div class="list-title-2" ><a href="mailto:{{act.email}}">{{act.email}}</a></div>
                             </div>
 					</md-list-item>
@@ -127,10 +178,13 @@
         </div>
     </div>   
 	 
-	 <div class="col-sm-6">
+	 <div class="col-sm-4">
         <div class="widget-container">
-            <div class="widget" style="min-height: 400px">
+            <div class="widget" style="min-height: 440px">
                 <div class="f-13 p-10 border-bottom-1 border-muted b-400">
+                    <div class="pull-right f-17">
+                        <a href="" ng-click="nav.newJournalEntry()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
+                    </div>
                     {{gs.currWorkspace.Terminology.memoAliasPlural | uppercase }}
                 </div>
                 <div>
@@ -152,14 +206,48 @@
 									'pe-7s-like' : act.entryType == 'Health', 'pe-7s-piggy' : act.entryType == 'Money'}">
 				    			</i>
                         	</div>
-                            <div class="md-list-item-text p-l-15">
-                                <div class="list-title">{{act.targetTitle}}</div>
+                            <div class="md-list-item-text p-l-10 p-r-8">
+                                <div class="list-title f-14">{{act.targetTitle}}</div>
                                 <div class="list-title-2">{{act.entryUpdated | amCalendar:null:gs.pref.calFormats}}</div>
+
+                                <div flex="100" class="journalEntry-img-cont" ng-repeat="pic in act.attachments | filter:'image/' | limitTo:1">
+                                    <a href="{{pic.url}}" target="_blank">
+                                    <img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
+                                        class="journalEntry-img">
+                                        <md-tooltip>{{pic.title}}</md-tooltip>
+                                    </img>
+                                    </a>
+                                </div>
                             </div>
                             <md-divider ng-if="!$last"></md-divider>
 						</md-list-item>
 	                </md-list>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="widget-container">
+            <div class="widget" style="height: 440px">
+                <div class="f-13 p-10 border-bottom-1 border-muted b-400">
+                    ACTIVITY TIMELINE
+                </div>
+
+                <md-content style="height: 400px">
+                    <section ng-repeat="group in grouping">
+                        <md-subheader class="f-15 subheader-top">{{group}}</md-subheader>
+                        <md-divider></md-divider>
+                        <div>
+                            <ul class="timeline timeline-condensed">
+                                <li ng-repeat="act in fullActivity | filter:{groupingLabel:group, createdBy:gs.currProfile.person} | orderBy:'updated':true"
+                                    data-ng-include="'views/partials/timelineEntry.html'"
+                                    class="m-l-10">
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </md-content>
             </div>
         </div>
     </div>

@@ -89,6 +89,14 @@
 													activityService.TAR_TYPE_JOURNAL, null, null, "type",
 													edited.type,
 													orig.type);
+					}
+					
+					//Handle url
+				    if (edited.url != orig.url) {
+						activityService.addActivity(activityService.TYPE_UPDATE, orig, orig.$id, 
+													activityService.TAR_TYPE_JOURNAL, null, null, "website",
+													edited.url,
+													orig.url);
 			    	}
 			    	
 			    	//Handle duration

@@ -114,7 +114,7 @@
         }
         
         $scope.getFilter = function(val) {
-	        return {status: val.label, isDone: false};
+	        return {status: val.label};
     	}
 	    
         

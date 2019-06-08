@@ -27,11 +27,41 @@
 	    $scope.people = [];
 		$scope.taskStates = [];
 		
+		$scope.options = {
+		    height: 250,
+		    airMode: false,
+		    toolbar: [
+				['para', ['style']],
+				['fontname', ['fontname']],
+				['color', ['color']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['alignment', ['ul', 'ol', 'paragraph']],
+				['insert', ['link', 'table', 'hr']],
+				['misc', ['undo']],
+	            ['view', ['fullscreen', 'codeview']]
+	        ]
+		};
+
+		$scope.showProgress = false;
+		var progress = $('#progressBar');
+
 	    $scope.checklistItem;
 	    
         $scope.selectedTask = taskService.newTask();
         $scope.selectedTaskSrc = null;
-              
+			  
+		$scope.openAttachment = function(url){
+            $window.open(url, '_blank');
+		};
+		
+		$scope.initEditor = function() {
+	        $('#summernote').summernote();
+	        $('#summernote').summernote('reset');
+	        $('#summernote').summernote('insertText', $scope.selectedTask.notes);
+	        
+        }
+
         $scope.initView = function() {
 	        var deferred = $q.defer();
 			
@@ -76,7 +106,8 @@
 				        
 				        taskService.initTask(tmp).then(
 					        function(initedTask) {
-						    	$scope.selectedTask = initedTask; 
+								$scope.selectedTask = initedTask; 
+								$scope.initEditor(); 
 						    	$scope.setDefaultFocus();
 					        }
 				        )
@@ -88,7 +119,8 @@
 						        tagService.retrieveTags(taskItem.tags).then(
 							        function(tags) {
 								        clonedTask.tags = tags;
-								        $scope.selectedTask = clonedTask;
+										$scope.selectedTask = clonedTask;
+										$scope.initEditor(); 
 								        $scope.setDefaultFocus();
 							    });   	  
 					    });
@@ -224,7 +256,34 @@
 		$scope.clearRelated = function() {
 			$scope.selectedTask.related = null;
 			$scope.relatedSearchText = null;
+		}
+		
+		$scope.onfileUploadChange = function onChange(loc, fileList, uploadCtrl) {
+			var file = fileList[0];
+			
+			if (file != null) {
+				progress.removeClass('ng-hide');
+				
+				storageService.uploadFile(loc, file).then(
+					function(metaData) {
+						progress.addClass('ng-hide');
+						
+						var attachment = {
+							title: file.name,
+							type: file.type,
+							url: metaData.downloadURL
+						};
+						
+						$scope.selectedTask.attachments.push(attachment);
+				})
+			}
     	}
+    	
+    	$scope.removeAttachment = function(item) {
+	    	if (item != null) {
+		    	$scope.selectedTask.attachments.splice($scope.selectedTask.attachments.indexOf(item), 1);
+		    }
+		}
     
     	globalNav.registerEditController(globalNav.ACTION_TASK, $scope.initAction);
     	

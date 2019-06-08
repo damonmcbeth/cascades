@@ -260,7 +260,8 @@
 		            result.archive = src.archive;
 		            result.hasChecklist = src.hasChecklist;
 		            
-		            self.cloneChecklist(src , result);
+								self.cloneChecklist(src , result);
+								self.cloneAttachments(src, result);
 		            
 		            self.initTask(result).then(
 			            function(task) {
@@ -269,7 +270,26 @@
 	            }
 	            
 	            return deferred.promise;
-		    };
+				};
+				
+				self.cloneAttachments = function (src, dest) {
+			    var len = src.attachments == null ? 0 : src.attachments.length;
+			    var tmp;
+			    var result = [];
+			    
+			    for (var i=0; i<len; i++) {
+				    tmp = {
+					    type: src.attachments[i].type,		    			
+		    			title: src.attachments[i].title,
+						url: src.attachments[i].url,
+						source: src.attachments[i].source == null ? null : src.attachments[i].source
+				    }
+				    result.push(tmp);
+			    }
+			    
+			    dest.attachments = result;
+			    
+		    }
 		    
 		    self.initTask = function(task) {
 			    var deferred = $q.defer();
@@ -335,7 +355,8 @@
 					            state: '',
 					            isDone: false,
 					            tags: [],
-					            checklist: [],
+											checklist: [],
+											attachments: [],
 								hasHighlightTag: false,
 								archived: false,
 								hasChecklist: false
@@ -515,7 +536,8 @@
 								isDone: src.isDone,
 								checklist: src.checklist,
 								hasChecklist: src.hasChecklist,
-								state: src.state
+								state: src.state,
+								attachments: src.attachments
 							};
 							
 				globalSettings.updateTimestamp(result);			
@@ -545,7 +567,8 @@
 	            result.hasHighlightTag = false;
 	            result.hasSelectedOwner = false;
 	            result.hasChecklist = src.hasChecklist == null ? false : src.hasChecklist;
-	            result.checklist = src.checklist;
+							result.checklist = src.checklist;
+							result.attachments = src.attachments;
 				result.tags = null;
 				result.selectedActionItem = null;
 	            

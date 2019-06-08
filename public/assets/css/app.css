@@ -1419,6 +1419,10 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+.hint {
+  color: #999999;
+}
+
 .note-palette-title {
   color: #333;
 }
@@ -1663,7 +1667,7 @@ md-radio-button.projectSelector ._md-on {
 
 .journalEntry-img-cont {
 	width: 100%;
-	max-height: 80px;
+	max-height: 60px;
 	margin-top: 0px;
 	overflow: hidden;
 	border: 1px solid #eee;
@@ -2245,6 +2249,14 @@ md-radio-button {
 	line-height: 20px;
 }
 
+.list-title-highlight-muted {
+	font-size: 10px;
+	font-weight: 500;
+	text-transform: uppercase;
+	color: #777777;
+	line-height: 20px;
+}
+
 .menu-subheader {
     color: #00828c !important;
     text-transform: uppercase !important;
@@ -2701,11 +2713,11 @@ Utility bar
   width: 95px;
 }
 .sidebar.menu .sidebar-header .header-brand .brand-logo img {
-  height: 55px;
-  left: 19px;
+  height: 50px;
+  left: 23px;
   position: absolute;
-  top: 10px;
-  width: 55px;
+  top: 12px;
+  width: 50px;
 }
 .sidebar.menu .sidebar-header .header-brand .brand-slogan {
   color: #fff;
@@ -2715,7 +2727,7 @@ Utility bar
   width: 255px;
 }
 .sidebar.menu .sidebar-header .header-brand .brand-slogan .slogan-title {
-  font-size: 18px;
+  font-size: 25px;
   font-weight: 300;
 }
 .sidebar.menu .sidebar-header .header-brand .brand-slogan .slogan-description {
@@ -2905,7 +2917,7 @@ Utility bar
   width: 100%;
 }
 .sidebar.menu .sidebar-menu .menu > li > ul li.active a {
-  color: #29c7ca;
+  color: #29c7ca !important;
 }
 .sidebar.menu .sidebar-menu .menu > li > ul li:last-child {
   margin-bottom: 15px;
@@ -3141,6 +3153,11 @@ Utility bar
   width: 100%;
   
 }
+.sidebar .fullnav {
+  height: 75px !important;
+  
+}
+
 .sidebar.form .sidebar-header {
   top: 0px;
   width: 100%;
@@ -19127,7 +19144,7 @@ width:calc(50% - 45px);
   font-size: 14px;
   font-weight: 400;
   min-width: 200px;
-  padding: 10px 20px 0;
+  padding: 10px 10px 0;
 }
 .timeline > li > .timeline-panel .timeline-header .timeline-datetime {
   display: none;
@@ -19188,13 +19205,13 @@ width:calc(50% - 45px);
   background-color: #ffffff;
   color: #333;
   font-size: 1.4em;
-  height: 50px;
+  height: 40px;
   left: 50%;
   margin-left: -25px;
   position: absolute;
   text-align: center;
   top: 6px;
-  width: 50px;
+  width: 40px;
   z-index: 1;
 }
 .timeline > li .timeline-badge .badge-picture {
@@ -19204,12 +19221,12 @@ width:calc(50% - 45px);
   -moz-background-clip: padding;
   border-radius: 2px;
   background-clip: padding-box;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
 }
 .timeline > li .timeline-badge i {
-  font-size: 28px;
-  line-height: 50px;
+  font-size: 23px;
+  line-height: 40px;
 }
 .timeline > li .timeline-badge[class*="bg-"] {
   background-image: none !important;

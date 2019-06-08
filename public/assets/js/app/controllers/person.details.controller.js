@@ -57,14 +57,14 @@
 					function(list){
 						var orderedList = list;
 
-						taskService.getTasksForPerson(personId).then(
+						taskService.getAllTasks().then(
 							function(tasks) {
 								var i = 0;
 								var tmpGrouping = [];
 								
 								var len = orderedList.length;
 								var cnt;
-								
+
 								for (i=0; i<len; i++) {
 									cnt = ($filter('filter')(tasks, $scope.getFilter(orderedList[i]))).length;
 									if (cnt > 0) {
@@ -82,7 +82,7 @@
 		}
 		
 		$scope.getFilter = function(val) {
-	        return {status: val.label, isDone: false};
+	        return {status: val.label, $:$scope.selectedPerson.$id};
     	}
 
         $scope.populateJournal = function() {

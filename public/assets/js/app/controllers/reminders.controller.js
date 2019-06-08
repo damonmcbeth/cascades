@@ -130,6 +130,7 @@
 		
 	    globalSettings.initSettings().then(
         	function() {
+				$scope.currName = globalSettings.currProfile.name;
 	        	$scope.projAliasPlural = globalSettings.currWorkspace.Terminology.projectAliasPlural;
 	        	$scope.populateReminders();
         });

@@ -17,9 +17,9 @@
                 
         yima.init();
         
-        if ($window.innerWidth > 1600) {
-	        $scope.nav.showMyTimeline();
-        }
+        //if ($window.innerWidth > 1600) {
+	    //    $scope.nav.showMyTimeline();
+        //}
         
         globalSettings.initSettings().then(
         	function() {				

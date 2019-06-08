@@ -68,9 +68,9 @@
 					};
 			
 			self.calculateSince = function(item) {
-				if (item.since == null) {
+				//if (item.since == null) {
 					item.since = $filter('amCalendar')(item.updated, null, self.sinceFormat);
-				}
+				//}
 				
 				return item.since;			
 			}
@@ -102,7 +102,8 @@
 			self.newEntry = function() {
 				var result = {
 		            title: '',
-		            type: 'Memo',
+					type: 'Memo',
+					url: null,
 		            content: '',
 		            status: 'Unread',
 		            duration: 0,
@@ -127,7 +128,8 @@
 					
 					result.$id = src.$id;
 		            result.title = src.title;
-		            result.type = src.type;
+					result.type = src.type;
+					result.url = src.url;
 		            result.content = src.content;
 					result.status = src.status;
 	            	result.duration = src.duration;
@@ -296,7 +298,8 @@
 		    self.createEntryForSave = function(src) {
 			    var result = {
 					            title: src.title,
-					            type: src.type == null ? "Memo" : src.type,
+								type: src.type == null ? "Memo" : src.type,
+								url: src.url == null ? null : src.url,
 					            content: src.content == null ? null : src.content,
 								status: src.status,
 				            	duration: src.duration == null ? 0 : src.duration,
@@ -319,7 +322,8 @@
 			    var result = entries.$getRecord(src.$id);
 			    
 			    result.title = src.title;
-			    result.type = src.type == null ? "Memo" : src.type;
+				result.type = src.type == null ? "Memo" : src.type;
+				result.url = src.url == null ? null : src.url;
 	            result.content = src.content == null ? null : src.content;
 				result.status = src.status;
             	result.duration = src.duration == null ? 0 : src.duration;

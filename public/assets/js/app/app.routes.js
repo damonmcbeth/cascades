@@ -23,7 +23,7 @@
                 abstract: true,
                 template: "<ui-view/>",
                 ncyBreadcrumb: {
-                    label: 'My Work'
+                    label: '{{currName}}'
                 },
                 data: {
                     //icon: 'pe-7s-id',
@@ -37,7 +37,7 @@
                 templateUrl: 'views/Dashboard.html',
                 controller: 'DashboardController',
                 ncyBreadcrumb: {
-                    label: 'Desktop'
+                    label: 'Dashboard'
                 },
                 data: {
                     //icon: 'pe-7s-display1',
@@ -61,7 +61,7 @@
                 }
             })
             .state('mywork.taskboard', {
-                url: "/mywork/taskboard",
+                url: "/mywork/taskboard/:id",
                 templateUrl: 'views/Taskboard.html',
                 controller: 'TaskboardController',
                 ncyBreadcrumb: {
@@ -89,7 +89,7 @@
                 templateUrl: 'views/Reminders.html',
                 controller: 'RemindersController',
                 ncyBreadcrumb: {
-                    label: 'Reminders'
+                    label: 'Calendar'
                 },
                 data: {
                     //icon: 'pe-7s-note2',

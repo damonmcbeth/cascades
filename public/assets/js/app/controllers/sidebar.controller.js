@@ -60,6 +60,10 @@
         $scope.openWorkspaces = function() {
 			globalNav.showPref();
 		}
+
+		$scope.openTags = function() {
+			globalNav.showTagsPreferences();
+		}
         
         $scope.selectWrkSpc = function() {
 	        globalSettings.log("SidebarController", "selectWrkSpc", $scope.selectedWrkSpace.wrkSpc)
