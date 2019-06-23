@@ -42,11 +42,11 @@
 				            </md-select>
 						</md-input-container>
 						  
-						<md-input-container class="md-block p-b-0">
+						<!--md-input-container class="md-block p-b-0">
 				            <label>Website</label>
 				            <textarea id="entryUrl" name="entryUrl" ng-model="selectedEntry.url" 
 				            	rows="3" md-detect-hidden="true"></textarea>
-				        </md-input-container>
+				        </md-input-container-->
 
 						
 		            </div>
@@ -54,14 +54,14 @@
 			  	
 			  	<summernote ng-model="selectedEntry.content" config="options"></summernote>
 			  	
-			  	<div class="panel panel-tags">
+			  	<div class="panel panel-tags collapsed">
 				  	<div class="panel-heading">
 					    <h3 class="panel-title">Attachments</h3>
 					    <div class="panel-tools">
 					        <panel-collapse></panel-collapse>
 					    </div>
 					</div>
-		            <div class="panel-body">
+		            <div class="panel-body" style="display: none;">
 			            <div class="journalEntry-edit-img-cont select-list-item-2" layout="row" ng-repeat="pic in selectedEntry.attachments | filter:'image/'">
 						    <a href="{{pic.url}}" target="_blank" flex="100">
 					        	<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
@@ -100,11 +100,71 @@
 		            
 		            </div>
 				</div>
+
+				<div class="panel panel-tags collapsed">
+					<div class="panel-heading">
+						<h3 class="panel-title">Comments</h3>
+						<div class="panel-tools">
+							<panel-collapse></panel-collapse>
+						</div>
+					</div>
+					<div class="panel-body" style="display: none;">
+						<div layout="row">
+							<input ng-model="commentTitle" class="checklist-item" type="text" flex="100">
+							<label class="btn btn-inverse m-l-10" ng-click="addComment()">
+								Add comment
+							</label>
+						</div>
+
+						<div class="m-b-10 m-t-10" style="min-height: 150px" >	
+							<md-list flex>
+								<md-list-item class="md-2-line" ng-repeat="comment in selectedEntry.comments | orderBy:'created':true">
+									<div class="f-25 m-t-10">
+										<i class="pe-fw pe-7f-comment text-primary"></i>
+									</div>
+									
+									<div class="md-list-item-text p-l-10">
+										<div class="list-title f-17">{{comment.title}}</div>
+										<div class="list-title-2" >{{comment.createdName}} - {{comment.created | amCalendar:null:gs.pref.calMidFormats}}</div>
+									</div>
+
+									<md-button class="md-secondary md-icon-button m-t-5" aria-label="Delete"
+										ng-click="removeComment(comment)" ng-show="comment.canDelete">
+                                        <i class="pe-7s-close text-muted f-25"></i>
+                                    </md-button>
+
+									<md-divider ng-if="!$last"></md-divider>
+								</md-list-item>
+							</md-list>
+							
+						</div>
+					  </div>
+				</div>
 				  
 				<div class="panel panel-default">
 		            <div class="panel-body">
-		            	
 						<div layout="row p-b-20">
+							<md-input-container class="md-block p-b-0" flex="100">
+								<label>Start</label>
+								<input class="md-input" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="startDate"></input>
+							</md-input-container>
+							<i class="icon pe-7s-close text-muted f-25  m-t-20" ng-show="selectedEntry.start != null"
+								ng-click="clearStartDate()" aria-label="Clear"></i>
+						</div>
+
+						<div layout="row p-b-20" ng-hide="selectedEntry.start == null">
+							<md-input-container class="md-block p-b-0" flex="100">
+								<label>End</label>
+								<input class="md-input" ng-flatpickr fp-opts="dateEndOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="endDate"></input>
+							</md-input-container>
+							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-show="selectedEntry.end != null"
+								ng-click="clearEndDate()" aria-label="Clear"></i>
+						</div>
+						
+
+						<!--div layout="row p-b-20">
 							<md-input-container class="md-block p-b-0" flex="100">
 								<label>Start</label>
 								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
@@ -134,12 +194,7 @@
 							</md-input-container>
 							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-show="selectedEntry.end != null"
 										ng-click="clearEndDate()" aria-label="Clear"></i>
-						</div>
-					  	
-					  	<!--md-input-container class="md-block p-b-20">
-				            <label>Duration (mins)</label>
-				            <input ng-model="selectedEntry.duration" type="number" step="5.00">
-				        </md-input-container-->
+						</div-->
 						  
 						<div layout="row p-b-20">
 							<md-autocomplete flex
@@ -160,60 +215,23 @@
 							</md-autocomplete>
 						</div>
 
-						<div layout="row p-b-20">
-							<md-autocomplete flex
-								md-selected-item="selectedEntry.target"
-								md-search-text="ownerSearchText"
-								md-items="owner in owners | filter:{name:ownerSearchText} | orderBy: 'name' "
-								md-item-text="owner.name"
-								md-autoselect="true"
-								md-input-name="ownerautocompleteField"
-								md-require-match
-								md-floating-label="Only for">
-								<md-item-template>
-									<span md-highlight-text="ownerSearchText" md-highlight-flags="^i">{{owner.name}}</span>
-								</md-item-template>
-								<md-not-found>
-									No owners matching "{{ownerSearchText}}" were found.
-								</md-not-found>
-							</md-autocomplete>
-							<div class="p-l-15 p-t-15" ng-hide="selectedEntry.target == null">
-								<avatar size="sm" img="selectedEntry.target.avatar" state="selectedEntry.target.state" 
-									name="selectedEntry.target.name" type="selectedEntry.target.avatarType"></avatar> 
-							</div>
-							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-hide="selectedEntry.target == null"
-								   ng-click="clearTarget()" aria-label="Clear"></i>
-						</div>
+
+						<md-input-container class="md-block p-b-0">
+							<label id="regardingLabel">Regarding</label>					
+							<md-contact-chips ng-model="selectedEntry.people" readonly="false"
+								input-aria-labelledby="regardingLabel"
+								md-contacts="querySearch($query)" filter-selected="true"
+								placeholder="+ Person" 
+								secondary-placeholder="+ Person"
+								md-require-match="true" md-autoselect="true"
+								md-contact-name="name">					    	
+							</md-contact-chips>	
+						</md-input-container>
 
 		            </div>
 		        </div>
-			  	
-			  	<div class="panel panel-tags collapsed">
-					<div class="panel-heading">
-		                <h3 class="panel-title">Related People</h3>
-		                <div class="panel-tools">
-		                    <panel-collapse></panel-collapse>
-		                </div>
-		            </div>
-					
-		            <div class="panel-body" style="display: none;">						
-						<md-contact-chips ng-model="selectedEntry.people" readonly="false"
-							md-contacts="querySearch($query)" filter-selected="true"
-					    	placeholder="+ Person" 
-					    	secondary-placeholder="+ Person"
-					    	md-require-match="true" md-autoselect="true"
-					    	md-contact-name="name">					    	
-						</md-contact-chips>					 
-		            </div>
-				</div>
 
 				<tageditor title="Tags" model="selectedEntry" filter="{forJournal: true}"></tageditor>
-			  
-			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
-				  	<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
-				  	<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
-			  	</div>
-			  
 			  
 			  	<div class="m-t-15" ng-show="isEdit">
 				  	<a href="" ng-Click="archiveEntry()" class="btn btn-danger btn-block f-17"
@@ -224,7 +242,12 @@
 					  	ng-show="selectedEntry.archived">
 					  Restore {{gs.currWorkspace.Terminology.memoAlias}}
 				  	</a>
-			  	</div>
+				</div>
+				  
+				<div class="text-muted f-10 m-t-15" ng-show="isEdit">
+					<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
+					<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
+				</div>
 		    </form>
         </div>
     </div>

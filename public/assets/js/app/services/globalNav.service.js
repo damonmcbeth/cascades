@@ -111,6 +111,13 @@
 	        
 	        nav.sideViewFormHidden = false;
 	        nav.activeSideViewForm = "/partials/settings.html";
+		}
+		
+		nav.showPrefTag = function() {
+	        nav.hideSideEditForm();
+	        
+	        nav.sideViewFormHidden = false;
+	        nav.activeSideViewForm = "/partials/settings_tag.html";
         }
         
         nav.showMyTimeline = function() {
@@ -387,7 +394,7 @@
 		
 		//Preference Actions
 		nav.showTagsPreferences = function() {
-			this.showPref();
+			this.showPrefTag();
 		}
 		
 		

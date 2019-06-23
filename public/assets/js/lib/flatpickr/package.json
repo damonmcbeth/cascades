@@ -1,0 +1,26 @@
+{
+  "name": "angular-flatpickr",
+  "version": "3.6.5",
+  "description": "angular directive for flatpickr",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/archsaber/angular-flatpickr"
+  },
+  "author": "opavader",
+  "license": "MIT",
+  "dependencies": {
+    "flatpickr": "^4.5.1"
+  },
+  "devDependencies": {
+    "del": "~3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.3.4",
+    "gulp-insert": "^0.5.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "jshint": "^2.9.6",
+    "jshint-stylish": "^2.2.1"
+  }
+}

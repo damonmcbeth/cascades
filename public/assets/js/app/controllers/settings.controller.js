@@ -5,9 +5,9 @@
         .module('app')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['$scope', '$state', 'globalSettings', 'globalNav', 'peopleService'];
+    SettingsController.$inject = ['$scope', '$state', 'globalSettings', 'globalNav', 'peopleService', 'projectService'];
 
-    function SettingsController($scope, $state, globalSettings, globalNav, peopleService) {
+    function SettingsController($scope, $state, globalSettings, globalNav, peopleService, projectService) {
         $scope.$state = $state;        
         $scope.gs = globalSettings;
         
@@ -17,6 +17,7 @@
         $scope.userWorkspaces = {};
 
         $scope.newTaskStatus = null;
+        $scope.newProjectType = null;
     
         $scope.defaultGroupings = [{ label: 'Schedule', value: 'Schedule'},
             { label: 'Status', value: 'State'},
@@ -35,14 +36,26 @@
         $scope.taskStatus = null;
         $scope.taskStatusList = [];
         $scope.taskStatusListSrc = [];
+        $scope.projectTypeList = [];
+        $scope.projectTypeListSrc = [];
+
 
         globalSettings.initSettings().then(
 	        function() {
                 $scope.initCurrentPerson();
                 $scope.initPreferences();
                 $scope.initTaskStatusList();
+                $scope.initProjectTypeList();
 	        }
         )
+
+        $scope.initProjectTypeList = function() {
+            projectService.getProjectTypes().then(
+                function(types) {
+                    $scope.projectTypeListSrc = types;
+                    $scope.refreshProjectTypeList();
+            });
+        }
 
         $scope.initTaskStatusList = function() {
             globalSettings.retrieveWorkspaceTaskStatus().then(
@@ -95,6 +108,55 @@
         $scope.refreshTaskStatusList = function() {
             $scope.taskStatusList = [];
             $scope.taskStatusList.pushAll($scope.taskStatusListSrc);
+        }
+
+        $scope.refreshProjectTypeList = function() {
+            $scope.projectTypeList = [];
+            $scope.projectTypeList.pushAll($scope.projectTypeListSrc);
+        }
+
+        $scope.addProjectType = function() {
+            if ($scope.newProjectType != null && $scope.newProjectType != "") {
+                var tmp = {
+                    revenue: 0,
+                    title: $scope.newProjectType,
+                    name: $scope.newProjectType
+                };
+                $scope.newProjectType = "";
+
+                $scope.projectTypeListSrc.$add(tmp).then(
+                    function(ref) {
+                        globalSettings.log("settings.controller", "addProjectType", "Added project type: " +  ref.key);
+                        $scope.refreshProjectTypeList();
+                    }, 
+                    function(error) {
+                        globalSettings.logError("settings.controller", "addProjectType", error);
+                        deferred.resolve(orig);
+                });   
+            }
+        }
+
+        $scope.removeProjectType = function(projectType) {
+            $scope.projectTypeListSrc.$remove(projectType).then(
+                function(ref) {
+                    globalSettings.log("settings.controller", "removeProjectType", "Remove project type: " +  projectType.$id);
+                    $scope.refreshProjectTypeList();
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.controller", "removeProjectType", error);
+                    deferred.resolve(orig);
+            });   
+        }
+
+        $scope.updateProjectType = function(projectType) {
+            $scope.projectTypeListSrc.$save(projectType).then(
+                function(ref) {
+                    globalSettings.log("settings.controller", "updateProjectType", "Updated project type: " +  projectType.$id);
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.controller", "updateProjectType", error);
+                    deferred.resolve(orig);
+            });   
         }
 
         $scope.addTaskStatus = function() {

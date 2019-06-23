@@ -19,7 +19,20 @@ angular.module('app').directive('tageditor', function() {
 	        $scope.populateTags();
 	        $scope.selectedItem = null;
 			$scope.searchText = null;
-	            	
+					
+			$scope.tagAdded = function(chip) {
+				if (chip.type == "new") {
+					var tag = tagService.newTag();
+					tag.label = chip.label;
+					tag.color = chip.color;
+
+					tagService.saveTag(tag).then(
+						function(ref) {
+							chip.$id = ref.key;
+					})
+				}
+			}
+
 	    	$scope.transformChip = function(chip) {
 			    // If it is an object, it's already a known chip
 			    if (angular.isObject(chip)) {
@@ -27,7 +40,7 @@ angular.module('app').directive('tageditor', function() {
 			    }
 			
 			    // Otherwise, create a new one
-			    return { name: chip, type: 'new' }
+			    return { label: chip, type: 'new', color: '#045c63' }
 		    }
 		    
 			$scope.querySearch = function(query) {
@@ -36,7 +49,7 @@ angular.module('app').directive('tageditor', function() {
 		    }
 		    
 		    $scope.createFilterFor = function(query) {
-		    	var lowercaseQuery = angular.lowercase(query);
+		    	var lowercaseQuery = query.toLowerCase();  //angular.lowercase(query);
 		
 				return function filterFn(tag) {
 		        	return (tag._lowerlabel.indexOf(lowercaseQuery) > -1);

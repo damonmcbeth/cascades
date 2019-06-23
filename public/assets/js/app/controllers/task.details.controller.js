@@ -7,14 +7,15 @@
 
     TaskDetailsController.$inject = ['$scope', '$rootScope', '$state', '$q', '$window', '$timeout', 'globalSettings', 
     	'globalNav', 'taskService', 'projectService', 'peopleService', 'activityService', 'taskActivityService',
-    	'tagService'];
+    	'tagService', 'storageService'];
 
     function TaskDetailsController($scope, $rootScope, $state, $q, $window, $timeout, globalSettings, globalNav, taskService, 
     								projectService, peopleService, activityService, taskActivityService,
-    								tagService) {
+    								tagService, storageService) {
         $scope.$state = $state;
         $scope.gs = globalSettings;
-        $scope.ac = activityService;
+		$scope.ac = activityService;
+		$scope.ts = tagService;
         
         $scope.activityLoaded = false;
         $scope.activity = null;
@@ -26,7 +27,10 @@
 	    $scope.projects = [];
 	    $scope.people = [];
 		$scope.taskStates = [];
-		
+
+		$scope.dueDate;
+		$scope.duePicker;
+
 		$scope.options = {
 		    height: 250,
 		    airMode: false,
@@ -42,6 +46,26 @@
 	            ['view', ['fullscreen', 'codeview']]
 	        ]
 		};
+
+		$scope.dateOpts = {
+			enableTime: true,
+			dateFormat: "l M j, Y \\a\\t h:i K",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				if (selectedDates.length == 1) {
+					$scope.selectedTask.due = selectedDates[0];
+				}
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.duePicker = instance;
+			}
+		};
+		  
+		$scope.datePostSetup = function(fpItem) {
+			//console.log('flatpickr', fpItem);
+			//fpItem.setDate($scope.selectedTask.due, false);
+		}
 
 		$scope.showProgress = false;
 		var progress = $('#progressBar');
@@ -60,6 +84,14 @@
 	        $('#summernote').summernote('reset');
 	        $('#summernote').summernote('insertText', $scope.selectedTask.notes);
 	        
+		}
+		
+		$scope.initDatePicker = function() {
+			if ($scope.selectedTask != null && $scope.selectedTask.due != null) {
+				//$scope.duePicker.setDate($scope.selectedTask.due, false, "l M j, Y \\a\\t h:i K");
+				var newDate = flatpickr.formatDate($scope.selectedTask.due, "l M j, Y \\a\\t h:i K")
+				$scope.dueDate = newDate;
+			}
         }
 
         $scope.initView = function() {
@@ -107,7 +139,8 @@
 				        taskService.initTask(tmp).then(
 					        function(initedTask) {
 								$scope.selectedTask = initedTask; 
-								$scope.initEditor(); 
+								$scope.initEditor();
+								$scope.initDatePicker(); 
 						    	$scope.setDefaultFocus();
 					        }
 				        )
@@ -121,6 +154,7 @@
 								        clonedTask.tags = tags;
 										$scope.selectedTask = clonedTask;
 										$scope.initEditor(); 
+										$scope.initDatePicker();
 								        $scope.setDefaultFocus();
 							    });   	  
 					    });
@@ -240,7 +274,8 @@
     	}
     	
     	$scope.clearDueDate = function() {
-	    	$scope.selectedTask.due = null;
+			$scope.selectedTask.due = null;
+			$scope.dueDate = null;
 		}
 		
 		$scope.clearDelegate = function() {

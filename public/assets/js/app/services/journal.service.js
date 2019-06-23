@@ -112,7 +112,8 @@
 		            archived: false,
 		            tags: [],
 		            attachments: [],
-		            people: []
+					people: [],
+					comments: []
 				};
 				
 				return result;
@@ -142,13 +143,15 @@
 					result.projectId = src.projectId == undefined ? null : src.projectId;
 					
 					result.people = [];
+					result.comments = [];
 					
 		            result.created = src.created;
 		            result.createdName = src.createdName;
 		            result.updated = src.updated;
 		            result.updatedName = src.updatedName;
 		            
-		            self.cloneAttachments(src, result);
+					self.cloneAttachments(src, result);
+					self.cloneComments(src, result);
 		            
 		            self.initEntry(result).then(
 			            function(proj) {
@@ -158,7 +161,26 @@
 	            
 	            return deferred.promise;
 		    };
-		    
+			
+			self.cloneComments = function (src, dest) {
+			    var len = src.comments == null ? 0 : src.comments.length;
+			    var tmp;
+			    var result = [];
+			    
+			    for (var i=0; i<len; i++) {
+				    tmp = {
+					    created: src.comments[i].created == undefined ? null : new Date(src.comments[i].created),		    			
+		    			title: src.comments[i].title,
+						createdName: src.comments[i].createdName,
+						createdBy: src.comments[i].createdBy
+				    }
+				    result.push(tmp);
+			    }
+			    
+			    dest.comments = result;
+			    
+		    }
+
 		    self.cloneAttachments = function (src, dest) {
 			    var len = src.attachments == null ? 0 : src.attachments.length;
 			    var tmp;
@@ -310,13 +332,26 @@
 								end: src.end == null ? null : src.end.getTime(),
 								projectId: src.projectId,
 								projectName: src.project == null ? null : src.project.title,
-				    			attachments: src.attachments
+								attachments: src.attachments,
+								comments: src.comments
 							};
 							
+				self.prepCommentsForSave(result.comments);
 				globalSettings.updateTimestamp(result);			
 	            
 	            return result;
-		    }
+			}
+			
+			self.prepCommentsForSave = function(comments) {
+				var len = comments == null ? 0 : comments.length;
+			    var tmp;
+			    
+			    for (var i=0; i<len; i++) {
+					tmp = comments[i].created;
+					tmp = tmp == null ? new Date() : tmp;
+					comments[i].created = tmp.getTime();				    
+			    }
+			}
 		    
 		    self.updateOrigEntryForSave = function(src, entries) {
 			    var result = entries.$getRecord(src.$id);
@@ -338,12 +373,37 @@
     			result.attachments = src.attachments;
 	            result.hasHighlightTag = null;
 	            result.tags = null;
-	            result.people = null;
+				result.people = null;
+				result.comments = src.comments;
 	            
-	            globalSettings.updateTimestamp(result);
+				globalSettings.updateTimestamp(result);
+				self.prepCommentsForSave(result.comments);
+				self.clearReadFlags(result);
 	            
 	            return result;
-		    }
+			}
+			
+			self.getProperties = function(obj){
+				var keys = [];
+				for(var key in obj){
+				   keys.push(key);
+				}
+				return keys;
+			 }
+
+			self.clearReadFlags = function(entry) {
+				var readFlag = "READ_" + globalSettings.currProfile.person;
+				var props = self.getProperties(entry)
+				var prop;
+
+				var len = props.length;
+				for (var i=0; i<len; i++) {
+					prop = props[i];
+					if (prop.startsWith("READ_") && readFlag != entry[prop]) {
+						entry[prop] = null;
+					}
+				}
+			}
 
 			self.archiveEntry = function(entryId) {
 				var deferred = $q.defer();

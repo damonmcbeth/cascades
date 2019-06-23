@@ -8,7 +8,7 @@
 					<a class="text-default" style="text-decoration: none" href="" ng-click="openProjectDetails(project.$id)">
 		            	<i class="pe-7s-edit f-20"></i>
 		            </a>				    
-				    <a class="text-default m-l-5" ui-sref="projects.taskboard({id: project.$id})">
+				    <a class="text-default m-l-5" ui-sref="mywork.taskboard({id: project.$id})">
 		            	<i class="pe-7s-keypad f-20"></i>
 		            </a>
 				</div>
@@ -39,9 +39,9 @@
                             <span ng-show="project.end != null"> - </span> 
                             {{ project.end | amCalendar:null:gs.pref.calShortFormats}}
                         </div>
-                        <div class="f-13 m-t-5" ng-show="project.revenue > 0">
+                        <!--div class="f-13 m-t-5" ng-show="project.revenue > 0">
                             Revenue: {{project.revenue | currency:"$":0 }}
-                        </div>
+                        </div-->
                         
                         <div class="f-13 b-300 m-t-5">
                             <a href="" class="text-default" ng-click="openPersonDetails(project.ownerId)">{{project.ownerName}}</a>

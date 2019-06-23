@@ -15,6 +15,7 @@
         $scope.initId = $stateParams.id;
 		$scope.selectedProject = null;
 		$scope.selectedOwner = null;
+		$scope.selectedPerson = null;
         $scope.taskSummary = null;
         $scope.taskSummaryDetails = null;
 		$scope.showArchived = false;
@@ -357,29 +358,48 @@
                 default:
                     result = {status: val.label};
             }
-			
-			if ($scope.selectedProject == null) {
-				result.projectId = '!';
-			} else {
-				result.projectId = $scope.selectedProject.$id;
-			}
-
-            if (!$scope.showArchived) {
-	            result.archived = "!";
-			}
-			
-			var owner = $scope.selectedOwner
-			if (owner != $scope.anyone) {
-				if (owner == null) {
-					result.ownerId = '!';
-				} else {
-					result.$ = owner.$id;
-					result.ownerId = '!!';
-				}
-			}
             
             return result;
-        }
+		}
+		
+		$scope.includeTask = function() {
+		    return function(item) {
+				if (!$scope.showArchived && item.archived) {
+					return false;
+				}
+
+				if ($scope.selectedPerson != null 
+					&& (item.relatedId != $scope.selectedPerson.$id && $scope.selectedPerson.$id != item.ownerId 
+						&& $scope.selectedPerson.$id != item.delegateId)) {
+					return false;
+				}
+
+				if ($scope.selectedProject == null) {
+					if (item.projectId != null) {
+						return false;
+					}
+				} else {
+					if ($scope.selectedProject.$id != item.projectId ) {
+						return false;
+					}
+				}
+
+				var owner = $scope.selectedOwner
+				if (owner != $scope.anyone) {
+					if (owner == null) {
+						if (item.ownerId != null) {
+							return false;
+						}
+					} else {
+						if (owner.$id != item.ownerId && owner.$id != item.delegateId) {
+							return false;
+						}
+					}
+				}
+
+				return true;
+		    }
+		}
         
         $scope.getFilterId = function(val) {
             switch ($scope.viewByFld) {
@@ -419,13 +439,13 @@
             
             switch ($scope.viewByFld) {
                 case 'Priority':
-                    summary = ($filter('filter')($scope.taskSummary.details, {type:'priority'}));
+                    summary = ($filter('filter')($scope.taskSummary.details, {archived: '!', type:'priority'}));
                     break;
                 case 'Schedule':
-                    summary = ($filter('filter')($scope.taskSummary.details, {type:'state'}));
+                    summary = ($filter('filter')($scope.taskSummary.details, {archived: '!', type:'state'}));
                     break;
                 default:
-                	summary = ($filter('filter')($scope.taskSummary.details, {type:'status'}));
+                	summary = ($filter('filter')($scope.taskSummary.details, {archived: '!', type:'status'}));
             }
             
              $scope.taskTotal = $scope.taskSummary.total;
@@ -442,7 +462,11 @@
     		
 		}
         
-        $scope.buildSummary = function() {
+        $scope.buildSummary = function(resetPeopleFilter = false) {
+			if (resetPeopleFilter) {
+				$scope.selectedOwner = $scope.anyone;
+			}
+
 	        //globalSettings.log("project.taskboard.controller", "buildSummary", "selectedProject: " + $scope.selectedProject);
 	        $scope.buildAssignees();
 	        
@@ -489,13 +513,17 @@
         
         $scope.archiveTasks = function() {
 	        var projId = null;
-	        
+			var fltr = {};
+			
+
 	        if ($scope.selectedProject != null) {
 		        projId = $scope.selectedProject.$id;
-		        var fltr = {projectId:projId};
-		        
-		        taskService.archiveCompleted(fltr);
-		    }
+		        fltr = {projectId:projId};
+			} else {
+				fltr = {projectId:'!'};
+			}
+			
+			taskService.archiveCompleted(fltr);
 
 		}
 		
@@ -603,6 +631,11 @@
 					taskActivityService.saveTask(task, orig);
 				}
 			)
+		}
+
+		$scope.clearRelated = function() {
+			$scope.selectedPerson = null;
+			$scope.relatedSearchText = null;
 		}
 
 		$scope.assignOwnerToTask = function(task, person) {

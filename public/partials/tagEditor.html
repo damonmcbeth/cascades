@@ -7,10 +7,11 @@
 	</div>
 	<div class="panel-body">
 	    <md-chips class="custom-chips" ng-model="model.tags" readonly="false"
-	    	secondary-placeholder="+Tag" placeholder="Enter a tag" md-require-match="true">
-	    	
+			secondary-placeholder="+Tag" placeholder="Enter a tag" md-require-match="false"
+			md-on-add="tagAdded($chip)" md-transform-chip="transformChip($chip)">
+	    
 	    	<md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" 
-	    		md-items="item in querySearch(searchText)" md-item-text="item.name" md-autoselect="true" placeholder="+Tag">
+				md-items="item in querySearch(searchText)" md-item-text="item.name" md-autoselect="true" placeholder="+Tag">
 	    		<span md-highlight-text="searchText">{{item.label}}</span>
 			</md-autocomplete>
 	    	
@@ -21,6 +22,6 @@
 				</span>
 			</md-chip-template>
 	    </md-chips>
-	    <div style="padding: 5px; text-align: right"><a href="" ng-click="manageTags($event)">MANAGER TAGS</a></div>
+	    <div style="padding: 5px; text-align: right"><a href="" ng-click="manageTags($event)">EDIT TAGS</a></div>
 	</div>
 </div>

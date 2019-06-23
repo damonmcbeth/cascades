@@ -3,6 +3,7 @@
 
     angular
         .module('app', [
+            'ngRoute',
             'ui.bootstrap',
             'ui.router',
             'oc.lazyLoad',
@@ -20,6 +21,7 @@
             'firebase', 
             'cfp.hotkeys',
             'ui.bootstrap.datetimepicker',
-            'datetime'
+            'datetime',
+            'angular-flatpickr' 
         ]);
 }());

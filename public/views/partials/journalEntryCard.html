@@ -1,7 +1,10 @@
 
 <div class="col-xs-12 col-sm-6 col-lg-6">
 	<div class="widget-container">
-		<div class="widget text-default"  md-ink-ripple style="min-height: 520px; max-height: 520px" ng-class="{'agile-list-highlight' : entry.hasHighlightTag }"> 
+		<div class="widget text-default"  md-ink-ripple 
+			ng-class="{'agile-list-highlight' : entry.hasHighlightTag,
+						'journalEntry-expanded' : expanded,
+						'journalEntry-collapsed' : !expanded }"> 
 		    		    
 		    <div class="p-10 p-l-15 p-r-15">
 			    
@@ -34,7 +37,7 @@
 
 
 			    <div class="m-t-5 p-15 f-14 bg-muted border-top-1 border-bottom-1 border-muted"
-					style="width: 100%; height: 380px" layout="column">
+					style="width: 100%; height: 380px" layout="column" ng-show="expanded">
 
 					<div class="f-9 label label-primary w-50 m-b-5" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>
 
@@ -91,7 +94,7 @@
 			        </div>
                 </div>
                 
-                <div class="text-muted f-10 m-t-15">
+                <div class="text-muted f-10 m-t-15" ng-show="expanded">
 				  	<div class="m-t-5">Created by {{entry.createdName}} on {{entry.created | amCalendar:null:gs.pref.calShortFormats}}</div>
 				  	<div>Last update by {{entry.updatedName}}</div>
 			  	</div>		            

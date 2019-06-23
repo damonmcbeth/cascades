@@ -619,3 +619,10 @@ jQuery(document).ready(function() {
         yima.sidebarInit();
     }
 });
+
+
+  // Angular deprecated the lowercase function as of v1.6.7. TextAngular hasn't 
+  // updated to reflect this
+  angular.lowercase = function lowercase(string) {
+    return (typeof string === 'string') ? string.toLowerCase() : string;
+  };

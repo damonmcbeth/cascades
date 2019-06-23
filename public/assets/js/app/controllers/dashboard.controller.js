@@ -5,11 +5,11 @@
         .module('app')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$scope', '$state', '$window', '$filter', 'globalSettings', 'globalNav', 'tagService', 
+    DashboardController.$inject = ['$scope', '$state', '$window', '$q', '$filter', 'globalSettings', 'globalNav', 'tagService', 
 								'taskService', 'activityService', 'projectService', 'journalService', 'insightsService', 'reminderService',
 							'messageService', 'taskActivityService'];
 
-    function DashboardController($scope, $state, $window, $filter, globalSettings, globalNav, tagService,
+    function DashboardController($scope, $state, $window, $q, $filter, globalSettings, globalNav, tagService,
 							taskService, activityService, projectService, journalService, insightsService, reminderService,
 						messageService, taskActivityService) {
         
@@ -19,6 +19,7 @@
 		$scope.gs = globalSettings;
 		$scope.ac = activityService;
 		
+		$scope.journal = [];
 		$scope.tasks = [];
 		$scope.activity = [];
 		$scope.fullActivity = [];
@@ -48,7 +49,7 @@
         
         $scope.recentPeopleFilter = {targetType: activityService.TAR_TYPE_PERSON};
         $scope.recentProjectFilter = {targetType: activityService.TAR_TYPE_PROJECT};
-		$scope.recentNotesFilter = {targetType: activityService.TAR_TYPE_JOURNAL};
+		$scope.recentNotesFilter = {archived: false};
         
         $scope.hasReminder = false;
         
@@ -64,6 +65,7 @@
 				$scope.populateTags();
 				$scope.populateReminder();
 				$scope.populateActivity();
+				$scope.populateJournal();
         });
         
         $scope.populateTags = function() {
@@ -88,10 +90,20 @@
 					$scope.hasReminder = $filter("filter")(entries, $scope.includeReminder('start')).length > 0;
 			});
 		}
+
+		$scope.populateJournal = function() {
+			journalService.getAllEntries().then(
+				function(entries) {
+					$scope.journal = entries;
+			});
+		}
 		
 		$scope.includeTask = function() {
 		    return function(item) {
-			  return !item.isDone && (item.state == 'Overdue' || item.state == 'Due today');
+				var owner = globalSettings.currProfile.person;
+
+				return !item.isDone && (item.state == 'Overdue' || item.state == 'Due today')
+							&& (owner == item.ownerId || owner == item.delegateId);
 		    }
 		}
 
@@ -148,7 +160,63 @@
 		
 		$scope.updateIsDone = function(item, status) {
 	        taskActivityService.updateStatus(item, item.isDone);
-        }
+		}
+		
+		$scope.showUnreadFlag = function(item) {
+			var readFlag = "READ_" + globalSettings.currProfile.person;
+
+			return item[readFlag] == null || item[readFlag] == undefined;
+		}
+
+		$scope.updateDueDate = function(target, task) {
+			var value = null;
+
+			switch (target) {
+				case 'In 2 hours': value = moment().startOf('hour').add(2, 'hours').toDate(); break; 
+				case 'In 4 hours': value = moment().startOf('hour').add(4, 'hours').toDate(); break; 
+				case 'This evening': value = moment().startOf('day').add(18, 'hours').toDate(); break;
+				case 'Tomorrow morning': value = moment().startOf('day').add(1, 'days').add(8, 'hours').toDate(); break; 
+				case 'Tomorrow evening': value = moment().startOf('day').add(1, 'days').add(18, 'hours').toDate();break; 
+				case '2 days from now': value = moment().startOf('hour').add(2, 'days').toDate(); break; 
+				case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate();
+			}
+
+			$scope.updateTask('due', value, task);
+		}
+
+		$scope.removeDueDate = function(task) {
+			$scope.updateTask('due', null, task);
+		}
+
+		$scope.updateTask = function(fld, val, orig) {
+			$scope.cloneTask(orig).then(
+				function(task) {
+					switch (fld) {
+						case 'removeTags': task.tags = []; break;
+						case 'tag': $scope.addUniqueTag(task, val); break;
+						case 'project': $scope.assignProjectToTask(task, val); break;
+						case 'owner': $scope.assignOwnerToTask(task, val); break;
+						default: task[fld] = val;
+					}
+					taskActivityService.saveTask(task, orig);
+				}
+			)
+		}
+
+		$scope.cloneTask = function(taskItem) {
+			var deferred = $q.defer();
+
+			taskService.cloneTask(taskItem, null).then(
+				function(clonedTask) {
+					tagService.retrieveTags(taskItem.tags).then(
+						function(tags) {
+							clonedTask.tags = tags;
+							deferred.resolve(clonedTask);	
+					});   	  
+			});
+
+			return deferred.promise;
+		}
 		
         //$scope.openPersonDetails = function(pid) {
         //    $scope.nav.openPeopleDetails(pid);

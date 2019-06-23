@@ -1,0 +1,17 @@
+
+<div class="settingsbar sidebar-content" id="settingsbar" ng-controller="SettingsController">
+    <div class="sidebar-header" style="height: auto">
+        <div class="header-title">
+            <span>Tags</span>
+        </div>
+        <div class="header-close">
+            <i class="pe-7s-angle-right-circle" ng-click="nav.hideSideViewForm()"></i>
+        </div>
+	</div>
+	
+    <div class="sidebar-body" resize height-offset="75" style="width: 100%">
+	    <md-content class="settings" style="height: 100%; background-color: #f1f3f2">
+		    <div data-ng-include="'partials/tagManager.html'" data-ng-controller="TagController"></div>
+	    </md-content>
+    </div>
+</div>

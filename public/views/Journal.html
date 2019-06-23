@@ -5,24 +5,27 @@
 	            <li>
 	                <a href="" id="new-message" ng-Click="newEntry()">
 	                    <i class="icon pe-7s-plus"></i>
-	                    <span class="text">New {{itemLabel}}</span>
+	                    <span class="text">{{itemLabel}}</span>
 	                </a>
-	            </li> 
-				<li>
-	            	<md-menu md-offset="0 15">
-			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
-			            <i class="icon pe-7s-more"></i>
-			          </md-button>
-			          
-			          <md-menu-content width="3">
-			            <md-menu-item>
-			              <md-button ng-click="markAllRead()">Mark all read</md-button>
-			            </md-menu-item>
-			          </md-menu-content>
-			          
-			        </md-menu>
-	            </li>
-
+				</li> 
+				<li ng-show="expanded">
+					<a href="" ng-Click="collapse()">
+						<i class="icon pe-7s-angle-up-circle"></i>
+						<span class="text">Collapse all</span>
+					</a>
+				</li> 
+				<li ng-hide="expanded">
+					<a href="" ng-Click="expand()">
+						<i class="icon pe-7s-angle-down-circle"></i>
+						<span class="text">Expand all</span>
+					</a>
+				</li> 
+				<li >
+					<a href="" ng-click="markAllRead()">
+						<i class="icon pe-7s-look"></i>
+						<span class="text">Mark all read</span>
+					</a>
+				</li> 
 	        </ul>
 	    </div>
 	</div>

@@ -6,11 +6,11 @@
 	            <li>
 	                <a href="" id="new-message" ng-Click="newEntry()">
 	                    <i class="icon pe-7s-plus"></i>
-	                    <span class="text">New Reminder</span>
+	                    <span class="text">Reminder</span>
 					</a>
 					<a href="" id="new-message" ng-Click="nav.newTask()">
 							<i class="icon pe-7s-plus"></i>
-							<span class="text">New {{gs.currWorkspace.Terminology.taskAlias}}</span>
+							<span class="text">{{gs.currWorkspace.Terminology.taskAlias}}</span>
 						</a>
 	            </li> 
 	        </ul>
@@ -18,13 +18,36 @@
 	</div>
 	
 	<div class="page-container-vert">
-					
-	    <div class="panel panel-white" >
+	<div class="row"> 
+	    <div class="col-md-8 panel panel-white" >
             <div class="panel-body">
             	<div id="full-calendar"></div>
             </div>
-	    </div>
-    </div>
+		</div>
+		
+		<div class="col-sm-4">
+			<div class="widget-container">
+				<div class="widget">
+					<div class="f-13 p-10 border-bottom-1 border-muted b-400">
+						<div class="pull-right f-17">
+							<a href="" ng-click="nav.newReminder()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
+						</div>
+						REMINDERS
+					</div>
+					<div class="reminder-alert p-10"
+						ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
+						
+						<div ng-click="nav.openReminderEditDetails(reminder.$id)">
+							<span class="f-11 text-primary b-500">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
+							<span class="f-11 text-primary b-500" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span><br/>
+							<span class="reminder-alert-content">{{reminder.title}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 </div>
 
 <script>

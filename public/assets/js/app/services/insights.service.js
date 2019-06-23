@@ -347,11 +347,13 @@
 			    return result;
 		    }
 		    
-		    self.buildTaskSummary = function(tasks, taskStates) {
+		    self.buildTaskSummary = function(tasksList, taskStates) {
 			    var taskSum = {};
 			    var val;
-			    var tot = tasks.length;
-	
+			    
+				var tasks = $filter('filter')(tasksList, {archived: '!'});
+				var tot = tasks.length;
+
 				taskSum.details = [];
 				taskSum.total = tot;
 				taskSum.openTotal = ($filter('filter')(tasks, {isDone:false})).length; 

@@ -22,6 +22,7 @@
 		$scope.search = '';
 		
 		$scope.readFlag = '';
+		$scope.expanded = true;
         
         
         globalSettings.initSettings().then(
@@ -150,7 +151,15 @@
 	        }
 	        
 	        return result;
-        }
+		}
+		
+		$scope.collapse = function() {
+			$scope.expanded = false;
+		}
+
+		$scope.expand = function() {
+			$scope.expanded = true;
+		}
         
     }
 }());

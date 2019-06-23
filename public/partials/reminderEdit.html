@@ -22,7 +22,7 @@
 		            	<md-input-container class="md-block p-b-0">
 				            <label>Title</label>
 				            <textarea id="entryTitle" name="entryTitle" class="primary-input" ng-model="selectedEntry.title" 
-				            	rows="3" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
+				            	rows="1" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
 				            	
 				            <div ng-messages="entryForm.entryTitle.$error" role="alert" 
 								ng-if="showHints" multiple>
@@ -90,7 +90,7 @@
 				          Repeat reminder
 				        </md-switch>
 				        
-				        <div layout="row">
+				        <div layout="row"  ng-show="selectedEntry.repeat">
 							<md-input-container class="md-block">
 								<label>Every</label>
 						  		<md-select ng-model="selectedEntry.everyCount" ng-change="refreshCalendar()" ng-disabled="!selectedEntry.repeat">
@@ -121,7 +121,7 @@
 								</ul>
 							</md-input-container>
 						</div>
-						<div id="full-calendar-edit"></div>  
+						<div id="full-calendar-edit" ng-show="selectedEntry.repeat"></div>  
 		            </div>
 		        </div>
 				
@@ -137,10 +137,10 @@
 		            </div>
 			  	</div>
 			  
-			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
+			  	<!--div class="text-muted f-10 m-t-15" ng-show="isEdit">
 				  	<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
 				  	<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
-			  	</div>
+			  	</div-->
 			  
 			  
 			  	<div class="m-t-15" ng-show="isEdit">

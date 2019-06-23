@@ -285,7 +285,7 @@
 	            
 	            return result;
 		    };
-		    
+
 		    self.newTag = function() {
 				return {
 					label: "",
@@ -322,7 +322,7 @@
 							tags.$add(self.createTagForSave(edited)).then(
 								function(ref) {
 								  globalSettings.log("tags.service", "saveTag", "Added tag: " +  ref.key);
-								  deferred.resolve(orig);
+								  deferred.resolve(ref);
 								}, 
 								function(error) {
 								  globalSettings.logError("tags.service", "saveTag:Create", error);

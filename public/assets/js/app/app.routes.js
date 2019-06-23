@@ -37,7 +37,7 @@
                 templateUrl: 'views/Dashboard.html',
                 controller: 'DashboardController',
                 ncyBreadcrumb: {
-                    label: 'Dashboard'
+                    label: 'Summary'
                 },
                 data: {
                     //icon: 'pe-7s-display1',

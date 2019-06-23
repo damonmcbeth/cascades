@@ -1419,6 +1419,117 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+md-slider.md-default-theme.md-primary .md-track.md-track-fill, md-slider.md-primary .md-track.md-track-fill {
+  background-color: rgb(0, 130, 140);
+}
+
+md-slider.md-default-theme.md-primary .md-thumb:after, md-slider.md-primary .md-thumb:after {
+  border-color: rgb(0, 130, 140);
+  background-color: rgb(0, 130, 140);
+}
+
+md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
+  background-color: #045c63;
+}
+
+md-checkbox.md-default-theme.md-checked .md-ink-ripple, md-checkbox.md-checked .md-ink-ripple {
+  color: #045c63;
+}
+
+md-select-menu.md-default-theme md-content md-option[selected], md-select-menu md-content md-option[selected] {
+  color: rgb(3, 92, 99);
+}
+
+.md-select-menu-container.md-active {
+  z-index: 9000;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]).md-primary .md-thumb, md-switch.md-checked:not([disabled]).md-primary .md-thumb {
+  background-color: rgb(3, 92, 99);
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]).md-primary .md-bar, md-switch.md-checked:not([disabled]).md-primary .md-bar {
+  background-color: rgba(3, 92, 99, 0.32);
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  background: #212121 !important;
+}
+
+.flatpickr-calendar {
+  background: #212121 !important;
+}
+
+span.flatpickr-weekday {
+  background: #212121 !important;
+}
+
+.flatpickr-months .flatpickr-month {
+  background: #212121 !important;
+}
+
+.flatpickr-calendar.arrowTop:before {
+  border-bottom-color: #212121 !important;
+}
+
+md-select.md-default-theme .md-select-value, md-select .md-select-value {
+    font-size: 17px;
+    font-weight: 300;
+}
+
+.md-chips md-chip .md-chip-remove md-icon {
+  height: 15px;
+  width: 15px;
+  min-height: 15px;
+  min-width: 15px;
+
+}
+
+md-chips.md-default-theme md-chip md-icon, md-chips md-chip md-icon {
+  color: #999;
+}
+
+md-radio-button.md-default-theme:not([disabled]).md-primary .md-on, md-radio-button:not([disabled]).md-primary .md-on, md-radio-button.md-default-theme:not([disabled]) .md-primary .md-on, md-radio-button:not([disabled]) .md-primary .md-on, md-radio-group.md-default-theme:not([disabled]).md-primary .md-on, md-radio-group:not([disabled]).md-primary .md-on, md-radio-group.md-default-theme:not([disabled]) .md-primary .md-on, md-radio-group:not([disabled]) .md-primary .md-on {
+  background-color:#00828c !important;
+}
+
+md-radio-button .md-off {
+  border-width: 1px;
+}
+
+md-checkbox.md-default-theme:not(.md-checked) .md-icon, md-checkbox:not(.md-checked) .md-icon {
+  border-color: #aaa;
+}
+
+md-list-item .md-list-item-inner>md-checkbox, md-list-item>md-checkbox {
+  margin-right: 0px;
+}
+
+md-checkbox .md-icon {
+  border-width: 1px;
+  border-radius: 1px;
+  width: 18px;
+  height: 18px;
+}
+
+.journalEntry-expanded {
+  max-height: 520px;
+  min-height: 520px;
+}
+
+.journalEntry-collapsed {
+  max-height: 66px;
+  min-height: 66px;
+}
+
+.md-whiteframe-1dp, .md-whiteframe-z1 {
+  box-shadow: none;
+}
+
+md-autocomplete.md-default-theme, md-autocomplete {
+  background: #e6e6e6;
+}
+
 .hint {
   color: #999999;
 }
@@ -1441,11 +1552,11 @@ input.not-sortable {
 
 .activity-document-icon {
 	background-color: #f3f3f3;
-	padding: 10px;
-	font-size: 25px;
-	width: 50px;
-    height: 50px;
-    text-align: center;
+	padding: 4px;
+	font-size: 20px;
+	width: 40px;
+  height: 40px;
+  text-align: center;
 }
 
 .reminder-note {
@@ -1475,7 +1586,7 @@ input.not-sortable {
 }
 
 .reminder-alert-content {
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 400;
 }
 
@@ -1640,7 +1751,7 @@ md-radio-button.projectSelector ._md-on {
 
 .settings md-tabs.md-default-theme .md-tab.md-active, .settings md-tabs .md-tab.md-active, .settings md-tabs.md-default-theme .md-tab.md-active md-icon, .settings md-tabs .md-tab.md-active md-icon, .settings md-tabs.md-default-theme .md-tab.md-focused, .settings md-tabs .md-tab.md-focused, .settings md-tabs.md-default-theme .md-tab.md-focused md-icon, .settings md-tabs .md-tab.md-focused md-icon {
     color: #fff !important;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .workspaceSelector {
@@ -1662,19 +1773,21 @@ md-radio-button.projectSelector ._md-on {
 	margin-bottom: 10px;
 	overflow: hidden;
 	border: 1px solid #eee;
-	max-height: 200px;
+	max-height: 160px;
 }
 
 .journalEntry-img-cont {
 	width: 100%;
-	max-height: 60px;
+	max-height: 80px;
 	margin-top: 0px;
 	overflow: hidden;
-	border: 1px solid #eee;
+  border: 1px solid #eee;
+  border-radius: 4px;
 }
 
 .journalEntry-img {
-	width: 100%;
+  width: 100%;
+  border-radius: 4px;
 }
 
 .journalEntry-img-cont.single {
@@ -1961,6 +2074,7 @@ md-radio-button {
     font-size: 15px;
     font-weight: 400;
     margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .people-search .searchinput {
@@ -2265,7 +2379,8 @@ md-radio-button {
 .md-subheader {
 	font-size: 17px;
 	color: #007982 !important;
-	font-weight: 400 !important;
+  font-weight: 400 !important;
+  background-color: #f1f3f2;
 }
 
 md-checkbox {

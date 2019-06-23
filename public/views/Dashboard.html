@@ -1,40 +1,6 @@
 
-<!--div class="page-header m-t-0" ng-show="hasReminder">
-    <h4 class="header-text"><i class="pe-7s-bell m-r-5"></i>Reminders</h4>
-</div-->
-
-<!--div class="row m-l-0 m-r-0 m-b-25" ng-show="hasReminder">
-	<div class="reminder-alert p-10"
-		ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
-		<div>
-			<span class="f-11 text-muted" ng-if="reminder.allday">All day</span>
-			<span class="f-11 text-muted" ng-if="!reminder.allday">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}} - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span><br/>
-
-			<span class="reminder-alert-content">{{reminder.title}}</span>
-		</div>
-	</div>
-
-</div-->
-
-<!--div class="page-header m-t-0">
-    <h4 class="header-text" >{{gs.currWorkspace.Terminology.taskAlias}} Summary</h4>
-</div-->
-
 <div class="row">    
-    <!--div class="col-md-2 dashboard-widget">
-	    <a ui-sref="mywork.myjournal">
-        <div class="widget p-20 h-100 text-default" md-ink-ripple>
-            <div>
-                <div class="col">
-                    <i class="pe-7s-notebook text-primary f-25 p-t-5 p-r-5"></i>
-                </div>
-                <div class="col f-25">{{summary.Journal.unread}}</div>
-            </div>
-            <div class="f-13 b-400">Unread</div>
-        </div>
-	    </a>
-    </div-->
-    
+        
     <div class="col-md-8">
         <div class="widget-container">
             <div class="widget">
@@ -50,12 +16,9 @@
                     <div class="row">
                         <div class="col-sm-3 border-primary border-left-5 p-5 p-l-10 text-default" md-ink-ripple
 	                        ng-click="nav.showTasks()">
-	                        <!--div>
-				                <div class="col">
-				                    <i class="pe-7s-check f-25 p-t-5 p-r-5 text-primary"></i>
-				                </div-->
+	                        
 								<div class="col f-25">{{summary.Task.dueToday}}</div>
-	                        <!--/div-->
+	                        
                             <div class="f-13 b-400">Due today</div>
                         </div>
                         <div class="col-sm-3  border-danger border-left-5 p-5 p-l-10 text-default"
@@ -80,16 +43,45 @@
                             <md-list-item class="md-3-line md-long-text" ng-repeat="task in tasks | filter:includeTask() | orderBy:'due':true" 
                                 ng-click="openTaskDetails(task)">
                                 <md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateIsDone(task)"></md-checkbox>
-                                <div class="md-list-item-text p-l-10 p-r-8">
+                                <div class="md-list-item-text p-l-10">
                                     <div class="list-title-highlight-muted" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
-                                    <div class="list-title f-14">{{task.title}}</div>
+                                    <div class="list-title f-15">{{task.title}}</div>
                                     <div class="list-title-2 f-12" ng-class="{'text-primary' : task.state != 'Overdue', 
                                     'text-danger' : task.state == 'Overdue' }">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div> 
-                                    <div class="list-title-3 f-12" ng-hide="task.projectName==null">{{gs.currWorkspace.Terminology.projectAlias}}: {{task.projectName}}</div>                               
+                                    <div class="list-title-3 f-12"  ng-hide="task.projectName==null && task.relatedName==null"> 
+                                        <span ng-hide="task.projectName==null" class="m-r-10"><span class="b-400">{{gs.currWorkspace.Terminology.projectAlias}}:</span> {{task.projectName}}</span>
+                                        <span ng-hide="task.relatedName ==null"><span class="b-400">Regarding:</span> {{task.relatedName}}</span>
+                                    </div>                               
                                 </div>
-                                <div class="md-secondary f-9 m-r-10">
-                                    <span ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}</span>
+                                
+                                <div class="md-secondary f-9">
+                                    <span ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 
+                                                        'badge-warning' : task.priority === 'M', 
+                                                        'badge-success' : task.priority === 'L', 
+                                                        'task-normal' : task.priority === 'N'}">{{task.priority}}</span>
                                 </div>
+
+                                <md-menu class="md-secondary">
+                                    <md-button class="md-icon-button m-t-5" aria-label="Quick actions for {{task.title}}"  ng-click="$mdOpenMenu($event)">
+                                        <i class="pe-7s-angle-down-circle f-17"></i>
+                                    </md-button>
+                                    <md-menu-content width="3">
+                                        <md-menu-item>
+                                            <md-button class="menu-subheader" disabled="disabled">
+                                                Change due date to:
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-divider></md-divider>
+                                        <md-menu-item ng-repeat="item in ['Tomorrow morning', 'Tomorrow evening', '2 days from now', 'Next week']">
+                                            <md-button aria-label="update view" ng-click="updateDueDate(item, task)">{{item}}</md-button>
+                                        </md-menu-item>
+                                        <md-divider></md-divider>
+                                        <md-menu-item>
+                                            <md-button aria-label="remove due date" ng-click="removeDueDate(task)">Remove due date</md-button>
+                                        </md-menu-item>
+                                    </md-menu-content>
+                                </md-menu>
+                                  
                                 <md-divider ng-if="!$last"></md-divider>
                             </md-list-item>
                         </md-list>
@@ -103,7 +95,11 @@
         <div class="widget-container">
             <div class="widget">
                 <div class="f-13 p-10 border-bottom-1 border-muted b-400">
-                    <i class="pe-7s-bell m-r-5"></i>REMINDERS
+                    <div class="pull-right f-17">
+                        <a ui-sref="mywork.reminders" class="m-r-5 text-default"><i class="icon pe-7s-date"></i></a>
+                        <a href="" ng-click="nav.newReminder()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
+                    </div>
+                    REMINDERS
                 </div>
                 <div class="reminder-alert p-10"
                     ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
@@ -118,22 +114,6 @@
         </div>
     </div>
 
-    <!--div class="col-md-2 dashboard-widget">
-	    <a ui-sref="mywork.myprojects">
-        <div class="widget p-15 h-100 text-default" md-ink-ripple>
-            <div>
-                <div class="col">
-                    <i class="pe-7s-portfolio f-30 text-primary"></i>
-                </div>
-                <div class="col f-25">{{summary.Project.open}}</div>
-            </div>
-            <div class="f-13 b-400">
-                Open {{gs.currWorkspace.Terminology.projectAliasPlural}}
-               
-            </div>
-        </div>
-	    </a>
-    </div-->
 </div>
 
 
@@ -148,9 +128,6 @@
 	<div class="f-13 p-l-20" ng-hide="hasRecentProjects()">No recent {{gs.currWorkspace.Terminology.projectAliasPlural | lowercase}}</div>
 </div>
 
-<!--div class="page-header">
-    <h4 class="header-text">Recent Activity</h4>
-</div-->
 <div class="row">
 	<div class="col-sm-4">
         <div class="widget-container">
@@ -172,6 +149,7 @@
                                 <div class="list-title f-15">{{act.personName}} </div>
                                 <div class="list-title-2" ><a href="mailto:{{act.email}}">{{act.email}}</a></div>
                             </div>
+                            <md-divider ng-if="!$last"></md-divider>
 					</md-list-item>
                 </md-list>
             </div>
@@ -187,30 +165,40 @@
                     </div>
                     {{gs.currWorkspace.Terminology.memoAliasPlural | uppercase }}
                 </div>
+
+                <md-content style="height: 400px">
                 <div>
 	                <md-list flex>
-						<md-list-item class="md-2-line" ng-repeat="act in activity | filter:recentNotesFilter | orderBy:'created':true | limitTo:gs.pref.journal.recent" 
-	                    	ng-click="openJournalDetails(act.targetId)">
+						<md-list-item class="md-3-line md-long-text" ng-repeat="act in journal | filter:recentNotesFilter | orderBy:'updated':true | limitTo:10" 
+	                    	ng-click="openJournalDetails(act.$id)">
 	                        
                         	<div class="activity-document-icon">
                             	<i class="pe-fw"
-                            		ng-class="{'pe-7s-light' : act.entryType == 'Idea', 'pe-7s-call' : act.entryType == 'Phone call', 
-				    				'pe-7s-chat' : act.entryType == 'Meeting', 'pe-7s-note2' : act.entryType == 'Memo',
-									'pe-7s-copy-file' : act.entryType == 'Document', 'pe-7s-photo' : act.entryType == 'Image',
-									'pe-7s-coffee' : act.entryType == 'Food', 'pe-7s-car' : act.entryType == 'While you were out',
-									'pe-7s-date' : act.entryType == 'Event', 'pe-7s-news-paper' : act.entryType == 'Recipe',
-									'pe-7s-culture' : act.entryType == 'Restaurant', 'pe-7s-gym' : act.entryType == 'Workout',
-									'pe-7s-map' : act.entryType == 'Location', 'pe-7s-ball' : act.entryType == 'Sports',
-									'pe-7s-cart' : act.entryType == 'Shopping', 'pe-7s-film' : act.entryType == 'Media',
-									'pe-7s-note' : act.entryType == 'Minutes', 'pe-7s-joy' : act.entryType == 'Games',
-									'pe-7s-like' : act.entryType == 'Health', 'pe-7s-piggy' : act.entryType == 'Money'}">
+                            		ng-class="{'pe-7s-light' : act.type == 'Idea', 'pe-7s-call' : act.type == 'Phone call', 
+				    				'pe-7s-chat' : act.type == 'Meeting', 'pe-7s-note2' : act.type == 'Memo',
+									'pe-7s-copy-file' : act.type == 'Document', 'pe-7s-photo' : act.type == 'Image',
+									'pe-7s-coffee' : act.type == 'Food', 'pe-7s-car' : act.type == 'While you were out',
+									'pe-7s-date' : act.type == 'Event', 'pe-7s-news-paper' : act.type == 'Recipe',
+									'pe-7s-culture' : act.type == 'Restaurant', 'pe-7s-gym' : act.type == 'Workout',
+									'pe-7s-map' : act.type == 'Location', 'pe-7s-ball' : act.type == 'Sports',
+									'pe-7s-cart' : act.type == 'Shopping', 'pe-7s-film' : act.type == 'Media',
+									'pe-7s-note' : act.type == 'Minutes', 'pe-7s-joy' : act.type == 'Games',
+									'pe-7s-like' : act.type == 'Health', 'pe-7s-piggy' : act.type == 'Money'}">
 				    			</i>
                         	</div>
                             <div class="md-list-item-text p-l-10 p-r-8">
-                                <div class="list-title f-14">{{act.targetTitle}}</div>
-                                <div class="list-title-2">{{act.entryUpdated | amCalendar:null:gs.pref.calFormats}}</div>
+                                <div class="f-8 pull-right label label-primary m-r-5 m-l-5" ng-show="showUnreadFlag(act)">UNREAD</div>
+                                <div class="list-title f-15">{{act.title}}</div>
+                                <div class="list-title-2 m-t-0 f-12">{{act.updated | amCalendar:null:gs.pref.calFormats}}</div>
 
-                                <div flex="100" class="journalEntry-img-cont" ng-repeat="pic in act.attachments | filter:'image/' | limitTo:1">
+                                <div class="list-title f-11" ng-hide="(act.people == null || act.people.length == 0)">
+                                    <span class="m-r-5" ng-repeat="person in act.people">
+                                        {{person.name}}<span ng-if="!$last">, </span>
+                                        <!--avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"></avatar-->
+                                    </span>
+                                </div>
+
+                                <div class="journalEntry-img-cont" style="width: 126px" ng-repeat="pic in act.attachments | filter:'image/' | limitTo:1">
                                     <a href="{{pic.url}}" target="_blank">
                                     <img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
                                         class="journalEntry-img">
@@ -222,7 +210,7 @@
                             <md-divider ng-if="!$last"></md-divider>
 						</md-list-item>
 	                </md-list>
-                </div>
+                </div></md-content>
             </div>
         </div>
     </div>

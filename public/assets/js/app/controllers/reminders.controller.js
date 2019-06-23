@@ -15,14 +15,16 @@
         $scope.nav = globalNav;
         $scope.gs = globalSettings;
         
-        $scope.entries;
+		$scope.entries;
+		$scope.reminders;
         $scope.events = [];
         $scope.cntHack = 1;
                
         $scope.populateReminders = function() {
 	        reminderService.getAllEntries().then(
 		        function(entries) {
-			        $scope.entries = entries;
+					$scope.entries = entries;
+					$scope.reminders = entries;
 			        $scope.entries.$watch(function(event) {
 										console.log(event);
 										//if (event.event == "child_added") {
@@ -187,7 +189,13 @@
     	
     	$scope.newEntry = function() {
             $scope.nav.newReminder();
-        }
+		}
+		
+		$scope.includeReminder = function(prop) {
+		    return function(item) {
+				return item[prop] >= moment().add(-10, 'days').toDate();
+		    }
+		}
         
     }
 }());

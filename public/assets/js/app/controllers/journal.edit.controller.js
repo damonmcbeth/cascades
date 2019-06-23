@@ -18,10 +18,62 @@
         
         $scope.isEdit = true;
         $scope.showHints = false;
-        
+		
+		$scope.startDate;
+		$scope.startPicker;
+
+		$scope.endDate;
+		$scope.endPicker;
+		$scope.commentTitle;
+
+		$scope.dateOpts = {
+			enableTime: true,
+			dateFormat: "l M j, Y \\a\\t h:i K",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				if (selectedDates.length == 1) {
+					$scope.selectedEntry.start = selectedDates[0];
+				}
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.startPicker = instance;
+			}
+		};
+
+		$scope.dateEndOpts = {
+			enableTime: true,
+			dateFormat: "l M j, Y \\a\\t h:i K",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				if (selectedDates.length == 1) {
+					$scope.selectedEntry.end = selectedDates[0];
+				}
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.endPicker = instance;
+			},
+			enable: [
+				function(date) {
+					if ($scope.selectedEntrySrc != null && $scope.selectedEntrySrc.start != null) {
+						return (date > new Date($scope.selectedEntrySrc.start));
+					} else {
+						return true;
+					}
+					
+				}
+			]
+		};
+		  
+		$scope.datePostSetup = function(fpItem) {
+			//console.log('flatpickr', fpItem);
+			//fpItem.setDate($scope.selectedTask.due, false);
+		}
+
         $scope.content = "";
 	    $scope.options = {
-		    height: 400,
+		    height: 200,
 		    airMode: false,
 		    toolbar: [
 				['para', ['style']],
@@ -100,7 +152,8 @@
 							        function(tags) {
 								        clonedEntry.tags = tags;
 								        $scope.populateRelatedPeople(entry, clonedEntry);
-								        $scope.initEditor(); 
+										$scope.initEditor(); 
+										$scope.initDatePicker();
 								        $scope.setDefaultFocus();
 								        journalService.markAsRead(entry.$id);
 								        
@@ -111,6 +164,18 @@
 		
 			        }
 			});
+		}
+		
+		$scope.initDatePicker = function() {
+			if ($scope.selectedEntrySrc != null && $scope.selectedEntrySrc.start != null) {
+				var newDate = flatpickr.formatDate(new Date($scope.selectedEntrySrc.start), "l M j, Y \\a\\t h:i K")
+				$scope.startDate = newDate;
+			}
+
+			if ($scope.selectedEntrySrc != null && $scope.selectedEntrySrc.end != null) {
+				var newEDate = flatpickr.formatDate(new Date($scope.selectedEntrySrc.end), "l M j, Y \\a\\t h:i K")
+				$scope.endDate = newEDate;
+			}
         }
         
         $scope.populateRelatedPeople = function(entry, clonedEntry) {
@@ -135,7 +200,12 @@
 	        $('#summernote').summernote();
 	        $('#summernote').summernote('reset');
 	        $('#summernote').summernote('insertText', $scope.selectedEntry.content);
-	        
+			
+			if ($scope.selectedEntrySrc.content == null || $scope.selectedEntrySrc.content == "") {
+				$scope.options.height = 200;
+			} else {
+				$scope.options.height = 400;
+			}
         }
         
         $scope.cleanUpForSave = function() {
@@ -247,11 +317,13 @@
 
     	$scope.clearStartDate = function() {
 			$scope.selectedEntry.start = null;
+			$scope.startDate = null;
 			$scope.clearEndDate();
 		}
 		
 		$scope.clearEndDate = function() {
-	    	$scope.selectedEntry.end = null;
+			$scope.selectedEntry.end = null;
+			$scope.endDate = null;
     	}
     	
     	$scope.onfileUploadChange = function onChange(loc, fileList, uploadCtrl) {
@@ -286,6 +358,31 @@
 			$scope.ownerSearchText = null;
     	}
 		
+		$scope.addComment = function() {
+			if ($scope.commentTitle == null || $scope.commentTitle == "") {
+				return;
+			}
+
+	    	var tmp = {
+						created: new Date(),		    			
+		    			title: $scope.commentTitle,
+						createdName: globalSettings.currProfile.name,
+						createdBy: globalSettings.currProfile.person,
+						canDelete: true
+	    			};
+	    	
+			$scope.selectedEntry.comments.push(tmp);
+			$scope.commentTitle = "";
+	    	
+    	}
+    	
+    	$scope.removeComment = function(item) {
+	    	if (item != null) {
+		    	$scope.selectedEntry.comments.splice($scope.selectedEntry.comments.indexOf(item), 1);
+		    }
+    	}
+
+
     
     	globalNav.registerEditController(globalNav.ACTION_JOURNAL_ENTRY, $scope.initAction);
     	
