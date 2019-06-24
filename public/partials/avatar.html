@@ -2,5 +2,5 @@
 		'avatar-md' : size=='md', 'avatar-new' : state == 'New', 'avatar-xs' : size=='xs'}" 
 		src="assets/img/avatars/empty-icon.png"
 		ng-src="{{determineImg()}}">
-		<md-tooltip ng-hide="name == null || name == ''">{{name}}</md-tooltip>
+		<md-tooltip ng-if="name != null && name != ''">{{name}}</md-tooltip>
 </img>

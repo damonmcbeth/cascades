@@ -3,7 +3,7 @@
 	<div class="p-15 p-t-20 align-center" ng-click="openDetails(person)"
 		md-ink-ripple style="min-height: 210px;" ng-class="{'agile-list-highlight' : person.hasHighlightTag }">			    
 		<avatar size="lg" img="person.avatar" state="person.state" type="person.avatarType"></avatar>
-		<h4>{{person.name}}</h4>
+		<div class="f-17 b-300">{{person.name}}</div>
 		<div class="m-t-5"><ctag ng-repeat="tag in person.tags"></ctag></div>
 	</div>
 
