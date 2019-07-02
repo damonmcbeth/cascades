@@ -2,7 +2,8 @@
 <div class="col-sm-4">
 	<div class="widget-container">
         <div class="widget"
-            ng-class="{'projectEntry-expanded' : expanded, 'projectEntry-collapsed' : !expanded }"> 
+            ng-class="{'projectEntry-expanded' : expanded, 'projectEntry-collapsed' : !expanded,
+            'agile-list-highlight' : project.hasHighlightTag }"> 
 		    <div md-ink-ripple class="f-17 p-10 p-l-15 p-r-15 border-bottom-1 border-muted b-400 text-default align-center"
 			     ng-click="openProjectDetails(project.$id)">
 		    	{{project.title}}
@@ -27,21 +28,23 @@
                         {{ project.end | amCalendar:null:gs.pref.calShortFormats}}</span>
                     </div>
 
+                    <div class="m-t-10"><ctag ng-repeat="tag in project.tags"></ctag></div>
+
                     <md-divider class="m-t-15 m-b-5"></md-divider>
 
                     <div class="p-10 b-300 align-center">
                         <div class="row">
                             <div class="col-xs-4 border-muted border-right-1">
                                 <div class="b-400 f-14 ">{{ project.totalOpenTasks == null ? 0 : project.totalOpenTasks }}</div>
-                                <div class="text-muted f-12 b-300">{{gs.currWorkspace.Terminology.taskAliasPlural}}</div>
+                                <div class="text-muted f-11 b-300">{{gs.currWorkspace.Terminology.taskAliasPlural}}</div>
                             </div>
                             <div class="col-xs-4 border-muted border-right-1">
                                 <div class="b-400 f-14">{{ project.dueToday == null ? 0 : project.dueToday }}</div>
-                                <div class="text-muted f-12 b-300">Due today</div>
+                                <div class="text-muted f-11 b-300">Due today</div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="b-400 f-14">{{ project.overdue == null ? 0 : project.overdue }}</div>
-                                <div class="text-muted f-12 b-300">Overdue</div>
+                                <div class="text-muted f-11 b-300">Overdue</div>
                             </div>
                         </div>
 

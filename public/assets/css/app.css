@@ -1517,8 +1517,8 @@ md-checkbox .md-icon {
 }
 
 .projectEntry-expanded {
-  max-height: 300px;
-  min-height: 300px;
+  max-height: 320px;
+  min-height: 320px;
 }
 
 .projectEntry-collapsed {
