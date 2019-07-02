@@ -421,7 +421,7 @@
 																		
 										self.saveProjectSummary(project, taskSum).then(
 											function(r1) {
-												self.updateProjectPerComp(project, taskSum.perComp, taskSum.openTotal);
+												self.updateProjectPerComp(project, taskSum.perComp, taskSum.openTotal, taskSum);
 												self.updateActiveAccessActivity(project, taskSum.perComp);
 												
 												deferred.resolve(true);
@@ -461,14 +461,49 @@
 			    return deferred.promise;
 		    }
 		    
-		    self.updateProjectPerComp = function(project, perComp, totalOpen) {
+		    self.updateProjectPerComp = function(project, perComp, totalOpen, taskSumm) {
 			    
 			    if (project.perComp != perComp) {
 				    self.getProjects().then(
 					    function(projects) {
+							var overdue = 0;
+							var dueSoon = 0;
+							var dueToday = 0;
+							var details = taskSumm.details;
+							var len = (details == null) ? 0 : details.length;
+							var item;
+
+							for (var i=0; i<len; i++) {
+								item = details[i];
+
+								if (item.type == "state") {
+									if (item.label == "Overdue") {
+										overdue = item.data;
+									}
+
+									if (item.label == "Due today") {
+										dueToday = item.data;
+									}
+
+									if (item.label == "Due soon") {
+										dueSoon = item.data;
+									}
+								}
+							}
+
 						    project.perComp = perComp;
 						    project.totalOpenTasks = totalOpen;
-						    projects.$save(project);
+							project.overdue = overdue;
+							project.dueSoon = dueSoon;
+							project.dueToday = dueToday;
+							projects.$save(project).then(
+								function(result) {
+									console.log(result);
+								}, 
+								function(error) {
+									console.log(error);
+								}
+							);
 					    }
 				    )
 			    }
