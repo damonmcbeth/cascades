@@ -461,52 +461,59 @@
 			    return deferred.promise;
 		    }
 		    
-		    self.updateProjectPerComp = function(project, perComp, totalOpen, taskSumm) {
+		    self.updateProjectPerComp = function(proj, perComp, totalOpen, taskSumm) {
 			    
-			    if (project.perComp != perComp) {
-				    self.getProjects().then(
-					    function(projects) {
-							var overdue = 0;
-							var dueSoon = 0;
-							var dueToday = 0;
-							var details = taskSumm.details;
-							var len = (details == null) ? 0 : details.length;
-							var item;
+			   // if (project.perComp != perComp) {
+					//self.findProject(proj.$id).then(
+					//	function(project) {
+							self.getProjects().then(
+								function(projects) {
+									var project = projects.$getRecord(proj.$id);
 
-							for (var i=0; i<len; i++) {
-								item = details[i];
+									var overdue = 0;
+									var dueSoon = 0;
+									var dueToday = 0;
+									var details = taskSumm.details;
+									var len = (details == null) ? 0 : details.length;
+									var item;
 
-								if (item.type == "state") {
-									if (item.label == "Overdue") {
-										overdue = item.data;
+									for (var i=0; i<len; i++) {
+										item = details[i];
+
+										if (item.type == "state") {
+											if (item.label == "Overdue") {
+												overdue = item.data;
+											}
+
+											if (item.label == "Due today") {
+												dueToday = item.data;
+											}
+
+											if (item.label == "Due soon") {
+												dueSoon = item.data;
+											}
+										}
 									}
 
-									if (item.label == "Due today") {
-										dueToday = item.data;
-									}
+									project.perComp = perComp;
+									project.totalOpenTasks = totalOpen;
+									project.overdue = overdue;
+									project.dueSoon = dueSoon;
+									project.dueToday = dueToday;
 
-									if (item.label == "Due soon") {
-										dueSoon = item.data;
-									}
+									projects.$save(project).then(
+										function(result) {
+											console.log(result);
+										}, 
+										function(error) {
+											console.log(error);
+										}
+									);
 								}
-							}
-
-						    project.perComp = perComp;
-						    project.totalOpenTasks = totalOpen;
-							project.overdue = overdue;
-							project.dueSoon = dueSoon;
-							project.dueToday = dueToday;
-							projects.$save(project).then(
-								function(result) {
-									console.log(result);
-								}, 
-								function(error) {
-									console.log(error);
-								}
-							);
-					    }
-				    )
-			    }
+							)
+						//}
+					//)
+			    //}
 		    }
 		    
 		    self.updateActiveAccessActivity = function(project, perComp) {
