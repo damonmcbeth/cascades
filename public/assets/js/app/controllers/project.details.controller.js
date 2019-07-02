@@ -22,7 +22,7 @@
             },
             barColor:'#009000',
             scaleLength: 0,
-            lineWidth:10,
+            lineWidth:12,
             lineCap:'square',
             size:150
         };

@@ -602,12 +602,12 @@
             
             .state('projects.activeprojects', {
                 url: "/projects/activeprojects",
-                params: { display: 'Active',
+                params: { display: 'Open',
 	                cardView: false },
                 templateUrl: 'views/Projects.html',
                 controller: 'ProjectController',
                 ncyBreadcrumb: {
-                    label: 'Active {{projAliasPlural}}'
+                    label: 'Open {{projAliasPlural}}'
                 },
                 data: {
 	                hasFullContainer: true,

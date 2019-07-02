@@ -198,12 +198,12 @@
                     <li class="submenu-divider" ng-hide="$state.includes('projects.reminders')"></li>
                     
                     <li class="submenu-title" ng-hide="$state.includes('projects.taskboard') || $state.includes('projects.reminders')">
-                        <span>{{gs.currWorkspace.Terminology.projectAlias}} Tags</span>
+                        <span>Tags</span>
                     </li>
                     
-                    <li class="submenu-title" ng-show="$state.includes('projects.taskboard')">
+                    <!-- <li class="submenu-title" ng-show="$state.includes('projects.taskboard')">
                         <span>{{gs.currWorkspace.Terminology.taskAlias}} Tags</span>
-                    </li>
+                    </li> -->
                     
                     <li ng-repeat="tag in tags | filter:{forProject: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" 
                     	ng-click="toggleHighlight(tag)" ng-hide="$state.includes('projects.taskboard') || $state.includes('projects.reminders')">
@@ -213,13 +213,13 @@
                         </a>
                     </li> 
                     
-                    <li ng-repeat="tag in tags | filter:{forTasks: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" 
+                    <!-- <li ng-repeat="tag in tags | filter:{forTasks: true} | orderBy:'label'" ng-class="{'submenu-highlighted' : tag.isHighlighted }" 
                     	ng-click="toggleHighlight(tag)" ng-show="$state.includes('projects.taskboard')">
                         <a>
                             <span>{{tag.label}}</span>
                             <span class="tag-label pull-right m-r-20 m-t-10" ng-style="{'background-color': tag.color}"></span>
                         </a>
-                    </li> 
+                    </li>  -->
                                        
                     <li class="submenu-divider"  ng-hide="$state.includes('projects.reminders')"></li>
 

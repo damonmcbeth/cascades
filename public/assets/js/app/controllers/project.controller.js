@@ -12,6 +12,8 @@
         $scope.display = $stateParams.display;
         $scope.cardView = true; 
         $scope.gs = globalSettings;
+
+        $scope.expanded = true;
         
         globalSettings.initSettings().then(
         	function() {
@@ -94,6 +96,14 @@
 		        return project.projNotes.length;
 	        }
         }
+
+        $scope.collapse = function() {
+			$scope.expanded = false;
+		}
+
+		$scope.expand = function() {
+			$scope.expanded = true;
+		}
         
         //taskService.registerController($scope.determineProgress);
     }

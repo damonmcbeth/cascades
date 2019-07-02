@@ -21,7 +21,7 @@
 		            <div class="panel-body">
 		                <md-input-container class="md-block p-b-0">
 			            	<label>Title</label>
-							<textarea name="title" class="primary-input" ng-model="selectedProject.title" rows="3" 
+							<textarea name="title" class="primary-input" ng-model="selectedProject.title" rows="1" 
 								md-maxlength="140" md-detect-hidden="true" required></textarea>
 								
 							<div ng-messages="projectForm.title.$error" role="alert" 
@@ -33,12 +33,6 @@
 				            </div>
 						</md-input-container>
 			          
-			          <md-input-container class="md-block  p-b-0">
-						  <md-radio-group ng-model="selectedProject.status" layout="row">
-						      <md-radio-button value="{{projectState.code}}" class="md-primary" 
-						      	ng-repeat="projectState in projectStates">{{projectState.label}}</md-radio-button>
-						  </md-radio-group>
-					  </md-input-container>
 			          
 			          <md-input-container class="md-block">
 					  	<label>Type</label>
@@ -48,11 +42,18 @@
 			              </md-option>
 			            </md-select>
 					  </md-input-container>
+
+					  <md-input-container class="md-block  p-b-0">
+						<md-radio-group ng-model="selectedProject.status" layout="row">
+							<md-radio-button value="{{projectState.code}}" class="md-primary" 
+								ng-repeat="projectState in projectStates">{{projectState.label}}</md-radio-button>
+						</md-radio-group>
+					</md-input-container>
 					  
-					  <md-input-container class="md-block p-b-0">
+					  <!-- <md-input-container class="md-block p-b-0">
 			            <label>Revenue ($)</label>
 			            <input ng-model="selectedProject.revenue" type="number" step="1.00">
-			          </md-input-container>
+			          </md-input-container> -->
 		            </div>
 		        </div>
 		        
@@ -91,7 +92,7 @@
 										ng-click="clearEndDate()" aria-label="Clear"></i>
 						</div>
 
-						<div layout="row p-b-20">
+						<!-- <div layout="row p-b-20">
 							<md-autocomplete flex
 								md-selected-item="selectedProject.owner"
 								md-search-text="ownerSearchText"
@@ -112,7 +113,7 @@
 								<avatar size="sm" img="selectedProject.owner.avatar" state="selectedProject.owner.state" 
 									name="selectedProject.owner.name" type="selectedProject.owner.avatarType"></avatar> 
 							</div>
-						</div>
+						</div> -->
 		            </div>
 				</div>
 				
@@ -137,7 +138,7 @@
 
 				<tageditor title="Tags" model="selectedProject" filter="{forProject: true}"></tageditor>
 
-				<div class="panel panel-notes">
+				<div class="panel panel-tags">
 					<div class="panel-heading">
 		                <h3 class="panel-title">Notes</h3>
 		                <div class="panel-tools">
@@ -147,11 +148,6 @@
 		            <div class="panel-body p-0">
 			            <summernote airMode class="f-14" ng-model="selectedProject.notes"></summernote>
 		            </div>
-			  	</div>
-			  
-			  	<div class="text-muted f-10 m-t-15" ng-show="isEdit">
-				  	<div class="align-center">Created by {{selectedProject.createdName}} on {{selectedProject.created | amCalendar:null:gs.pref.calFormats}}</div>
-				  	<div class="align-center">Last update by {{selectedProject.updatedName}} on {{selectedProject.updated | amCalendar:null:gs.pref.calFormats}}</div>
 			  	</div>
 			  
 		    </form>

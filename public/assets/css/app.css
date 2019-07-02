@@ -1419,6 +1419,10 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+.md-subheader .md-subheader-inner {
+  padding: 12px;
+}
+
 md-slider.md-default-theme.md-primary .md-track.md-track-fill, md-slider.md-primary .md-track.md-track-fill {
   background-color: rgb(0, 130, 140);
 }
@@ -1510,6 +1514,16 @@ md-checkbox .md-icon {
   border-radius: 1px;
   width: 18px;
   height: 18px;
+}
+
+.projectEntry-expanded {
+  max-height: 300px;
+  min-height: 300px;
+}
+
+.projectEntry-collapsed {
+  max-height: 44px;
+  min-height: 44px;
 }
 
 .journalEntry-expanded {
@@ -2377,8 +2391,8 @@ md-radio-button {
 }
 
 .md-subheader {
-	font-size: 17px;
-	color: #007982 !important;
+	font-size: 15px;
+	color: #333333 !important;
   font-weight: 400 !important;
   background-color: #f1f3f2;
 }
