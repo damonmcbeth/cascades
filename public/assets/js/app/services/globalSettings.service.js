@@ -128,6 +128,7 @@
 			self.currWorkspace = null;
 			self.currPreferences = null;
 			self.userWorkspaces = null;
+			self.allArticles = [];
 			
 			self.adminApp = null;
 			
@@ -266,7 +267,7 @@
 					self.loadUserWorkspaces().then(
 						function(data) {
 							self.currPreferences = self.userWorkspaces.$getRecord(workspaceKey);
-							
+							//self.insertContent();
 							self.loadWorkspace(workspaceKey).then(
 								function(data) {
 									self.initState = self.INITIALIZED;
@@ -956,7 +957,53 @@
 				obj.updatedBy = self.currProfile.person;
 				obj.updatedName = self.currProfile.name;
 			    
-		    }
+			}
+			
+			self.insertContent = function() {
+
+				var article = {
+					link: "the link",
+					source: "Instgram"
+				};
+
+				self.updateTimestamp(article);
+
+				var key = firebase.database().ref().child("/Content/Articles").push().key;
+				var updates = {};
+				updates["/Content/Articles/" + key] = article;
+				firebase.database().ref().update(updates);
+			}
+
+		    self.getAllArticles = function() {
+			    var deferred = $q.defer();
+			    
+				if (!self.shouldClearCache("articleSer_Entries")) {
+					deferred.resolve(self.allArticles);
+				} else {
+					self.initSettings().then(
+						function() {
+							if (self.shouldClearCache("articlesSer_Entries")) {
+								var lookupKey = "Content/Articles"; 
+								var ref = firebase.database().ref().child(lookupKey);
+								
+								self.allArticles = $firebaseArray(ref);
+								self.allArticles.$loaded().then( 
+									function(data) {
+										self.log("article.service", "getAllArticles", "Articles Loaded");
+										self.setCache("articleSer_Entries");
+										deferred.resolve(self.allArticles);
+								});
+							} else {
+								deferred.resolve(self.allArticles);
+							}
+
+						});
+				}
+				
+				return deferred.promise;
+			};
+
+
 			
 			
 		}

@@ -20,10 +20,19 @@
 		$scope.ac = activityService;
 		
 		$scope.journal = [];
+		$scope.articles = [];
 		$scope.tasks = [];
 		$scope.activity = [];
 		$scope.fullActivity = [];
 		$scope.grouping = [];
+
+		$scope.filterTasks = false;
+		$scope.filterOverdue = false;
+		$scope.filterDueToday = false;
+		$scope.filterDueSoon = false;
+		$scope.filterDelegated = false;
+
+		$scope.currArticle = "";
 		
 		$scope.cardOptions = {
             animate:{
@@ -66,6 +75,7 @@
 				$scope.populateReminder();
 				$scope.populateActivity();
 				$scope.populateJournal();
+				$scope.populateArticles();
         });
         
         $scope.populateTags = function() {
@@ -97,13 +107,40 @@
 					$scope.journal = entries;
 			});
 		}
+
+		$scope.populateArticles = function() {
+			globalSettings.getAllArticles().then(
+				function(entries) {
+					$scope.articles = entries;
+					$scope.currArticle = entries[0].link;
+			});
+		}
 		
 		$scope.includeTask = function() {
 		    return function(item) {
 				var owner = globalSettings.currProfile.person;
 
-				return !item.isDone && (item.state == 'Overdue' || item.state == 'Due today')
-							&& (owner == item.ownerId || owner == item.delegateId);
+				if ($scope.filterTasks) {
+					if (owner == item.ownerId || owner == item.delegateId) {
+						if ($scope.filterDueToday && item.state == 'Due today') {
+							return true;
+						} else if ($scope.filterOverdue && item.state == 'Overdue') {
+							return true;
+						} else if ($scope.filterDueSoon && item.state == 'Due soon') {
+							return true;
+						} else if ($scope.filterDelegated && item.delegateId != null) {
+							return true;
+						} else {
+							return false;
+						}
+					} else {
+						return false;
+					}
+
+				} else {
+					return !item.isDone && (item.state == 'Overdue' || item.state == 'Due today')
+								&& (owner == item.ownerId || owner == item.delegateId);
+				}
 		    }
 		}
 
@@ -216,6 +253,30 @@
 			});
 
 			return deferred.promise;
+		}
+
+		$scope.determineIfTaskFiltered = function() {
+			$scope.filterTasks = $scope.filterOverdue || $scope.filterDelegated || $scope.filterDueSoon || $scope.filterDueToday;
+		}
+
+		$scope.toggleDueToday = function() {
+			$scope.filterDueToday = !$scope.filterDueToday;
+			$scope.determineIfTaskFiltered();
+		}
+
+		$scope.toggleOverdue = function() {
+			$scope.filterOverdue = !$scope.filterOverdue;
+			$scope.determineIfTaskFiltered();
+		}
+
+		$scope.toggleDueSoon = function() {
+			$scope.filterDueSoon = !$scope.filterDueSoon;
+			$scope.determineIfTaskFiltered();
+		}
+
+		$scope.toggleDelegated = function() {
+			$scope.filterDelegated = !$scope.filterDelegated;
+			$scope.determineIfTaskFiltered();
 		}
 		
         //$scope.openPersonDetails = function(pid) {

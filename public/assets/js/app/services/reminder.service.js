@@ -36,7 +36,7 @@
 										deferred.resolve(self.allEntries);
 								});
 							} else {
-								deferred.resolve(self.allPeople);
+								deferred.resolve(self.allEntries);
 							}
 
 						});
@@ -68,7 +68,7 @@
 										deferred.resolve(self.currEntries);
 								});
 							} else {
-								deferred.resolve(self.allPeople);
+								deferred.resolve(self.currEntries);
 							}
 
 						});

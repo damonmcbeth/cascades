@@ -1419,6 +1419,10 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+.task-summary-selected {
+  background-color: rgba(29, 188, 156, 0.2);
+}
+
 .md-subheader .md-subheader-inner {
   padding: 12px;
 }
