@@ -5,11 +5,11 @@
         .module('app')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$scope', '$state', '$window', '$q', '$filter', 'globalSettings', 'globalNav', 'tagService', 
+    DashboardController.$inject = ['$scope', '$state', '$window', '$q', '$sce', '$filter', 'globalSettings', 'globalNav', 'tagService', 
 								'taskService', 'activityService', 'projectService', 'journalService', 'insightsService', 'reminderService',
 							'messageService', 'taskActivityService'];
 
-    function DashboardController($scope, $state, $window, $q, $filter, globalSettings, globalNav, tagService,
+    function DashboardController($scope, $state, $window, $q, $sce, $filter, globalSettings, globalNav, tagService,
 							taskService, activityService, projectService, journalService, insightsService, reminderService,
 						messageService, taskActivityService) {
         
@@ -112,7 +112,11 @@
 			globalSettings.getAllArticles().then(
 				function(entries) {
 					$scope.articles = entries;
-					$scope.currArticle = entries[0].link;
+
+					var len = entries.length;
+					var indx = (Math.floor((Math.random() * len) + 1)) - 1;
+
+					$scope.currArticle = entries[indx].link;
 			});
 		}
 		
@@ -277,6 +281,10 @@
 		$scope.toggleDelegated = function() {
 			$scope.filterDelegated = !$scope.filterDelegated;
 			$scope.determineIfTaskFiltered();
+		}
+
+		$scope.formatContent = function(content) {
+			return $sce.trustAsHtml(content);
 		}
 		
         //$scope.openPersonDetails = function(pid) {
