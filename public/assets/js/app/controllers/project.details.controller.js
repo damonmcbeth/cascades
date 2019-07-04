@@ -24,7 +24,7 @@
             scaleLength: 0,
             lineWidth:12,
             lineCap:'square',
-            size:150
+            size:120
         };
 	    	    
 	    $scope.groupingFormat = {
@@ -46,8 +46,14 @@
 		$scope.entries = null;
         $scope.tasks = null;
         $scope.people = null;
-        $scope.taskGrouping = null;
-        
+		$scope.taskGrouping = null;
+		
+		$scope.showArchive = false;
+
+		$scope.toggleArchive = function() {
+			$scope.showArchive = !$scope.showArchive;
+		}
+
         $scope.formatContent = function(content) {
 			return $sce.trustAsHtml(content);
 		}
@@ -114,7 +120,11 @@
         }
         
         $scope.getFilter = function(val) {
-	        return {status: val.label};
+			if ($scope.showArchive) {
+				return {status: val.label};
+			} else {
+				return {status: val.label, archived: '!'};
+			}
     	}
 	    
         

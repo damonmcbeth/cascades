@@ -1,7 +1,7 @@
 <div id="taskbar" class="sidebar-content" ng-controller="ProjectDetailsController" ng-cloak>
     <div class="sidebar-header">
         <div class="header-title">
-           <span style="font-weight: 300 !important">{{gs.currWorkspace.Terminology.projectAlias}} details</span>
+           <span style="font-weight: 300 !important">{{gs.currWorkspace.Terminology.projectAlias}} Details</span>
         </div>
         
         <div class="header-description v-a-middle">
@@ -16,18 +16,19 @@
     
     <div class="sidebar-body" resize height-offset="125" style="width: 100%">	    
         <div>
-	        <div>
+	        <div class="p-l-10">
 		        <div class="widget-container profile">
 		            <div class="widget">
 		                <div class="row p-15">
 			                
-		                    <div class="col w-150 h-150 align-center">
+		                    <div class="col w-120 h-120 align-center">
 		                        <div easypiechart options="options" percent="selectedProject.perComp" style="text-align: center">
-			                    	<span class="text-default f-45" 
-			                    		style="position: absolute; line-height: 150px; text-align: center; width: 150px">{{selectedProject.perComp | number:0 }}%</span>
+			                    	<span class="text-default f-35" 
+			                    		style="position: absolute; line-height: 120px; text-align: center; width: 120px">{{selectedProject.perComp | number:0 }}%</span>
 		                    	</div>
-		                    </div>
-		                    <div class="col p-5 p-l-20">
+							</div>
+							
+		                    <div class="col p-5 m-l-25">
 			                    
 		                        <div class="f-25 v-a-middle" style="max-width: 255px; overflow: hidden">
 			                        {{selectedProject.title}}
@@ -41,14 +42,10 @@
 		                        </div>
 		                        
 		                        <div class="f-13 m-t-5">
-		                            <span>{{selectedProject.start | amCalendar:null:gs.pref.calShortFormats}}
-		                             <span ng-show="selectedProject.end != null"> - </span> 
-		                             {{selectedProject.end | amCalendar:null:gs.pref.calShortFormats}}</span>
+		                            <span ng-show="selectedProject.end == null">No due date</span>
+		                            <span ng-show="selectedProject.end != null">Due: {{selectedProject.end | amCalendar:null:gs.pref.calMidFormats}}</span>
 		                        </div>
 		                         
-		                        <!-- <div class="f-13 m-t-5">
-		                            <span ng-click="openPersonDetails(selectedProject.ownerId)">{{selectedProject.ownerName}}</span>
-		                        </div> -->
 		                        <div class="m-t-5"><ctag ng-repeat="tag in selectedProject.tags"></ctag></div>
 		                    </div>
 		                </div>
@@ -57,18 +54,28 @@
 		        </div>
 	        </div>
 	        
-		    <md-tabs class="m-t-10" md-dynamic-height md-border-bottom>
+		    <md-tabs class="" md-dynamic-height md-border-bottom>
 		      
 		    <md-tab label="{{gs.currWorkspace.Terminology.taskAliasPlural}}">
 		        <md-content class="p-0">
-		        	<div class="p-10 p-l-15 p-r-15 v-a-middle">
+		        	<div class="p-10 p-l-20 p-r-20 v-a-middle" style="background-color: #fff">
 			        	<a href="" id="new-message" class="text-default" ng-Click="openTaskDetails()">
 							<i class="icon f-20 pe-7s-plus"></i>
 			            </a>
-			            
-			            <a class="pull-right p-l-10 text-default" ui-sref="projects.taskboard({id: selectedProject.$id})" ng-click="cancelEdit()">
-			            	<i class="pe-7s-keypad f-20"></i>
-			            </a>
+						
+						<div class="pull-right">
+							<a class="text-default" ng-click="toggleArchive()" ng-show="showArchive">
+								<i class="pe-7f-box1 f-20"></i>
+							</a>
+
+							<a class="text-default" ng-click="toggleArchive()" ng-hide="showArchive">
+								<i class="pe-7s-box1 f-20"></i>
+							</a>
+
+							<a class="m-l-10 text-default" ui-sref="projects.taskboard({id: selectedProject.$id})" ng-click="cancelEdit()">
+								<i class="pe-7s-keypad f-20"></i>
+							</a>
+						</div>
 		        	</div>
 		        					
 					<md-content>
@@ -77,17 +84,21 @@
 				        	<md-subheader class="md-primary">{{taskGroup.label}}</md-subheader>
 				        	<md-divider></md-divider>
 				            <md-list flex>
-							  	<md-list-item class="md-3-line md-long-text" ng-repeat="task in tasks | filter:getFilter(taskGroup) | orderBy:'due'" ng-click="openTaskDetails(task)">
+							  	<md-list-item class="md-2-line md-long-text" ng-repeat="task in tasks | filter:getFilter(taskGroup) | orderBy:'due'" ng-click="openTaskDetails(task)">
 									<md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateIsDone(task)"></md-checkbox>
 									<div class="md-list-item-text  p-l-10">
 										<div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
-									  <div class="list-title f-15" ng-class="{'task-done' : task.archived }">{{task.title}}</div>
-									  <div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div>
+									  	<div class="list-title f-15" ng-class="{'task-done' : task.archived }">{{task.title}}</div>
+									  	<div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div>
 									  
-										  <div class="list-title-3" ng-hide="task.relatedName==null" >
+										<div class="list-title-3" ng-hide="task.relatedName==null" >
 											<span class="b-400">Regarding:</span> {{task.relatedName}}
 										</div>
 									</div>
+
+									<div class="md-secondary p-10" ng-show="task.archived">
+										<i class="pe-7s-box1 f-20"></i>
+								 	</div>
 									<div class="md-secondary p-10">
 										   <span class="f-9" ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}</span>
 									</div>		    
@@ -104,7 +115,7 @@
 			<md-tab label="{{gs.currWorkspace.Terminology.memoAliasPlural}}">
 		        <md-content>
 					<md-list flex>
-						<md-list-item class="md-3-line md-long-text" ng-repeat="act in entries | filter: {$:selectedProject.$id} | orderBy:'updated':true" 
+						<md-list-item class="md-2-line md-long-text" ng-repeat="act in entries | filter: {$:selectedProject.$id} | orderBy:'updated':true" 
 							ng-click="openEntryDetails(act)">
 							
 							<div class="activity-document-icon">

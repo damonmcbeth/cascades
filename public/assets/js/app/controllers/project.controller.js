@@ -24,7 +24,7 @@
 	        	
 	        	$scope.orderByFld = 'title';
 	        	
-	        	if ($scope.display == 'Completed') {
+	        	if ($scope.display == 'Closed') {
 		        	$scope.search = {status:'Done', $:''};
 		        } else if ($scope.display == 'My') {
 		        	$scope.search = {ownerId:globalSettings.currProfile.person, status:'Open', $:''};

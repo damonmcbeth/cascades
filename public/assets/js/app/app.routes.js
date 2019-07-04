@@ -630,12 +630,12 @@
             
             .state('projects.doneprojects', {
                 url: "/projects/doneprojects",
-                params: { display: 'Completed',
+                params: { display: 'Closed',
 	                cardView: false },
                 templateUrl: 'views/Projects.html',
                 controller: 'ProjectController',
                 ncyBreadcrumb: {
-                    label: 'Completed {{projAliasPlural}}'
+                    label: 'Closed {{projAliasPlural}}'
                 },
                 data: {
 	                hasFullContainer: true,

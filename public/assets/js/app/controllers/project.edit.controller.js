@@ -19,11 +19,50 @@
         $scope.isEdit = true;
         $scope.showHints = false;
         
-        $scope.projectTypes;
+		$scope.projectTypes;
+		
+		$scope.dueDate;
+		$scope.duePicker;
+
+		$scope.options = {
+		    height: 250,
+		    airMode: false,
+		    toolbar: [
+				['para', ['style']],
+				['fontname', ['fontname']],
+				['color', ['color']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['alignment', ['ul', 'ol', 'paragraph']],
+				['insert', ['link', 'table', 'hr']],
+				['misc', ['undo']],
+	            ['view', ['fullscreen', 'codeview']]
+	        ]
+		};
+
+		$scope.dateOpts = {
+			enableTime: false,
+			dateFormat: "l M j, Y",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				if (selectedDates.length == 1) {
+					$scope.selectedProject.end = selectedDates[0];
+				}
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.duePicker = instance;
+			}
+		};
+		  
+		$scope.datePostSetup = function(fpItem) {
+			//console.log('flatpickr', fpItem);
+			//fpItem.setDate($scope.selectedTask.due, false);
+		}
         
         $scope.projectStates = [
 		    	{label: 'Open', code: 'Open'},
-				{label: 'Completed', code: 'Done'}
+				{label: 'Closed', code: 'Done'}
         ];
 		
 		$scope.initView = function() {
@@ -52,7 +91,8 @@
 				        
 				        projectService.initProject(tmp).then(
 					        function(initedProject) {
-						    	$scope.selectedProject = initedProject;   
+								$scope.selectedProject = initedProject;
+								$scope.initDatePicker();    
 					        }
 				        )
 				        
@@ -63,27 +103,36 @@
 						        tagService.retrieveTags(project.tags).then(
 							        function(tags) {
 								        clonedProject.tags = tags;
-								        $scope.populateClients(project, clonedProject);
+										$scope.populateClients(project, clonedProject);
+										
 							    });   	  
 					    });
 		
 			        }
 			});
+		}
+		
+		$scope.initDatePicker = function() {
+			if ($scope.selectedProject != null && $scope.selectedProject.end != null) {
+				var newDate = flatpickr.formatDate($scope.selectedProject.end, "l M j, Y")
+				$scope.dueDate = newDate;
+			}
         }
         
         $scope.populateClients = function(project, clonedProj) {
 	        peopleService.retrievePeople(project.people).then( 
 	        	function(people) {
 		        	clonedProj.people = people;
-		        	$scope.selectedProject = clonedProj;
+					$scope.selectedProject = clonedProj;
+					$scope.initDatePicker(); 
 	        	}
 	        )
         }
         
         $scope.cleanUpForSave = function() {
 	        	        
-	        $scope.selectedProject.ownerId = ($scope.selectedProject.owner == null) ? null : $scope.selectedProject.owner.$id;
-	        $scope.selectedProject.ownerName = ($scope.selectedProject.owner == null) ? null : $scope.selectedProject.owner.name;
+	        // $scope.selectedProject.ownerId = ($scope.selectedProject.owner == null) ? null : $scope.selectedProject.owner.$id;
+	        // $scope.selectedProject.ownerName = ($scope.selectedProject.owner == null) ? null : $scope.selectedProject.owner.name;
 	        $scope.selectedProject.isDone = $scope.selectedProject.status == "Done";
 	        
 	        if ($scope.selectedProject.type == null) {
@@ -163,7 +212,8 @@
     	}
     	
     	$scope.clearEndDate = function() {
-	    	$scope.selectedProject.end = null;
+			$scope.selectedProject.end = null;
+			$scope.dueDate = null;
     	}
     	
     	$scope.clearStartDate = function() {

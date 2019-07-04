@@ -33,93 +33,49 @@
 				            </div>
 						</md-input-container>
 			          
-			          
-			          <md-input-container class="md-block">
-					  	<label>Type</label>
-					  	<md-select ng-model="selectedProject.type" ng-model-options="{trackBy: '$value.$id'}" ng-change="updateType()">
-			              <md-option ng-repeat="projectType in projectTypes" ng-value="projectType" >
-			                {{projectType.title}}
-			              </md-option>
-			            </md-select>
-					  </md-input-container>
+						<md-input-container class="md-block">
+							<label>Type</label>
+							<md-select ng-model="selectedProject.type" ng-model-options="{trackBy: '$value.$id'}" ng-change="updateType()">
+							<md-option ng-repeat="projectType in projectTypes" ng-value="projectType" >
+								{{projectType.title}}
+							</md-option>
+							</md-select>
+						</md-input-container>
 
-					  <md-input-container class="md-block  p-b-0">
-						<md-radio-group ng-model="selectedProject.status" layout="row">
-							<md-radio-button value="{{projectState.code}}" class="md-primary" 
-								ng-repeat="projectState in projectStates">{{projectState.label}}</md-radio-button>
-						</md-radio-group>
-					</md-input-container>
-					  
-					  <!-- <md-input-container class="md-block p-b-0">
-			            <label>Revenue ($)</label>
-			            <input ng-model="selectedProject.revenue" type="number" step="1.00">
-			          </md-input-container> -->
-		            </div>
-		        </div>
-		        
-				<div class="panel panel-default">
-		            <div class="panel-body">												
-						  
-						<div layout="row p-b-20">
-							<md-input-container class="md-block p-b-0" flex="100">
-								<label>Start</label>
-								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-									<input id="startdatetime" type="text" ng-model="selectedProject.start" ng-disabled="false"
-										class="md-input " datetime="EEE, MMMM d, yyyy, h:mma"></input>
-								</a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									<datetimepicker data-ng-model="selectedProject.start"
-													data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
-								</ul>
-							</md-input-container>
-							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-show="selectedProject.start != null"
-										ng-click="clearStartDate()" aria-label="Clear"></i>
-						</div>
-						
-						<div layout="row p-b-20">
+					  	<div layout="row p-b-20">
 							<md-input-container class="md-block p-b-0" flex="100">
 								<label>Due</label>
-								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-									<input id="duedatetime" type="text" ng-model="selectedProject.end" ng-disabled="false"
-										class="md-input " datetime="EEE, MMMM d, yyyy, h:mma"></input>
-								</a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									<datetimepicker data-ng-model="selectedProject.end"
-													data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
-								</ul>
+								<input class="md-input" ng-flatpickr fp-opts="dateOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="dueDate"></input>
 							</md-input-container>
 							<i class="icon pe-7s-close text-muted f-25 m-t-20" ng-show="selectedProject.end != null"
-										ng-click="clearEndDate()" aria-label="Clear"></i>
+								ng-click="clearDueDate()" aria-label="Clear"></i>
 						</div>
 
-						<!-- <div layout="row p-b-20">
-							<md-autocomplete flex
-								md-selected-item="selectedProject.owner"
-								md-search-text="ownerSearchText"
-								md-items="owner in people | filter:{name:ownerSearchText} | orderBy: 'name' "
-								md-item-text="owner.name"
-								md-autoselect="true"
-								md-input-name="ownerautocompleteField"
-								md-require-match
-								md-floating-label="Owner">
-								<md-item-template>
-									<span md-highlight-text="ownerSearchText" md-highlight-flags="^i">{{owner.name}}</span>
-								</md-item-template>
-								<md-not-found>
-									No owners matching "{{ownerSearchText}}" were found.
-								</md-not-found>
-							</md-autocomplete>
-							<div class="p-l-15 p-t-15" ng-hide="selectedProject.owner == null">
-								<avatar size="sm" img="selectedProject.owner.avatar" state="selectedProject.owner.state" 
-									name="selectedProject.owner.name" type="selectedProject.owner.avatarType"></avatar> 
-							</div>
-						</div> -->
+						<md-input-container class="md-block  p-b-0">
+							<md-radio-group ng-model="selectedProject.status" layout="row">
+								<md-radio-button value="{{projectState.code}}" class="md-primary" 
+									ng-repeat="projectState in projectStates">{{projectState.label}}</md-radio-button>
+							</md-radio-group>
+						</md-input-container>
 		            </div>
+				</div>
+
+				<div class="panel panel-tags collapsed">
+					<div class="panel-heading">
+							<h3 class="panel-title">Notes</h3>
+							<div class="panel-tools">
+								<panel-collapse></panel-collapse>
+							</div>
+					</div>
+					<div class="panel-body p-0" style="display: none;">
+						<summernote ng-model="selectedProject.notes"  config="options"></summernote>
+					</div>
 				</div>
 				
 				<div class="panel panel-tags">
 					<div class="panel-heading">
-		                <h3 class="panel-title">{{gs.currWorkspace.Terminology.clientAliasPlural}}</h3>
+		                <h3 class="panel-title">RELATED {{gs.currWorkspace.Terminology.clientAliasPlural}}</h3>
 		                <div class="panel-tools">
 		                    <panel-collapse></panel-collapse>
 		                </div>
@@ -138,18 +94,6 @@
 
 				<tageditor title="Tags" model="selectedProject" filter="{forProject: true}"></tageditor>
 
-				<div class="panel panel-tags">
-					<div class="panel-heading">
-		                <h3 class="panel-title">Notes</h3>
-		                <div class="panel-tools">
-		                    <panel-collapse></panel-collapse>
-		                </div>
-		            </div>
-		            <div class="panel-body p-0">
-			            <summernote airMode class="f-14" ng-model="selectedProject.notes"></summernote>
-		            </div>
-			  	</div>
-			  
 		    </form>
         </div>
     </div>

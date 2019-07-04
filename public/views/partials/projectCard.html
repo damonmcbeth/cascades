@@ -23,9 +23,8 @@
                         <span>{{project.typeName | uppercase }}</span>
                     </div>
                     <div class="f-13 m-t-5">
-                        <span>{{ project.start | amCalendar:null:gs.pref.calShortFormats}}
-                        <span ng-show="project.end != null"> - </span>
-                        {{ project.end | amCalendar:null:gs.pref.calShortFormats}}</span>
+                        <span ng-show="project.end == null">No due date</span>
+                        <span ng-show="project.end != null">Due: {{project.end | amCalendar:null:gs.pref.calShortFormats}}</span>
                     </div>
 
                     <div class="m-t-10" style="min-height: 15px;"><ctag ng-repeat="tag in project.tags"></ctag></div>
@@ -35,15 +34,15 @@
                     <div class="p-10 b-300 align-center">
                         <div class="row">
                             <div class="col-xs-4 border-muted border-right-1">
-                                <div class="b-400 f-14 ">{{ project.totalOpenTasks == null ? 0 : project.totalOpenTasks }}</div>
+                                <div class="b-400 f-15 ">{{ project.totalOpenTasks == null ? 0 : project.totalOpenTasks }}</div>
                                 <div class="text-muted f-11 b-300">{{gs.currWorkspace.Terminology.taskAliasPlural}}</div>
                             </div>
                             <div class="col-xs-4 border-muted border-right-1">
-                                <div class="b-400 f-14">{{ project.dueToday == null ? 0 : project.dueToday }}</div>
+                                <div class="b-400 f-15">{{ project.dueToday == null ? 0 : project.dueToday }}</div>
                                 <div class="text-muted f-11 b-300">Due today</div>
                             </div>
                             <div class="col-xs-4">
-                                <div class="b-400 f-14">{{ project.overdue == null ? 0 : project.overdue }}</div>
+                                <div class="b-400 f-15">{{ project.overdue == null ? 0 : project.overdue }}</div>
                                 <div class="text-muted f-11 b-300">Overdue</div>
                             </div>
                         </div>
