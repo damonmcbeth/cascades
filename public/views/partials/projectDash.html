@@ -21,9 +21,7 @@
                         <span>{{act.projectType | uppercase }}</span>
                     </div>
                     <div class="f-13 m-t-5">
-                        <span>{{ act.start | amCalendar:null:gs.pref.calShortFormats}}
-                        <span ng-show="act.end != null"> - </span>
-                        {{ act.end | amCalendar:null:gs.pref.calShortFormats}}</span>
+                        <span ng-show="act.end != null">Due: {{ act.end | amCalendar:null:gs.pref.calShortFormats}}</span>
                     </div>
                     
                     <!--div class="f-13 b-300 text-primary m-t-5">
