@@ -6300,6 +6300,10 @@ Utility bar
   font-size: 13px;
   font-weight: 400;
 }
+.btn-large {
+  padding: 15px 40px;
+}
+
 .btn:focus {
   outline: 0 !important;
 }
@@ -6360,7 +6364,7 @@ Utility bar
   color: #ffffff;
 }
 .btn-primary {
-  background-color: #29c7ca;
+  background-color: #00828c;
   color: #ffffff !important;
 }
 .btn-primary:hover {

@@ -44,8 +44,8 @@ h5 {
 .btn:hover,
 .btn:focus {
   color: #fff;
-  border-color: #29c7ca;
-  background-color: #29c7ca;
+  border-color: #045c63;
+  background-color: #045c63;
 }
 .btn-white {
   font-size: 13px;
@@ -61,12 +61,12 @@ h5 {
 }
 .btn-white:hover,
 .btn-white:focus {
-  color: #29c7ca;
-  border-color: #29c7ca;
+  color: #045c63;
+  border-color: #045c63;
 }
 .btn-fill {
   color: #fff;
-  border: solid 1px #29c7ca;
+  border: solid 1px #045c63;
   -webkit-border-radius: 2px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 2px;
@@ -75,7 +75,7 @@ h5 {
   background-clip: padding-box;
   display: inline-block;
   text-transform: uppercase;
-  background-color: #29c7ca;
+  background-color: #045c63;
 }
 .btn-fill:hover,
 .btn-fill:focus {
@@ -152,7 +152,7 @@ h5 {
   background-color: #292929;
   z-index: 999;
   width: 100%;
-  border-bottom: 3px solid #29c7ca;
+  border-bottom: 3px solid #045c63;
 }
 .header {
   padding: 40px 0 30px;
@@ -191,7 +191,7 @@ h5 {
   font-size: 15px;
 }
 .header ul.primary-nav li a:hover {
-  color: #29c7ca;
+  color: #045c63;
 }
 .header ul.member-actions li {
   display: inline;
@@ -200,7 +200,7 @@ h5 {
   color: #fff;
 }
 .header ul.member-actions li a:hover {
-  color: #29c7ca;
+  color: #045c63;
 }
 .header .logo {
   display: inline-block;
@@ -211,7 +211,7 @@ h5 {
 .header .member-actions {
   position: absolute;
   right: 0;
-  top: 41px;
+  top: 35px;
   -webkit-transition: all 300ms ease-in-out;
   -moz-transition: all 300ms ease-in-out;
   -o-transition: all 300ms ease-in-out;
@@ -284,7 +284,7 @@ h5 {
   position: absolute;
   height: 26px;
   right: 10px;
-  top: 48px;
+  top: 16px;
   visibility: hidden;
   -webkit-transition: all 300ms ease-in-out;
   -moz-transition: all 300ms ease-in-out;
@@ -336,7 +336,7 @@ h5 {
 }
 .intro i {
   font-size: 40px;
-  color: #29c7ca;
+  color: #045c63;
   font-weight: lighter;
 }
 .intro .intro-icon {
@@ -362,7 +362,7 @@ h5 {
 }
 .features i {
   font-size: 35px;
-  color: #29c7ca;
+  color: #045c63;
   font-weight: lighter;
 }
 .features .feature-icon {
@@ -502,7 +502,7 @@ h5 {
 }
 .blog h2:after {
   content: " ";
-  border: solid 1px #29c7ca;
+  border: solid 1px #045c63;
   display: block;
   width: 75px;
   margin: 25px auto;
@@ -544,7 +544,7 @@ h5 {
   display: block;
   position: absolute;
   z-index: 20;
-  background: #29c7ca;
+  background: #045c63;
   overflow: hidden;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
@@ -710,7 +710,7 @@ width:calc(100% + 40px);
 }
 .to-top {
   height: 60px;
-  background-color: #29c7ca;
+  background-color: #045c63;
 }
 .to-top .to-top-wrap {
   height: 60px;
@@ -763,7 +763,7 @@ width:calc(100% + 40px);
   color: #fff;
 }
 .footer a:hover {
-  color: #29c7ca;
+  color: #045c63;
 }
 .footer ul.footer-group {
   border-top: solid 1px #212121;
@@ -779,7 +779,7 @@ width:calc(100% + 40px);
   text-transform: uppercase;
 }
 .footer ul.footer-group li a:hover {
-  color: #29c7ca;
+  color: #045c63;
 }
 .footer ul.footer-group li:last-child {
   margin-right: 0;
@@ -873,7 +873,7 @@ width:calc(100% + 40px);
   margin: 0;
 }
 a {
-  color: #29c7ca;
+  color: #045c63;
   -webkit-transition-timing-function: ease;
   transition-timing-function: ease;
   -webkit-transition-duration: 200ms;
@@ -1243,7 +1243,7 @@ html[xmlns] .flexslider .slides {
   border-color: #212121;
 }
 .form-control.bg-primary {
-  border-color: #29c7ca;
+  border-color: #045c63;
 }
 .form-control.bg-primary:focus {
   border-color: #26b6b9;

@@ -79,10 +79,10 @@ var yima = function () {
                         "padding": "28px 0 26px"
                     });
                     $('.header .member-actions').css({
-                        "top": "32px",
+                        "top": "20px",
                     });
                     $('.header .navicon').css({
-                        "top": "34px",
+                        "top": "16px",
                     });
                 } else {
                     $('div.navigation').removeClass('fixed');
@@ -90,10 +90,10 @@ var yima = function () {
                         "padding": "40px 0 30px"
                     });
                     $('.header .member-actions').css({
-                        "top": "41px",
+                        "top": "35px",
                     });
                     $('.header .navicon').css({
-                        "top": "48px",
+                        "top": "16px",
                     });
                 }
             });
@@ -118,7 +118,7 @@ var yima = function () {
             //------------------------------------------------------------------
             //[Map]
             //--
-            var markerMap = new GMaps({
+            /* var markerMap = new GMaps({
                 el: '#map',
                 lat: 51.5144592,
                 lng: -0.1764484,
@@ -146,7 +146,7 @@ var yima = function () {
                     if (console.log)
                         console.log(e);
                 }
-            });
+            }); */
             var styles = [
                 {
                     "featureType": "all",
@@ -315,13 +315,13 @@ var yima = function () {
                 }
             ];
 
-            markerMap.addStyle({
+            /* markerMap.addStyle({
                 styledMapName: "Styled Map",
                 styles: styles,
                 mapTypeId: "map_style"
             });
 
-            markerMap.setStyle("map_style");
+            markerMap.setStyle("map_style"); */
         }
     }
 }();
