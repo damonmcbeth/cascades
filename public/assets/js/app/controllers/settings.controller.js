@@ -5,9 +5,9 @@
         .module('app')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['$scope', '$state', 'globalSettings', 'globalNav', 'peopleService', 'projectService'];
+    SettingsController.$inject = ['$scope', '$state', '$sce', 'globalSettings', 'globalNav', 'peopleService', 'projectService', '$mdDialog'];
 
-    function SettingsController($scope, $state, globalSettings, globalNav, peopleService, projectService) {
+    function SettingsController($scope, $state, $sce, globalSettings, globalNav, peopleService, projectService, $mdDialog) {
         $scope.$state = $state;        
         $scope.gs = globalSettings;
         
@@ -15,9 +15,13 @@
         $scope.currPreferences = {};
         $scope.currWorkspace = {};
         $scope.userWorkspaces = {};
+        $scope.editableWrkSpc = {};
 
         $scope.newTaskStatus = null;
         $scope.newProjectType = null;
+
+        $scope.newArticle = null;
+        $scope.newArticleTitle = null;
     
         $scope.defaultGroupings = [{ label: 'Schedule', value: 'Schedule'},
             { label: 'Status', value: 'State'},
@@ -38,16 +42,38 @@
         $scope.taskStatusListSrc = [];
         $scope.projectTypeList = [];
         $scope.projectTypeListSrc = [];
+        $scope.articles = [];
 
+        $scope.showAdmin = false;
 
         globalSettings.initSettings().then(
 	        function() {
+                $scope.showAdmin = globalSettings.currProfile.admin == 'Y';
+
                 $scope.initCurrentPerson();
                 $scope.initPreferences();
                 $scope.initTaskStatusList();
                 $scope.initProjectTypeList();
+                $scope.populateArticles();
+                $scope.initWorkspace();
 	        }
         )
+
+        $scope.populateArticles = function() {
+			globalSettings.getAllArticles().then(
+				function(entries) {
+					$scope.articles = entries;
+
+					var len = entries.length;
+					var indx = (Math.floor((Math.random() * len) + 1)) - 1;
+
+					$scope.currArticle = entries[indx].link;
+			});
+        }
+        
+        $scope.initWorkspace = function() {
+            $scope.editableWrkSpc = $scope.currWorkspace;
+        }
 
         $scope.initProjectTypeList = function() {
             projectService.getProjectTypes().then(
@@ -113,6 +139,67 @@
         $scope.refreshProjectTypeList = function() {
             $scope.projectTypeList = [];
             $scope.projectTypeList.pushAll($scope.projectTypeListSrc);
+        }
+
+        $scope.formatContent = function(content) {
+			return $sce.trustAsHtml(content);
+        }
+        
+        $scope.selectedArticle = null;
+
+        $scope.showArticle = function(article, ev) {
+            $scope.selectedArticleTitle = article.title;
+            $scope.selectedArticleLink = $scope.formatContent(article.link);
+
+            $mdDialog.show({
+              controller: DialogController,
+              templateUrl: '/partials/article.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose: true,
+              locals: { title: article.title,
+                        link: $scope.formatContent(article.link) },
+              onComplete: $scope.afterShowDialog,
+              fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+        };
+
+        $scope.afterShowDialog = function(scope, element, options) {
+            instgrm.Embeds.process()
+         }
+
+        $scope.addArticle = function() {
+            if ($scope.newArticle != null && $scope.newArticle != ""
+                    && $scope.newArticleTitle != null && $scope.newArticleTitle != "") {
+                
+                var article = {
+                    title: $scope.newArticleTitle,
+                    link: $scope.newArticle,
+                    source: "Instagram"
+                };
+
+                globalSettings.updateTimestamp(article);
+
+                var key = firebase.database().ref().child("/Content/Articles").push().key;
+                var updates = {};
+                updates["/Content/Articles/" + key] = article;
+                firebase.database().ref().update(updates);
+
+                $scope.newArticleTitle = "";
+                $scope.newArticle = "";
+            }
+        }
+
+        $scope.removeArticle = function(article) {
+            $scope.articles.$remove(article).then(
+                function(ref) {
+                    globalSettings.log("settings.controller", "removeArticle", "Remove article: " +  article.$id);
+                    $scope.refreshProjectTypeList();
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.controller", "removeArticle", error);
+                    deferred.resolve(orig);
+            });   
         }
 
         $scope.addProjectType = function() {
@@ -229,6 +316,23 @@
             },
             items: "div:not(.last-sortable)"
         };
+
+        function DialogController($scope, $mdDialog, title, link) {
+            $scope.title = title;
+            $scope.link = link;
+
+            $scope.hide = function() {
+              $mdDialog.hide();
+            };
+        
+            $scope.cancel = function() {
+              $mdDialog.cancel();
+            };
+        
+            $scope.answer = function(answer) {
+              $mdDialog.hide(answer);
+            };
+        }
         
     }
 }());

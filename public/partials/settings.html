@@ -10,7 +10,7 @@
         </div>
 	</div>
 	
-    <div class="sidebar-body" resize height-offset="75" style="width: 100%">
+	<div id="BAR" class="sidebar-body" resize height-offset="75" style="width: 100%">
 	    <md-content class="settings" style="height: 100%; background-color: #f1f3f2">
 		    <md-tabs md-dynamic-height="true">
 		      <md-tab id="tabProfile">
@@ -46,16 +46,76 @@
 					            </div>
 							</div>
 
+							<div class="panel panel-inverse m-t-0">
+								<div class="panel-body">
+									<span class="b-400 f-15">What term do you use to represent Clients?</span>
+									<md-content layout-gt-sm="row" >
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<input ng-model="editableWrkSpc.Terminology.clientAlias" placeholder="Client">
+											</md-input-container>
+										</div>
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<input ng-model="editableWrkSpc.Terminology.clientAliasPlural" placeholder="Client plural form">
+											</md-input-container>
+										</div>
+									</md-content>
+	
+									<span class="b-400 f-15">What term do you use to represent Projects?</span>
+									<md-content layout-gt-sm="row">
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<label>Project</label>
+												<input ng-model="editableWrkSpc.Terminology.projectAlias">
+											</md-input-container>
+										</div>
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<label>Project plural form</label>
+												<input ng-model="editableWrkSpc.Terminology.projectAliasPlural">
+											</md-input-container>
+										</div>
+									</md-content>
+									
+									<span class="b-400 f-15">What term do you use to represent Tasks?</span>
+									<md-content layout-gt-sm="row">
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<label>Task</label>
+												<input ng-model="editableWrkSpc.Terminology.taskAlias">
+											</md-input-container>
+										</div>
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<label>Task plural form</label>
+												<input ng-model="editableWrkSpc.Terminology.taskAliasPlural">
+											</md-input-container>
+										</div>
+									</md-content>
+									
+									<span class="b-400 f-15">What term do you use to represent Notes?</span>
+									<md-content layout-gt-sm="row">
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<label>Note</label>
+												<input ng-model="editableWrkSpc.Terminology.memoAlias">
+											</md-input-container>
+										</div>
+										<div flex="100">
+											<md-input-container style="width: 100%">
+												<label>Note plural form</label>
+												<input ng-model="editableWrkSpc.Terminology.memoAliasPlural">
+											</md-input-container>
+										</div>
+									</md-content>
+								</div>
+							</div>
+
 							<div class="panel panel-default">
 								<div class="panel-body">
 
 									<label>{{gs.currWorkspace.Terminology.taskAlias}} due soon</label>
-									<!--md-input-container class="md-block">	
-											<md-radio-group ng-model="currPreferences.Settings.Task.soon" layout="column" ng-change="updateUserPreferences()">
-												<md-radio-button value="{{tsOptions.value}}" class="md-primary"
-													ng-repeat="tsOptions in taskDueSoonOptions">{{tsOptions.label}}</md-radio-button>
-											</md-radio-group>
-									</md-input-container-->
 
 									<md-slider-container class="m-b-20">
 										<md-input-container>
@@ -139,31 +199,9 @@
 									</div>
 								</div>
 							
-							<!--div class="panel panel-default">
-					            <div class="panel-body">
-									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true" ng-model="currPerson.sendEmails" ng-change="updatePerson()">
-										Send emails for notifications
-									</md-switch>
-									<md-switch class="md-primary f-15 m-b-15" md-no-ink="true" ng-model="currPerson.sendNotifications" ng-change="updatePerson()">
-										Enable desktop notifications
-									</md-switch>
-
-									<a href="" class="btn btn-inverse btn-block f-15 m-t-25" ng-click="resetPassword()">
-										Reset Password
-									</a>
-					            </div>
-							</div-->
 				        </form>
 		        	</div>
 		        
-		        	<div class="p-15 f-14">
-<!--pre>
-{{ gs.currProfile | json }}
-</pre>
-<pre>
-{{ gs.currPreferences | json }}
-</pre-->
-		        	</div>
 		        </md-tab-body>
 		      </md-tab>
 		      <!--md-tab id="tabWorkspace">
@@ -248,11 +286,45 @@
 
 		        </md-tab-body>
 			  </md-tab-->
+
 			  <md-tab id="tabTeams">
 		        <md-tab-label>Team members</md-tab-label>
 		        <md-tab-body>
 					<div class="align-center p-10">
 						
+					</div>
+		        </md-tab-body>
+			  </md-tab>
+			  
+			  <md-tab id="tabAdmin" ng-disabled="!showAdmin">
+		        <md-tab-label>Articles</md-tab-label>
+		        <md-tab-body>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<label>Articles</label>
+
+							<div class="m-b-10 m-t-10"   style="min-height: 150px">
+								<div class="p-5 m-b-10" layout="row">
+									<input ng-model="newArticleTitle" class="checklist-item m-r-10" 
+										placeholder="Title" type="text" flex="100">
+
+									<input ng-model="newArticle" class="checklist-item m-r-10" 
+										placeholder="Article link" type="text" flex="100">
+									
+									<label class="btn btn-inverse" ng-click="addArticle()">
+										Add
+									</label>
+								</div>	
+								
+								<div>
+									<div ng-repeat="article in articles" class="p-10" layout="row" style="background-color: #fff">
+										<div class="f-15 b-300" flex="100" ng-click="showArticle(article, $event)">{{article.title}}</div>
+										<i class="icon pe-7s-close-circle text-danger f-20"
+												ng-click="removeArticle(article)" aria-label="Delete"></i>
+									</div>
+								</div>	
+							</div>
+						</div>
 					</div>
 		        </md-tab-body>
 		      </md-tab>
@@ -265,7 +337,9 @@
 						<div><image src="/assets/img/logo/Logo-128.png"></image></div>
 						<div class="f-35 b-300">CASCADES</div>
 						<div class="m-b-15">BETA</div>
-						<div>Copyright &copy; 2017 CASCADES</div>
+						<div>Copyright &copy; 2017 CASCADES</div><br>
+
+						<div data-ng-include="'Terms.html'"></div>
 					</div>
 
 		        </md-tab-body>

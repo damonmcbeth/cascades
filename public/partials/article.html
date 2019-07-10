@@ -1,0 +1,19 @@
+<md-dialog aria-label="{{title}}">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h2>{{title}}</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="icon pe-7s-close-circle f-20"></i>
+              </md-button>
+            </div>
+        </md-toolbar>
+      
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div ng-bind-html="link"></div>
+            </div>
+        </md-dialog-content>          
+    </form>
+</md-dialog>

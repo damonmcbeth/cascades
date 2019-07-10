@@ -410,11 +410,6 @@
 										order: 1
 									},
 									{
-										label: "Custom",
-										editable: true,
-										order: 2
-									},
-									{
 										label: "Done",
 										editable: false,
 										order: 99999
@@ -428,7 +423,7 @@
 										revenue: 0
 									},
 									{
-										title: "Bankruptcy",
+										title: "Home Improvement",
 										revenue: 3000
 									},
 									{
@@ -436,7 +431,7 @@
 										revenue: 10500
 									},
 									{
-										title: "Marketing",
+										title: "Self Development",
 										revenue: 6300
 									}
 								]
@@ -963,7 +958,7 @@
 
 				var article = {
 					link: "the link",
-					source: "Instgram"
+					source: "Instagram"
 				};
 
 				self.updateTimestamp(article);

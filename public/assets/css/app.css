@@ -1423,6 +1423,18 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+md-content.md-default-theme, md-content {
+  background-color: #fff;
+}
+
+#BAR .md-tab.md-disabled {
+  display: none;
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  background-color: rgb(3, 92, 99) !important;
+}
+
 .task-summary-selected {
   background-color: rgba(29, 188, 156, 0.2);
 }
