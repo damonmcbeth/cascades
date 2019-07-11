@@ -315,22 +315,24 @@
 									<div class="m-t-20">GETTING STARTED</div>
 									<md-divider></md-divider>
 									<ul>
-										<li class="m-t-5 b-300" ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">{{faq.title}}</li>
+										<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
+											ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">
+											{{faq.title}}</li>
 									</ul>
 
-									<div class="m-t-20">TIPS & TRICKS</div>
+									<div class="m-t-25">TIPS & TRICKS</div>
 									<md-divider></md-divider>
 									<ul>
-										<li class="m-t-5 b-300" ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">{{faq.title}}</li>
+										<li class="m-t-10 b-300" ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">{{faq.title}}</li>
 									</ul>
 
-									<div class="m-t-20">FREQUENTLY ASKED QUESTIONS</div>
+									<div class="m-t-25">FREQUENTLY ASKED QUESTIONS</div>
 									<md-divider></md-divider>
 									<ul>
-										<li class="m-t-5 b-300" ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">{{faq.title}}</li>
+										<li class="m-t-10 b-300" ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">{{faq.title}}</li>
 									</ul>
 								</div>
-								<md-divider class="m-t-15"></md-divider>
+								<md-divider class="m-t-25"></md-divider>
 								<div class="m-t-15">
 									Did not find what you were looking for?
 								</div>

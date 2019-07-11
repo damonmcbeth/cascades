@@ -288,9 +288,11 @@
 		}
 		
 		$scope.refereshArticle = function() {
-			if (instgrm != undefined) {
+			try {
 				instgrm.Embeds.process();
-			}
+			} catch(err) {
+				//catchCode - Block of code to handle errors
+			} 
 		}
 
 
