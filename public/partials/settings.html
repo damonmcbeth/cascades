@@ -12,7 +12,7 @@
 	
 	<div id="BAR" class="sidebar-body" resize height-offset="75" style="width: 100%">
 	    <md-content class="settings" style="height: 100%; background-color: #f1f3f2">
-		    <md-tabs md-dynamic-height="true">
+		    <md-tabs md-dynamic-height="true" md-selected="selectedTabIndex">
 		      <md-tab id="tabProfile">
 		        <md-tab-label>Profile</md-tab-label>
 		        <md-tab-body>
@@ -48,7 +48,7 @@
 
 							<div class="panel panel-inverse m-t-0">
 								<div class="panel-body">
-									<span class="b-400 f-15">What term do you use to represent Clients?</span>
+									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Clients?</span>
 									<md-content layout-gt-sm="row" >
 										<div flex="100">
 											<md-input-container style="width: 100%">
@@ -62,7 +62,7 @@
 										</div>
 									</md-content>
 	
-									<span class="b-400 f-15">What term do you use to represent Projects?</span>
+									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Projects?</span>
 									<md-content layout-gt-sm="row">
 										<div flex="100">
 											<md-input-container style="width: 100%">
@@ -78,7 +78,7 @@
 										</div>
 									</md-content>
 									
-									<span class="b-400 f-15">What term do you use to represent Tasks?</span>
+									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Tasks?</span>
 									<md-content layout-gt-sm="row">
 										<div flex="100">
 											<md-input-container style="width: 100%">
@@ -94,7 +94,7 @@
 										</div>
 									</md-content>
 									
-									<span class="b-400 f-15">What term do you use to represent Notes?</span>
+									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Notes?</span>
 									<md-content layout-gt-sm="row">
 										<div flex="100">
 											<md-input-container style="width: 100%">
@@ -292,6 +292,71 @@
 		        <md-tab-body>
 					<div class="align-center p-10">
 						
+					</div>
+		        </md-tab-body>
+			  </md-tab>
+
+			  <md-tab id="tabFAQs">
+		        <md-tab-label>Support</md-tab-label>
+		        <md-tab-body>
+					<div class="align-center p-10">
+						<div class="p-b-15 p-t-10">
+							<input type="text" class="form-control" placeholder="Search for help..."
+								   ng-model="search">
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-body f-15">
+								<div class="m-b-10"><image src="/assets/img/CASCADES_BILLBOARD_2_SM.jpg" flex="90"></image></div>
+
+								<a class="b-500" href="/landing" target="_blank">LEARN ABOUT CASCADES</a>
+								
+								<div class="p-10" style="text-align: left">
+									<div class="m-t-20">GETTING STARTED</div>
+									<md-divider></md-divider>
+									<ul>
+										<li class="m-t-5 b-300" ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">{{faq.title}}</li>
+									</ul>
+
+									<div class="m-t-20">TIPS & TRICKS</div>
+									<md-divider></md-divider>
+									<ul>
+										<li class="m-t-5 b-300" ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">{{faq.title}}</li>
+									</ul>
+
+									<div class="m-t-20">FREQUENTLY ASKED QUESTIONS</div>
+									<md-divider></md-divider>
+									<ul>
+										<li class="m-t-5 b-300" ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">{{faq.title}}</li>
+									</ul>
+								</div>
+								<md-divider class="m-t-15"></md-divider>
+								<div class="m-t-15">
+									Did not find what you were looking for?
+								</div>
+								<div class="m-20">
+									<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
+										target="_blank" class="btn-primary btn-large">Contact us</a>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="panel panel-default" ng-show="showAdmin">
+							<div class="panel-body f-15"  style="text-align: left">
+								<div layout="row" class="m-b-15"><input ng-model="faqTitle" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
+								<div layout="row" class="m-b-15">
+									<input ng-model="faqCategory" class="checklist-item" placeholder="Category" type="text" flex="100">
+									<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="100">
+								</div>
+								<div layout="row" class="m-b-15"><input ng-model="faqTag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
+								
+								<summernote ng-model="faqContent" config="options"></summernote>
+								<label class="btn btn-inverse" ng-click="addSupportContent()">Add Support Content</label>
+								<label class="btn btn-inverse" ng-click="clearAddSupportContent()">Clear</label>
+								
+							</div>
+						</div>
 					</div>
 		        </md-tab-body>
 			  </md-tab>

@@ -22,6 +22,37 @@
 
         $scope.newArticle = null;
         $scope.newArticleTitle = null;
+
+        $scope.selectedTabIndex = 0;
+
+        $scope.faqContent = "";
+        $scope.faqTitle = "";
+        $scope.faqCategory = "";
+        $scope.faqTag = "";
+        $scope.faqOrder = 100;
+
+        $scope.options = {
+		    height: 200,
+		    airMode: false,
+		    toolbar: [
+				['para', ['style']],
+				['fontname', ['fontname']],
+				['color', ['color']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['alignment', ['ul', 'ol', 'paragraph']],
+				['insert', ['link', 'table', 'hr']],
+				['misc', ['undo']],
+	            ['view', ['fullscreen', 'codeview']]
+	        ]
+        };
+        
+        $scope.initEditor = function() {
+	        $('#summernote').summernote();
+	        $('#summernote').summernote('reset');
+	        $('#summernote').summernote('insertText', $scope.faqContent);
+	        
+		}
     
         $scope.defaultGroupings = [{ label: 'Schedule', value: 'Schedule'},
             { label: 'Status', value: 'State'},
@@ -43,6 +74,7 @@
         $scope.projectTypeList = [];
         $scope.projectTypeListSrc = [];
         $scope.articles = [];
+        $scope.faqs = [];
 
         $scope.showAdmin = false;
 
@@ -55,7 +87,9 @@
                 $scope.initTaskStatusList();
                 $scope.initProjectTypeList();
                 $scope.populateArticles();
+                $scope.populateFAQs();
                 $scope.initWorkspace();
+                $scope.initEditor();
 	        }
         )
 
@@ -63,11 +97,13 @@
 			globalSettings.getAllArticles().then(
 				function(entries) {
 					$scope.articles = entries;
+			});
+        }
 
-					var len = entries.length;
-					var indx = (Math.floor((Math.random() * len) + 1)) - 1;
-
-					$scope.currArticle = entries[indx].link;
+        $scope.populateFAQs = function() {
+			globalSettings.getAllFAQs().then(
+				function(entries) {
+					$scope.faqs = entries;
 			});
         }
         
@@ -202,6 +238,35 @@
             });   
         }
 
+        $scope.clearAddSupportContent = function() {
+            $scope.faqTitle = "";
+            $scope.faqCategory = "";
+            $scope.faqTag = "";
+            $scope.faqContent = "";
+        }
+
+        $scope.addSupportContent = function() {
+            if ($scope.faqTitle != null && $scope.faqTitle != ""
+                    && $scope.faqCategory != null && $scope.faqCategory != "") {
+                
+                var article = {
+                    title: $scope.faqTitle,
+                    category: $scope.faqCategory,
+                    tag: $scope.faqTag,
+                    content: $scope.faqContent,
+                    order: $scope.faqOrder
+                };
+
+                globalSettings.updateTimestamp(article);
+
+                var key = firebase.database().ref().child("/Content/Support").push().key;
+                var updates = {};
+                updates["/Content/Support/" + key] = article;
+                firebase.database().ref().update(updates);
+
+            }
+        }
+
         $scope.addProjectType = function() {
             if ($scope.newProjectType != null && $scope.newProjectType != "") {
                 var tmp = {
@@ -333,6 +398,19 @@
               $mdDialog.hide(answer);
             };
         }
+
+        $scope.initAction = function() {
+	    	if (globalNav.action == globalNav.ACTION_PREF_FAQ) {
+		    	$scope.selectedTabIndex = 2;
+	    	} else if (globalNav.action == globalNav.ACTION_PREF_TEAM) {
+		    	$scope.selectedTabIndex = 1;
+	    	} 
+	    	
+	    	globalNav.clearAction();
+		}
+		
+		$scope.initAction();
+
         
     }
 }());

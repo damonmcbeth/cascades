@@ -64,10 +64,16 @@
 		$scope.openTags = function() {
 			globalNav.showTagsPreferences();
 		}
+
+		$scope.openFAQ = function() {
+			globalNav.showFAQs();
+		}
         
         $scope.selectWrkSpc = function() {
 	        globalSettings.log("SidebarController", "selectWrkSpc", $scope.selectedWrkSpace.wrkSpc)
 	        globalSettings.selectWrkSpc($scope.selectedWrkSpace.wrkSpc);
-        }
+		}
+		
+		
     }
 }());

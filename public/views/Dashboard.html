@@ -1,5 +1,5 @@
 
-<div class="row">    
+<div class="row" >    
         
     <div class="col-md-8">
         <div class="widget-container">
@@ -66,7 +66,7 @@
 
                                 <md-menu class="md-secondary">
                                     <md-button class="md-icon-button m-t-5" aria-label="Quick actions for {{task.title}}"  ng-click="$mdOpenMenu($event)">
-                                        <i class="pe-7s-angle-down-circle f-17"></i>
+                                        <i class="pe-7s-angle-down-circle f-20"></i>
                                     </md-button>
                                     <md-menu-content width="3">
                                         <md-menu-item>
@@ -94,7 +94,7 @@
         </div>
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-md-4">
         <div class="widget-container">
             <div class="widget">
                 <div class="f-13 p-10 border-bottom-1 border-muted b-400">
@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        <div ng-bind-html="formatContent(currArticle)"></div>
+        <div ng-bind-html="formatContent(currArticle)" postrender-action="refereshArticle()"></div>
     </div>
 
 </div>

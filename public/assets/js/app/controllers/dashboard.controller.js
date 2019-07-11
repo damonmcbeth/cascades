@@ -287,6 +287,13 @@
 			return $sce.trustAsHtml(content);
 		}
 		
+		$scope.refereshArticle = function() {
+			if (instgrm != undefined) {
+				instgrm.Embeds.process();
+			}
+		}
+
+
         //$scope.openPersonDetails = function(pid) {
         //    $scope.nav.openPeopleDetails(pid);
         //}

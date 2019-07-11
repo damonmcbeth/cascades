@@ -58,7 +58,10 @@
         
         nav.ACTION_REMINDER = 'ACTION_REMINDER';
         nav.ACTION_REMINDER_EDIT = 'ACTION_REMINDER_EDIT';
-        nav.ACTION_REMINDER_NEW = 'ACTION_REMINDER_NEW';
+		nav.ACTION_REMINDER_NEW = 'ACTION_REMINDER_NEW';
+		
+		nav.ACTION_PREF_FAQ = 'ACTION_PREF_FAQ';
+		nav.ACTION_PREF_TEAM = 'ACTION_PREF_TEAM';
         
         nav.hideSideForm = function() {
 	        nav.sideFormHidden = true;
@@ -107,6 +110,13 @@
         }
         
         nav.showPref = function() {
+	        nav.hideSideEditForm();
+	        
+	        nav.sideViewFormHidden = false;
+	        nav.activeSideViewForm = "/partials/settings.html";
+		}
+
+		nav.showPrefFAQs = function() {
 	        nav.hideSideEditForm();
 	        
 	        nav.sideViewFormHidden = false;
@@ -395,6 +405,13 @@
 		//Preference Actions
 		nav.showTagsPreferences = function() {
 			this.showPrefTag();
+		}
+
+		nav.showFAQs = function() {
+			this.clearAction();
+			this.action = this.ACTION_PREF_FAQ;
+
+			this.showPrefFAQs();
 		}
 		
 		

@@ -129,6 +129,7 @@
 			self.currPreferences = null;
 			self.userWorkspaces = null;
 			self.allArticles = [];
+			self.allFAQs = [];
 			
 			self.adminApp = null;
 			
@@ -990,6 +991,35 @@
 								});
 							} else {
 								deferred.resolve(self.allArticles);
+							}
+
+						});
+				}
+				
+				return deferred.promise;
+			};
+
+			self.getAllFAQs = function() {
+			    var deferred = $q.defer();
+			    
+				if (!self.shouldClearCache("faqSer_Entries")) {
+					deferred.resolve(self.allFAQs);
+				} else {
+					self.initSettings().then(
+						function() {
+							if (self.shouldClearCache("faqSer_Entries")) {
+								var lookupKey = "Content/Support"; 
+								var ref = firebase.database().ref().child(lookupKey);
+								
+								self.allFAQs = $firebaseArray(ref);
+								self.allFAQs.$loaded().then( 
+									function(data) {
+										self.log("faq.service", "getAllFAQs", "FAQs Loaded");
+										self.setCache("faqSer_Entries");
+										deferred.resolve(self.allFAQs);
+								});
+							} else {
+								deferred.resolve(self.allFAQs);
 							}
 
 						});

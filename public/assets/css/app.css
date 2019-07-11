@@ -2512,7 +2512,7 @@ md-checkbox ._md-icon {
 
 md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
 	color: #00828c;
-	font-size: 18px;
+  margin-bottom: 0px;
 }
 
 md-input-container.md-default-theme label, md-input-container label, md-input-container.md-default-theme ._md-placeholder, md-input-container ._md-placeholder {
