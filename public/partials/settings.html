@@ -168,10 +168,6 @@
 							<div class="panel panel-default">
 									<div class="panel-body">
 										<label>{{gs.currWorkspace.Terminology.projectAlias}} types</label>
-
-<!--pre>
-{{ gs.currWorkspace.Settings.Project.types | json }}
-</pre-->
 	
 										<div class="m-b-10 m-t-10"   style="min-height: 150px">
 											<div class="p-5 m-b-10" layout="row">
@@ -204,89 +200,7 @@
 		        
 		        </md-tab-body>
 		      </md-tab>
-		      <!--md-tab id="tabWorkspace">
-		        <md-tab-label>Workspace</md-tab-label>
-		        <md-tab-body>
-					<div data-ng-include="'partials/settings_workspace.html'"></div>
-		        	<div class="p-15 f-14"-->
-<!--pre>
-{{ gs.userWorkspaces | json }}
-</pre-->
-		        	<!--/div>
-
-		        </md-tab-body>
-			  </md-tab-->
 			  
-		      
-		      <!--md-tab id="tabTasks">
-		        <md-tab-label>{{gs.currWorkspace.Terminology.taskAliasPlural}}</md-tab-label>
-		        <md-tab-body>
-		        	<div class="f-14">
-						<md-content class="p-10" style="height: 100%; width: 100%; background-color: #f1f3f2" ng-show="!showDetails">
-							
-
-							<div class="panel panel-default">
-								<div class="panel-body">
-									<label>Quick list default grouping</label>
-									<md-input-container class="md-block">	
-										<md-radio-group ng-model="currPreferences.Settings.Task.quickGroup" layout="row" ng-change="updateUserPreferences()">
-											<md-radio-button value="{{g1.value}}" class="md-primary"
-												ng-repeat="g1 in defaultGroupings">{{g1.label}}</md-radio-button>
-										</md-radio-group>
-									</md-input-container>
-
-									<md-divider class="m-b-20"></md-divider>
-	
-									<label>{{gs.currWorkspace.Terminology.taskAlias}} board default grouping</label>
-									<md-input-container class="md-block">
-										<md-radio-group ng-model="currPreferences.Settings.Task.taskBoardGroup" layout="row" ng-change="updateUserPreferences()">
-											<md-radio-button value="{{g2.value}}" class="md-primary"
-												ng-repeat="g2 in defaultGroupings">{{g2.label}}</md-radio-button>
-										</md-radio-group>
-									</md-input-container>
-
-									<label>{{gs.currWorkspace.Terminology.taskAlias}} board default sorting</label>
-									<md-input-container class="md-block">
-										<md-radio-group ng-model="currPreferences.Settings.Task.taskBoardOrder" layout="row" ng-change="updateUserPreferences()">
-											<md-radio-button value="{{g2.value}}" class="md-primary"
-												ng-repeat="g2 in defaultGroupings">{{g2.label}}</md-radio-button>
-										</md-radio-group>
-									</md-input-container>
-								</div>
-							</div>
-						</md-content>
-		        	</div>
-
-		        </md-tab-body>
-		      </md-tab>
-		      <md-tab id="tabPeople">
-		        <md-tab-label>{{gs.currWorkspace.Terminology.projectAliasPlural}}</md-tab-label>
-		        <md-tab-body>
-		        	<div class="p-10" style="background-color: #f1f3f2">
-		        		<form name="projectForm">
-					        <div class="panel panel-inverse">
-						        <div class="panel-heading">
-					                <h3 class="panel-title">{{gs.currWorkspace.Terminology.projectAlias}} Types</h3>
-					            </div>
-						        
-					            <div class="panel-body">
-<pre>
-{{ gs.currWorkspace.Settings.Project.types | json }}
-</pre>					            
-					            </div>
-					        </div>
-				        </form>
-		        	</div>
-		        </md-tab-body>
-		      </md-tab>
-		      <md-tab id="tabPeople">
-		        <md-tab-label>{{gs.currWorkspace.Terminology.clientAliasPlural}}</md-tab-label>
-		        <md-tab-body>
-		        	
-
-		        </md-tab-body>
-			  </md-tab-->
-
 			  <md-tab id="tabTeams">
 		        <md-tab-label>Team members</md-tab-label>
 		        <md-tab-body>
@@ -413,7 +327,21 @@
 		      </md-tab>
 		    </md-tabs>
 	    </md-content>
-    </div>
+	</div>
+	
+	<md-sidenav class="md-sidenav-right md-whiteframe-5dp" md-component-id="faqPanel">
+		<md-toolbar class="md-theme-light">
+			<h1 class="md-toolbar-tools">Support Details</h1>
+		</md-toolbar>
+
+		<md-content class="f-15 b-300" layout-padding>
+			<div class="b-400">{{selectedFaq.title}}</div>
+			<md-divider class="m-b-5"></md-divider>
+			<div ng-bind-html="formatContent(selectedFaq.content)"></div>
+			<md-divider class="m-t-10"></md-divider>
+			<div class="f-12">{{selectedFaq.tag}}</div>
+		</md-content>
+	</md-sidenav>
 </div>
 
 

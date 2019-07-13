@@ -1423,6 +1423,18 @@ hr {
 [2.1. Main Content] MCBETH
 */
 
+md-sidenav ul {
+  list-style: disc;
+}
+
+md-sidenav {
+  width: 400px;
+}
+
+.md-toolbar-tools {
+  font-weight: 300;
+}
+
 md-content.md-default-theme, md-content {
   background-color: #fff;
 }

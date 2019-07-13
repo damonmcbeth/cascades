@@ -5,9 +5,9 @@
         .module('app')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['$scope', '$state', '$sce', 'globalSettings', 'globalNav', 'peopleService', 'projectService', '$mdDialog'];
+    SettingsController.$inject = ['$scope', '$state', '$sce', 'globalSettings', 'globalNav', 'peopleService', 'projectService', '$mdDialog', '$mdSidenav'];
 
-    function SettingsController($scope, $state, $sce, globalSettings, globalNav, peopleService, projectService, $mdDialog) {
+    function SettingsController($scope, $state, $sce, globalSettings, globalNav, peopleService, projectService, $mdDialog, $mdSidenav) {
         $scope.$state = $state;        
         $scope.gs = globalSettings;
         
@@ -30,6 +30,8 @@
         $scope.faqCategory = "";
         $scope.faqTag = "";
         $scope.faqOrder = 100;
+
+        $scope.selectedFaq = null;
 
         $scope.options = {
 		    height: 200,
@@ -243,6 +245,12 @@
             $scope.faqCategory = "";
             $scope.faqTag = "";
             $scope.faqContent = "";
+        }
+
+        $scope.openFAQ = function(faq) {
+            $scope.selectedFaq = faq;
+            $mdSidenav("faqPanel").toggle()
+
         }
 
         $scope.addSupportContent = function() {
