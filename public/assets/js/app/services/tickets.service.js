@@ -23,7 +23,7 @@
 					globalSettings.initSettings().then(
 						function() {
 							if (!self.cached || globalSettings.shouldClearCache("ticketSer_Tickets")) {
-								var lookupKey = "App/Workspaces/" + globalSettings.currWorkspace.$id + "/Tickets"; 
+								var lookupKey = "Logs/Tickets"; 
 								var ref = firebase.database().ref().child(lookupKey);
 								
 								self.allTickets = $firebaseArray(ref);

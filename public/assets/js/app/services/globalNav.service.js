@@ -414,6 +414,12 @@
 			this.showPrefFAQs();
 		}
 		
+		nav.showTeam = function() {
+			this.clearAction();
+			this.action = this.ACTION_PREF_TEAM;
+
+			this.showPref();
+		}
 		
 		//General nav
 		nav.gotoHome = function() {

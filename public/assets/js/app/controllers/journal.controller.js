@@ -5,9 +5,9 @@
         .module('app')
         .controller('JournalController', JournalController);
 
-    JournalController.$inject = ['$scope', '$state', '$stateParams', '$window', '$filter', '$sce', 'globalSettings', 'journalService'];
+    JournalController.$inject = ['$scope', '$state', '$stateParams', '$window', '$filter', '$sce', 'globalSettings', 'journalService', '$mdDialog'];
 
-    function JournalController($scope, $state, $stateParams, $window, $filter, $sce, globalSettings, journalService) {
+    function JournalController($scope, $state, $stateParams, $window, $filter, $sce, globalSettings, journalService, $mdDialog) {
         $scope.$state = $state;
         $scope.display = $stateParams.display;
         $scope.gs = globalSettings;
@@ -160,6 +160,41 @@
 		$scope.expand = function() {
 			$scope.expanded = true;
 		}
+
+		$scope.showLargeEntry = function(entry, ev) {
+            $mdDialog.show({
+              controller: DialogController,
+              templateUrl: '/views/partials/journalLargeEntryCard.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose: true,
+			  locals: { entry: entry,
+						content: $scope.formatContent(entry.content),
+						readFlag: $scope.readFlag,
+						calFormats: globalSettings.pref.calFormats,
+						calShortFormats: globalSettings.pref.calShortFormats },
+              fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+		};
+		
+		function DialogController($scope, $mdDialog, entry, content, readFlag, calFormats, calShortFormats) {
+			$scope.entry = entry;
+			$scope.content = content;
+			$scope.readFlag = readFlag;
+			$scope.calFormats = calFormats;
+			$scope.calShortFormats = calShortFormats;
+
+			$scope.determineDuration = function(entry) {
+				var start = moment(entry.start);
+				var end = moment(entry.end);
+	
+				return end.from(start, true);
+			}
+
+            $scope.cancel = function() {
+              $mdDialog.cancel();
+            };
+        }
         
     }
 }());

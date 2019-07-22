@@ -1,0 +1,49 @@
+<md-sidenav class="md-sidenav-right md-whiteframe-5dp" md-component-id="faqPanel">
+    <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Support Details</h1>
+    </md-toolbar>
+
+    <md-content class="f-15 b-300 p-15" layout-padding>
+        <div class="b-400 f-17">{{selectedFaq.title}}</div>
+
+        <md-divider class="m-b-0"></md-divider>
+        
+        <div ng-bind-html="formatContent(selectedFaq.content)"></div>
+        <div class="f-12 text-muted" style="text-align: right">Last updated: {{selectedFaq.updated | amCalendar:null:gs.pref.calMidFormats}}</div>
+        <md-divider class="m-t-10"></md-divider>
+
+        <div class="m-t-5" style="text-align: center">
+            <div>
+                Still can't find what you're looking for?
+            </div>
+            <div class="m-20">
+                <a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
+                    target="_blank" class="btn-primary btn-large">Contact us</a>
+            </div>
+        </div>
+
+        <div class="panel panel-primary collapsed m-t-15" ng-show="showAdmin" 
+            style="text-align: left;border-width: 1px;border-color: #ccc;padding: 0px;">
+            <div class="panel-heading b-400">
+                <h3 class="panel-title">Edit Details</h3>
+                <div class="panel-tools">
+                    <panel-collapse></panel-collapse>
+                </div>
+            </div>
+    
+            <div class="panel-body f-15 p-10" style="display: none;">
+                <div layout="row" class="m-b-15"><input ng-model="selectedFaq.title" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
+                <div layout="row" class="m-b-15">
+                    <input ng-model="selectedFaq.category" class="checklist-item" placeholder="Category" type="text" flex="100">
+                    <input ng-model="selectedFaq.order" class="checklist-item" placeholder="Order"  type="number" flex="100">
+                </div>
+                <div layout="row" class="m-b-15"><input ng-model="selectedFaq.tag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
+                
+                <summernote ng-model="selectedFaq.content" config="options"></summernote>
+                <label class="btn btn-inverse" ng-click="updateSupportContent()">Update</label>
+                    
+            </div>
+        </div>
+            
+    </md-content>
+</md-sidenav>

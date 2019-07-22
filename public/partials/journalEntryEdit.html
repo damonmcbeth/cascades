@@ -22,7 +22,7 @@
 		            	<md-input-container class="md-block p-b-0">
 				            <label>Title</label>
 				            <textarea id="entryTitle" name="entryTitle" class="primary-input" ng-model="selectedEntry.title" 
-				            	rows="3" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
+				            	rows="1" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
 				            	
 				            <div ng-messages="entryForm.entryTitle.$error" role="alert" 
 								ng-if="showHints" multiple>
@@ -77,7 +77,7 @@
 					        <md-list flex>
 							  <md-list-item class="" aria-label="{{file.title}}"
 							  		ng-repeat="file in selectedEntry.attachments  | filter:'!image/'" ng-click="openAttachment(file.url)">
-							  		<fileicon file="file" showtitle="true"></fileicon>
+							  		<fileicon file="file" size="md" showtitle="true"></fileicon>
 							  		<i class="icon pe-7s-close md-secondary text-muted f-25"
 							  			ng-click="removeAttachment(file)" aria-label="Delete"></i>
 							  		<md-divider ng-if="!$last"></md-divider>

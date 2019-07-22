@@ -53,37 +53,81 @@
 		        'up', 'right', 'down', 'ins', 'del',
 		    */
 	        
-	        hotkeys.add({ combo: 'ctrl+d',
-			    			description: 'Show Desktop',
-			    			callback: function() {
-				    			$state.go('mywork.dashboard');
-				    		}
-				    	});
+	        
 
-	        hotkeys.add({ combo: 'ctrl+t',
+	        hotkeys.add({ combo: 'alt+t',
 			    			description: 'New ' + $scope.gs.currWorkspace.Terminology.taskAlias,
 			    			callback: function() {
 				    			$scope.nav.newTask();
 				    		}
 				    	});
-			hotkeys.add({ combo: 'alt+t',
-			    			description: 'Show ' + $scope.gs.currWorkspace.Terminology.taskAliasPlural,
+			hotkeys.add({ combo: 'alt+j',
+			    			description: 'New ' + $scope.gs.currWorkspace.Terminology.memoAlias,
 			    			callback: function() {
-				    			$scope.nav.showTasks();
+				    			$scope.nav.newJournalEntry();
 				    		}
-				    	});
-			hotkeys.add({ combo: 'ctrl+b',
+						});
+			hotkeys.add({ combo: 'alt+r',
+							description: 'New Reminder',
+							callback: function() {
+								$scope.nav.newReminder();
+							}
+						});
+			hotkeys.add({ combo: 'alt+p',
+							description: 'New ' + $scope.gs.currWorkspace.Terminology.clientAlias,
+							callback: function() {
+								$scope.nav.newPerson();
+							}
+						});
+			hotkeys.add({ combo: 'alt+o',
+							description: 'New ' + $scope.gs.currWorkspace.Terminology.projectAlias,
+							callback: function() {
+							$scope.nav.newProject();
+						}
+					});
+						
+			hotkeys.add({ combo: 'alt+shift+s',
+							description: 'Show Summary',
+							callback: function() {
+							$state.go('mywork.dashboard');
+						}
+					});
+			hotkeys.add({ combo: 'alt+shift+b',
 			    			description: 'Show ' + $scope.gs.currWorkspace.Terminology.taskAlias + " board",
 			    			callback: function() {
 				    			$state.go('mywork.taskboard');
 				    		}
 				    	});
-			hotkeys.add({ combo: 'ctrl+p',
-			    			description: 'Show ' + $scope.gs.currWorkspace.Terminology.clientAliasPlural,
+			hotkeys.add({ combo: 'alt+shift+t',
+			    			description: 'Show ' + $scope.gs.currWorkspace.Terminology.taskAliasPlural,
 			    			callback: function() {
-				    			$scope.nav.showPeople();
+				    			$scope.nav.showTasks();
 				    		}
-				    	});
+						});
+			hotkeys.add({ combo: 'alt+shift+j',
+							description: 'Show ' + $scope.gs.currWorkspace.Terminology.memoAliasPlural,
+							callback: function() {
+								$state.go('journal.inbox');
+							}
+						});
+			hotkeys.add({ combo: 'alt+shift+r',
+							description: 'Show Reminders',
+							callback: function() {
+								$state.go('mywork.reminders');
+							}
+						});
+			hotkeys.add({ combo: 'alt+shift+p',
+							description: 'Show ' + $scope.gs.currWorkspace.Terminology.clientAliasPlural,
+							callback: function() {
+								$state.go('people.clients');
+							}
+						});
+			hotkeys.add({ combo: 'alt+shift+o',
+							description: 'Show ' + $scope.gs.currWorkspace.Terminology.projectAliasPlural,
+							callback: function() {
+								$state.go('projects.activeprojects');
+							}
+						});
         }
         
         

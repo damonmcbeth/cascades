@@ -3,35 +3,9 @@
 	<div class="utility-container">
 		<div class="utility-menu">
 	        <ul class="menu-buttons">
-	            <li>
-	                <a href="" id="new-message" ng-Click="newClient()">
-	                    <i class="icon pe-7s-plus"></i>
-	                    <span class="text">New Ticket</span>
-	                </a>
-	            </li> 
+	            
 	        </ul>
-	        <ul class="menu-buttons secondary">
-	            <li>
-	            	<md-menu md-offset="0 15">
-			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
-			            <i class="icon pe-7s-repeat"></i>
-			          </md-button>
-			          
-			          <md-menu-content width="3">
-			            <md-menu-item>
-				          <md-button class="menu-subheader" disabled="disabled">
-				            Order by:
-				          </md-button>
-				        </md-menu-item>
-			            <md-menu-item ng-repeat="orderItem in ['First name', 'Last name']">
-			              <md-button ng-click="updateOrderBy(orderItem)">{{orderItem}}</md-button>
-			            </md-menu-item>
-			          </md-menu-content>
-			          
-			        </md-menu>
-	            </li> 
-
-	        </ul>
+	        
 	    </div>
 	</div>
 	
@@ -41,7 +15,7 @@
             <div class="panel-body" style="overflow-x: auto">
                 <div class="form-group">
                    <input type="text" class="form-control" placeholder="{{type}} Search"
-                    	ng-model="search.name">
+                    	ng-model="search">
                 </div>
 	            
             	<div class="flip-scroll">
@@ -57,7 +31,7 @@
 		                </tr>
 		            </thead>
 		            <tbody>
-		                <tr ng-repeat="ticket in tickets | filter:search:false | orderBy:'created':true" ng-click="openTicketDetails(ticket)"
+		                <tr ng-repeat="ticket in tickets | filter:{$:search}:false | orderBy:'created':true" ng-click="openTicketDetails(ticket)"
 			                ng-animate="'animate'" >
 		                    <td>{{ticket.created | amCalendar:null:gs.pref.calFormats}}</td>
 		                    <td>{{ticket.name | limitTo: 60 }}{{ticket.name.length > 60 ? ' ...' : ''}}</td>

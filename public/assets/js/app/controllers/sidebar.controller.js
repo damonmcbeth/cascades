@@ -13,9 +13,13 @@
 	    
 	    $scope.selectedWrkSpace = {};
 	    $scope.wrkSpcs;
-	    
+		
+		$scope.showAdmin = false;
+
 	    globalSettings.initSettings().then(
         	function() {        
+				$scope.showAdmin = globalSettings.currProfile.admin == 'Y';
+
 	        	$scope.initSelectedWrkSpace();
 	        	$scope.populateTags();
 	        	
@@ -67,6 +71,10 @@
 
 		$scope.openFAQ = function() {
 			globalNav.showFAQs();
+		}
+
+		$scope.openTeam = function() {
+			globalNav.showTeam();
 		}
         
         $scope.selectWrkSpc = function() {

@@ -462,7 +462,7 @@
     		
 		}
         
-        $scope.buildSummary = function(resetPeopleFilter = false) {
+        $scope.buildSummary = function(resetPeopleFilter) {
 			if (resetPeopleFilter) {
 				$scope.selectedOwner = $scope.anyone;
 			}

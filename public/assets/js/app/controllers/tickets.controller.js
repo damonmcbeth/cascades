@@ -14,6 +14,7 @@
         $scope.$state = $state;        
         $scope.nav = globalNav;
         $scope.gs = globalSettings;
+        $scope.search = "OPEN";
         
         $scope.tickets;
                

@@ -8,8 +8,8 @@
 		    		    
 		    <div class="p-10 p-l-15 p-r-15">
 			    
-			    <div layout="row" class="v-a-middle"  ng-click="openEntryDetails(entry)">
-				    <i class="pe-fw f-25 p-5 m-r-5"
+			    <div layout="row" class="v-a-middle">
+				    <i class="pe-fw f-25 p-5 m-r-5" ng-click="openEntryDetails(entry)"
 				    	ng-class="{'pe-7s-light' : entry.type == 'Idea', 'pe-7s-call' : entry.type == 'Phone call', 
 				    				'pe-7s-chat' : entry.type == 'Meeting', 'pe-7s-note2' : entry.type == 'Memo',
 									'pe-7s-copy-file' : entry.type == 'Document', 'pe-7s-photo' : entry.type == 'Image',
@@ -20,32 +20,53 @@
 									'pe-7s-cart' : entry.type == 'Shopping', 'pe-7s-film' : entry.type == 'Media',
 									'pe-7s-note' : entry.type == 'Minutes', 'pe-7s-joy' : entry.type == 'Games',
 									'pe-7s-like' : entry.type == 'Health', 'pe-7s-piggy' : entry.type == 'Money'}"><md-tooltip>{{entry.type}}</md-tooltip></i>
-				    <div flex="100">
+				    <div flex="100" ng-click="openEntryDetails(entry)">
 					    <div class="f-17 b-400">
 					    	{{entry.title}}
 					    </div>
 					    
-					    <div class="m-b-5 m-t-3 v-a-middle">
-						    <span class="f-12 b-300 text-muted">
-						    	{{entry.updated | amCalendar:null:gs.pref.calFormats}}
-						    </span>
-						    
-						    <span class="pull-right"><ctag ng-repeat="tag in entry.tags"></ctag></span>
+					    <div class="m-b-5 m-t-3 v-a-middle f-12 b-300 text-muted">
+						    {{entry.updated | amCalendar:null:gs.pref.calFormats}}
 					    </div>
-				    </div>
+					</div>
+					
+					<i class="pe-fw f-20 m-t-5 p-5 pe-7s-exapnd2 text-muted" ng-click="showLargeEntry(entry, $event)"></i>
 			    </div>
 
 
 			    <div class="m-t-5 p-15 f-14 bg-muted border-top-1 border-bottom-1 border-muted"
-					style="width: 100%; height: 380px" layout="column" ng-show="expanded">
+					style="width: 100%; height: 426px" layout="column" ng-show="expanded">
 
-					<div class="f-9 label label-primary w-50 m-b-5" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>
-
-			        <!--div class="f-12 b-300 text-default m-b-5" ng-hide="entry.targetId == null">
-	                    <span class="b-500">FOR: {{entry.targetName}}</span>
-	                </div-->    
+					<div class="f-9 label label-primary w-50 m-b-5" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>   
 	                
-	                <div class="f-12 b-400 m-b-5" ng-hide="entry.start == null">
+					<!-- <div class="f-12 b-400 m-b-5" ng-hide="entry.url == null || entry.url == ''">
+	                    Website: <a href="{{entry.url}}" target="_blank">{{entry.url}}</a>
+	                </div> -->
+					
+					<!-- <div class="f-12 b-400 m-b-5" ng-hide="entry.projectName == null">
+	                    {{gs.currWorkspace.Terminology.projectAlias}}: {{entry.projectName}}
+					</div> -->
+					
+	                <div class="f-12 m-b-10 m-t-0" ng-hide="(entry.people == null || entry.people.length == 0)">
+                        <span class="m-r-5" ng-repeat="person in entry.people">
+					    	<avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"
+					    		ng-click="openPersonDetails(person.id)" ></avatar>
+					    </span>
+                    </div>
+			            
+			        <!-- <md-divider ng-hide="entry.projectName == null && entry.start == null && entry.target == null && (entry.people == null || entry.people.length == 0)"></md-divider>    
+			          -->   
+					<div flex="100" ng-class="{'journalEntry-sm-img-cont': (entry.content != null && entry.content != ''), 
+					'journalEntry-img-cont': (entry.content == null || entry.content == '')}" class="m-b-5"
+						ng-repeat="pic in entry.attachments | filter:'image/' | limitTo:1">
+					    <a href="{{pic.url}}" target="_blank">
+			        	<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}" class="journalEntry-img">
+							<md-tooltip>{{pic.title}}</md-tooltip>
+			        	</img>
+			        	</a>
+					</div>
+
+					<div class="f-12 b-500 m-t-5" ng-hide="entry.start == null">
 						When: {{entry.start | amCalendar:null:gs.pref.calShortFormats}}
 						<span ng-show="entry.end != null"> - </span> 
 						{{ entry.end | amCalendar:null:gs.pref.calShortFormats}}
@@ -54,49 +75,24 @@
 						</span>
 					</div>
 					
-					<div class="f-12 b-400 m-b-5" ng-hide="entry.url == null || entry.url == ''">
-	                    Website: <a href="{{entry.url}}" target="_blank">{{entry.url}}</a>
-	                </div>
-					
-					<div class="f-12 b-400 m-b-5" ng-hide="entry.projectName == null">
-	                    {{gs.currWorkspace.Terminology.projectAlias}}: {{entry.projectName}}
-					</div>
-					
-	                <div class="f-12 m-b-10 m-t-5" ng-hide="(entry.people == null || entry.people.length == 0)">
-                        <span class="m-r-5" ng-repeat="person in entry.people">
-					    	<avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"
-					    		ng-click="openPersonDetails(person.id)" ></avatar>
-					    </span>
-                    </div>
-			            
-			        <md-divider ng-hide="entry.projectName == null && entry.start == null && entry.target == null && (entry.people == null || entry.people.length == 0)"></md-divider>    
-			            
-			        <div flex="100" class="journalEntry-img-cont" ng-repeat="pic in entry.attachments | filter:'image/' | limitTo:1">
-					    <a href="{{pic.url}}" target="_blank">
-			        	<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
-			        		class="journalEntry-img">
-							<md-tooltip>{{pic.title}}</md-tooltip>
-			        	</img>
-			        	</a>
-					</div>
-					
-					<div flex="100" class="m-t-5" ng-bind-html="formatContent(entry.content)" 
+					<div flex="100" class="m-t-0" ng-bind-html="formatContent(entry.content)" 
 				        style="text-align: left; width: 100%; overflow: auto"
 					        ng-hide="entry.content == null || entry.content == ''">
 			        </div>
 			        
 			        <div class="m-t-5" >
-				        <span ng-repeat="file in entry.attachments | filter:'!image/' | limitTo:5">
+				        <span ng-repeat="file in entry.attachments | filter:'!image/' | limitTo:10">
 				        	<a href="{{file.url}}" target="_blank">
-					        	<fileicon file="file" size="sm" showTitle="false"></fileicon>
+					        	<fileicon file="file" size="md" showTitle="false"></fileicon>
 				        	</a>
 				        </span>
 			        </div>
                 </div>
                 
-                <div class="text-muted f-10 m-t-15" ng-show="expanded">
-				  	<div class="m-t-5">Created by {{entry.createdName}} on {{entry.created | amCalendar:null:gs.pref.calShortFormats}}</div>
-				  	<div>Last update by {{entry.updatedName}}</div>
+                <div class="text-muted f-10 m-t-10" ng-show="expanded">
+					<span class=""><ctag ng-repeat="tag in entry.tags"></ctag></span>
+				  	<!-- <div class="m-t-5">Created by {{entry.createdName}} on {{entry.created | amCalendar:null:gs.pref.calShortFormats}}</div>
+				  	<div>Last update by {{entry.updatedName}}</div> -->
 			  	</div>		            
 		    </div>
 		</div>

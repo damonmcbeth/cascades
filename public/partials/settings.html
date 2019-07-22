@@ -46,66 +46,73 @@
 					            </div>
 							</div>
 
-							<div class="panel panel-inverse m-t-0">
-								<div class="panel-body">
-									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Clients?</span>
-									<md-content layout-gt-sm="row" >
+							<div class="panel panel-tags collapsed m-t-0">
+								<div class="panel-heading">
+									<h3 class="panel-title">My Terminology</h3>
+									<div class="panel-tools">
+										<panel-collapse></panel-collapse>
+									</div>
+								</div>
+
+								<div class="panel-body" style="display: none;">
+									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Clients?</span>
+									<md-content layout-gt-sm="row" class="m-t-10">
 										<div flex="100">
 											<md-input-container style="width: 100%">
-												<input ng-model="editableWrkSpc.Terminology.clientAlias" placeholder="Client">
+												<input ng-model="editableWrkSpc.Terminology.clientAlias" placeholder="Client" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 										<div flex="100">
 											<md-input-container style="width: 100%">
-												<input ng-model="editableWrkSpc.Terminology.clientAliasPlural" placeholder="Client plural form">
+												<input ng-model="editableWrkSpc.Terminology.clientAliasPlural" placeholder="Client plural form" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 									</md-content>
 	
-									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Projects?</span>
-									<md-content layout-gt-sm="row">
+									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Projects?</span>
+									<md-content layout-gt-sm="row" class="m-t-10">
 										<div flex="100">
 											<md-input-container style="width: 100%">
 												<label>Project</label>
-												<input ng-model="editableWrkSpc.Terminology.projectAlias">
+												<input ng-model="editableWrkSpc.Terminology.projectAlias" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 										<div flex="100">
 											<md-input-container style="width: 100%">
 												<label>Project plural form</label>
-												<input ng-model="editableWrkSpc.Terminology.projectAliasPlural">
+												<input ng-model="editableWrkSpc.Terminology.projectAliasPlural" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 									</md-content>
 									
-									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Tasks?</span>
-									<md-content layout-gt-sm="row">
+									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Tasks?</span>
+									<md-content layout-gt-sm="row" class="m-t-10">
 										<div flex="100">
 											<md-input-container style="width: 100%">
 												<label>Task</label>
-												<input ng-model="editableWrkSpc.Terminology.taskAlias">
+												<input ng-model="editableWrkSpc.Terminology.taskAlias" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 										<div flex="100">
 											<md-input-container style="width: 100%">
 												<label>Task plural form</label>
-												<input ng-model="editableWrkSpc.Terminology.taskAliasPlural">
+												<input ng-model="editableWrkSpc.Terminology.taskAliasPlural" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 									</md-content>
 									
-									<span class="b-500 f-13 text-muted" style="text-transform: uppercase">What word do you use to represent Notes?</span>
-									<md-content layout-gt-sm="row">
+									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Notes?</span>
+									<md-content layout-gt-sm="row" class="m-t-10">
 										<div flex="100">
 											<md-input-container style="width: 100%">
 												<label>Note</label>
-												<input ng-model="editableWrkSpc.Terminology.memoAlias">
+												<input ng-model="editableWrkSpc.Terminology.memoAlias" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 										<div flex="100">
 											<md-input-container style="width: 100%">
 												<label>Note plural form</label>
-												<input ng-model="editableWrkSpc.Terminology.memoAliasPlural">
+												<input ng-model="editableWrkSpc.Terminology.memoAliasPlural" ng-blur="updateTerms()">
 											</md-input-container>
 										</div>
 									</md-content>
@@ -202,10 +209,10 @@
 		      </md-tab>
 			  
 			  <md-tab id="tabTeams">
-		        <md-tab-label>Team members</md-tab-label>
+		        <md-tab-label>My Team</md-tab-label>
 		        <md-tab-body>
 					<div class="align-center p-10">
-						
+						<div data-ng-include="'partials/settings_team.html'"></div>
 					</div>
 		        </md-tab-body>
 			  </md-tab>
@@ -213,67 +220,90 @@
 			  <md-tab id="tabFAQs">
 		        <md-tab-label>Support</md-tab-label>
 		        <md-tab-body>
+					<!--div data-ng-include="'partials/settings_faq.html'"></div-->
 					<div class="align-center p-10">
-						<div class="p-b-15 p-t-10">
-							<input type="text" class="form-control" placeholder="Search for help..."
-								   ng-model="search">
-						</div>
-
-						<div class="panel panel-default">
-							<div class="panel-body f-15">
-								<div class="m-b-10"><image src="/assets/img/CASCADES_BILLBOARD_2_SM.jpg" flex="90"></image></div>
-
-								<a class="b-500" href="/landing" target="_blank">LEARN ABOUT CASCADES</a>
-								
-								<div class="p-10" style="text-align: left">
-									<div class="m-t-20">GETTING STARTED</div>
-									<md-divider></md-divider>
-									<ul>
-										<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
-											ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">
-											{{faq.title}}</li>
-									</ul>
-
-									<div class="m-t-25">TIPS & TRICKS</div>
-									<md-divider></md-divider>
-									<ul>
-										<li class="m-t-10 b-300" ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">{{faq.title}}</li>
-									</ul>
-
-									<div class="m-t-25">FREQUENTLY ASKED QUESTIONS</div>
-									<md-divider></md-divider>
-									<ul>
-										<li class="m-t-10 b-300" ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">{{faq.title}}</li>
-									</ul>
+							<div class="p-b-15 p-t-10">
+								<input type="text" class="form-control" placeholder="Search" ng-model="faqSearch">
+							</div>
+						
+							<div class="panel panel-default" ng-show="faqSearch != null && faqSearch != ''"  style="text-align: left">
+									<div class="panel-body f-15">
+										<div class="m-t-5">SEARCH RESULTS</div>
+										<md-divider></md-divider>
+										<ul>
+											<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
+												ng-repeat="faq in faqs | filter:{$: faqSearch} | orderBy:'order'">
+												{{faq.title}}</li>
+										</ul>
+									</div>
+							</div>
+						
+							<div class="panel panel-default" ng-hide="faqSearch != null && faqSearch != ''">
+								<div class="panel-body f-15">
+									<div class="m-b-10"><image src="/assets/img/CASCADES_BILLBOARD_2_SM.jpg" flex="90"></image></div>
+						
+									<a class="b-500" href="/landing" target="_blank">LEARN ABOUT CASCADES</a>
+									
+									<div class="p-10" style="text-align: left">
+										<div class="m-t-20">GETTING STARTED</div>
+										<md-divider></md-divider>
+										<ul>
+											<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
+												ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">
+												{{faq.title}}</li>
+										</ul>
+						
+										<div class="m-t-25">TIPS & TRICKS</div>
+										<md-divider></md-divider>
+										<ul>
+											<li class="m-t-10 b-300"  ng-click="openFAQ(faq)"
+												ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">{{faq.title}}</li>
+										</ul>
+						
+										<div class="m-t-25">FREQUENTLY ASKED QUESTIONS</div>
+										<md-divider></md-divider>
+										<ul>
+											<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
+												ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">{{faq.title}}</li>
+										</ul>
+									</div>
+									<md-divider class="m-t-25"></md-divider>
+									<div class="m-t-15">
+										Did not find what you were looking for?
+									</div>
+									<div class="m-20">
+										<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
+											target="_blank" class="btn-primary btn-large">Contact us</a>
+									</div>
+						
 								</div>
-								<md-divider class="m-t-25"></md-divider>
-								<div class="m-t-15">
-									Did not find what you were looking for?
+							</div>
+						
+							<div class="panel panel-tags collapsed m-t-0" ng-show="showAdmin" style="text-align: left">
+								<div class="panel-heading">
+									<h3 class="panel-title">Edit Support</h3>
+									<div class="panel-tools">
+										<panel-collapse></panel-collapse>
+									</div>
 								</div>
-								<div class="m-20">
-									<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
-										target="_blank" class="btn-primary btn-large">Contact us</a>
+						
+								<div class="panel-body f-15" style="display: none;">
+									<div layout="row" class="m-b-15"><input ng-model="faqTitle" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
+									<div layout="row" class="m-b-15">
+										<input ng-model="faqCategory" class="checklist-item" placeholder="Category" type="text" flex="100">
+										<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="100">
+									</div>
+									<div layout="row" class="m-b-15"><input ng-model="faqTag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
+									
+									<summernote ng-model="faqContent" config="options"></summernote>
+									<label class="btn btn-inverse" ng-click="addSupportContent()">Add Support Content</label>
+									<label class="btn btn-inverse" ng-click="clearAddSupportContent()">Clear</label>
+										
 								</div>
-
 							</div>
 						</div>
 
-						<div class="panel panel-default" ng-show="showAdmin">
-							<div class="panel-body f-15"  style="text-align: left">
-								<div layout="row" class="m-b-15"><input ng-model="faqTitle" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
-								<div layout="row" class="m-b-15">
-									<input ng-model="faqCategory" class="checklist-item" placeholder="Category" type="text" flex="100">
-									<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="100">
-								</div>
-								<div layout="row" class="m-b-15"><input ng-model="faqTag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
-								
-								<summernote ng-model="faqContent" config="options"></summernote>
-								<label class="btn btn-inverse" ng-click="addSupportContent()">Add Support Content</label>
-								<label class="btn btn-inverse" ng-click="clearAddSupportContent()">Clear</label>
-								
-							</div>
-						</div>
-					</div>
+
 		        </md-tab-body>
 			  </md-tab>
 			  
@@ -314,12 +344,12 @@
 			  <md-tab id="tabAbout">
 		        <md-tab-label>About</md-tab-label>
 		        <md-tab-body>
-					<div class="align-center p-10">
+					<div class="align-center p-20">
 						<div><image src="/assets/img/logo/Logo-128.png"></image></div>
 						<div class="f-35 b-300">CASCADES</div>
 						<div class="m-b-15">BETA</div>
 						<div>Copyright &copy; 2017 CASCADES</div><br>
-
+						<md-divider class="m-t-10"></md-divider>
 						<div data-ng-include="'Terms.html'"></div>
 					</div>
 
@@ -329,19 +359,8 @@
 	    </md-content>
 	</div>
 	
-	<md-sidenav class="md-sidenav-right md-whiteframe-5dp" md-component-id="faqPanel">
-		<md-toolbar class="md-theme-light">
-			<h1 class="md-toolbar-tools">Support Details</h1>
-		</md-toolbar>
+	<div data-ng-include="'partials/settings_faqDetails.html'"></div>
 
-		<md-content class="f-15 b-300" layout-padding>
-			<div class="b-400">{{selectedFaq.title}}</div>
-			<md-divider class="m-b-5"></md-divider>
-			<div ng-bind-html="formatContent(selectedFaq.content)"></div>
-			<md-divider class="m-t-10"></md-divider>
-			<div class="f-12">{{selectedFaq.tag}}</div>
-		</md-content>
-	</md-sidenav>
 </div>
 
 

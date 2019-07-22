@@ -72,16 +72,7 @@
                     hasFullContainerHorz: true,
                 },
                 resolve: {
-                    deps: [
-                        '$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    'assets/js/pages/blank.js',
-                                ]
-                            });
-                        }
-                    ]
+                    
                 }
             })
             .state('mywork.reminders', {
@@ -191,24 +182,14 @@
                 templateUrl: 'views/Tickets.html',
                 controller: 'TicketsController',
                 ncyBreadcrumb: {
-                    label: 'Tickets'
+                    label: 'Incident Tickets'
                 },
                 data: {
                     //icon: 'pe-7s-light',
                     hasFullContainer: true,
                 },
                 resolve: {
-                    deps: [
-                        '$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    'assets/js/lib/sparkline/jquery.sparkline.min.js',
-                                    //'assets/js/lib/sparkline/sparkline-init.js'
-                                ]
-                            });
-                        }
-                    ]
+                    
                 }
             })
             
@@ -779,11 +760,11 @@
             })
             .state('people.activeclients', {
                 url: "/people/activeclients",
-                params: { display: 'Active' },
+                params: { display: 'Recent' },
                 templateUrl: 'views/Clients.html',
                 controller: 'ClientsController',
                 ncyBreadcrumb: {
-                    label: 'Active {{clientAliasPlural}}'
+                    label: 'Recent {{clientAliasPlural}}'
                 },
                 data: {
 	                hasFullContainer: true,

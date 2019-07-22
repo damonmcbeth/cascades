@@ -31,19 +31,17 @@
         $scope.faqTag = "";
         $scope.faqOrder = 100;
 
+        $scope.faqSearch = null;
         $scope.selectedFaq = null;
 
         $scope.options = {
 		    height: 200,
 		    airMode: false,
 		    toolbar: [
-				['para', ['style']],
-				['fontname', ['fontname']],
-				['color', ['color']],
-				['fontsize', ['fontsize']],
-				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['color', ['color']],
 				['alignment', ['ul', 'ol', 'paragraph']],
-				['insert', ['link', 'table', 'hr']],
+				['insert', ['link', 'hr']],
 				['misc', ['undo']],
 	            ['view', ['fullscreen', 'codeview']]
 	        ]
@@ -77,6 +75,7 @@
         $scope.projectTypeListSrc = [];
         $scope.articles = [];
         $scope.faqs = [];
+        $scope.team = [];
 
         $scope.showAdmin = false;
 
@@ -89,11 +88,19 @@
                 $scope.initTaskStatusList();
                 $scope.initProjectTypeList();
                 $scope.populateArticles();
+                $scope.populatePeople();
                 $scope.populateFAQs();
                 $scope.initWorkspace();
                 $scope.initEditor();
 	        }
         )
+
+        $scope.populatePeople = function() {
+            peopleService.getAllPeople().then(
+                function(people) {
+                    $scope.team = people;
+            });
+        }
 
         $scope.populateArticles = function() {
 			globalSettings.getAllArticles().then(
@@ -111,6 +118,10 @@
         
         $scope.initWorkspace = function() {
             $scope.editableWrkSpc = $scope.currWorkspace;
+        }
+
+        $scope.updateTerms = function() {
+            $scope.editableWrkSpc.$save();
         }
 
         $scope.initProjectTypeList = function() {
@@ -238,6 +249,11 @@
                     globalSettings.logError("settings.controller", "removeArticle", error);
                     deferred.resolve(orig);
             });   
+        }
+
+        $scope.updateSupportContent = function() {
+            globalSettings.updateTimestamp($scope.selectedFaq);
+            $scope.faqs.$save($scope.selectedFaq);
         }
 
         $scope.clearAddSupportContent = function() {

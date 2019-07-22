@@ -503,10 +503,10 @@
 
 									projects.$save(project).then(
 										function(result) {
-											console.log(result);
+											//console.log(result);
 										}, 
 										function(error) {
-											console.log(error);
+											//console.log(error);
 										}
 									);
 								}

@@ -1,0 +1,79 @@
+<div class="align-center p-10">
+	<div class="p-b-15 p-t-10">
+		<input type="text" class="form-control" placeholder="Search" ng-model="faqSearch">
+	</div>
+
+	<div class="panel panel-default" ng-show="faqSearch != null && faqSearch != ''"  style="text-align: left">
+			<div class="panel-body f-15">
+				<div class="m-t-5">SEARCH RESULTS</div>
+				<md-divider></md-divider>
+				<ul>
+					<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
+						ng-repeat="faq in faqs | filter:{$: faqSearch} | orderBy:'order'">
+						{{faq.title}}</li>
+				</ul>
+			</div>
+	</div>
+
+	<div class="panel panel-default" ng-hide="faqSearch != null && faqSearch != ''">
+		<div class="panel-body f-15">
+			<div class="m-b-10"><image src="/assets/img/CASCADES_BILLBOARD_2_SM.jpg" flex="90"></image></div>
+
+			<a class="b-500" href="/landing" target="_blank">LEARN ABOUT CASCADES</a>
+			
+			<div class="p-10" style="text-align: left">
+				<div class="m-t-20">GETTING STARTED</div>
+				<md-divider></md-divider>
+				<ul>
+					<li class="m-t-10 b-300" ng-click="openFAQ(faq)"
+						ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">
+						{{faq.title}}</li>
+				</ul>
+
+				<div class="m-t-25">TIPS & TRICKS</div>
+				<md-divider></md-divider>
+				<ul>
+					<li class="m-t-10 b-300" ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">{{faq.title}}</li>
+				</ul>
+
+				<div class="m-t-25">FREQUENTLY ASKED QUESTIONS</div>
+				<md-divider></md-divider>
+				<ul>
+					<li class="m-t-10 b-300" ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">{{faq.title}}</li>
+				</ul>
+			</div>
+			<md-divider class="m-t-25"></md-divider>
+			<div class="m-t-15">
+				Did not find what you were looking for?
+			</div>
+			<div class="m-20">
+				<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
+					target="_blank" class="btn-primary btn-large">Contact us</a>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="panel panel-tags collapsed m-t-0" ng-show="showAdmin" style="text-align: left">
+		<div class="panel-heading">
+			<h3 class="panel-title">Edit Support</h3>
+			<div class="panel-tools">
+				<panel-collapse></panel-collapse>
+			</div>
+		</div>
+
+		<div class="panel-body f-15" style="display: none;">
+			<div layout="row" class="m-b-15"><input ng-model="faqTitle" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
+			<div layout="row" class="m-b-15">
+				<input ng-model="faqCategory" class="checklist-item" placeholder="Category" type="text" flex="100">
+				<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="100">
+			</div>
+			<div layout="row" class="m-b-15"><input ng-model="faqTag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
+			
+			<summernote ng-model="faqContent" config="options"></summernote>
+			<label class="btn btn-inverse" ng-click="addSupportContent()">Add Support Content</label>
+			<label class="btn btn-inverse" ng-click="clearAddSupportContent()">Clear</label>
+				
+		</div>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+<md-list flex>
+    <md-list-item class="md-2-line" ng-repeat="member in team | filter:{type: 'Team member'} | orderBy:'created':true " 
+        ng-click="openPersonDetails(member.targetId)">
+        
+            <avatar size="sm" img="member.avatar" name="member.name" type="member.avatarType"></avatar>
+            <div class="md-list-item-text p-l-15">
+                <div class="list-title f-15">{{member.name}} </div>
+                <div class="list-title-2" >{{member.primaryEmail}}</div>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+    </md-list-item>
+</md-list>

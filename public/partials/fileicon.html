@@ -1,6 +1,7 @@
 <span class="f-15 m-r-10" >
-	<img style="width: 30px" src="assets/img/attachments/file.png"
+	<img ng-class="{'fileIcon-lg' : size=='lg', 'fileIcon-sm' : size=='sm', 'fileIcon-md' : size=='md'}" 
+			src="assets/img/attachments/file.png"
 			ng-src="{{determineFileIcon(file.url)}}">
-			<md-tooltip>{{file.title}}</md-tooltip></img>
+			<md-tooltip  md-z-index="9000">{{file.title}}</md-tooltip></img>
 	<span class="m-l-10" ng-show="{{showtitle}}">{{file.title}}</span>
 </span>

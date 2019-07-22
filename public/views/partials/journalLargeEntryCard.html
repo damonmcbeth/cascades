@@ -1,0 +1,87 @@
+<md-dialog aria-label="{{entry.title}}">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+				<i class="pe-fw f-25 p-5 m-r-5"
+					ng-class="{'pe-7s-light' : entry.type == 'Idea', 'pe-7s-call' : entry.type == 'Phone call', 
+								'pe-7s-chat' : entry.type == 'Meeting', 'pe-7s-note2' : entry.type == 'Memo',
+								'pe-7s-copy-file' : entry.type == 'Document', 'pe-7s-photo' : entry.type == 'Image',
+								'pe-7s-coffee' : entry.type == 'Food', 'pe-7s-car' : entry.type == 'While you were out',
+								'pe-7s-date' : entry.type == 'Event', 'pe-7s-news-paper' : entry.type == 'Recipe',
+								'pe-7s-culture' : entry.type == 'Restaurant', 'pe-7s-gym' : entry.type == 'Workout',
+								'pe-7s-map' : entry.type == 'Location', 'pe-7s-ball' : entry.type == 'Sports',
+								'pe-7s-cart' : entry.type == 'Shopping', 'pe-7s-film' : entry.type == 'Media',
+								'pe-7s-note' : entry.type == 'Minutes', 'pe-7s-joy' : entry.type == 'Games',
+								'pe-7s-like' : entry.type == 'Health', 'pe-7s-piggy' : entry.type == 'Money'}"></i>
+
+				
+				<div flex="100" class="m-l-10">
+					<div class="f-20 b-400">
+						{{entry.title}}
+					</div>
+					
+					<div class="m-t-3 v-a-middle f-12 b-300">
+						{{entry.updated | amCalendar:null:calFormats}}
+					</div>
+				</div>
+              	<md-button class="md-icon-button" ng-click="cancel()" aria-label="Close">
+                	<i class="icon pe-7s-close-circle f-20"></i>
+              	</md-button>
+            </div>
+        </md-toolbar>
+      
+        <md-dialog-content>
+            <div class="md-dialog-content">
+				<div class="f-9 label label-primary w-50" ng-hide="entry[readFlag] == 'Y'">UNREAD</div>  
+				
+				<div class="m-t-10">
+					<span ng-repeat="pic in entry.attachments | filter:'image/'">
+						<div class="journalEntry-img-lg">
+						<a href="{{pic.url}}" target="_blank">
+							<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}" class="journalEntry-img">
+								<md-tooltip  md-z-index="9000">{{pic.title}}</md-tooltip>
+							</img>
+						</a></div>
+					</span>
+				</div>
+
+				<div class="f-12 b-500 m-t-10" ng-hide="entry.start == null">
+					When: {{entry.start | amCalendar:null:calShortFormats}}
+					<span ng-show="entry.end != null"> - </span> 
+					{{ entry.end | amCalendar:null:calShortFormats}}
+					<span ng-hide="entry.end == null || entry.start == null">
+						({{ determineDuration(entry) }})
+					</span>
+				</div>
+				
+				<div flex="100" class="m-t-10" ng-bind-html="content" 
+					style="text-align: left; width: 100%; overflow: auto"
+						ng-hide="entry.content == null || entry.content == ''">
+				</div>
+
+				<div class="f-13 m-t-15 row" ng-hide="(entry.people == null || entry.people.length == 0)">
+					<span ng-repeat="person in entry.people">
+						<div class="col-sm-2 align-center" ng-click="openPersonDetails(person.id)">
+							<avatar size="md" img="person.avatar" name="person.name" type="person.avatarType"></avatar>
+							<div class="m-t-5 b-300">{{person.name}}</div>
+						</div>
+					</span>
+				</div>
+				
+				<div class="m-t-20" >
+					<span ng-repeat="file in entry.attachments | filter:'!image/'">
+						<a href="{{file.url}}" target="_blank">
+							<fileicon file="file" size="lg" showTitle="false"></fileicon>
+						</a>
+					</span>
+				</div>
+
+				<div class="text-muted f-10 m-t-15" >
+					<span class=""><ctag ng-repeat="tag in entry.tags"></ctag></span>
+				</div>
+			</div>
+
+		</md-dialog-content>          
+	</form>
+</md-dialog>
+ 

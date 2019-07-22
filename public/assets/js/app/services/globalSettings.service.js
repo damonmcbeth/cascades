@@ -384,11 +384,11 @@
 					    Terminology: {
 						    projectAlias: "Project",
 							projectAliasPlural: "Projects",
-							clientAlias: "Client",
-							clientAliasPlural: "Clients",
+							clientAlias: "Person",
+							clientAliasPlural: "People",
 							taskAlias: "Task",
 							taskAliasPlural: "Tasks",
-							memoAlias: "Memo",
+							memoAlias: "Journal entry",
 							memoAliasPlural: "Journal"
 					    },
 					    Subscription: {
@@ -488,9 +488,9 @@
 						updatedBy: personKey
 					};
 				
-				var ticketKey = firebase.database().ref().child("/App/Workspaces/" + wsKey + "/Tickets").push().key;
+				var ticketKey = firebase.database().ref().child("/Logs/Tickets").push().key;
 				var updates = {};
-				updates["/App/Workspaces/" + wsKey + "/Tickets/" + ticketKey] = ticket;
+				updates["/Logs/Tickets/" + ticketKey] = ticket;
 				firebase.database().ref().update(updates);
 			}
 
@@ -933,9 +933,9 @@
 			    ticket.debugLog = self.debugLog;
 			    
 			    var wsKey = self.currWorkspace.$id;
-			    var ticketKey = firebase.database().ref().child("/App/Workspaces/" + wsKey + "/Tickets").push().key;
+			    var ticketKey = firebase.database().ref().child("/Logs/Tickets").push().key;
 				var updates = {};
-				updates["/App/Workspaces/" + wsKey + "/Tickets/" + ticketKey] = ticket;
+				updates["/Logs/Tickets/" + ticketKey] = ticket;
 				firebase.database().ref().update(updates);
 				
 				self.showErrorToast('An error occurred. A ticket was automatically created and will be address soon as possible.');
