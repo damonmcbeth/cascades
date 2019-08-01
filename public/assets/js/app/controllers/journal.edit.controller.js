@@ -29,6 +29,7 @@
 		$scope.dateOpts = {
 			enableTime: true,
 			dateFormat: "l M j, Y \\a\\t h:i K",
+			defaultHour: 9,
 			disableMobile: true,
 			onChange: function(selectedDates, dateStr, instance){
 				//console.log("DATE CHANGED");
@@ -38,12 +39,14 @@
 			},
 			onReady: function(selectedDates, dateStr, instance){
 				$scope.startPicker = instance;
-			}
+			},
+			plugins: [new confirmDatePlugin({})]
 		};
 
 		$scope.dateEndOpts = {
 			enableTime: true,
 			dateFormat: "l M j, Y \\a\\t h:i K",
+			defaultHour: 17,
 			disableMobile: true,
 			onChange: function(selectedDates, dateStr, instance){
 				//console.log("DATE CHANGED");
@@ -63,7 +66,8 @@
 					}
 					
 				}
-			]
+			],
+			plugins: [new confirmDatePlugin({})]
 		};
 		  
 		$scope.datePostSetup = function(fpItem) {

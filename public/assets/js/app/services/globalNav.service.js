@@ -16,6 +16,8 @@
 			FORM_JOURNAL_ENTRY_EDIT: "/partials/journalEntryEdit.html",
 			FORM_REMINDER_EDIT: "/partials/reminderEdit.html",
 			FORM_TICKET_DETAILS: "/partials/ticketDetails.html",
+			FORM_DOCS: "/partials/docs.html",
+			FORM_FOLDER_EDIT: "/partials/folderEdit.html",
 			activeSideForm: "",
 			activeSideEditForm: "",
 			activeSideViewForm: "",
@@ -46,7 +48,11 @@
         
         nav.ACTION_PROJECT = 'ACTION_PROJECT';
         nav.ACTION_PROJECT_OPEN_DETAILS = 'ACTION_PROJECT_OPEN_DETAILS';
-        nav.ACTION_PROJECT_NEW = 'ACTION_PROJECT_NEW';
+		nav.ACTION_PROJECT_NEW = 'ACTION_PROJECT_NEW';
+		
+		nav.ACTION_FOLDER = 'ACTION_FOLDER';
+        nav.ACTION_FOLDER_OPEN_DETAILS = 'ACTION_FOLDER_OPEN_DETAILS';
+        nav.ACTION_FOLDER_NEW = 'ACTION_FOLDER_NEW';
         
         nav.ACTION_TICKET = 'ACTION_TICKET';
         nav.ACTION_TICKET_OPEN_DETAILS = 'ACTION_TICKET_OPEN_DETAILS';
@@ -84,7 +90,15 @@
 	        nav.hideSideViewForm();
         }
         
-        //Browse Actions
+		//Browse Actions
+		nav.showDocs = function() {
+	        nav.hideSideEditForm();
+	        nav.hideSideViewForm();
+	        
+	        nav.sideFormHidden = false;
+	        nav.activeSideForm = this.FORM_DOCS;
+        }
+
         nav.showTasks = function() {
 	        nav.hideSideEditForm();
 	        nav.hideSideViewForm();
@@ -419,6 +433,36 @@
 			this.action = this.ACTION_PREF_TEAM;
 
 			this.showPref();
+		}
+
+		// Folder Edit Actions
+		nav.openFolderEditDetails = function(folder) {
+			this.clearAction();
+			this.actionArg = folder;
+			this.action = this.ACTION_FOLDER_EDIT_DETAILS;
+			
+			this.launchFolderEditDetails();
+		}
+		
+		nav.launchFolderEditDetails = function() {
+			if (this.isActiveEdit(this.FORM_FOLDER_EDIT)){
+				$rootScope.$broadcast(this.ACTION_FOLDER);
+			} else {
+				this.clearEditController();
+				this.showEditFolders();
+			}
+		}
+		
+		nav.showEditFolders = function() {
+	        nav.sideEditFormHidden = false;
+	        nav.activeSideEditForm = this.FORM_FOLDER_EDIT;
+		}
+		
+		nav.newFolder = function() {
+			this.clearAction();
+			this.action = this.ACTION_FOLDER_NEW;
+			
+			this.launchFolderEditDetails();
 		}
 		
 		//General nav

@@ -1,0 +1,35 @@
+<md-dialog aria-label="{{entry.title}}">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+				<div flex="100" class="m-l-10">
+					<div class="f-20 b-400">
+						{{entry.title}}
+					</div>
+					
+					<div class="m-t-3 v-a-middle f-12 b-300">
+						{{entry.updated | amCalendar:null:calFormats}}
+					</div>
+				</div>
+              	<md-button class="md-icon-button" ng-click="cancel()" aria-label="Close">
+                	<i class="icon pe-7s-close-circle f-20"></i>
+              	</md-button>
+            </div>
+        </md-toolbar>
+      
+        <md-dialog-content>
+            <div class="md-dialog-content">
+				<div class="m-t-10">
+					<div class="docEntry-img-lg">
+						<a href="{{entry.url}}" target="_blank">
+							<img ng-src="{{entry.url}}" src="assets/img/placeholder.jpg" alt="{{entry.title}}" class="journalEntry-img"></img>
+						</a>
+					</div>
+				</div>
+				
+			</div>
+
+		</md-dialog-content>          
+	</form>
+</md-dialog>
+ 

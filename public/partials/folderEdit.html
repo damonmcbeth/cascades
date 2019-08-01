@@ -1,0 +1,70 @@
+<div id="taskbar" class="sidebar-content" ng-controller="FolderEditController" ng-cloak>
+    <div class="sidebar-header">
+        <div class="header-title">
+           <span>Folder Details</span>
+        </div>
+        
+        <div class="header-description v-a-middle">
+            <a href="" style="color: #fff" ng-click="cancelEdit()">
+            	Cancel
+            </a>
+            <a href="" class="pull-right" style="color: #fff" ng-click="saveFolder(folderForm.$valid)">
+            	Save
+            </a>
+        </div>
+    </div>
+    
+    <div class="sidebar-body" resize height-offset="125" style="width: 100%">	    
+        <div class="p-10" style="background-color: #f1f3f2">
+	        <form name="folderForm">
+		        <div class="panel panel-default">
+		            <div class="panel-body">
+		                <md-input-container class="md-block p-b-0">
+			            	<label>Title</label>
+							<textarea name="title" class="primary-input" ng-model="selectedFolder.title" rows="1" 
+								md-maxlength="80" md-detect-hidden="true" required></textarea>
+								
+							<div ng-messages="folderForm.title.$error" role="alert" 
+								ng-if="showHints" multiple>
+				            	<div ng-message="required" class="my-message">You must supply a title.</div>
+								<div ng-message="md-maxlength" class="my-message">
+									Please do not exceed 80 characters.
+				            	</div>
+				            </div>
+						</md-input-container>
+			          
+		            </div>
+				</div>
+				
+				<div class="panel panel-tags" ng-hide="true">
+					<div class="panel-heading">
+		                <h3 class="panel-title">RELATED {{gs.currWorkspace.Terminology.clientAliasPlural}}</h3>
+		                <div class="panel-tools">
+		                    <panel-collapse></panel-collapse>
+		                </div>
+		            </div>
+					
+		            <div class="panel-body">						
+						<md-contact-chips ng-model="selectedProject.people" readonly="false"
+							md-contacts="querySearch($query)" filter-selected="true"
+					    	placeholder="+ {{gs.currWorkspace.Terminology.clientAlias}}" 
+					    	secondary-placeholder="+{{gs.currWorkspace.Terminology.clientAlias}}"
+					    	md-require-match="true" md-autoselect="true"
+					    	md-contact-name="name">					    	
+						</md-contact-chips>					 
+		            </div>
+				</div>
+
+				<div class="m-t-15" ng-show="isEdit">
+					<a href="" ng-Click="deleteFolder()" class="btn btn-danger btn-block f-17">
+						Delete Folder
+					</a>
+				</div>
+		    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

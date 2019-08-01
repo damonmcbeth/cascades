@@ -75,12 +75,24 @@
 						</span>
 					</div>
 					
-					<div flex="100" class="m-t-0" ng-bind-html="formatContent(entry.content)" 
+					<div flex="100" class="m-t-5" ng-bind-html="formatContent(entry.content)" 
 				        style="text-align: left; width: 100%; overflow: auto"
 					        ng-hide="entry.content == null || entry.content == ''">
-			        </div>
-			        
-			        <div class="m-t-5" >
+					</div>
+					
+					<md-divider class="m-t-10"  ng-hide="entry.comments == null || entry.comments.length == 0"></md-divider>
+					<div ng-repeat="comment in entry.comments | orderBy:'created':true | limitTo:2">
+						<div layout="row" class="m-t-10">
+							<i class="pe-fw pe-7s-comment f-25 p-5"></i>
+							<div flex="100" class="m-l-10">
+								<div class="f-17 b-400">{{comment.title}}</div>
+								<div class="f-12">{{comment.createdName}} - {{comment.created | amCalendar:null:gs.pref.calMidFormats}}</div>
+							</div>
+						</div>
+						<md-divider class="m-t-10"  ng-if="$last"></md-divider>
+					</div>
+					
+			        <div class="m-t-10" >
 				        <span ng-repeat="file in entry.attachments | filter:'!image/' | limitTo:10">
 				        	<a href="{{file.url}}" target="_blank">
 					        	<fileicon file="file" size="md" showTitle="false"></fileicon>

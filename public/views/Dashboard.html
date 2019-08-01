@@ -15,27 +15,31 @@
 
                 <div class="p-20 task-widget">
                     <div class="row">
-                        <div class="col-sm-3 border-primary border-left-5 p-5 p-l-10 text-default " 
-                            ng-class="{ 'task-summary-selected' : filterDueToday }"
+                        <div class="border-primary border-left-5 p-5 p-l-10 text-default " 
+                            ng-class="{ 'task-summary-selected' : filterDueToday, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
+                            'col-sm-4': !gs.currPreferences.Settings.Task.delegation}"
                             ng-click="toggleDueToday()" md-ink-ripple>
 							<div class="col f-25">{{summary.Task.dueToday}}</div>                        
                             <div class="f-13 b-400">Due today</div>
                         </div>
-                        <div class="col-sm-3  border-danger border-left-5 p-5 p-l-10 text-default"
-                        ng-class="{ 'task-summary-selected' : filterOverdue }"
-                        ng-click="toggleOverdue()" md-ink-ripple>
+                        <div class="border-danger border-left-5 p-5 p-l-10 text-default"
+                            ng-class="{ 'task-summary-selected' : filterOverdue, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
+                            'col-sm-4': !gs.currPreferences.Settings.Task.delegation }"
+                            ng-click="toggleOverdue()" md-ink-ripple>
                             <div class="f-25">{{summary.Task.overdue}}</div>
                             <div class="f-13 b-400">Overdue</div>
                         </div>
-                        <div class="col-sm-3 border-warning border-left-5 p-5 p-l-10 text-default"
-                            ng-class="{ 'task-summary-selected' : filterDueSoon }"
+                        <div class="border-warning border-left-5 p-5 p-l-10 text-default"
+                            ng-class="{ 'task-summary-selected' : filterDueSoon, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
+                            'col-sm-4': !gs.currPreferences.Settings.Task.delegation }"
                             ng-click="toggleDueSoon()" md-ink-ripple>
                             <div class="f-25">{{summary.Task.dueSoon}}</div>
                             <div class="f-13 b-400">Due soon</div>
                         </div>
                         <div class="col-sm-3 border-muted-darker border-left-5 p-5 p-l-10 text-default"
                             ng-class="{ 'task-summary-selected' : filterDelegated }"
-                            ng-click="toggleDelegated()" md-ink-ripple>
+                            ng-click="toggleDelegated()" md-ink-ripple
+                            ng-show="gs.currPreferences.Settings.Task.delegation">
                             <div class="f-25">{{summary.Task.delegated}}</div>
                             <div class="f-13 b-400">Delegated</div>
                         </div>
@@ -75,7 +79,7 @@
                                             </md-button>
                                         </md-menu-item>
                                         <md-divider></md-divider>
-                                        <md-menu-item ng-repeat="item in ['Tomorrow morning', 'Tomorrow evening', '2 days from now', 'Next week']">
+                                        <md-menu-item ng-repeat="item in ['In 2 hours', 'This evening', 'Tomorrow morning', 'Tomorrow evening', '2 days from now', 'Next week']">
                                             <md-button aria-label="update view" ng-click="updateDueDate(item, task)">{{item}}</md-button>
                                         </md-menu-item>
                                         <md-divider></md-divider>

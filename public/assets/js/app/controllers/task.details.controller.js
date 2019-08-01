@@ -31,6 +31,8 @@
 		$scope.dueDate;
 		$scope.duePicker;
 
+		$scope.newChecklistItem = "";
+
 		$scope.options = {
 		    height: 250,
 		    airMode: false,
@@ -49,6 +51,7 @@
 
 		$scope.dateOpts = {
 			enableTime: true,
+			defaultHour: 17,
 			dateFormat: "l M j, Y \\a\\t h:i K",
 			disableMobile: true,
 			onChange: function(selectedDates, dateStr, instance){
@@ -59,7 +62,8 @@
 			},
 			onReady: function(selectedDates, dateStr, instance){
 				$scope.duePicker = instance;
-			}
+			},
+			plugins: [new confirmDatePlugin({})]
 		};
 		  
 		$scope.datePostSetup = function(fpItem) {
@@ -245,26 +249,29 @@
     	}
     	
     	$scope.addChecklistItem = function() {
-	    	var tmp = {
-		    			isDone: false,
-		    			title: "New item"
-	    			};
-	    	
-	    	$scope.selectedTask.checklist.push(tmp);
-	    	var itemIndex = $scope.selectedTask.checklist.length - 1;
-	    	
-	    	$scope.itemIndex = itemIndex;
-	    	
+			
+			if ($scope.newChecklistItem != null && $scope.newChecklistItem != "") {
+				var tmp = {
+							isDone: false,
+							title: $scope.newChecklistItem
+						};
+				
+				$scope.selectedTask.checklist.push(tmp);
+				var itemIndex = $scope.selectedTask.checklist.length - 1;
+				
+				$scope.itemIndex = itemIndex;
+				$scope.newChecklistItem = "";
+			}
     	}
     	
     	$scope.checkIfNewCheckListItem = function(itemIndex) {
-	    	if ($scope.itemIndex != null) {
+	    	/* if ($scope.itemIndex != null) {
 		    	var comp = document.getElementById('checklistItem_' + itemIndex);
 		    	comp.focus();
 		    	comp.select();
 		    	
 		    	$scope.itemIndex = null;
-	    	}
+	    	} */
     	}
     	
     	$scope.removeChecklistItem = function(item) {

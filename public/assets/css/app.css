@@ -1448,6 +1448,18 @@ md-content.md-default-theme, md-content {
   display: none;
 }
 
+md-switch.md-default-theme.md-checked:not([disabled]) .md-bar, md-switch.md-checked:not([disabled]) .md-bar {
+  background-color: #cccccc;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-thumb, md-switch.md-checked:not([disabled]) .md-thumb {
+  background-color: #045c63;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-ink-ripple, md-switch.md-checked:not([disabled]) .md-ink-ripple {
+  color: #045c63;
+}
+
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
   background-color: rgb(3, 92, 99) !important;
 }
@@ -1854,6 +1866,14 @@ md-radio-button.projectSelector ._md-on {
 .journalEntry-img-lg {
 	width: 500px;
 	max-height: 400px;
+  overflow: hidden;
+  border-radius: 3px;
+  margin: 5px;
+}
+
+.docEntry-img-lg {
+	width: 500px;
+	max-height: 600px;
   overflow: hidden;
   border-radius: 3px;
   margin: 5px;
@@ -3433,7 +3453,7 @@ Utility bar
   }
   .sidebar.menu .sidebar-menu .menu > li > ul {
     position: fixed;
-    top: 125px;
+    /* top: 125px; */
     bottom: 0;
     box-shadow: 3px 0 3px 3px rgba(0, 0, 0, 0.05);
   }
@@ -3658,7 +3678,6 @@ Utility bar
   margin: auto;
   padding: 4px;
   position: absolute;
-  top: 16px;
   width: 40px;
 }
 .content-header .header-actions > li a:focus:before,
@@ -19403,7 +19422,7 @@ width:calc(50% - 45px);
   font-size: 1.4em;
   height: 40px;
   left: 50%;
-  margin-left: -25px;
+  margin-left: -20px;
   position: absolute;
   text-align: center;
   top: 6px;

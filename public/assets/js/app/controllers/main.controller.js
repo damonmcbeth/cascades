@@ -37,7 +37,8 @@
                 
         $scope.openPersonDetails = function(pid) {
             $scope.nav.openPeopleDetails(pid);
-        }
+		}
+		
         
         $scope.openProjectDetails = function(projId) {
             $scope.nav.openProjectDetails(projId);

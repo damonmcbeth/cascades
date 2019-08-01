@@ -22,6 +22,7 @@
 
         $scope.newArticle = null;
         $scope.newArticleTitle = null;
+        $scope.limitArticle = 15;
 
         $scope.selectedTabIndex = 0;
 
@@ -77,11 +78,11 @@
         $scope.faqs = [];
         $scope.team = [];
 
-        $scope.showAdmin = false;
+        $scope.showCascadesAdmin = false;
 
         globalSettings.initSettings().then(
 	        function() {
-                $scope.showAdmin = globalSettings.currProfile.admin == 'Y';
+                $scope.showCascadesAdmin = globalSettings.currProfile.admin == 'Y';
 
                 $scope.initCurrentPerson();
                 $scope.initPreferences();
@@ -163,6 +164,11 @@
                     people.$save($scope.currPerson);
                 }
             )
+        }
+
+
+		$scope.newMember = function() {
+            $scope.nav.newPerson();
         }
 
         $scope.updateUserPreferences = function() {
@@ -249,6 +255,10 @@
                     globalSettings.logError("settings.controller", "removeArticle", error);
                     deferred.resolve(orig);
             });   
+        }
+
+        $scope.showAllArticles = function() {
+            $scope.limitArticle = $scope.articles.length;
         }
 
         $scope.updateSupportContent = function() {

@@ -76,6 +76,10 @@
 		$scope.openTeam = function() {
 			globalNav.showTeam();
 		}
+
+		$scope.openDocs = function() {
+			globalNav.showDocs();
+		}
         
         $scope.selectWrkSpc = function() {
 	        globalSettings.log("SidebarController", "selectWrkSpc", $scope.selectedWrkSpace.wrkSpc)

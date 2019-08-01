@@ -188,7 +188,7 @@
 								   ng-click="clearOwner()" aria-label="Clear"></i>
 						</div>
 
-						<div layout="row p-b-20" ng-hide="selectedTask.owner == null">
+						<div layout="row p-b-20" ng-hide="selectedTask.owner == null || !gs.currPreferences.Settings.Task.delegation">
 							<md-autocomplete flex
 								md-selected-item="selectedTask.delegate"
 								md-search-text="delegateSearchText"
@@ -251,7 +251,11 @@
 							</div>
 					</div>
 					<div class="panel-body" style="display: none;">
-						<div class="align-right ">
+						<div class="p-5 m-b-10" layout="row">
+							<input ng-model="newChecklistItem" class="checklist-item m-r-10" 
+									placeholder="Enter item" type="text" flex="100"
+									ng-keydown="$event.keyCode === 13 && addChecklistItem()">
+							
 							<label class="btn btn-inverse" ng-click="addChecklistItem()">
 								Add checklist item
 							</label>

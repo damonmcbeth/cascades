@@ -46,8 +46,9 @@
 					            </div>
 							</div>
 
-							<div class="panel panel-tags collapsed m-t-0">
+							<div class="panel panel-tags collapsed m-t-0" ng-show="currPerson.isAdmin">
 								<div class="panel-heading">
+									<!-- <i class="pe-7s-lock text-default f-14"></i> -->
 									<h3 class="panel-title">My Terminology</h3>
 									<div class="panel-tools">
 										<panel-collapse></panel-collapse>
@@ -119,12 +120,13 @@
 								</div>
 							</div>
 
-							<div class="panel panel-default">
+							<div class="panel panel-default" ng-show="currPerson.isAdmin">
 								<div class="panel-body">
 
-									<label>{{gs.currWorkspace.Terminology.taskAlias}} due soon</label>
+									<label>{{gs.currWorkspace.Terminology.taskAlias}} preferences</label>
 
-									<md-slider-container class="m-b-20">
+									<div class="f-14 b-400 m-t-15">Due soon</div>
+									<md-slider-container class="m-b-25">
 										<md-input-container>
 											<input flex type="number" ng-model="currPreferences.Settings.Task.soon" aria-label="due soon" 
 												ng-change="updateUserPreferences()" aria-controls="red-slider"
@@ -136,10 +138,17 @@
 											class="md-primary" ng-mouseup="updateUserPreferences()"></md-slider>
 										</md-slider>
 									</md-slider-container>
+
+									<div>
+										<md-switch ng-model="currPreferences.Settings.Task.delegation" aria-label="Enable delegation" 
+											class="f-14 b-400" ng-change="updateUserPreferences()" >
+											Enable {{gs.currWorkspace.Terminology.taskAlias}} delegation
+										</md-switch>
+									</div>
 								</div>
 							</div>
 
-							<div class="panel panel-default">
+							<div class="panel panel-default"  ng-show="currPerson.isAdmin">
 								<div class="panel-body">
 									<label>{{gs.currWorkspace.Terminology.taskAlias}} status</label>
 
@@ -172,7 +181,7 @@
 								</div>
 							</div>
 
-							<div class="panel panel-default">
+							<div class="panel panel-default"  ng-show="currPerson.isAdmin"> 
 									<div class="panel-body">
 										<label>{{gs.currWorkspace.Terminology.projectAlias}} types</label>
 	
@@ -211,7 +220,7 @@
 			  <md-tab id="tabTeams">
 		        <md-tab-label>My Team</md-tab-label>
 		        <md-tab-body>
-					<div class="align-center p-10">
+					<div class="p-0">
 						<div data-ng-include="'partials/settings_team.html'"></div>
 					</div>
 		        </md-tab-body>
@@ -279,7 +288,7 @@
 								</div>
 							</div>
 						
-							<div class="panel panel-tags collapsed m-t-0" ng-show="showAdmin" style="text-align: left">
+							<div class="panel panel-tags collapsed m-t-0" ng-show="showCascadesAdmin" style="text-align: left">
 								<div class="panel-heading">
 									<h3 class="panel-title">Edit Support</h3>
 									<div class="panel-tools">
@@ -307,7 +316,7 @@
 		        </md-tab-body>
 			  </md-tab>
 			  
-			  <md-tab id="tabAdmin" ng-disabled="!showAdmin">
+			  <md-tab id="tabAdmin" ng-disabled="!showCascadesAdmin">
 		        <md-tab-label>Articles</md-tab-label>
 		        <md-tab-body>
 					<div class="panel panel-default">
@@ -328,11 +337,17 @@
 								</div>	
 								
 								<div>
-									<div ng-repeat="article in articles" class="p-10" layout="row" style="background-color: #fff">
+									<div ng-repeat="article in articles | orderBy:'created':true | limitTo: limitArticle" class="p-10" layout="row" style="background-color: #fff">
 										<div class="f-15 b-300" flex="100" ng-click="showArticle(article, $event)">{{article.title}}</div>
 										<i class="icon pe-7s-close-circle text-danger f-20"
 												ng-click="removeArticle(article)" aria-label="Delete"></i>
 									</div>
+
+									<md-divider class="m-t-10"></md-divider>
+
+									<label class="btn btn-inverse m-t-15" ng-show="limitArticle<articles.length" ng-click="showAllArticles()">
+										Show all
+									</label>
 								</div>	
 							</div>
 						</div>
