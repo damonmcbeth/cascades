@@ -371,7 +371,7 @@
 							</div>
 
 
-							<div class="list-title-3" ng-show="task.hasChecklist">
+							<div class="list-title-3" ng-show="task.checklist != null && task.checklist.length > 0">
 								Checklist: {{getTotalChecklistDone(task.checklist)}} out of {{task.checklist.length}} done
 							</div>
 							

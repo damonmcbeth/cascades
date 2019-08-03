@@ -31,6 +31,9 @@
         $scope.faqCategory = "";
         $scope.faqTag = "";
         $scope.faqOrder = 100;
+        $scope.faqTagLine = "";
+        $scope.faqImg = "";
+        $scope.faqPanel = null;
 
         $scope.faqSearch = null;
         $scope.selectedFaq = null;
@@ -263,7 +266,25 @@
 
         $scope.updateSupportContent = function() {
             globalSettings.updateTimestamp($scope.selectedFaq);
-            $scope.faqs.$save($scope.selectedFaq);
+            $scope.faqs.$save($scope.selectedFaq).then(
+                function(success) {
+                    globalSettings.showSuccessToast('Support content updated.');
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.service", "updateSupportContent", error);
+                }
+            );
+        }
+
+        $scope.deleteSupportContent = function() {
+            $scope.faqs.$remove($scope.selectedFaq).then(
+                function(success) {
+                    globalSettings.showSuccessToast('Support content deleted.');
+                }, 
+                function(error) {
+                    globalSettings.logError("settings.service", "deleteSupportContent", error);
+                }
+            );
         }
 
         $scope.clearAddSupportContent = function() {
@@ -271,11 +292,35 @@
             $scope.faqCategory = "";
             $scope.faqTag = "";
             $scope.faqContent = "";
+            $scope.faqImg = "";
+            $scope.faqTagLine = "";
+
+        }
+
+        $scope.populateFAQContent = function() {
+            var el = document.getElementById("faqDetailsContent");
+            this.content.append(el.cloneNode(true));
         }
 
         $scope.openFAQ = function(faq) {
             $scope.selectedFaq = faq;
-            $mdSidenav("faqPanel").toggle()
+            //$mdSidenav("faqPanel").toggle();
+
+            if ($scope.faqPanel != null) {
+                $scope.faqPanel.close();
+            }
+
+            $scope.faqPanel = jsPanel.create({
+                                theme:       'primary',
+                                headerTitle: 'Support Details',
+                                headerControls: 'closeonly xs',
+                                position:    'right-top -35 100',
+                                contentSize: '480 500',
+                                content: $scope.populateFAQContent,
+                                onclosed: function(panel){
+                                    $scope.faqPanel = null;
+                                  }
+                            });
 
         }
 
@@ -288,7 +333,9 @@
                     category: $scope.faqCategory,
                     tag: $scope.faqTag,
                     content: $scope.faqContent,
-                    order: $scope.faqOrder
+                    order: $scope.faqOrder,
+                    image: $scope.faqImg,
+                    tagLine: $scope.faqTagLine
                 };
 
                 globalSettings.updateTimestamp(article);
@@ -296,7 +343,14 @@
                 var key = firebase.database().ref().child("/Content/Support").push().key;
                 var updates = {};
                 updates["/Content/Support/" + key] = article;
-                firebase.database().ref().update(updates);
+                firebase.database().ref().update(updates).then(
+                    function(success) {
+                        globalSettings.showSuccessToast('Support content added.');
+                    }, 
+                    function(error) {
+                        globalSettings.logError("settings.service", "addSupportContent", error);
+                    }
+                );
 
             }
         }

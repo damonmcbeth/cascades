@@ -298,10 +298,21 @@
 						
 								<div class="panel-body f-15" style="display: none;">
 									<div layout="row" class="m-b-15"><input ng-model="faqTitle" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
+									<div layout="row" class="m-b-15"><input ng-model="faqTagline" class="checklist-item" placeholder="Tag line" type="text" flex="100"></div>
 									<div layout="row" class="m-b-15">
 										<input ng-model="faqCategory" class="checklist-item" placeholder="Category" type="text" flex="100">
 										<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="100">
 									</div>
+
+									<div class="m-b-15" layout="row"> 
+										<md-input-container class="md-block">
+											<md-radio-group ng-model="faqCategory" layout="row">
+													<md-radio-button value="{{cat}}" class="md-primary" 
+														ng-repeat="cat in ['GETTING STARTED', 'FAQ', 'TIPS']">{{cat}}</md-radio-button>
+											</md-radio-group>
+										</md-input-container>
+									</div>
+
 									<div layout="row" class="m-b-15"><input ng-model="faqTag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
 									
 									<summernote ng-model="faqContent" config="options"></summernote>

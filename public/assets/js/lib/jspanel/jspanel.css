@@ -27,7 +27,7 @@
   border: 0;
   box-sizing: border-box;
   vertical-align: baseline;
-  font-family: Roboto,"Open Sans",Lato,"Helvetica Neue",Arial,sans-serif;
+  /* font-family: Roboto,"Open Sans",Lato,"Helvetica Neue",Arial,sans-serif; */
   font-weight: normal;
   display: flex;
   flex-direction: column;
@@ -35,26 +35,31 @@
   overflow: visible;
   position: absolute;
   top: 0;
-  z-index: 100; }
+  z-index: 5000 !important; 
+}
+
   .jsPanel .jsPanel-hdr {
     border: 0;
     box-sizing: border-box;
     vertical-align: baseline;
-    font-family: Roboto,"Open Sans",Lato,"Helvetica Neue",Arial,sans-serif;
+    /* font-family: Roboto,"Open Sans",Lato,"Helvetica Neue",Arial,sans-serif; */
     font-weight: normal;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    line-height: 1.1; }
+    background-color: #035c63 !important;
+    /*line-height: 1.1; */
+  }
+
   .jsPanel .jsPanel-content {
     border: 0;
     box-sizing: border-box;
     vertical-align: baseline;
-    font-family: Roboto,"Open Sans",Lato,"Helvetica Neue",Arial,sans-serif;
+    /* font-family: Roboto,"Open Sans",Lato,"Helvetica Neue",Arial,sans-serif; */
     font-weight: normal;
     background: #ffffff;
     color: #000000;
-    font-size: 1rem;
+    /* font-size: 1rem; */
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
@@ -106,15 +111,22 @@
   flex: 1 1 0px;
   cursor: move;
   height: 100%;
-  overflow: hidden; }
+  overflow: hidden; 
+  padding: 10px;
+}
+
   .jsPanel-titlebar .jsPanel-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-variant: small-caps;
+    /* font-variant: small-caps; */
     font-weight: normal;
     margin: 0 5px 0 8px;
-    min-width: 0; }
+    min-width: 0; 
+    font-size: 20px !important;
+    font-weight: 300 !important;
+  }
+
     .jsPanel-titlebar .jsPanel-title small {
       font-size: 70%;
       color: inherit; }
@@ -126,7 +138,7 @@
   display: flex;
   align-items: center;
   touch-action: none;
-  margin: 3px; }
+  margin: 15px; }
   .jsPanel-controlbar .jsPanel-btn {
     cursor: pointer;
     touch-action: none;
