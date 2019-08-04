@@ -473,10 +473,12 @@
 		
 		nav.gotoSignin = function() {
 			window.location.replace("/Login.html");
+			console.log("Location replaced");
 		}
 		
 		nav.gotoUnauthorized = function() {
 			//window.location.replace("/Error401.html");
+			console.log("Rerouting to sign in");
 			nav.gotoSignin();
 		}
 		

@@ -122,6 +122,7 @@
 			self.INITIALIZED = "I";
 			self.NOT_INITIALIZED = "N";
 			self.INITIALIZING = "P";
+			self.AUTH_FAILED = "F";
 			
 			self.authUser = null;
 			self.currProfile = null;
@@ -189,11 +190,19 @@
 				var interval;
 				
 				interval = $interval(function() {
-									  if (self.initState != self.INITIALIZING) {
-										  $interval.cancel(interval);
-										  self.log("globalSettings.service", "initCompleted", "Ending wait for init");
-										  deferred.resolve(true);
-									  }}, 1000, 15);
+									self.log("globalSettings.service", "initCompleted", "waiting...");
+
+									if (self.initState != self.INITIALIZING) {
+										if (self.initState == self.AUTH_FAILED) {
+											$interval.cancel(interval);
+											self.log("globalSettings.service", "initCompleted", "Ending wait for init with failure");
+											deferred.reject(true);
+										} else {
+											$interval.cancel(interval);
+											self.log("globalSettings.service", "initCompleted", "Ending wait for init");
+											deferred.resolve(true);
+										}
+									}}, 1000, 15);
 				
 				return deferred.promise;
 			}
@@ -211,14 +220,16 @@
 							
 							if (self.initialized == self.INITIALIZED) {
 								reason = "USER LOGGED OUT";
+								self.log("globalSettings.service", "initAuthorizedUser", reason);
 								globalNav.gotoSignin(); 
 							} else {
 								self.initialized = self.NOT_INITIALIZED;
+								self.initState = self.AUTH_FAILED;
 								reason = "NOT AUTHORIZED";
+								self.log("globalSettings.service", "initAuthorizedUser", reason);
 								globalNav.gotoUnauthorized();
 							}
 							
-							self.log("globalSettings.service", "initAuthorizedUser", reason);
 							deferred.reject(reason);
 							
 						} else {
@@ -897,12 +908,13 @@
 		    }
 		    
 		    self.log = function (module, funct, msg) {
-			    var debug = false;
+				var debug =  false;
+				//var debug = true;
 			    var tmp;
 			    
-			    if (self.currWorkspace != null && self.currWorkspace.Settings != null) {
-				    debug = self.currWorkspace.Settings.debug;
-			    }
+			     if (self.currWorkspace != null && self.currWorkspace.Settings != null) {
+				     debug = self.currWorkspace.Settings.debug;
+			     }
 			    
 			    tmp = "[" + module + ":" + funct + "] " + JSON.stringify(msg);
 			    if (debug) {

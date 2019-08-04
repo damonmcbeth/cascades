@@ -168,8 +168,9 @@
 	        taskService.getAllTasks().then(
 				function(tasks) {
 					$scope.taskSummary = taskService.taskSummary;
-					var owner = globalSettings.currProfile.person;
-					$scope.tasks = $filter('filter')(tasks, {$:owner, isDone: false});
+					//var owner = globalSettings.currProfile.person;
+					//$scope.tasks = $filter('filter')(tasks, {$:owner, isDone: false});
+					$scope.tasks = tasks;
 					
 					activityService.getAccessActivity().then(
 				        function(activity) {

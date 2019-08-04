@@ -16,8 +16,10 @@
 		
 		$scope.showAdmin = false;
 
+		globalSettings.log("SidebarController", "initSettings", "Calling Global Settings");	
 	    globalSettings.initSettings().then(
-        	function() {        
+        	function() {  
+				globalSettings.log("SidebarController", "initSettings", "Global Settings done");	      
 				$scope.showAdmin = globalSettings.currProfile.admin == 'Y';
 
 	        	$scope.initSelectedWrkSpace();
@@ -25,7 +27,8 @@
 	        	
         });
         
-        $scope.initSelectedWrkSpace = function() {	        
+        $scope.initSelectedWrkSpace = function() {	  
+			
 	        $scope.wrkSpcs = globalSettings.userWorkspaces;
 	        var len = ($scope.wrkSpcs == null) ? 0 : $scope.wrkSpcs.length;
 	        var currWrkSpaceId = globalSettings.currWorkspace.$id;

@@ -20,7 +20,8 @@
         //if ($window.innerWidth > 1600) {
 	    //    $scope.nav.showMyTimeline();
         //}
-        
+		
+		globalSettings.log("MainController", "initSettings", "Calling Global Settings");	
         globalSettings.initSettings().then(
         	function() {				
 	        	$scope.initHotKeys();
