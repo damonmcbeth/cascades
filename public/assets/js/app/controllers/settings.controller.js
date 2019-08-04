@@ -298,8 +298,27 @@
         }
 
         $scope.populateFAQContent = function() {
-            var el = document.getElementById("faqDetailsContent");
-            this.content.append(el.cloneNode(true));
+            //var el = document.getElementById("faqDetailsContent");
+            //this.content.append(el.cloneNode(true));
+
+            var el = document.createElement('p');
+            el.textContent = '<md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>'
+                                + '<div class="b-400 f-17">'
+                                + selectedFaq.title 
+                                + '</div>'
+                                + '<md-divider class="m-b-0"></md-divider>'
+                                + '<div ng-bind-html="'
+                                + formatContent(selectedFaq.content)
+                                + '"></div>'
+                                + '<div class="f-12 text-muted" style="text-align: right">Last updated: {{selectedFaq.updated | amCalendar:null:gs.pref.calMidFormats}}</div>'
+                                + '<md-divider class="m-t-10"></md-divider>'
+                                + '<div class="m-t-5" style="text-align: center">'
+                                + '<div>Still can\'t find what you\'re looking for?</div>'
+                                + '<div class="m-20">'
+                                + '<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" '
+                                + 'target="_blank" class="btn-primary btn-large">Contact us</a>'
+                                + '</div></div>';
+            this.content.append(el);
         }
 
         $scope.openFAQ = function(faq) {
