@@ -38,6 +38,9 @@
 		$scope.endDate;
 		$scope.endPicker;
 
+		$scope.timeFormat = "h:i K";
+		$scope.whenFormat = "D M j, Y";
+
 		$scope.options = {
 		    height: 250,
 		    airMode: false,
@@ -53,7 +56,7 @@
 		$scope.whenDateOpts = {
 			mode: "range",
 			enableTime: false,
-			dateFormat: "D M j, Y",
+			dateFormat: $scope.whenFormat,
 			disableMobile: true,
 			onChange: function(selectedDates, dateStr, instance){
 				//console.log("DATE CHANGED");
@@ -71,45 +74,31 @@
 		$scope.startDateOpts = {
 			enableTime: true,
 			noCalendar: true,
-			dateFormat: "h:i K",
+			dateFormat: $scope.timeFormat,
 			disableMobile: true,
 			onChange: function(selectedDates, dateStr, instance){
-				//console.log("DATE CHANGED");
-				// if (selectedDates.length == 1) {
-				// 	$scope.selectedEntry.start = selectedDates[0];
-				// }
+				if (selectedDates.length == 1) {
+					$scope.selectedEntry.startTime = selectedDates[0];
+				}
 			},
 			onReady: function(selectedDates, dateStr, instance){
 				$scope.startPicker = instance;
-
-				// if ($scope.selectedEntrySrc != null) {
-				// 	var range = [new Date($scope.selectedEntrySrc.start), new Date($scope.selectedEntrySrc.end)];
-				// 	instance.setDate(range, false, "l M j, Y");
-				// }
-			},
-			plugins: [new confirmDatePlugin({})]
+			}
 		};
 
 		$scope.endDateOpts = {
 			enableTime: true,
 			noCalendar: true,
-			dateFormat: "h:i K",
+			dateFormat: $scope.timeFormat,
 			disableMobile: true,
 			onChange: function(selectedDates, dateStr, instance){
-				//console.log("DATE CHANGED");
-				// if (selectedDates.length == 1) {
-				// 	$scope.selectedEntry.start = selectedDates[0];
-				// }
+				if (selectedDates.length == 1) {
+				 	$scope.selectedEntry.endTime = selectedDates[0];
+				}
 			},
 			onReady: function(selectedDates, dateStr, instance){
 				$scope.endPicker = instance;
-
-				// if ($scope.selectedEntrySrc != null) {
-				// 	var range = [new Date($scope.selectedEntrySrc.start), new Date($scope.selectedEntrySrc.end)];
-				// 	instance.setDate(range, false, "l M j, Y");
-				// }
-			},
-			plugins: [new confirmDatePlugin({})]
+			}
 		};
 		  
 		$scope.initView = function() {
@@ -176,8 +165,8 @@
 		
 		$scope.initDatePicker = function() {
 			if ($scope.selectedEntry != null && $scope.selectedEntry.start != null) {
-				var newDateS = flatpickr.formatDate(new Date($scope.selectedEntry.start), "D M j, Y");
-				var newDateE = flatpickr.formatDate(new Date($scope.selectedEntry.end), "D M j, Y");
+				var newDateS = flatpickr.formatDate(new Date($scope.selectedEntry.start), $scope.whenFormat);
+				var newDateE = flatpickr.formatDate(new Date($scope.selectedEntry.end), $scope.whenFormat);
 				
 				if (newDateE == newDateS) {
 					$scope.whenDate = newDateS
@@ -187,7 +176,15 @@
 
 				if ($scope.whenPicker != null) {
 					var range = [new Date($scope.selectedEntry.start), new Date($scope.selectedEntry.end)];
-					$scope.whenPicker.setDate(range, false, "D M j, Y");
+					$scope.whenPicker.setDate(range, false, $scope.whenFormat);
+				}
+
+				if ($scope.startPicker != null) {
+					$scope.startPicker.setDate(new Date($scope.selectedEntry.startTime), false, $scope.timeFormat);
+				}
+
+				if ($scope.endPicker != null) {
+					$scope.endPicker.setDate(new Date($scope.selectedEntry.endTime), false, $scope.timeFormat);
 				}
 			}
         }
@@ -202,8 +199,7 @@
       	}
         
         $scope.cleanUpForSave = function() {
-	        //$scope.selectedEntry.name = $scope.selectedPerson.first + " " + $scope.selectedPerson.last;
-	        $scope.selectedEntry.targetId = ($scope.selectedEntry.target == null) ? null : $scope.selectedEntry.target.$id;
+	        // $scope.selectedEntry.targetId = ($scope.selectedEntry.target == null) ? null : $scope.selectedEntry.target.$id;
 	        
         }
         
