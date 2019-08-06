@@ -37,15 +37,13 @@
 		    height: 250,
 		    airMode: false,
 		    toolbar: [
-				['para', ['style']],
-				['fontname', ['fontname']],
 				['color', ['color']],
 				['fontsize', ['fontsize']],
 				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
 				['alignment', ['ul', 'ol', 'paragraph']],
 				['insert', ['link', 'table', 'hr']],
 				['misc', ['undo']],
-	            ['view', ['fullscreen', 'codeview']]
+	            ['view', ['fullscreen']]
 	        ]
 		};
 

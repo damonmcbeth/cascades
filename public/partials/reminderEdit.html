@@ -20,7 +20,7 @@
 		        <div class="panel panel-default">
 		            <div class="panel-body">
 		            	<md-input-container class="md-block p-b-0">
-				            <label>Title</label>
+				            <label>Reminder</label>
 				            <textarea id="entryTitle" name="entryTitle" class="primary-input" ng-model="selectedEntry.title" 
 				            	rows="1" md-maxlength="140" md-detect-hidden="true" autofocus required></textarea>
 				            	
@@ -32,60 +32,34 @@
 				            	</div>
 				            </div>
 				        </md-input-container>
-				        
-				        <md-switch class="md-primary f-15 m-b-40" md-no-ink="false" ng-model="selectedEntry.allday"
+
+						<div layout="row p-b-20" >
+							<md-input-container class="md-block p-b-0" flex="100">
+								<label>When</label>
+								<input class="md-input" ng-flatpickr fp-opts="whenDateOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="whenDate"></input>
+							</md-input-container>
+						</div>
+
+						<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.allday"
 				        	ng-change="handleAllDayChanged()">
 				          All day
-				        </md-switch>
+						</md-switch>
+						
+						<div layout="row p-b-20" ng-show="!selectedEntry.allday">
+							<md-input-container class="md-block p-b-0 m-r-10" flex="100">
+								<label>Starts</label>
+								<input class="md-input" ng-flatpickr fp-opts="startDateOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="startDate"></input>
+							</md-input-container>
 
-						<md-input-container class="md-block p-b-0" flex="100" ng-hide="selectedEntry.allday">
-							<label>Start</label>
-							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-								<input id="startdatetime" type="text" ng-model="selectedEntry.start" ng-disabled="false"
-									class="md-input " datetime="EEE, MMMM d, yyyy, h:mma" ng-change="handleStartChanged()"></input>
-							</a>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<datetimepicker data-ng-model="selectedEntry.start" ng-change="refreshCalendar()"
-												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
-							</ul>
-						</md-input-container>
+							<md-input-container class="md-block p-b-0 m-r-10" flex="100">
+								<label>Ends</label>
+								<input class="md-input" ng-flatpickr fp-opts="endDateOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="endDate"></input>
+							</md-input-container>
+						</div>
 
-						<md-input-container class="md-block p-b-0" flex="100" ng-show="selectedEntry.allday">
-							<label>Start</label>
-							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-								<input id="startdatetime" type="text" ng-model="selectedEntry.start" ng-disabled="false"
-									class="md-input " datetime="EEE, MMMM d, yyyy" ng-change="handleStartChanged()"></input>
-							</a>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<datetimepicker data-ng-model="selectedEntry.start" ng-change="refreshCalendar()"
-												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
-							</ul>
-						</md-input-container>
-
-						<md-input-container class="md-block p-b-0" flex="100" ng-hide="selectedEntry.allday">
-							<label>End</label>
-							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-								<input id="enddatetime" type="text" ng-model="selectedEntry.end" ng-disabled="false"
-									class="md-input " datetime="EEE, MMMM d, yyyy, h:mma" ng-change="handleEndChanged()"></input>
-							</a>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<datetimepicker data-ng-model="selectedEntry.end" ng-change="refreshCalendar()"
-												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minuteStep: 5 }"></datetimepicker>
-							</ul>
-						</md-input-container>
-
-						<md-input-container class="md-block p-b-0" flex="100" ng-show="selectedEntry.allday">
-							<label>End</label>
-							<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
-								<input id="enddatetime" type="text" ng-model="selectedEntry.end" ng-disabled="false"
-									class="md-input " datetime="EEE, MMMM d, yyyy" ng-change="handleEndChanged()"></input>
-							</a>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<datetimepicker data-ng-model="selectedEntry.end" ng-change="refreshCalendar()"
-												data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
-							</ul>
-						</md-input-container>
-					  	
 					  	<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.repeat" ng-change="refreshCalendar()">
 				          Repeat reminder
 				        </md-switch>
@@ -125,15 +99,15 @@
 		            </div>
 		        </div>
 				
-				<div class="panel panel-notes">
+				<div class="panel panel-tags collapsed">
 					<div class="panel-heading">
 		                <h3 class="panel-title">Notes</h3>
 		                <div class="panel-tools">
 		                    <panel-collapse></panel-collapse>
 		                </div>
 		            </div>
-		            <div class="panel-body p-0">
-			            <summernote airMode class="f-14" ng-model="selectedEntry.notes"></summernote>
+		            <div class="panel-body p-0" style="display: none;">
+			            <summernote ng-model="selectedEntry.notes" config="options"></summernote>
 		            </div>
 			  	</div>
 			  
@@ -141,7 +115,6 @@
 				  	<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
 				  	<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
 			  	</div-->
-			  
 			  
 			  	<div class="m-t-15" ng-show="isEdit">
 				  	<a href="" ng-Click="deleteEntry()" class="btn btn-danger btn-block f-17">

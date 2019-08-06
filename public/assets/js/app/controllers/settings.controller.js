@@ -5,9 +5,9 @@
         .module('app')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['$scope', '$state', '$sce', 'globalSettings', 'globalNav', 'peopleService', 'projectService', '$mdDialog', '$mdSidenav'];
+    SettingsController.$inject = ['$scope', '$state', '$sce', '$filter', 'globalSettings', 'globalNav', 'peopleService', 'projectService', '$mdDialog', '$mdSidenav'];
 
-    function SettingsController($scope, $state, $sce, globalSettings, globalNav, peopleService, projectService, $mdDialog, $mdSidenav) {
+    function SettingsController($scope, $state, $sce, $filter, globalSettings, globalNav, peopleService, projectService, $mdDialog, $mdSidenav) {
         $scope.$state = $state;        
         $scope.gs = globalSettings;
         
@@ -298,19 +298,24 @@
         }
 
         $scope.populateFAQContent = function() {
-            //var el = document.getElementById("faqDetailsContent");
-            //this.content.append(el.cloneNode(true));
+            var tagline = ($scope.selectedFaq.tagLine == null) ? "" : $scope.selectedFaq.tagLine;
+            var img = ($scope.selectedFaq.image == null) ? '' : '<div class="m-b-10" style="text-align: center"><image src="' + $scope.selectedFaq.image + '" flex="90"></image></div>';
 
-            var el = document.createElement('p');
-            el.textContent = '<md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>'
+            var content = '<md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>'
                                 + '<div class="b-400 f-17">'
-                                + selectedFaq.title 
+                                + $scope.selectedFaq.title 
                                 + '</div>'
-                                + '<md-divider class="m-b-0"></md-divider>'
-                                + '<div ng-bind-html="'
-                                + formatContent(selectedFaq.content)
-                                + '"></div>'
-                                + '<div class="f-12 text-muted" style="text-align: right">Last updated: {{selectedFaq.updated | amCalendar:null:gs.pref.calMidFormats}}</div>'
+                                + '<div class="f-12 b-400">'
+                                + tagline
+                                + '</div>'
+                                + '<md-divider class="m-b-10 m-t-10"></md-divider>'
+                                + img
+                                + '<div style="min-height:120px">'
+                                + $scope.formatContent($scope.selectedFaq.content)
+                                + '</div>'
+                                + '<div class="f-12 text-muted" style="text-align: right">Last updated: '
+                                + $filter("amCalendar")($scope.selectedFaq.updated, null, globalSettings.pref.calMidFormats)
+                                + '</div>'
                                 + '<md-divider class="m-t-10"></md-divider>'
                                 + '<div class="m-t-5" style="text-align: center">'
                                 + '<div>Still can\'t find what you\'re looking for?</div>'
@@ -318,7 +323,12 @@
                                 + '<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" '
                                 + 'target="_blank" class="btn-primary btn-large">Contact us</a>'
                                 + '</div></div>';
-            this.content.append(el);
+            return content;
+        }
+
+        $scope.editFAQ = function(faq) {
+            $scope.selectedFaq = faq;
+            $mdSidenav("faqPanel").toggle();
         }
 
         $scope.openFAQ = function(faq) {
@@ -334,8 +344,8 @@
                                 headerTitle: 'Support Details',
                                 headerControls: 'closeonly xs',
                                 position:    'right-top -35 100',
-                                contentSize: '480 500',
-                                content: $scope.populateFAQContent,
+                                contentSize: '480 530',
+                                content: $scope.populateFAQContent(),
                                 onclosed: function(panel){
                                     $scope.faqPanel = null;
                                   }

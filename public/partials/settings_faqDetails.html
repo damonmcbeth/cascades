@@ -1,10 +1,10 @@
-<!-- <md-sidenav class="md-sidenav-right md-whiteframe-5dp" md-component-id="faqPanel">
+<md-sidenav class="md-sidenav-right md-whiteframe-5dp" md-component-id="faqPanel">
     <md-toolbar class="md-theme-light">
         <h1 class="md-toolbar-tools">Support Details</h1>
-    </md-toolbar> -->
+    </md-toolbar>
 
     <md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>
-        <div class="b-400 f-17">{{selectedFaq.title}}</div>
+        <!-- <div class="b-400 f-17">{{selectedFaq.title}}</div>
 
         <md-divider class="m-b-0"></md-divider>
         
@@ -20,26 +20,34 @@
                 <a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
                     target="_blank" class="btn-primary btn-large">Contact us</a>
             </div>
-        </div>
+        </div> -->
 
-        <div class="panel panel-primary collapsed m-t-15" ng-show="showCascadesAdmin" 
+        <!-- <div class="panel panel-primary m-t-15" ng-show="showCascadesAdmin" 
             style="text-align: left;border-width: 1px;border-color: #ccc;padding: 0px;">
             <div class="panel-heading b-400">
                 <h3 class="panel-title">Edit Details</h3>
                 <div class="panel-tools">
                     <panel-collapse></panel-collapse>
                 </div>
-            </div>
+            </div> -->
     
-            <div class="panel-body f-15 p-10" style="display: none;">
+            <div class="panel-body f-15 p-10">
                 <div layout="row" class="m-b-15"><input ng-model="selectedFaq.title" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
-                <div layout="row" class="m-b-15"><input ng-model="selectedFaq.tagline" class="checklist-item" placeholder="Tag line" type="text" flex="100"></div>
+                <div layout="row" class="m-b-15"><input ng-model="selectedFaq.tagLine" class="checklist-item" placeholder="Tag line" type="text" flex="100"></div>
 							
                 <div layout="row" class="m-b-15">
-                    <input ng-model="selectedFaq.category" class="checklist-item" placeholder="Category" type="text" flex="100">
-                    <input ng-model="selectedFaq.order" class="checklist-item" placeholder="Order"  type="number" flex="100">
+                    <input ng-model="selectedFaq.image" class="checklist-item  m-r-10" placeholder="Image" type="text" flex="100">
+                    <input ng-model="selectedFaq.order" class="checklist-item" placeholder="Order"  type="number" flex="20">
                 </div>
 
+                <div class="m-b-0" layout="row"> 
+                    <md-input-container class="md-block">
+                        <md-radio-group ng-model="selectedFaq.category" layout="row">
+                                <md-radio-button value="{{cat}}" class="md-primary" 
+                                    ng-repeat="cat in ['GETTING STARTED', 'FAQ', 'TIPS']">{{cat}}</md-radio-button>
+                        </md-radio-group>
+                    </md-input-container>
+                </div>
 
                 <div layout="row" class="m-b-15"><input ng-model="selectedFaq.tag" class="checklist-item" placeholder="Tags" type="text" flex="100"></div>
                 
@@ -47,7 +55,7 @@
                 <label class="btn btn-inverse" ng-click="updateSupportContent()">Update</label>
                 <label class="btn btn-danger pull-right" ng-click="deleteSupportContent()">Delete</label> 
             </div>
-        </div>
+        <!-- </div> -->
             
     </md-content>
-<!-- </md-sidenav> -->
+</md-sidenav>

@@ -28,6 +28,89 @@
 		
 		$scope.showProgress = false;
 		var progress = $('#progressBar');
+
+		$scope.whenDate;
+		$scope.whenPicker;
+
+		$scope.startDate;
+		$scope.startPicker;
+
+		$scope.endDate;
+		$scope.endPicker;
+
+		$scope.options = {
+		    height: 250,
+		    airMode: false,
+		    toolbar: [
+				['color', ['color']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['alignment', ['ul', 'ol', 'paragraph']],
+				['misc', ['undo']]
+	        ]
+		};
+
+		$scope.whenDateOpts = {
+			mode: "range",
+			enableTime: false,
+			dateFormat: "D M j, Y",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				if (selectedDates.length == 2) {
+					$scope.selectedEntry.start = selectedDates[0];
+					$scope.selectedEntry.end = selectedDates[1];
+				}
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.whenPicker = instance;
+			},
+			plugins: [new confirmDatePlugin({})]
+		};
+
+		$scope.startDateOpts = {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "h:i K",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				// if (selectedDates.length == 1) {
+				// 	$scope.selectedEntry.start = selectedDates[0];
+				// }
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.startPicker = instance;
+
+				// if ($scope.selectedEntrySrc != null) {
+				// 	var range = [new Date($scope.selectedEntrySrc.start), new Date($scope.selectedEntrySrc.end)];
+				// 	instance.setDate(range, false, "l M j, Y");
+				// }
+			},
+			plugins: [new confirmDatePlugin({})]
+		};
+
+		$scope.endDateOpts = {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "h:i K",
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				//console.log("DATE CHANGED");
+				// if (selectedDates.length == 1) {
+				// 	$scope.selectedEntry.start = selectedDates[0];
+				// }
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.endPicker = instance;
+
+				// if ($scope.selectedEntrySrc != null) {
+				// 	var range = [new Date($scope.selectedEntrySrc.start), new Date($scope.selectedEntrySrc.end)];
+				// 	instance.setDate(range, false, "l M j, Y");
+				// }
+			},
+			plugins: [new confirmDatePlugin({})]
+		};
 		  
 		$scope.initView = function() {
 	        var deferred = $q.defer();
@@ -69,6 +152,7 @@
 						    	$scope.selectedEntry = initedEntry;
 								$scope.setDefaultFocus();
 								$scope.refreshCalendar();
+								$scope.initDatePicker();
 					        }
 				        )
 				        
@@ -82,13 +166,32 @@
 								        $scope.selectedEntry = clonedEntry;
 										$scope.setDefaultFocus();
 										$scope.refreshCalendar();
+										$scope.initDatePicker();
 							    });   	  
 					    });
 		
 			        }
 			});
         }
-        
+		
+		$scope.initDatePicker = function() {
+			if ($scope.selectedEntry != null && $scope.selectedEntry.start != null) {
+				var newDateS = flatpickr.formatDate(new Date($scope.selectedEntry.start), "D M j, Y");
+				var newDateE = flatpickr.formatDate(new Date($scope.selectedEntry.end), "D M j, Y");
+				
+				if (newDateE == newDateS) {
+					$scope.whenDate = newDateS
+				} else {
+					$scope.whenDate = newDateS + " to " + newDateE;
+				}
+
+				if ($scope.whenPicker != null) {
+					var range = [new Date($scope.selectedEntry.start), new Date($scope.selectedEntry.end)];
+					$scope.whenPicker.setDate(range, false, "D M j, Y");
+				}
+			}
+        }
+
         $scope.setDefaultFocus = function() {
 	        $timeout(function() {
         		var element = $window.document.getElementById('entryTitle');

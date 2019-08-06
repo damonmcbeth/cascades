@@ -26,11 +26,11 @@
 					$scope.entries = entries;
 					$scope.reminders = entries;
 			        $scope.entries.$watch(function(event) {
-										console.log(event);
+										//console.log(event);
 										//if (event.event == "child_added") {
 										if ($scope.cntHack == 1) {
 											$scope.cntHack++;
-											console.log("cntHack: " + $scope.cntHack);
+											//console.log("cntHack: " + $scope.cntHack);
 											$scope.buildReminders().then(
 												function(result) {
 													$('#full-calendar').fullCalendar('removeEvents');
@@ -38,7 +38,7 @@
 											})
 										} else {
 											$scope.cntHack++;
-											console.log("cntHack: " + $scope.cntHack);
+											//console.log("cntHack: " + $scope.cntHack);
 											if ($scope.cntHack == 4) {
 												$scope.cntHack = 1;
 											}

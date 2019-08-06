@@ -80,7 +80,7 @@
                 templateUrl: 'views/Reminders.html',
                 controller: 'RemindersController',
                 ncyBreadcrumb: {
-                    label: 'Calendar'
+                    label: 'Calendar & Reminders'
                 },
                 data: {
                     //icon: 'pe-7s-note2',

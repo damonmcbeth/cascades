@@ -78,11 +78,15 @@
 			};
 			
 			self.newEntry = function() {
+				var dt = moment().startOf('hour').toDate();
+
 				var result = {
 		            title: '',
-		            allday: false,		          
-		            start: moment().startOf('hour').toDate(),
-		            end: moment().startOf('hour').add(1, 'hours').toDate(),
+		            allday: true,		          
+		            start: dt,
+					end: dt,
+					startTime: dt,
+		            endTime: dt,
 		            repeat: false,
 		            everyCount: 1,
 		            everyInterval: "weeks", 
@@ -107,6 +111,8 @@
 		            result.allday = src.allday;
 					result.start = src.start == undefined ? null : new Date(src.start);
 					result.end = src.end == undefined ? null : new Date(src.end);
+					result.startTime = src.start == undefined ? null : new Date(src.startTime);
+					result.endTime = src.end == undefined ? null : new Date(src.endTime);
 					result.until = src.until == undefined ? null : new Date(src.until);
 					
 					result.repeat = src.repeat;
@@ -205,6 +211,8 @@
 					            allday: src.allday,
 								start: src.start == undefined ? null : src.start.getTime(),
 								end: src.end == undefined ? null : src.end.getTime(),
+								startTime: src.startTime == undefined ? null : src.startTime.getTime(),
+								endTime: src.endTime == undefined ? null : src.endTime.getTime(),
 								until: src.until == undefined ? null : src.until.getTime(),
 								repeat: src.repeat,
 								everyCount: src.everyCount == undefined ? 0 : src.everyCount,
@@ -225,6 +233,8 @@
 	            result.allday = src.allday;
 				result.start = src.start == undefined ? null : src.start.getTime();
 				result.end = src.end == undefined ? null : src.end.getTime();
+				result.startTime = src.startTime == undefined ? null : src.startTime.getTime();
+				result.endTime = src.endTime == undefined ? null : src.endTime.getTime();
 				result.until = src.until == undefined ? null : src.until.getTime();
 				result.repeat = src.repeat;
 				result.everyCount = src.everyCount == undefined ? 0 : src.everyCount;
