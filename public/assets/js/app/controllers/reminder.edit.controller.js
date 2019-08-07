@@ -38,6 +38,9 @@
 		$scope.endDate;
 		$scope.endPicker;
 
+		$scope.untilDate;
+		$scope.untilPicker;
+
 		$scope.timeFormat = "h:i K";
 		$scope.whenFormat = "D M j, Y";
 
@@ -98,6 +101,22 @@
 			},
 			onReady: function(selectedDates, dateStr, instance){
 				$scope.endPicker = instance;
+			}
+		};
+
+		$scope.untilDateOpts = {
+			enableTime: false,
+			dateFormat: $scope.whenFormat,
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance){
+				if (selectedDates.length == 1) {
+					$scope.selectedEntry.until = selectedDates[0];
+				}
+
+				$scope.refreshCalendar();
+			},
+			onReady: function(selectedDates, dateStr, instance){
+				$scope.untilPicker = instance;
 			}
 		};
 		  
@@ -180,11 +199,18 @@
 				}
 
 				if ($scope.startPicker != null) {
+					$scope.startDate = flatpickr.formatDate(new Date($scope.selectedEntry.startTime), $scope.timeFormat);
 					$scope.startPicker.setDate(new Date($scope.selectedEntry.startTime), false, $scope.timeFormat);
 				}
 
 				if ($scope.endPicker != null) {
+					$scope.endDate = flatpickr.formatDate(new Date($scope.selectedEntry.endTime), $scope.timeFormat);
 					$scope.endPicker.setDate(new Date($scope.selectedEntry.endTime), false, $scope.timeFormat);
+				}
+
+				if ($scope.untilPicker != null) {
+					$scope.untilDate = flatpickr.formatDate(new Date($scope.selectedEntry.until), $scope.whenFormat);
+					$scope.untilPicker.setDate(new Date($scope.selectedEntry.until), false, $scope.whenFormat);
 				}
 			}
         }
@@ -273,14 +299,26 @@
 			return result;
 		}
 
+		$scope.deleteEntry = function() {
+			reminderService.deleteEntry($scope.selectedEntrySrc);
+			$scope.closeDetails();
+		}
+
+		$scope.handleRepeatChange = function() {
+			if ($scope.selectedEntry.repeat) {
+				$scope.refreshCalendar();
+				//$('#full-calendar-edit').fullCalendar('render');
+			}
+		}
+
 		$scope.refreshCalendar = function() {
-			if (!$scope.calendarInit) {
+			//if (!$scope.calendarInit) {
 				$scope.initilizeCalendar();
-				$scope.calendarInit = true;
-			} else {
+			//	$scope.calendarInit = true;
+			//} else {
 				$('#full-calendar-edit').fullCalendar('removeEvents');
 				$('#full-calendar-edit').fullCalendar('renderEvents', $scope.buildRepeatingEvents(), true);
-			}
+			//}
 		}
 		
 		$scope.initilizeCalendar = function() {

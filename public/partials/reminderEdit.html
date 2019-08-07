@@ -60,8 +60,8 @@
 							</md-input-container>
 						</div>
 
-					  	<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.repeat" ng-change="refreshCalendar()">
-				          Repeat reminder
+					  	<md-switch class="md-primary f-15 m-b-15" md-no-ink="false" ng-model="selectedEntry.repeat" ng-change="handleRepeatChange()">
+				        	Repeat reminder
 				        </md-switch>
 				        
 				        <div layout="row"  ng-show="selectedEntry.repeat">
@@ -83,7 +83,7 @@
 					            </md-select>
 							</md-input-container>
 
-							<md-input-container class="md-block m-l-20" flex="100">
+							<!-- <md-input-container class="md-block m-l-20" flex="100">
 								<label>Until</label>
 								<a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target=".dropdown" href="">
 									<input id="untildatetime" type="text" ng-model="selectedEntry.until" ng-disabled="!selectedEntry.repeat"
@@ -93,6 +93,12 @@
 									<datetimepicker data-ng-model="selectedEntry.until"  ng-change="refreshCalendar()"
 													data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle', minView: 'day' }"></datetimepicker>
 								</ul>
+							</md-input-container> -->
+
+							<md-input-container class="md-block m-l-20 p-b-0 " flex="100">
+								<label>Until</label>
+								<input class="md-input" ng-flatpickr fp-opts="untilDateOpts" fp-on-setup="datePostSetup(fpItem)"
+									ng-model="untilDate" ng-disabled="!selectedEntry.repeat"></input>
 							</md-input-container>
 						</div>
 						<div id="full-calendar-edit" ng-show="selectedEntry.repeat"></div>  
@@ -110,11 +116,6 @@
 			            <summernote ng-model="selectedEntry.notes" config="options"></summernote>
 		            </div>
 			  	</div>
-			  
-			  	<!--div class="text-muted f-10 m-t-15" ng-show="isEdit">
-				  	<div class="align-center">Created by {{selectedEntry.createdName}} on {{selectedEntry.created | amCalendar:null:gs.pref.calFormats}}</div>
-				  	<div class="align-center">Last update by {{selectedEntry.updatedName}} on {{selectedEntry.updated | amCalendar:null:gs.pref.calFormats}}</div>
-			  	</div-->
 			  
 			  	<div class="m-t-15" ng-show="isEdit">
 				  	<a href="" ng-Click="deleteEntry()" class="btn btn-danger btn-block f-17">

@@ -5,10 +5,10 @@
         .module('app')
         .controller('RemindersController', RemindersController);
 
-    RemindersController.$inject = ['$scope', '$state', '$filter', 'globalSettings', '$timeout', '$q',
+    RemindersController.$inject = ['$scope', '$state', '$filter', 'globalSettings', '$timeout', '$q', '$sce',
     	'globalNav', 'taskService', 'reminderService'];
 
-    function RemindersController($scope, $state, $filter, globalSettings, $timeout, $q,
+    function RemindersController($scope, $state, $filter, globalSettings, $timeout, $q, $sce,
     						globalNav, taskService, reminderService) {
 	    						
         $scope.$state = $state;        
@@ -18,7 +18,11 @@
 		$scope.entries;
 		$scope.reminders;
         $scope.events = [];
-        $scope.cntHack = 1;
+		$scope.cntHack = 1;
+		
+		$scope.formatContent = function(content) {
+			return $sce.trustAsHtml(content);
+		}
                
         $scope.populateReminders = function() {
 	        reminderService.getAllEntries().then(

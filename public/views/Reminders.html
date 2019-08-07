@@ -39,8 +39,11 @@
 						
 						<div ng-click="nav.openReminderEditDetails(reminder.$id)">
 							<span class="f-11 text-primary b-500">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
-							<span class="f-11 text-primary b-500" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span><br/>
+							<span class="f-11 text-primary b-500" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats }}</span>
+							<span class="f-11 text-primary b-500 m-l-5" ng-if="!reminder.allday">({{ reminder.startTime | amCalendar:null:gs.pref.calTimeFormats }} - {{ reminder.endTime | amCalendar:null:gs.pref.calTimeFormats }})</span><br/>
 							<span class="reminder-alert-content">{{reminder.title}}</span>
+
+							<div class="m-t-10 f-12 b-300" ng-bind-html="formatContent(reminder.notes)"></div>
 						</div>
 					</div>
 				</div>

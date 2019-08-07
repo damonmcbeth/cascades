@@ -79,6 +79,7 @@
 			
 			self.newEntry = function() {
 				var dt = moment().startOf('hour').toDate();
+				var ft = moment().startOf('hour').add(1, 'hour').toDate();
 
 				var result = {
 		            title: '',
@@ -86,7 +87,7 @@
 		            start: dt,
 					end: dt,
 					startTime: dt,
-		            endTime: dt,
+		            endTime: ft,
 		            repeat: false,
 		            everyCount: 1,
 		            everyInterval: "weeks", 
@@ -106,13 +107,16 @@
 			    } else {
 				    var result = (dest == null) ? self.newEntry() : dest;
 					
+					var dt = moment().startOf('hour').toDate();
+					var ft = moment().startOf('hour').add(1, 'hour').toDate();
+
 					result.$id = src.$id;
 		            result.title = src.title;
 		            result.allday = src.allday;
 					result.start = src.start == undefined ? null : new Date(src.start);
 					result.end = src.end == undefined ? null : new Date(src.end);
-					result.startTime = src.start == undefined ? null : new Date(src.startTime);
-					result.endTime = src.end == undefined ? null : new Date(src.endTime);
+					result.startTime = src.startTime == undefined ? dt : new Date(src.startTime);
+					result.endTime = src.endTime == undefined ? ft : new Date(src.endTime);
 					result.until = src.until == undefined ? null : new Date(src.until);
 					
 					result.repeat = src.repeat;
@@ -168,6 +172,21 @@
 				var result = entries.$getRecord(entryId);
 				
 				return result;
+			}
+
+			self.deleteEntry = function(src) {
+			    var deferred = $q.defer();
+				
+				self.getAllEntries().then(
+					function(entries) {
+						var entry = entries.$getRecord(src.$id);
+						entries.$remove(entry);
+						
+						deferred.resolve(true);
+					}
+				);
+				
+				return deferred.promise;
 			}
 			
 			self.saveEntry = function (edited, orig) {
