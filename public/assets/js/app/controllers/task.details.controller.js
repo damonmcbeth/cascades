@@ -39,11 +39,12 @@
 		    toolbar: [
 				['color', ['color']],
 				['fontsize', ['fontsize']],
-				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['style', ['bold', 'italic', 'underline', 'clear']],
 				['alignment', ['ul', 'ol', 'paragraph']],
-				['insert', ['link', 'table', 'hr']],
 				['misc', ['undo']],
-	            ['view', ['fullscreen']]
+				['view', ['fullscreen']],
+				['help', ['help']]
+
 	        ]
 		};
 
@@ -93,6 +94,7 @@
 				//$scope.duePicker.setDate($scope.selectedTask.due, false, "l M j, Y \\a\\t h:i K");
 				var newDate = flatpickr.formatDate($scope.selectedTask.due, "l M j, Y \\a\\t h:i K")
 				$scope.dueDate = newDate;
+				$scope.duePicker.setDate(new Date($scope.selectedTask.due), false, "l M j, Y \\a\\t h:i K");
 			}
         }
 

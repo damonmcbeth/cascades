@@ -462,7 +462,7 @@
 			self.notifyOwner = function(edited, origOwnerId) {
 			    if (edited.ownerId != null && (origOwnerId == null || edited.ownerId != origOwnerId)) {
 					if (edited.owner.notificationToken != null) {
-						var msg = edited.updatedName + " assigned you a task: " + edited.title;
+						var msg = globalSettings.currProfile.name + " assigned you a task: " + edited.title;
 						var icon = globalSettings.currProfile.avatar;
 						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
 
@@ -474,7 +474,7 @@
 			self.notifyDelegate = function(edited, origDelegateId) {
 			    if (edited.delegateId != null && (origDelegateId == null || edited.delegateId != origDelegateId)) {
 					if (edited.delegate.notificationToken != null) {
-						var msg = edited.updatedName + " assigned you a task: " + edited.title;
+						var msg = globalSettings.currProfile.name + " assigned you a task: " + edited.title;
 						var icon = globalSettings.currProfile.avatar;
 						icon = (icon == null) ? "/assets/img/Timeline-128.png" : icon;
 

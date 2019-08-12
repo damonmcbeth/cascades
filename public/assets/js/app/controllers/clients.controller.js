@@ -16,7 +16,8 @@
         $scope.clientAliasPlural = "";
         
         $scope.orderByFld = 'last';
-		$scope.orderLast = true;
+        $scope.orderLast = false;
+        $scope.limit = 100;
         
         globalSettings.initSettings().then(
         	function() {
@@ -29,7 +30,11 @@
 		        	$scope.search = {type:'Client', $:''};
 		        } else if ($scope.display == 'Team') {
 		        	$scope.search = {type:'Team member', $:''};
-		        	$scope.type = 'Team Member';
+                    $scope.type = 'Team Member';
+                } else if ($scope.display == 'Recent') {
+                    $scope.search = {type:'Client', $:''};
+                    $scope.orderByFld = 'updated';
+                    $scope.orderLast = true;
 		        } else {
 			        $scope.search = {type:'Client', $:''};
 		        }
@@ -38,7 +43,13 @@
         $scope.populatePeople = function() {
 	        peopleService.getAllPeople().then(
 				function(people) {
-					$scope.people = people;
+                    $scope.people = people;
+
+                    if ($scope.display == 'Recent') {
+                        $scope.limit = 10;
+                    } else {
+                        $scope.limit = people.length;
+                    }
 			});
 		}
 		       

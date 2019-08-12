@@ -9,7 +9,7 @@
 	                    <span class="text">{{type}}</span>
 	                </a>
 	            </li> 
-	            <li>
+	            <!-- <li>
 	            	<md-menu md-offset="0 15">
 			          <md-button aria-label="Open menu" class="md-icon-button m-0 p-0 p-t-5" ng-click="$mdOpenMenu($event)">
 			            <i class="icon pe-7s-repeat"></i>
@@ -27,7 +27,7 @@
 			          </md-menu-content>
 			          
 			        </md-menu>
-	            </li>
+	            </li> -->
 	            
 
 	        </ul>
@@ -42,7 +42,7 @@
 		</div>
 		
 		<div class="row" ng-show="cardView">			
-			<div class="card-animate" ng-repeat="person in people | filter:search:false | orderBy:orderByFld" 
+			<div class="card-animate" ng-repeat="person in people | filter:search:false | orderBy:orderByFld:orderLast | limitTo:limit" 
 				data-ng-include="'views/partials/personCard.html'"></div>
 		</div>
 			

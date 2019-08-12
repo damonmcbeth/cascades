@@ -24,13 +24,13 @@
 		                        		type="selectedPerson.avatarType"></avatar>
 		                    </div>
 		                    <div class="col p-5 p-l-20 f-13 b-300">
-		                        <div class="f-17 b-500">
+		                        <div class="f-20 b-500">
 		                            {{selectedPerson.name}}
 		                        </div>
 		                        <div ng-hide="selectedPerson.title == null || selectedPerson.title == ''">
 		                            {{selectedPerson.title | uppercase}}
 		                        </div>
-		                        <div class="text-muted m-t-10" ng-hide="selectedPerson.primaryEmail == null || selectedPerson.primaryEmail == ''">
+		                        <div class="text-muted m-t-5" ng-hide="selectedPerson.primaryEmail == null || selectedPerson.primaryEmail == ''">
 		                            <span><a href="mailto:{{selectedPerson.primaryEmail}}">{{ selectedPerson.primaryEmail}}</a></span>
 		                        </div>
 		                        <div class="text-muted m-t-5" ng-hide="selectedPerson.primaryPhone == null || selectedPerson.primaryPhone == ''">
@@ -65,22 +65,63 @@
 		    </div>
 		    
 		    <md-tabs class="m-t-10" md-dynamic-height md-border-bottom>
-		      <md-tab label="Timeline">
-		        <md-content style="height: 100%">
-		        	<section ng-repeat="group in activityGrouping">
-			        	<md-subheader class="md-primary subheader-top">{{group}}</md-subheader>
-			        	<md-divider></md-divider>
-		
-				        <div class="p-10 p-l-15 p-r-15">
-				            <ul class="timeline timeline-condensed">
-				                <li ng-repeat="act in activity | filter: {groupingLabel: group, personId: selectedPerson.$id} | orderBy:'updated':true"
-				                	data-ng-include="'views/partials/timelineEntry.html'">
-				                </li>
-				            </ul>
-				        </div>
-		        	</section>
-		        </md-content>
-		      </md-tab>
+			
+				<md-tab label="{{gs.currWorkspace.Terminology.taskAliasPlural}}">
+					<md-content class="p-0">
+						<div class="p-10 p-l-20 p-r-20 v-a-middle" style="background-color: #fff">
+							<a href="" id="new-message" class="text-default" ng-Click="openTaskDetails()">
+								<i class="icon f-20 pe-7s-plus"></i>
+							</a>
+							
+							<div class="pull-right">
+								<a class="text-default" ng-click="toggleArchive()" ng-show="showArchive">
+									<i class="pe-7f-box1 f-20"></i>
+								</a>
+	
+								<a class="text-default" ng-click="toggleArchive()" ng-hide="showArchive">
+									<i class="pe-7s-box1 f-20"></i>
+								</a>
+	
+								<a class="m-l-10 text-default" ui-sref="mywork.taskboard({id: selectedProject.$id})" ng-click="cancelEdit()">
+									<i class="pe-7s-keypad f-20"></i>
+								</a>
+							</div>
+						</div>
+										
+						<md-content>
+							<md-divider></md-divider>
+							<section ng-repeat="taskGroup in taskGrouping">
+								<md-subheader class="md-primary">{{taskGroup.label}}</md-subheader>
+								<md-divider></md-divider>
+								<md-list flex>
+									  <md-list-item class="md-2-line md-long-text" ng-repeat="task in tasks | filter:getFilter(taskGroup) | orderBy:'due'" ng-click="openTaskDetails(task)">
+										<md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateIsDone(task)"></md-checkbox>
+										<div class="md-list-item-text  p-l-10">
+											<div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
+											  <div class="list-title f-15" ng-class="{'task-done' : task.archived }">{{task.title}}</div>
+											  <div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div>
+										  
+											<div class="list-title-3" ng-hide="task.relatedName==null" >
+												<span class="b-400">Regarding:</span> {{task.relatedName}}
+											</div>
+										</div>
+	
+										<div class="md-secondary p-10" ng-show="task.archived">
+											<i class="pe-7s-box1 f-20"></i>
+										 </div>
+										<div class="md-secondary p-10">
+											   <span class="f-9" ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}</span>
+										</div>		    
+										<md-divider></md-divider>
+								  </md-list-item>
+								  
+								</md-list>
+							</section>
+						</md-content>
+						
+					</md-content>
+				</md-tab>
+
 		      <md-tab label="{{gs.currWorkspace.Terminology.projectAliasPlural}}">
 		        <md-content>
 		        	<md-list flex>
@@ -101,64 +142,94 @@
 		        </md-content>
 			  </md-tab>
 			  
-			  <md-tab label="{{gs.currWorkspace.Terminology.taskAliasPlural}}">
-		        <md-content class="p-0">
-		        	<div class="p-10 f-14 v-a-middle">
-			        	<a href="" id="new-message" class="text-primary" ng-Click="openTaskDetails()">
-							<!--i class="icon pe-7f-plus f-20"></i-->
-							New {{gs.currWorkspace.Terminology.taskAlias}}
-			            </a>
-		        	</div>
-		        					
-					<md-content>
-						<md-divider></md-divider>
-			            <section ng-repeat="taskGroup in taskGrouping">
-				        	<md-subheader class="md-primary">{{taskGroup.label}}</md-subheader>
-				        	<md-divider></md-divider>
-				            <md-list flex>
-							  <md-list-item class="md-3-line md-long-text" ng-repeat="task in tasks | filter:getFilter(taskGroup) | orderBy:'due'" ng-click="openTaskDetails(task)">
-							    <md-checkbox aria-label="Done" md-no-ink ng-model="task.isDone" ng-change="updateTaskIsDone(task)"></md-checkbox>
-							    <div class="md-list-item-text">
-								  <div class="list-title-highlight" ng-show="task.delegateId != null">Delegate: {{task.delegateName}}</div>
-							      <div ng-class="{'list-title' : true, 'task-done' : task.isDone }">{{task.title}}</div>
-							      <div ng-class="{'list-title-2' : true, 'text-danger' : task.state == 'Overdue'}">{{ task.due | amCalendar:null:gs.pref.calFormats}}</div>
-								  <div class="list-title-3" ng-hide="task.ownerName==null">{{task.ownerName}}</div>
-								  <div class="list-title-3" ng-hide="task.projectName==null">{{gs.currWorkspace.Terminology.projectAlias}}: {{task.projectName}}</div>
-							    </div>
-							    <div class="md-secondary p-10">
-			               			<span ng-class="{'badge' : true, 'badge-danger' : task.priority === 'H', 'badge-warning' : task.priority === 'M', 'badge-success' : task.priority === 'L', 'task-normal' : task.priority === 'N'}">{{task.priority}}</span>
-							    </div>		    
-							    <md-divider></md-divider>
-							  </md-list-item>
-				              
-							</md-list>
-						</section>
-				    </md-content>
-					
-		        </md-content>
-		    </md-tab>
+			  <md-tab label="{{gs.currWorkspace.Terminology.memoAliasPlural}}">
+					<md-content class="p-0">
+							<div class="p-10 p-l-20 p-r-20 v-a-middle" style="background-color: #fff">
+								<a href="" id="new-message" class="text-default" ng-Click="openEntryDetails()">
+									<i class="icon f-20 pe-7s-plus"></i>
+								</a>
+								
+								<div class="pull-right">
+									<a class="text-default" ng-click="toggleJournalArchive()" ng-show="showJournalArchive">
+										<i class="pe-7f-box1 f-20"></i>
+									</a>
+		
+									<a class="text-default" ng-click="toggleJournalArchive()" ng-hide="showJournalArchive">
+										<i class="pe-7s-box1 f-20"></i>
+									</a>
+								</div>
+							</div>
 
 
-
-		    <md-tab label="{{gs.currWorkspace.Terminology.memoAliasPlural}}">
 		        <md-content>
-		          <md-list flex>
-					  <md-list-item class="md-2-line" ng-repeat="entry in entries | filter: {$:selectedPerson.$id} | orderBy:'updated':true" 
-					  	ng-click="openEntryDetails(entry)">
-					  	
-					  	<i class="pe-fw f-25 p-5 m-r-5"
-					    	ng-class="{'pe-7s-light' : entry.type == 'Idea', 'pe-7s-call' : entry.type == 'Phone call', 
-				    				'pe-7s-date' : entry.type == 'Meeting', 'pe-7s-note2' : entry.type == 'Memo',
-									'pe-7s-copy-file' : entry.type == 'Document', 'pe-7s-photo' : entry.type == 'Image',
-									'pe-7s-coffee' : entry.type == 'Food'}"><md-tooltip>{{entry.type}}</md-tooltip></i>
-					  	
-					    <div class="md-list-item-text">
-					      <div class="list-title">{{ entry.title }}</div>
-					      <div class="list-title-2">{{entry.updated | amCalendar:null:gs.pref.calFormats}}</div>
-					    </div>	    
-					    <md-divider></md-divider>
-					  </md-list-item>
-					</md-list>	
+						<md-divider></md-divider>
+					<md-list flex>
+						<md-list-item class="md-2-line md-long-text" ng-repeat="act in entries | filter: getJournalFilter() | orderBy:'updated':true" 
+							ng-click="openEntryDetails(act)">
+							
+							<div class="activity-document-icon">
+								<i class="pe-fw"
+									ng-class="{'pe-7s-light' : act.type == 'Idea', 'pe-7s-call' : act.type == 'Phone call', 
+									'pe-7s-chat' : act.type == 'Meeting', 'pe-7s-note2' : act.type == 'Memo',
+									'pe-7s-copy-file' : act.type == 'Document', 'pe-7s-photo' : act.type == 'Image',
+									'pe-7s-coffee' : act.type == 'Food', 'pe-7s-car' : act.type == 'While you were out',
+									'pe-7s-date' : act.type == 'Event', 'pe-7s-news-paper' : act.type == 'Recipe',
+									'pe-7s-culture' : act.type == 'Restaurant', 'pe-7s-gym' : act.type == 'Workout',
+									'pe-7s-map' : act.type == 'Location', 'pe-7s-ball' : act.type == 'Sports',
+									'pe-7s-cart' : act.type == 'Shopping', 'pe-7s-film' : act.type == 'Media',
+									'pe-7s-note' : act.type == 'Minutes', 'pe-7s-joy' : act.type == 'Games',
+									'pe-7s-like' : act.type == 'Health', 'pe-7s-piggy' : act.type == 'Money'}">
+								</i>
+							</div>
+							<div class="md-list-item-text p-l-10 p-r-8">
+								<div class="f-8 pull-right label label-primary m-r-5 m-l-5" ng-show="showUnreadFlag(act)">UNREAD</div>
+								<div class="list-title f-15">{{act.title}}</div>
+								<div class="list-title-2 m-t-0 f-12">{{act.updated | amCalendar:null:gs.pref.calFormats}}</div>
+
+								<div class="list-title f-11" ng-hide="(act.people == null || act.people.length == 0)">
+									<span class="m-r-5" ng-repeat="person in act.people">
+										{{person.name}}<span ng-if="!$last">, </span>
+										<!--avatar size="xs" img="person.avatar" name="person.name" type="person.avatarType"></avatar-->
+									</span>
+								</div>
+
+								<div class="journalEntry-img-cont" style="width: 126px" ng-repeat="pic in act.attachments | filter:'image/' | limitTo:1">
+									<a href="{{pic.url}}" target="_blank">
+									<img ng-src="{{pic.url}}" src="assets/img/placeholder.jpg" alt="{{pic.title}}"
+										class="journalEntry-img">
+										<md-tooltip>{{pic.title}}</md-tooltip>
+									</img>
+									</a>
+								</div>
+							</div>
+
+							<div class="md-secondary p-10" ng-show="act.archived">
+								<i class="pe-7s-box1 f-20"></i>
+							</div>
+
+
+							<md-divider ng-if="!$last"></md-divider>
+							
+						</md-list-item>
+					  </md-list>	
+				  </md-content>
+				  </md-content>
+			</md-tab>  
+			  
+			  <md-tab label="Activity">
+		        <md-content style="height: 100%">
+		        	<section ng-repeat="group in activityGrouping">
+			        	<md-subheader class="md-primary subheader-top">{{group}}</md-subheader>
+			        	<md-divider></md-divider>
+		
+				        <div class="p-10 p-l-15 p-r-15">
+				            <ul class="timeline timeline-condensed">
+				                <li ng-repeat="act in activity | filter: {groupingLabel: group, personId: selectedPerson.$id} | orderBy:'updated':true"
+				                	data-ng-include="'views/partials/timelineEntry.html'">
+				                </li>
+				            </ul>
+				        </div>
+		        	</section>
 		        </md-content>
 		      </md-tab>
 		    </md-tabs>

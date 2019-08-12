@@ -88,7 +88,8 @@
 				['alignment', ['ul', 'ol', 'paragraph']],
 				['insert', ['link', 'table', 'hr']],
 				['misc', ['undo']],
-	            ['view', ['fullscreen', 'codeview']]
+				['view', ['fullscreen', 'codeview']],
+				['help', ['help']]
 	        ]
 		};
 		
@@ -174,11 +175,13 @@
 			if ($scope.selectedEntrySrc != null && $scope.selectedEntrySrc.start != null) {
 				var newDate = flatpickr.formatDate(new Date($scope.selectedEntrySrc.start), "l M j, Y \\a\\t h:i K")
 				$scope.startDate = newDate;
+				$scope.startPicker.setDate(new Date($scope.selectedEntrySrc.start), false, "l M j, Y \\a\\t h:i K");
 			}
 
 			if ($scope.selectedEntrySrc != null && $scope.selectedEntrySrc.end != null) {
 				var newEDate = flatpickr.formatDate(new Date($scope.selectedEntrySrc.end), "l M j, Y \\a\\t h:i K")
 				$scope.endDate = newEDate;
+				$scope.endPicker.setDate(new Date($scope.selectedEntrySrc.end), false, "l M j, Y \\a\\t h:i K");
 			}
         }
         

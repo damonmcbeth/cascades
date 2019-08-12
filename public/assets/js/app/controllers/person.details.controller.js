@@ -30,7 +30,19 @@
 	    
         $scope.selectedPerson = peopleService.newPerson();
         
-        $scope.maps = null;
+		$scope.maps = null;
+		
+		$scope.showArchive = false;
+
+		$scope.toggleArchive = function() {
+			$scope.showArchive = !$scope.showArchive;
+		}
+
+		$scope.showJournalArchive = false;
+
+		$scope.toggleJournalArchive = function() {
+			$scope.showJournalArchive = !$scope.showJournalArchive;
+		}
         
         $scope.openDetails = function(person) {
 	        $scope.showDetails = true;
@@ -82,7 +94,19 @@
 		}
 		
 		$scope.getFilter = function(val) {
-	        return {status: val.label, $:$scope.selectedPerson.$id};
+			if ($scope.showArchive) {
+				return {status: val.label, $:$scope.selectedPerson.$id};
+			} else {
+				return {status: val.label, archived: '!', $:$scope.selectedPerson.$id};
+			}
+		}
+		
+		$scope.getJournalFilter = function() {
+			if ($scope.showJournalArchive) {
+				return {$:$scope.selectedPerson.$id};
+			} else {
+				return {archived: false, $:$scope.selectedPerson.$id};
+			}
     	}
 
         $scope.populateJournal = function() {
@@ -161,8 +185,13 @@
         }
         
         $scope.openEntryDetails = function(entry) {
-	        $scope.closeDetails();
-            $scope.nav.openJournalEditDetails(entry.$id);
+			$scope.closeDetails();
+			
+			if (entry == null) {
+				$scope.nav.newJournalEntry();
+			} else {
+				$scope.nav.openJournalEditDetails(entry.$id);
+			}
         }
         
         $scope.editPerson = function() {

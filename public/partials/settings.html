@@ -37,7 +37,7 @@
 					                        </div>
 					                        
 					                        <div class="b-400 m-t-20">
-												<a href="" class="m-r-5" ng-click="openPersonDetails(currPerson.$id)">EDIT PROFILE DETAILS</a>|
+												<a href="" class="m-r-5" ng-click="nav.editPeopleDetails(currPerson.$id)">EDIT PROFILE</a>|
 												<a href="" class="m-r-5" ng-click="resetPassword()">RESET PASSWORD</a>|
 						                        <a href="" class="m-l-5" ng-click="signOut()">SIGN OUT</a>
 						                    </div>
@@ -249,7 +249,7 @@
 						
 							<div class="panel panel-default" ng-hide="faqSearch != null && faqSearch != ''">
 								<div class="panel-body f-15">
-									<div class="m-b-10"><image src="/assets/img/CASCADES_BILLBOARD_2_SM.jpg" flex="90"></image></div>
+									<div class="m-b-0"><image src="https://firebasestorage.googleapis.com/v0/b/temporal-potion-575.appspot.com/o/Content%2Fsupport.jpg?alt=media&token=779e2949-1ded-4825-a354-5cdc3d0ff3b0" flex="100"></image></div>
 						
 									<a class="b-500" href="/landing" target="_blank">LEARN ABOUT CASCADES</a>
 									
@@ -305,7 +305,7 @@
 									<div layout="row" class="m-b-15"><input ng-model="faqTitle" class="checklist-item" placeholder="Title" type="text" flex="100"></div>
 									<div layout="row" class="m-b-15"><input ng-model="faqTagline" class="checklist-item" placeholder="Tag line" type="text" flex="100"></div>
 									<div layout="row" class="m-b-15">
-										<input ng-model="faqImage" class="checklist-item m-r-10" placeholder="Image" type="text" flex="100">
+										<input ng-model="faqImg" class="checklist-item m-r-10" placeholder="Image" type="text" flex="100">
 										<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="20">
 									</div>
 

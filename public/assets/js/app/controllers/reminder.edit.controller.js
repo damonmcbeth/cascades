@@ -50,9 +50,11 @@
 		    toolbar: [
 				['color', ['color']],
 				['fontsize', ['fontsize']],
-				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['style', ['bold', 'italic', 'underline',  'clear']],
 				['alignment', ['ul', 'ol', 'paragraph']],
-				['misc', ['undo']]
+				['misc', ['undo']],
+				['help', ['help']]
+
 	        ]
 		};
 

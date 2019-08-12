@@ -13,6 +13,12 @@
 		$scope.showProgress = false;
 		var progress = $('#progressBar');
 		
+		ctrl.uploadHandler = null;
+
+		ctrl.setUploadHandler = function(mc) {
+			ctrl.uploadHandler = mc;
+		} 
+
 		ctrl.onChange = function onChange(loc, fileList, uploadCtrl) {
 			var file = fileList[0];
 			
@@ -24,6 +30,10 @@
 				storageService.uploadFile(loc, file).then(
 					function(result) {
 						progress.addClass('ng-hide');
+
+						if (ctrl.uploadHandler != null) {
+							ctrl.uploadHandler(result);
+						}
 				})
 			}
     	}

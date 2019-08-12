@@ -28,15 +28,14 @@
 		    height: 250,
 		    airMode: false,
 		    toolbar: [
-				['para', ['style']],
-				['fontname', ['fontname']],
 				['color', ['color']],
 				['fontsize', ['fontsize']],
-				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['style', ['bold', 'italic', 'underline', 'clear']],
 				['alignment', ['ul', 'ol', 'paragraph']],
-				['insert', ['link', 'table', 'hr']],
 				['misc', ['undo']],
-	            ['view', ['fullscreen', 'codeview']]
+				['view', ['fullscreen']],
+				['help', ['help']]
+
 	        ]
 		};
 
@@ -116,6 +115,7 @@
 			if ($scope.selectedProject != null && $scope.selectedProject.end != null) {
 				var newDate = flatpickr.formatDate($scope.selectedProject.end, "l M j, Y")
 				$scope.dueDate = newDate;
+				$scope.duePicker.setDate(new Date($scope.selectedProject.end), false, "l M j, Y");
 			}
         }
         

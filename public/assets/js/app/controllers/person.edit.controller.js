@@ -22,13 +22,34 @@
         
         $scope.isEdit = true;
         $scope.showHints = false;
-        
+		
+		$scope.editAvatar = false;
+
         $scope.avatarTypes = ['Stock', 'Custom'];
         $scope.personTypes = [{label: globalSettings.currWorkspace.Terminology.clientAlias, value:'Client'}, {label: 'Team member', value: 'Team member'}];
         $scope.addressTypes = ['Home', 'Work', 'Other'];
         
         $scope.currAddress = {type:'Home', address:''};
 		
+		$scope.options = {
+		    height: 250,
+		    airMode: false,
+		    toolbar: [
+				['color', ['color']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+				['alignment', ['ul', 'ol', 'paragraph']],
+				['misc', ['undo']],
+				['help', ['help']]
+
+	        ]
+		};
+
+
+		$scope.toggleAvatarEdit = function() {
+			$scope.editAvatar = !$scope.editAvatar;
+		}
+
 		$scope.initView = function() {
 	        var deferred = $q.defer();
 			
@@ -90,9 +111,16 @@
         
         $scope.selectAvatar = function(img) {
 	        if ($scope.selectedPerson != null) {
+				$scope.selectedPerson.avatarType = "Stock";
 		        $scope.selectedPerson.avatar = img;
 	        }
-        }
+		}
+
+		$scope.onFileUploaded = function(result) {
+			//console.log(result);
+			$scope.selectedPerson.avatarType = "Custom";
+			$scope.selectedPerson.avatar = result.downloadURL;
+		}
         
         $scope.savePerson = function(isValid) {
 	        if (isValid) {
