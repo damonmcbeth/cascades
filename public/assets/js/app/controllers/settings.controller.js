@@ -34,6 +34,7 @@
         $scope.faqTagLine = "";
         $scope.faqImg = "";
         $scope.faqPanel = null;
+        $scope.faqFeature = false;
 
         $scope.faqSearch = null;
         $scope.selectedFaq = null;
@@ -80,6 +81,8 @@
         $scope.articles = [];
         $scope.faqs = [];
         $scope.team = [];
+        $scope.projects = [];
+        $scope.defaultProject = null;
 
         $scope.showCascadesAdmin = false;
 
@@ -96,8 +99,16 @@
                 $scope.populateFAQs();
                 $scope.initWorkspace();
                 $scope.initEditor();
+                $scope.populateProjects();
 	        }
         )
+
+        $scope.populateProjects = function() {
+            projectService.getAllProjects().then(
+                function(projects) {
+                    $scope.projects = projects;
+            });
+        }
 
         $scope.populatePeople = function() {
             peopleService.getAllPeople().then(
@@ -294,6 +305,7 @@
             $scope.faqContent = "";
             $scope.faqImg = "";
             $scope.faqTagLine = "";
+            $scope.faqFeature = false;
 
         }
 
@@ -302,7 +314,7 @@
             var img = ($scope.selectedFaq.image == null) ? '' : '<div class="m-b-10" style="text-align: center"><image src="' + $scope.selectedFaq.image + '" style="width: 90%"></image></div>';
 
             var content = '<md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>'
-                                + '<div class="b-400 f-17">'
+                                + '<div class="b-300 f-20 m-t-5" style="text-transform: uppercase;">'
                                 + $scope.selectedFaq.title 
                                 + '</div>'
                                 + '<div class="f-12 b-400">'
@@ -317,7 +329,7 @@
                                 + $filter("amCalendar")($scope.selectedFaq.updated, null, globalSettings.pref.calMidFormats)
                                 + '</div>'
                                 + '<md-divider class="m-t-10"></md-divider>'
-                                + '<div class="m-t-5" style="text-align: center">'
+                                + '<div class="m-t-15" style="text-align: center">'
                                 + '<div>Still can\'t find what you\'re looking for?</div>'
                                 + '<div class="m-20">'
                                 + '<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" '
@@ -341,7 +353,7 @@
 
             $scope.faqPanel = jsPanel.create({
                                 theme:       'primary',
-                                headerTitle: 'Support Details',
+                                headerTitle: 'Support',
                                 headerControls: 'closeonly xs',
                                 position:    'right-top -35 100',
                                 contentSize: '480 530',
@@ -364,7 +376,8 @@
                     content: $scope.faqContent,
                     order: $scope.faqOrder,
                     image: $scope.faqImg,
-                    tagLine: $scope.faqTagLine
+                    tagLine: $scope.faqTagLine,
+                    feature: $scope.faqFeature
                 };
 
                 globalSettings.updateTimestamp(article);

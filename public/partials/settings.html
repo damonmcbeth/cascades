@@ -58,7 +58,7 @@
 								<div class="panel-body" style="display: none;">
 									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Clients?</span>
 									<md-content layout-gt-sm="row" class="m-t-10">
-										<div flex="100">
+										<div flex="100" class="m-r-10">
 											<md-input-container style="width: 100%">
 												<input ng-model="editableWrkSpc.Terminology.clientAlias" placeholder="Client" ng-blur="updateTerms()">
 											</md-input-container>
@@ -72,7 +72,7 @@
 	
 									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Projects?</span>
 									<md-content layout-gt-sm="row" class="m-t-10">
-										<div flex="100">
+										<div flex="100" class="m-r-10">
 											<md-input-container style="width: 100%">
 												<label>Project</label>
 												<input ng-model="editableWrkSpc.Terminology.projectAlias" ng-blur="updateTerms()">
@@ -88,7 +88,7 @@
 									
 									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Tasks?</span>
 									<md-content layout-gt-sm="row" class="m-t-10">
-										<div flex="100">
+										<div flex="100" class="m-r-10">
 											<md-input-container style="width: 100%">
 												<label>Task</label>
 												<input ng-model="editableWrkSpc.Terminology.taskAlias" ng-blur="updateTerms()">
@@ -104,7 +104,7 @@
 									
 									<span class="f-13" style="text-transform: uppercase">What word do you use to represent Notes?</span>
 									<md-content layout-gt-sm="row" class="m-t-10">
-										<div flex="100">
+										<div flex="100" class="m-r-10">
 											<md-input-container style="width: 100%">
 												<label>Note</label>
 												<input ng-model="editableWrkSpc.Terminology.memoAlias" ng-blur="updateTerms()">
@@ -181,6 +181,22 @@
 								</div>
 							</div>
 
+							<div class="panel panel-default">
+								<div class="panel-body">
+
+									<label>Default {{gs.currWorkspace.Terminology.projectAlias}}</label>
+
+									<md-input-container class="md-block" >
+										<md-select ng-model="currPreferences.Settings.Project.defaultProject" ng-change="updateUserPreferences()"
+											aria-label="Default {{gs.currWorkspace.Terminology.projectAlias}}">
+											<md-option ng-repeat="proj in projects | orderBy: 'title' " ng-value="proj.$id" >
+											{{proj.title}}
+											</md-option>
+									  </md-select>
+								  </md-input-container>
+								</div>
+							</div>
+
 							<div class="panel panel-default"  ng-show="currPerson.isAdmin"> 
 									<div class="panel-body">
 										<label>{{gs.currWorkspace.Terminology.projectAlias}} types</label>
@@ -248,17 +264,17 @@
 							</div>
 						
 							<div class="panel panel-default" ng-hide="faqSearch != null && faqSearch != ''">
-								<div class="panel-body f-15">
+								<div class="panel-body f-15 p-0">
 									<div class="m-b-0"><image src="https://firebasestorage.googleapis.com/v0/b/temporal-potion-575.appspot.com/o/Content%2Fsupport.jpg?alt=media&token=779e2949-1ded-4825-a354-5cdc3d0ff3b0" flex="100"></image></div>
 						
 									<a class="b-500" href="/landing" target="_blank">LEARN ABOUT CASCADES</a>
 									
-									<div class="p-10" style="text-align: left">
-										<div class="m-t-20">GETTING STARTED</div>
+									<div class="p-25" style="text-align: left">
+										<div class="m-t-20">USING CASCADES</div>
 										<md-divider></md-divider>
 										<ul>
 											<li class="m-t-10 b-300" 
-												ng-repeat="faq in faqs | filter:{category: 'GETTING STARTED'} | orderBy:'order'">
+												ng-repeat="faq in faqs | filter:{category: 'USING'} | orderBy:'order'">
 												<span ng-show="showCascadesAdmin" ng-click="editFAQ(faq)" class="m-r-10 f-12 b-400">Edit</span>
 												<span ng-click="openFAQ(faq)">{{faq.title}}</span></li>
 										</ul>
@@ -285,7 +301,7 @@
 									<div class="m-t-15">
 										Did not find what you were looking for?
 									</div>
-									<div class="m-20">
+									<div class="m-20 p-10">
 										<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" 
 											target="_blank" class="btn-primary btn-large">Contact us</a>
 									</div>
@@ -308,12 +324,17 @@
 										<input ng-model="faqImg" class="checklist-item m-r-10" placeholder="Image" type="text" flex="100">
 										<input ng-model="faqOrder" class="checklist-item" placeholder="Order" type="text" flex="20">
 									</div>
+									<div layout="row" class="m-b-15">
+										<md-switch ng-model="faqFeature" aria-label="Featured" class="">
+											Featured item
+										</md-switch>
+									</div>
 
 									<div class="m-b-0" layout="row"> 
 										<md-input-container class="md-block">
 											<md-radio-group ng-model="faqCategory" layout="row">
 													<md-radio-button value="{{cat}}" class="md-primary" 
-														ng-repeat="cat in ['GETTING STARTED', 'FAQ', 'TIPS']">{{cat}}</md-radio-button>
+														ng-repeat="cat in ['FAQ', 'TIPS', 'USING']">{{cat}}</md-radio-button>
 											</md-radio-group>
 										</md-input-container>
 									</div>

@@ -85,10 +85,17 @@
                             <span>Support</span>
                         </a>
                     </li>
+                    <li ui-sref-active="active" data-intro="This Guided tour will step through some features on your Summary view. Click the Next button or use the arrow keys on your keyboard to move forward." data-step="1">
+                            <a href="" ng-click="openMainGuide()">
+                                <i class="pe-7s-compass"></i>
+                                <span>Guided tour</span>
+                            </a>
+                        </li>
                     <li ui-sref-active="active" ng-show="showAdmin">
                         <a ui-sref="mywork.tickets">
                             <i class="pe-7s-help2"></i>
                             <span>Incident tickets</span>
+                            <span class="m-l-10 f-10 badge badge-danger" ng-show="tickets>0">{{tickets}}</span>
                         </a>
                     </li>
                     

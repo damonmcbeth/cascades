@@ -2,10 +2,10 @@
 <div class="row" >    
         
     <div class="col-md-8">
-        <div class="widget-container">
+        <div class="widget-container"  data-intro="The {{gs.currWorkspace.Terminology.taskAlias}} widget provides a summary of your active {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }}. By default, the list will include {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due today and overdue." data-step="2">
             <div class="widget">
                 <div md-ink-ripple class="f-15 p-10 p-l-15 p-r-15 border-bottom-1 border-muted b-400 text-default">
-                    <div class="pull-right f-20">
+                    <div class="pull-right f-20" data-intro="These links provide access to your {{gs.currWorkspace.Terminology.taskAlias}} list, to your {{gs.currWorkspace.Terminology.taskAlias}} board and a link to add a new {{gs.currWorkspace.Terminology.taskAlias}}." data-step="3">
                         <a href="" ng-click="nav.showTasks()" class="m-r-5 text-default"><i class="pe-7s-check"></i></a>
                         <a ui-sref="mywork.taskboard" class="m-r-5 text-default"><i class="pe-7s-keypad"></i></a>
                         <a href="" ng-click="nav.newTask()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
@@ -16,6 +16,7 @@
                 <div class="p-20 task-widget">
                     <div class="row">
                         <div class="border-primary border-left-5 p-5 p-l-10 text-default " 
+                            data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due today. Clicking on the area will filter the list below." data-step="4"
                             ng-class="{ 'task-summary-selected' : filterDueToday, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
                             'col-sm-4': !gs.currPreferences.Settings.Task.delegation}"
                             ng-click="toggleDueToday()" md-ink-ripple>
@@ -23,6 +24,7 @@
                             <div class="f-13 b-400">Due today</div>
                         </div>
                         <div class="border-danger border-left-5 p-5 p-l-10 text-default"
+                        data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} that are overdue. Clicking on the area will filter the list below." data-step="5"
                             ng-class="{ 'task-summary-selected' : filterOverdue, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
                             'col-sm-4': !gs.currPreferences.Settings.Task.delegation }"
                             ng-click="toggleOverdue()" md-ink-ripple>
@@ -30,6 +32,7 @@
                             <div class="f-13 b-400">Overdue</div>
                         </div>
                         <div class="border-warning border-left-5 p-5 p-l-10 text-default"
+                            data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due in the number of days specified in your preferences. Clicking on the area will filter the list below." data-step="6"
                             ng-class="{ 'task-summary-selected' : filterDueSoon, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
                             'col-sm-4': !gs.currPreferences.Settings.Task.delegation }"
                             ng-click="toggleDueSoon()" md-ink-ripple>
@@ -108,27 +111,42 @@
                     </div>
                     REMINDERS
                 </div>
-                <div class="reminder-alert p-10"
-                    ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
-                    
+                <div class="reminder-alert p-10" ng-repeat="reminder in reminders | orderBy:'start'">
                     <div>
-                        <span class="f-11 text-primary b-500">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
-                        <span class="f-11 text-primary b-500" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span>
-                        <span class="f-11 text-primary b-500 m-l-5" ng-if="!reminder.allday">({{ reminder.startTime | amCalendar:null:gs.pref.calTimeFormats }} - {{ reminder.endTime | amCalendar:null:gs.pref.calTimeFormats }})</span><br/>
-                        <span class="reminder-alert-content">{{reminder.title}}</span>
-                        <div class="m-t-10 f-12 b-300" ng-bind-html="formatContent(reminder.notes)"></div>
+                        <div class="text-primary b-500">
+                            <i class="icon pe-7f-refresh-2" ng-show="reminder.repeat"></i>
+                            <span class="f-11">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
+                            <span class="f-11" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats}}</span>
+                            <span class="f-11" ng-if="!reminder.allday">({{ reminder.startTime | amCalendar:null:gs.pref.calTimeFormats }} - {{ reminder.endTime | amCalendar:null:gs.pref.calTimeFormats }})</span>
+                        </div>
+                        <div class="m-t-5 reminder-alert-content">{{reminder.title}}</div>
+                        <div class="m-t-5 f-12 b-300" ng-bind-html="formatContent(reminder.notes)"></div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="widget-container" ng-show="faq != null">
+            <div class="widget align-center p-5">
+                <div class="b-500 f-15 m-t-5 " style="text-transform: uppercase;">
+                    {{faq.title}}
+                </div>
+                <div class="b-300 f-13 m-t-5">{{faq.tagLine}}</div>
+                <div class="m-b-10" style="text-align: center">
+                    <image src="{{faq.image}}" style="width: 90%"></image>
+                </div>
+                <div class="b-500 f-12 m-t-5"><a href="" ng-click="openFAQ()">READ MORE</a></div>
+            </div>
+        </div>
+
         <div ng-bind-html="formatContent(currArticle)" postrender-action="refereshArticle()"></div>
+
     </div>
 
 </div>
 
 
-<div class="page-header">
+<div class="page-header" >
     <h4 class="header-text">Recent activity</h4>
 </div>
 
@@ -228,7 +246,7 @@
 
     <div class="col-sm-4">
         <div class="widget-container">
-            <div class="widget" style="height: 440px">
+            <div class="widget" style="height: 440px" >
                 <div class="f-13 p-10 border-bottom-1 border-muted b-400">
                     ACTIVITY TIMELINE
                 </div>

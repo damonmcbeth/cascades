@@ -130,7 +130,7 @@
 				        $scope.isEdit = false;
 				        var tmp = taskService.newTask();
 				        
-				        var defProj = globalSettings.currWorkspace.Settings.Project.defaultProject;
+				        var defProj = globalSettings.currPreferences.Settings.Project.defaultProject;
 						tmp.projectId = (globalNav.defaultProject == null) ? defProj : globalNav.defaultProject;
 						
 						if (globalNav.defaultPerson != null)  {

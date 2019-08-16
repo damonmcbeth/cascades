@@ -3,7 +3,7 @@
 		<div class="utility-container">
 			<div class="utility-menu">
 				<ul class="menu-buttons">
-					<li ng-hide="selectMode">
+					<li ng-hide="selectMode" >
 						<a href="" id="new-message" ng-Click="newTask()">
 							<i class="icon pe-7s-plus"></i>
 							<span class="text">{{gs.currWorkspace.Terminology.taskAlias}}</span>
@@ -191,18 +191,25 @@
 						  
 						</md-menu>
 					</li>
+
+					<li ng-hide="selectMode" data-intro="Guided Tours Coming soon" data-step="1">
+						<a href="" ng-Click="showIntro()">
+							<i class="icon pe-7s-compass"></i>
+						</a>
+					</li> 
 				</ul>
-				<ul class="menu-buttons secondary">
+				<!-- <ul class="menu-buttons secondary">
 					
 	
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 		
 		<div class="page-container">
 			
 			<div class="w-200" style="overflow-y: auto !important;">
-				<div class="m-15 p-5">
+				<div class="m-15 p-5"  data-step="2" data-intro="This section">
+					<div  data-step="3" data-intro="This section">
 					<h4>Assigned to</h4>
 					<md-divider class="m-b-10"></md-divider>
 					
@@ -229,9 +236,9 @@
 								</md-radio-button>
 							</div>
 						</div>
-					</md-radio-group>
+					</md-radio-group></div>
 
-					<div class="m-t-30">
+					<div class="m-t-30"  data-step="4" data-intro="This section">
 						<h4>{{gs.currWorkspace.Terminology.projectAliasPlural}}</h4>
 						<md-divider class="m-b-10"></md-divider>
 									
@@ -254,7 +261,7 @@
 					</div> 
 
 
-					<div class="m-t-30">
+					<div class="m-t-30"  data-step="5" data-intro="This section">
 						<h4>{{gs.currWorkspace.Terminology.clientAlias}}</h4>
 						<md-divider class="m-b-10"></md-divider-->
 						
@@ -284,7 +291,7 @@
 			
 			<div class="grp-container" style="overflow-y: auto !important; width: 300px !important"
 				ng-hide="selectedProject == null">
-				<div class="widget m-0" style="height: 100%;">
+				<div class="widget m-0" style="height: 100%;"  data-step="7" data-intro="This section">
 					<div class="p-r-20 p-l-20 p-t-5 p-b-20 align-center ">
 												
 											<h3 ng-click="openProjectDetails()">{{selectedProject.title}}</h3>

@@ -5,12 +5,14 @@
         .module('app')
         .controller('SidebarController', SidebarController);
 
-    SidebarController.$inject = ['$scope', '$state', 'globalSettings', 'globalNav', 'tagService', 'taskService', 'peopleService', 'projectService', 'journalService'];
+    SidebarController.$inject = ['$scope', '$state', '$filter', 'globalSettings', 'globalNav', 'tagService', 'taskService', 'peopleService', 'projectService', 'journalService', 'ticketsService'];
 
-    function SidebarController($scope, $state, globalSettings, globalNav, tagService, taskService, peopleService, projectService, journalService) {
+    function SidebarController($scope, $state, $filter, globalSettings, globalNav, tagService, taskService, peopleService, projectService, journalService, ticketsService) {
 	    $scope.nav = globalNav;
 	    $scope.gs = globalSettings;
-	    
+		
+		$scope.tickets = 0;
+
 	    $scope.selectedWrkSpace = {};
 	    $scope.wrkSpcs;
 		
@@ -23,7 +25,10 @@
 				$scope.showAdmin = globalSettings.currProfile.admin == 'Y';
 
 	        	$scope.initSelectedWrkSpace();
-	        	$scope.populateTags();
+				$scope.populateTags();
+				$scope.populateTickets();
+
+				//globalSettings.logError("module", "Sample function", "Sample Message");
 	        	
         });
         
@@ -83,10 +88,24 @@
 		$scope.openDocs = function() {
 			globalNav.showDocs();
 		}
+
+		$scope.openMainGuide = function() {
+			introJs().setOption('showProgress', true).start();
+		}
         
         $scope.selectWrkSpc = function() {
 	        globalSettings.log("SidebarController", "selectWrkSpc", $scope.selectedWrkSpace.wrkSpc)
 	        globalSettings.selectWrkSpc($scope.selectedWrkSpace.wrkSpc);
+		}
+
+		$scope.populateTickets = function() {
+	        ticketsService.getAllTickets().then(
+				function(ts) {
+					var tmp = $filter('filter')(ts, {status: "Open"});
+					$scope.tickets = tmp.length;
+					//$scope.tickets = ts;
+				}
+			);
 		}
 		
 		

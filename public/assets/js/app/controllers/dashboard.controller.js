@@ -61,7 +61,8 @@
 		$scope.recentNotesFilter = {archived: false};
         
         $scope.hasReminder = false;
-        
+		$scope.faq = null;
+		$scope.faqPanel = null;
         
         globalSettings.initSettings().then(
         	function() {
@@ -76,7 +77,19 @@
 				$scope.populateActivity();
 				$scope.populateJournal();
 				$scope.populateArticles();
-        });
+				$scope.populateFeaturedFAQs();
+		});
+		
+		$scope.populateFeaturedFAQs = function() {
+			globalSettings.getAllFAQs().then(
+				function(entries) {
+					var faqs = $filter('filter')(entries, {feature: true});
+					var len = faqs.length;
+					var indx = (Math.floor((Math.random() * len) + 1)) - 1;
+
+					$scope.faq = faqs[indx];
+			});
+        }
         
         $scope.populateTags = function() {
 	        tagService.getAllTags().then(
@@ -93,12 +106,58 @@
 		}
 		
 		$scope.populateReminder = function() {
-			reminderService.getCurrentEntries().then(
+			reminderService.getAllEntries().then(
 				function(entries) {
-					$scope.reminders = entries;
-					
-					$scope.hasReminder = $filter("filter")(entries, $scope.includeReminder('start')).length > 0;
+					// $scope.reminders = entries;
+					// $scope.hasReminder = $filter("filter")(entries, $scope.includeReminder('start')).length > 0;
+
+					var result = [];
+					var today = moment().toDate();
+					var lookAhead = moment().add(7, 'days').toDate();
+
+					var len = entries.length;
+					var entry;
+					var clone;
+
+					for (var i=0; i<len; i++) {
+						entry = entries[i];
+
+						if (entry.repeat) {
+							var tmpStart = entry.start;
+							var tmpEnd = entry.end;
+							
+							while(tmpStart <= entry.until) {
+								if ((tmpStart >= today && tmpStart <= lookAhead)
+									|| (tmpEnd >= today && tmpEnd <= lookAhead)) {
+
+									clone = reminderService.cloneEntryLite(entry);
+									clone.start = tmpStart;
+									clone.end = tmpEnd;
+
+									result.push(clone);
+									//break;
+								}
+
+								tmpStart = moment(tmpStart).add(entry.everyCount, entry.everyInterval).toDate();
+								tmpEnd = moment(tmpEnd).add(entry.everyCount, entry.everyInterval).toDate();
+							}
+
+						} else {
+							if ((entry.start >= today && entry.start <= lookAhead)
+								|| (entry.end >= today && entry.end <= lookAhead)) {
+								result.push(entry);
+							}
+						}
+					}
+
+					$scope.reminders = result;
 			});
+		}
+
+		$scope.includeReminder = function(prop) {
+		    return function(item) {
+		      return item[prop] <= moment().add(10, 'days').toDate();
+		    }
 		}
 
 		$scope.populateJournal = function() {
@@ -148,12 +207,6 @@
 		    }
 		}
 
-		$scope.includeReminder = function(prop) {
-		    return function(item) {
-		      return item[prop] <= moment().add(10, 'days').toDate();
-		    }
-		}
-		
 		globalSettings.shouldClearCache("insightsSer_TaskSumary")
         
         $scope.hasRecentProjects = function() {
@@ -295,6 +348,55 @@
 				//catchCode - Block of code to handle errors
 			} 
 		}
+
+		$scope.openFAQ = function() {
+
+            if ($scope.faqPanel != null) {
+                $scope.faqPanel.close();
+            }
+
+            $scope.faqPanel = jsPanel.create({
+                                theme:       'primary',
+                                headerTitle: 'Support',
+                                headerControls: 'closeonly xs',
+                                position:    'right-top -35 100',
+                                contentSize: '480 530',
+                                content: $scope.populateFAQContent(),
+                                onclosed: function(panel){
+                                    $scope.faqPanel = null;
+                                  }
+                            });
+
+		}
+		
+		$scope.populateFAQContent = function() {
+            var tagline = ($scope.faq.tagLine == null) ? "" : $scope.faq.tagLine;
+            var img = ($scope.faq.image == null) ? '' : '<div class="m-b-10" style="text-align: center"><image src="' + $scope.faq.image + '" style="width: 90%"></image></div>';
+
+            var content = '<md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>'
+                                + '<div class="b-300 f-20 m-t-5" style="text-transform: uppercase;">'
+                                + $scope.faq.title 
+                                + '</div>'
+                                + '<div class="f-12 b-400">'
+                                + tagline
+                                + '</div>'
+                                + '<md-divider class="m-b-10 m-t-10"></md-divider>'
+                                + img
+                                + '<div style="min-height:120px">'
+                                + $scope.formatContent($scope.faq.content)
+                                + '</div>'
+                                + '<div class="f-12 text-muted" style="text-align: right">Last updated: '
+                                + $filter("amCalendar")($scope.faq.updated, null, globalSettings.pref.calMidFormats)
+                                + '</div>'
+                                + '<md-divider class="m-t-10"></md-divider>'
+                                + '<div class="m-t-15" style="text-align: center">'
+                                + '<div>Still can\'t find what you\'re looking for?</div>'
+                                + '<div class="m-20">'
+                                + '<a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" '
+                                + 'target="_blank" class="btn-primary btn-large">Contact us</a>'
+                                + '</div></div>';
+            return content;
+        }
 
 
         //$scope.openPersonDetails = function(pid) {

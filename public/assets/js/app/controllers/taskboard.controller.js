@@ -681,6 +681,10 @@
 
 			return deferred.promise;
 		}
+
+		$scope.showIntro = function() {
+			introJs().setOption('showProgress', true).start();
+		}
         
         taskService.registerController($scope.buildSummary);
     

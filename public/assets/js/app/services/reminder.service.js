@@ -99,6 +99,36 @@
 				return result;
 			};
 			
+			self.cloneEntryLite = function (src) {
+			    
+				var result = self.newEntry();
+				
+				var dt = moment().startOf('hour').toDate();
+				var ft = moment().startOf('hour').add(1, 'hour').toDate();
+
+				result.$id = src.$id;
+				result.title = src.title;
+				result.allday = src.allday;
+				result.start = src.start == undefined ? null : new Date(src.start);
+				result.end = src.end == undefined ? null : new Date(src.end);
+				result.startTime = src.startTime == undefined ? dt : new Date(src.startTime);
+				result.endTime = src.endTime == undefined ? ft : new Date(src.endTime);
+				result.until = src.until == undefined ? null : new Date(src.until);
+				
+				result.repeat = src.repeat;
+				result.everyCount = src.everyCount == undefined ? 0 : src.everyCount;
+				result.everyInterval = src.everyInterval == undefined ? null : src.everyInterval;
+				result.archived = src.archived;
+				result.notes = src.notes == undefined ? null : src.notes;
+				
+				result.created = src.created;
+				result.createdName = src.createdName;
+				result.updated = src.updated;
+				result.updatedName = src.updatedName;
+		            
+		        return result;
+		    };
+
 			self.cloneEntry = function (src, dest) {
 			    var deferred = $q.defer();
 			    

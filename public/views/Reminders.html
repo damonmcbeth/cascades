@@ -19,13 +19,13 @@
 	
 	<div class="page-container-vert">
 	<div class="row"> 
-	    <div class="col-md-8 panel panel-white" >
+	    <div class="col-md-9 panel panel-white" >
             <div class="panel-body">
             	<div id="full-calendar"></div>
             </div>
 		</div>
 		
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<div class="widget-container">
 				<div class="widget">
 					<div class="f-13 p-10 border-bottom-1 border-muted b-400">
@@ -38,12 +38,14 @@
 						ng-repeat="reminder in reminders | filter:includeReminder('start') | orderBy:'start'">
 						
 						<div ng-click="nav.openReminderEditDetails(reminder.$id)">
-							<span class="f-11 text-primary b-500">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
-							<span class="f-11 text-primary b-500" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats }}</span>
-							<span class="f-11 text-primary b-500 m-l-5" ng-if="!reminder.allday">({{ reminder.startTime | amCalendar:null:gs.pref.calTimeFormats }} - {{ reminder.endTime | amCalendar:null:gs.pref.calTimeFormats }})</span><br/>
-							<span class="reminder-alert-content">{{reminder.title}}</span>
-
-							<div class="m-t-10 f-12 b-300" ng-bind-html="formatContent(reminder.notes)"></div>
+							<div class="text-primary b-500">
+								<i class="icon pe-7f-refresh-2" ng-show="reminder.repeat"></i>
+								<span class="f-11">{{ reminder.start | amCalendar:null:gs.pref.calShortFormats}}</span>
+								<span class="f-11" ng-if="reminder.start != reminder.end"> - {{ reminder.end | amCalendar:null:gs.pref.calShortFormats }}</span>
+								<span class="f-11 m-l-5" ng-if="!reminder.allday">({{ reminder.startTime | amCalendar:null:gs.pref.calTimeFormats }} - {{ reminder.endTime | amCalendar:null:gs.pref.calTimeFormats }})</span>
+							</div>
+							<div class="m-t-5 reminder-alert-content">{{reminder.title}}</div>
+							<div class="m-t-5 f-12 b-300" ng-bind-html="formatContent(reminder.notes)"></div>
 						</div>
 					</div>
 				</div>

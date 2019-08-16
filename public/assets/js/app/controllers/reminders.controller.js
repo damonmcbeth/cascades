@@ -197,7 +197,13 @@
 		
 		$scope.includeReminder = function(prop) {
 		    return function(item) {
-				return item[prop] >= moment().add(-10, 'days').toDate();
+				var dt = moment().add(-10, 'days').toDate();
+
+				if (item.repeat) {
+					return item.until >= dt;
+				} else {
+					return item[prop] >= dt;
+				}
 		    }
 		}
         
