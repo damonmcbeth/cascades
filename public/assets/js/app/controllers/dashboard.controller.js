@@ -33,7 +33,10 @@
 		$scope.filterDelegated = false;
 
 		$scope.currArticle = "";
-		
+
+		$scope.newTaskDue = "Tomorrow evening";
+		$scope.newTaskTitle;
+
 		$scope.cardOptions = {
             animate:{
                 duration:500,
@@ -118,6 +121,8 @@
 					var len = entries.length;
 					var entry;
 					var clone;
+
+					
 
 					for (var i=0; i<len; i++) {
 						entry = entries[i];
@@ -396,7 +401,41 @@
                                 + 'target="_blank" class="btn-primary btn-large">Contact us</a>'
                                 + '</div></div>';
             return content;
-        }
+		}
+		
+		$scope.addTaskItem = function() {
+			if ($scope.newTaskTitle == null || $scope.newTaskTitle == "") {
+				return;
+			}
+
+			var tmp = taskService.newTask();
+				        
+			var defProj = globalSettings.currPreferences.Settings.Project.defaultProject;
+			tmp.projectId = (globalNav.defaultProject == null) ? defProj : globalNav.defaultProject;
+
+			taskService.initTask(tmp).then(
+				function(task) {
+					task.title = $scope.newTaskTitle;
+
+					var value = null;
+					switch ($scope.newTaskDue) {
+						case 'In 2 hours': value = moment().startOf('hour').add(2, 'hours').toDate(); break; 
+						case 'In 4 hours': value = moment().startOf('hour').add(4, 'hours').toDate(); break; 
+						case 'This evening': value = moment().startOf('day').add(18, 'hours').toDate(); break;
+						case 'Tomorrow morning': value = moment().startOf('day').add(1, 'days').add(8, 'hours').toDate(); break; 
+						case 'Tomorrow evening': value = moment().startOf('day').add(1, 'days').add(18, 'hours').toDate();break; 
+						case '2 days from now': value = moment().startOf('hour').add(2, 'days').toDate(); break; 
+						case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate(); break
+						case 'No due date' : value = null;
+					}
+
+					task.due = value;
+					taskActivityService.saveTask(task, null, true);
+					$scope.newTaskTitle = null;
+				}
+			);
+						
+		}
 
 
         //$scope.openPersonDetails = function(pid) {
