@@ -459,7 +459,7 @@
 				var personKey = self.initDefaultPerson(newKey, user, defaultPersonKey);
 				self.initDefaultProject(newKey, personKey, user);
 				self.initDefaultSummary(newKey, personKey);
-				self.initDefaultTicket(newKey, personKey);
+				//self.initDefaultTicket(newKey, personKey);
 				
 				return {id:newKey, value:workspacePref};
 			}

@@ -362,7 +362,7 @@
 
             $scope.faqPanel = jsPanel.create({
                                 theme:       'primary',
-                                headerTitle: 'Support',
+                                headerTitle: 'Featured Article',
                                 headerControls: 'closeonly xs',
                                 position:    'right-top -35 100',
                                 contentSize: '480 530',
