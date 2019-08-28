@@ -25,6 +25,7 @@
 		$scope.activity = [];
 		$scope.fullActivity = [];
 		$scope.grouping = [];
+		$scope.allProjects = [];
 
 		$scope.filterTasks = false;
 		$scope.filterOverdue = false;
@@ -36,6 +37,7 @@
 
 		$scope.newTaskDue = "Tomorrow evening";
 		$scope.newTaskTitle;
+		$scope.newTaskProject;
 
 		$scope.cardOptions = {
             animate:{
@@ -81,8 +83,19 @@
 				$scope.populateJournal();
 				$scope.populateArticles();
 				$scope.populateFeaturedFAQs();
+				$scope.populateProjects();
 		});
 		
+		$scope.populateProjects = function() {
+			projectService.getAllProjects().then(
+				function(projects) {
+					$scope.allProjects = projects;
+					$scope.newTaskProject = globalSettings.currPreferences.Settings.Project.defaultProject;
+
+			});	
+		}
+
+
 		$scope.populateFeaturedFAQs = function() {
 			globalSettings.getAllFAQs().then(
 				function(entries) {
@@ -187,6 +200,10 @@
 		$scope.includeTask = function() {
 		    return function(item) {
 				var owner = globalSettings.currProfile.person;
+
+				if (item.isDone) {
+					return false;
+				}
 
 				if ($scope.filterTasks) {
 					if (owner == item.ownerId || owner == item.delegateId) {
@@ -409,9 +426,7 @@
 			}
 
 			var tmp = taskService.newTask();
-				        
-			var defProj = globalSettings.currPreferences.Settings.Project.defaultProject;
-			tmp.projectId = (globalNav.defaultProject == null) ? defProj : globalNav.defaultProject;
+			tmp.projectId = $scope.newTaskProject;
 
 			taskService.initTask(tmp).then(
 				function(task) {

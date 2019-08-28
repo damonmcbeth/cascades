@@ -98,9 +98,9 @@
                     </div>
 
                     <md-divider></md-divider>
-                    <div class="p-t-15 p-l-10 p-r-10 p-b-0 v-a-middle" layout="row" style="background-color: #f7f7f7;"
+                    <div class="p-t-15 p-l-10 p-r-10 p-b-0 v-a-middle " layout="row" style="background-color: #f7f7f7; flex-flow: wrap;"
                         data-intro="This festure provides a quick way to add a new {{gs.currWorkspace.Terminology.taskAlias | lowercase }}." data-step="8">
-                        <md-input-container class="p-0 m-r-10" flex="100">
+                        <md-input-container class="p-0 m-r-10" style="min-width: 225px">
                             <label>{{gs.currWorkspace.Terminology.taskAlias}}</label> 
                             <input ng-model="newTaskTitle" type="text"
                                 ng-keydown="$event.keyCode === 13 && addTaskItem()">
@@ -111,6 +111,15 @@
                             <md-select ng-model="newTaskDue">
                                 <md-option ng-repeat="due in ['In 2 hours', 'This evening', 'Tomorrow morning', 'Tomorrow evening', '2 days from now', 'Next week', 'No due date']" value="{{due}}" >
                                     {{due}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-input-container class="p-0 m-r-10">
+                            <label>{{gs.currWorkspace.Terminology.projectAlias}}</label>        
+                            <md-select ng-model="newTaskProject">
+                                <md-option ng-repeat="proj in allProjects | filter:{status:'Open'} | orderBy:'title'" value="{{proj.$id}}" >
+                                    {{proj.title}}
                                 </md-option>
                             </md-select>
                         </md-input-container>
@@ -157,7 +166,7 @@
                 <div class="m-b-10" style="text-align: center">
                     <image src="{{faq.image}}" style="width: 90%"></image>
                 </div>
-                <div class="b-500 f-12 m-t-5"><a href="" ng-click="openFAQ()">
+                <div class="b-500 f-12 m-t-5 m-b-5"><a href="" ng-click="openFAQ()">
                     <label class="btn btn-inverse">READ MORE</label></a></div>
             </div>
         </div>

@@ -1,8 +1,8 @@
 
 <div ng-cloak style="height: 100%">
-		<div class="utility-container" data-intro="Guided Tours Coming soon" data-step="1">
+		<div class="utility-container">
 			<div class="utility-menu">
-				<ul class="menu-buttons">
+				<ul class="menu-buttons" data-intro="This section provides features to create new {{gs.currWorkspace.Terminology.taskAlias}}, enable editing multiple {{gs.currWorkspace.Terminology.taskAliasPlural}} at once, archiving completed {{gs.currWorkspace.Terminology.taskAliasPlural}} and changing the grouping and sorting of your board." data-step="2">
 					<li ng-hide="selectMode" >
 						<a href="" id="new-message" ng-Click="newTask()">
 							<i class="icon pe-7s-plus"></i>
@@ -191,25 +191,15 @@
 						  
 						</md-menu>
 					</li>
-
-					<!-- <li ng-hide="selectMode" data-intro="Guided Tours Coming soon" data-step="1">
-						<a href="" ng-Click="showIntro()">
-							<i class="icon pe-7s-compass"></i>
-						</a>
-					</li>  -->
 				</ul>
-				<!-- <ul class="menu-buttons secondary">
-					
-	
-				</ul> -->
 			</div>
 		</div>
 		
 		<div class="page-container">
 			
 			<div class="w-200" style="overflow-y: auto !important;">
-				<div class="m-15 p-5"  data-step="2" data-intro="This section">
-					<div  data-step="3" data-intro="This section">
+				<div class="m-15 p-5"  data-step="3" data-intro="This section provides a variety of ways to filter your board.">
+					<div  data-step="4" data-intro="This section gives you the ability to filter by owner or delegate (if enabled in user preferences).">
 					<h4>Assigned to</h4>
 					<md-divider class="m-b-10"></md-divider>
 					
@@ -238,7 +228,7 @@
 						</div>
 					</md-radio-group></div>
 
-					<div class="m-t-30"  data-step="4" data-intro="This section">
+					<div class="m-t-30"  data-step="5" data-intro="This section gives you the ability to filter by a selected {{gs.currWorkspace.Terminology.projectAlias | lowercase}}.">
 						<h4>{{gs.currWorkspace.Terminology.projectAliasPlural}}</h4>
 						<md-divider class="m-b-10"></md-divider>
 									
@@ -261,7 +251,7 @@
 					</div> 
 
 
-					<div class="m-t-30"  data-step="5" data-intro="This section">
+					<div class="m-t-30"  data-step="6" data-intro="This section gives you the ability to filter by a selected {{gs.currWorkspace.Terminology.clientAlias | lowercase}}. Simply start typing the person's name and select the matching name from the drop down.">
 						<h4>{{gs.currWorkspace.Terminology.clientAlias}}</h4>
 						<md-divider class="m-b-10"></md-divider-->
 						
@@ -291,7 +281,7 @@
 			
 			<div class="grp-container" style="overflow-y: auto !important; width: 300px !important"
 				ng-hide="selectedProject == null">
-				<div class="widget m-0" style="height: 100%;"  data-step="7" data-intro="This section">
+				<div class="widget m-0" style="height: 100%;">
 					<div class="p-r-20 p-l-20 p-t-5 p-b-20 align-center ">
 												
 											<h3 ng-click="openProjectDetails()">{{selectedProject.title}}</h3>
