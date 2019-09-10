@@ -44,7 +44,7 @@
 				    <div class="md-list-item-text  p-l-0">
 						<div class="list-title" ng-class="{'f-17': doc.type.startsWith('Folder'), 'f-15': !doc.type.startsWith('Folder')}">{{ doc.title }}</div>
 						<div class="list-title-2 f-12" ng-hide="doc.type == 'Folder' || doc.type == 'Folder-Locked'">{{ doc.updated | amCalendar:null:gs.pref.calFormats }}</div>
-						<div class="list-title-3 f-12" ng-hide="doc.type == 'Folder' || doc.type == 'Folder-Locked'">{{ doc.folder }}: {{ doc.src }}</div>  
+						<div class="list-title-3 f-12" ng-hide="doc.type == 'Folder' || doc.type == 'Folder-Locked' || doc.custom == 'Y'">{{ doc.folder }}: {{ doc.src }}</div>  
 					</div>
 					
 					<div class="md-secondary" ng-if="!doc.restricted">

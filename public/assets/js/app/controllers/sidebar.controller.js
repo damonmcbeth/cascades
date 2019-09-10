@@ -90,7 +90,13 @@
 		}
 
 		$scope.openMainGuide = function() {
-			introJs().setOption('showProgress', true).start();
+			var opt = {
+				'doneLabel': 'End tour',
+				'skipLabel': 'Exit tour', 
+				'showProgress': true
+			};
+
+			introJs().setOptions(opt).start();
 		}
         
         $scope.selectWrkSpc = function() {

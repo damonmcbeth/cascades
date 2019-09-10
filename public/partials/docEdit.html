@@ -1,14 +1,15 @@
 <div id="taskbar" class="sidebar-content" ng-controller="DocEditController" ng-cloak>
     <div class="sidebar-header">
         <div class="header-title">
-           <span>Folder Details</span>
+           <span>Document Details</span>
         </div>
         
         <div class="header-description v-a-middle">
             <a href="" style="color: #fff" ng-click="cancelEdit()">
             	Cancel
             </a>
-            <a href="" class="pull-right" style="color: #fff" ng-click="saveFolder(folderForm.$valid)">
+			<a href="" class="pull-right" style="color: #fff" ng-click="saveFile(folderForm.$valid)"
+				ng-disabeled="canSave">
             	Save
             </a>
         </div>
@@ -19,10 +20,17 @@
 	        <form name="folderForm">
 		        <div class="panel panel-default">
 		            <div class="panel-body">
+						<md-input-container class="md-block p-b-0">
+							<label>Folder</label>
+							<input name="title" ng-model="selectedFolder.title" 
+								md-detect-hidden="true" ng-disabled="true"></input>
+						</md-input-container>
+
 		                <md-input-container class="md-block p-b-0">
 			            	<label>Title</label>
-							<textarea name="title" class="primary-input" ng-model="selectedFolder.title" rows="1" 
+							<textarea name="title" class="primary-input" ng-model="selectedFile.title" rows="1" 
 								md-maxlength="80" md-detect-hidden="true" required></textarea>
+								<div class="hint m-b-15">{{selectedFile.type}} Size:{{selectedFile.size}}</div>
 								
 							<div ng-messages="folderForm.title.$error" role="alert" 
 								ng-if="showHints" multiple>
@@ -32,6 +40,19 @@
 				            	</div>
 				            </div>
 						</md-input-container>
+
+						<div ng-controller="FileUploadController as $ctrl" class="m-b-15"
+							postrender-action="$ctrl.setUploadHandler(onFileUploaded)">
+							<div id="progressBar" ng-show="$ctrl.showProgress">
+								<md-progress-linear md-mode="indeterminate" ng-disabled="ctrl.disabled"></md-progress-linear>
+							</div>
+							<div class="m-t-10">
+								<label for="file-upload-btn" class="btn btn-inverse">
+									Upload document
+								</label>
+								<file-upload loc="A" on-change="$ctrl.onChange" ctrl="$ctrl"></file-upload>
+							</div>
+						</div>
 			          
 		            </div>
 				</div>
@@ -57,7 +78,7 @@
 
 				<div class="m-t-15" ng-show="isEdit">
 					<a href="" ng-Click="deleteFolder()" class="btn btn-danger btn-block f-17">
-						Delete Folder
+						Delete Document
 					</a>
 				</div>
 		    </form>

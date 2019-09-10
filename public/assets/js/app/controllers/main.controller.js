@@ -25,7 +25,7 @@
         globalSettings.initSettings().then(
         	function() {				
 	        	$scope.initHotKeys();
-	        	$scope.initMessaging();
+	        	//$scope.initMessaging();
         });
         
         $scope.initMessaging = function() {

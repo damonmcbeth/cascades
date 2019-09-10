@@ -60,7 +60,7 @@
 
 
     <script src="assets/js/lib/nameparser/parse-names.js"></script>
-    <script src="/__/firebase/4.3.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
 	<script>
 		  // Initialize Firebase
 		  var config = {
@@ -72,15 +72,20 @@
 		  };
 		  firebase.initializeApp(config);
 		  
-	</script>
+    </script>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-storage.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-messaging.js"></script> -->
+    
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
     (adsbygoogle = window.adsbygoogle || []).push({
         google_ad_client: "ca-pub-8502359341509621",
         enable_page_level_ads: true
     });
-    </script>
+    </script> -->
 
 </head>
 <body style="overflow:hidden;">	
@@ -170,7 +175,7 @@
                     </li-->
                     
                     <li id="action-settings">
-                        <a ng-click="nav.showPref()">
+                        <a ng-click="nav.showPref()" data-step="2" data-intro="Click here for options to update your profile image and your preferences. Features to manage your team and view support documentation.">
                             <i style="vertical-align: super">
                             	<avatar size="xs" img="gs.currProfile.avatar" name="gs.currProfile.name" type="gs.currProfile.avatarType"></avatar>
                             </i>
@@ -314,6 +319,7 @@
         <script src="assets/js/app/directives/fileicon.directive.js"></script> 
         <script src="assets/js/app/controllers/settings.controller.js"></script> 
         <script src="assets/js/app/controllers/folder.edit.controller.js"></script> 
+        <script src="assets/js/app/controllers/doc.edit.controller.js"></script> 
         
     </div>
 </body>

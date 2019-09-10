@@ -9,7 +9,7 @@
 		function MessageService() {
 			var self = this;
 			
-			self.messaging = firebase.messaging();
+			self.messaging; // = firebase.messaging();
 			self.currentUser = null;
 			
 			self.getCurrentUser = function() {
@@ -42,18 +42,18 @@
 			};
 			
 			self.requestPermission = function() {
-				self.messaging.requestPermission()
+				/* self.messaging.requestPermission()
 					.then(function() {
 						globalSettings.log("message.service", "requestPermission", "Notification permission granted.");
 						self.initApplication();
 					})
 					.catch(function(err) {
 						globalSettings.log("message.service", "requestPermission", "Unable to get permission to notify.");
-					});					  
+					});		 */			  
 			}
 			
 			self.initApplication = function() {
-			    self.messaging.getToken()
+			    /* self.messaging.getToken()
 			    	.then(function(currentToken) {
 				    	if (currentToken) {
 				        	self.sendTokenToServer(currentToken);
@@ -72,7 +72,7 @@
 				    .catch(function(err) {
 					    globalSettings.log("message.service", "initApplication", "Error:" + err);
 					  	self.setTokenSentToServer(false);
-				    });
+				    }); */
 			}
 			
 			self.displayMessage = function(payload) {

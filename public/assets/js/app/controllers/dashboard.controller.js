@@ -68,7 +68,8 @@
         $scope.hasReminder = false;
 		$scope.faq = null;
 		$scope.faqPanel = null;
-        
+		$scope.showFaq = false;
+		
         globalSettings.initSettings().then(
         	function() {
 				$scope.taskAliasPural = globalSettings.currWorkspace.Terminology.taskAliasPlural;
@@ -99,11 +100,16 @@
 		$scope.populateFeaturedFAQs = function() {
 			globalSettings.getAllFAQs().then(
 				function(entries) {
+					$scope.showFaq = false;
+
 					var faqs = $filter('filter')(entries, {feature: true});
 					var len = faqs.length;
-					var indx = (Math.floor((Math.random() * len) + 1)) - 1;
+					var indx = (Math.floor((Math.random() * (len + 1)) + 1)) - 1;
 
-					$scope.faq = faqs[indx];
+					if (indx < len) {
+						$scope.showFaq = true;
+						$scope.faq = faqs[indx];
+					}
 			});
         }
         

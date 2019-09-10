@@ -18,6 +18,7 @@
 			FORM_TICKET_DETAILS: "/partials/ticketDetails.html",
 			FORM_DOCS: "/partials/docs.html",
 			FORM_FOLDER_EDIT: "/partials/folderEdit.html",
+			FORM_DOC_EDIT: "/partials/docEdit.html",
 			activeSideForm: "",
 			activeSideEditForm: "",
 			activeSideViewForm: "",
@@ -53,7 +54,11 @@
 		nav.ACTION_FOLDER = 'ACTION_FOLDER';
         nav.ACTION_FOLDER_OPEN_DETAILS = 'ACTION_FOLDER_OPEN_DETAILS';
         nav.ACTION_FOLDER_NEW = 'ACTION_FOLDER_NEW';
-        
+		
+		nav.ACTION_DOC = 'ACTION_DOC';
+        nav.ACTION_DOC_OPEN_DETAILS = 'ACTION_FDOC_OPEN_DETAILS';
+        nav.ACTION_DOC_NEW = 'ACTION_DOC_NEW';
+		
         nav.ACTION_TICKET = 'ACTION_TICKET';
         nav.ACTION_TICKET_OPEN_DETAILS = 'ACTION_TICKET_OPEN_DETAILS';
         nav.ACTION_TICKET_NEW = 'ACTION_TICKET_NEW';
@@ -435,6 +440,38 @@
 			this.showPref();
 		}
 
+		// Document Edit Actions
+		nav.openDocEditDetails = function(doc) {
+			this.clearAction();
+			this.actionArg = doc;
+			this.action = this.ACTION_DOC_EDIT_DETAILS;
+			
+			this.launchDocEditDetails();
+		}
+		
+		nav.launchDocEditDetails = function() {
+			if (this.isActiveEdit(this.FORM_DOC_EDIT)){
+				$rootScope.$broadcast(this.ACTION_DOC);
+			} else {
+				this.clearEditController();
+				this.showEditDocs();
+			}
+		}
+		
+		nav.showEditDocs = function() {
+	        nav.sideEditFormHidden = false;
+	        nav.activeSideEditForm = this.FORM_DOC_EDIT;
+		}
+		
+		nav.newDoc = function(folder) {
+			this.clearAction();
+			this.actionArg = folder;
+			this.action = this.ACTION_DOC_NEW;
+			
+			this.launchDocEditDetails();
+		}
+
+
 		// Folder Edit Actions
 		nav.openFolderEditDetails = function(folder) {
 			this.clearAction();
@@ -472,7 +509,7 @@
 		}
 		
 		nav.gotoSignin = function() {
-			window.location.replace("/Login.html");
+			window.location.replace("/signin");
 			console.log("Location replaced");
 		}
 		

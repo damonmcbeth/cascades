@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    [1. Meta Tags]
+    -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CASCADES</title>
+    <meta name="description" content="Organize your world and get stuff done.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--
+    [2. Css References]
+    -->
+    <link rel="shortcut icon" href="/assets/img/logo/Logo-128.png" type="image/x-icon">
+    <link rel="icon" href="/assets/img/logo/Logo-128.png" type="image/png">
+
+    <link rel="apple-touch-icon" href="/assets/img/logo/Logo-40.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/logo/Logo-76.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/Logo-60.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/img/logo/Logo-83-5.png">
+
+    <link rel="stylesheet" href="/signin/assets/css/normalize.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" type="text/css" id="link-bootstrap">
+    <link rel="stylesheet" href="/assets/css/animate.min.css" type="text/css" >
+    <link rel="stylesheet" href="/signin/assets/css/app.css" type="text/css" id="link-app">
+    <link rel="stylesheet" href="/assets/css/less/skins/dark-green.css" type="text/css" id="link-app" />
+    <link rel="stylesheet" href="/assets/css/demo.min.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/pe-icon-7-stroke.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/pe-icon-7-filled.css" type="text/css" />
+
+    <script src="/signin/assets/js/modernizr.custom.js" type="application/javascript"></script>
+    <!--<script src="assets/js/lib/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+	<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDesh4UPgrqBiB80p777aeeRSDd_N2geJA",
+		    authDomain: "temporal-potion-575.firebaseapp.com",
+		    databaseURL: "https://temporal-potion-575.firebaseio.com",
+		    storageBucket: "temporal-potion-575.appspot.com",
+		    messagingSenderId: "251993041995"
+		  };
+		  firebase.initializeApp(config);
+		  
+	</script>
+    
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-auth.js"></script>
+	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    
+    <script type="text/javascript">
+      var uiConfig = {
+        signInSuccessUrl: '/Index#/mywork/dashboard',
+        signInOptions: [
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+          firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ],
+        tosUrl: 'Terms.html',
+        privacyPolicyUrl: 'Terms.html'
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+</head>
+
+<body id="top">
+    <div class="hero">
+        <div class="navigation">
+            <div class="header">
+                <div class="header-content">
+                    <!-- <div class="logo"><a href="#"><img src="assets/img/logo.png" alt="CASCADES logo"></a></div> -->
+                    <div class="header-nav">
+                        <nav>
+                            <ul class="primary-nav">
+                                <li><a href="#about">About CASCADES</a></li>
+                                <li><a href="#features">Features</a></li>
+                                <li><a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" target="_blank">Contact us</a></li>
+                            </ul>
+                            <ul class="member-actions">
+                                <li><a href="#signin" class="btn-white btn-small">Sign in</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="navicon">
+                        <a class="nav-toggle" href="#"><span></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="hero-content text-center">
+                        <h1>Capture & Organize<br>your ideas and actions</h1>
+                        <p class="description">CASCADES is an easy to use tool that helps you get stuff done.</p>
+                        <img class="logo-placeholder" src="assets/img/logo/Logo-128.png"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="intro section-padding" id="signin">
+        <div class="container">
+            <div class="row">
+                    <div class="login animated text-center">
+                        <h3 class="align-center m-b-15">
+                            Sign in to start organizing your world.
+                        </h3>
+                        <div id="firebaseui-auth-container"></div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-strip section-padding" id="about">
+        <div class="container">
+            <div class="col-md-10 about">
+                <h2>What is CASCADES?</h2>
+                <p class="description">
+                    CASCADES is a free easy to use tool that helps you get stuff done. With features the 
+                    customizable kanban style task board and the team-based collaboration features, CASCADES
+                    enables you and your team to track and close your projects.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    [4. Intro Section]
+    -->
+    <div class="intro section-padding" id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 intro-feature">
+                    <div class="intro-content">
+                        <div class="align-center" style="min-height: 256px">
+                            <img src="/signin/assets/img/taskMgmt.jpg" alt="Taskboards" style="width: 270px">
+                        </div>
+                        <h5>Task Management</h5>
+                        <p>Easily customise CASCADES to suit your start up, portfolio or product. Take advantage of the layered Sketch file and bring your product to life.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 intro-feature">
+                    <div class="intro-content">
+                        <div class="align-center" style="min-height: 256px">
+                            <img src="/signin/assets/img/projects.jpg" alt="Taskboards" style="width: 350px">
+                        </div>
+                        <h5>Project Tracking</h5>
+                        <p>Designed with modern trends and techniques in mind, CASCADES will help your product stand out in an already saturated market.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 intro-feature">
+                    <div class="intro-content last">
+                        <div class="align-center" style="min-height: 256px">
+                            <img src="/signin/assets/img/journal.jpg" alt="Taskboards" style="width: 280px">
+                        </div>
+                        <h5>Journal & Note-taking</h5>
+                        <p>Built using the latest web technologies like html5, css3, and jQuery, rest assured CASCADES will look smashing on every device under the sun.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container m-t-15">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12 leftcol">
+                    <div class="align-center" style="min-height: 256px">
+                        <img src="/signin/assets/img/taskboard.jpg" alt="Taskboards" style="width: 380px">
+                    </div>
+                    <h5>Powerful Taskboards</h5>
+                    <p>Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 rightcol">
+                    <div class="align-center" style="min-height: 256px">
+                        <img src="/signin/assets/img/planning.jpg" alt="Calendar and reminders" style="width: 380px">
+                    </div>
+                    <h5>Calendar & Reminders</h5>
+                    <p>Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--
+    [14. To Top]
+    -->
+    <div class="to-top">
+        <div class="container">
+            <div class="row">
+                <div class="to-top-wrap">
+                    <a href="#top" class="top"><i class="pe-7s-angle-up"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    [15. Footer]
+    -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="footer-links">
+                        <ul class="footer-group">
+                            <li><a href="#about">About CASCADES</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#signin">Sign in</a></li>
+                            <li><a href="mailto:info@cascades-pi.com?subject=CASCADES Feedback" target="_blank">Contact us</a></li>
+                        </ul>
+                        <p>
+                            &copy; 2019 Phenom Ideas
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-5"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    [16. Javascript References]
+    -->
+    <script src="/assets/js/jquery.min.js" type="application/javascript"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/signin/assets/js/lib/jquery.flexslider-min.js"></script>
+    <script src="/signin/assets/js/lib/jquery.waypoints.min.js"></script>
+    <script src="/signin/assets/js/app.js"></script>
+
+
+</body>
+</html>

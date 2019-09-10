@@ -42,7 +42,7 @@
 			
 		}
 
-		$scope.addDoc = function(folder, attachment, updated, src) {
+		$scope.addDoc = function(folder, attachment, updated, src, custom) {
 			var tmpDoc = {};
 			tmpDoc.folder = folder;
 			tmpDoc.title = attachment.title;
@@ -51,13 +51,12 @@
 			tmpDoc.url = attachment.url;
 			tmpDoc.updated = updated;
 			tmpDoc.src = src;
+			tmpDoc.custom = custom == null ? 'N' : 'Y';
 
 			tmpDocs.push(tmpDoc);
 		}
 
 		$scope.populateFolders = function() {
-			
-
 			docService.getAllFolders().then(
 				function(entries) {
 					$scope.folderList = entries;
@@ -67,10 +66,8 @@
 						$scope.buildFolders();
 					});
 
-					$scope.buildFolders();
-					
+					$scope.buildFolders();	
 			});
-
 		}
 
 		$scope.buildFolders = function() {
@@ -109,7 +106,7 @@
 							//console.log(attachments);
 
 							for (var j=0; j<len2; j++) {
-								$scope.addDoc(folder, attachments[j], entries[i].updated, entries[i].title);
+								$scope.addDoc(folder, attachments[j], entries[i].updated, entries[i].title, 'N');
 							}
 						}
 					}
@@ -139,7 +136,7 @@
 							var len2 = attachments.length;
 
 							for (var j=0; j<len2; j++) {
-								$scope.addDoc(folder, attachments[j], entries[i].updated, entries[i].title);
+								$scope.addDoc(folder, attachments[j], entries[i].updated, entries[i].title, 'N');
 							}
 						}
 					}
@@ -154,8 +151,17 @@
 		}
 
 		$scope.populateDocs = function() {
-			$scope.folders = tmpFolders;
-			$scope.docs = tmpDocs;
+			docService.getAllFiles().then(
+				function(entries) {
+					var len = entries.length;
+
+					for (var i=0; i<len; i++) {
+						$scope.addDoc(entries[i].folder, entries[i], entries[i].updated, entries[i].title, 'Y');
+					}
+
+					$scope.folders = tmpFolders;
+					$scope.docs = tmpDocs;
+			});
 		}
 
 		$scope.openDoc = function(doc, ev) {
@@ -245,6 +251,10 @@
 
 		$scope.newFolder = function() {
 			globalNav.newFolder();
+		}
+
+		$scope.newFile = function() {
+			globalNav.newDoc($scope.selectedFolder);
 		}
 
 		function DialogController($scope, $mdDialog, entry, calFormats) {

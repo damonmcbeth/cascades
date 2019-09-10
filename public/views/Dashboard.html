@@ -2,10 +2,10 @@
 <div class="row" >    
         
     <div class="col-md-8">
-        <div class="widget-container"  data-intro="The {{gs.currWorkspace.Terminology.taskAlias}} widget provides a summary of your active {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }}. By default, the list will include {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due today and overdue." data-step="2">
+        <div class="widget-container"  data-intro="The {{gs.currWorkspace.Terminology.taskAlias}} widget provides a summary of your active {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }}. By default, the list will include {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due today and overdue." data-step="3">
             <div class="widget">
                 <div md-ink-ripple class="f-15 p-10 p-l-15 p-r-15 border-bottom-1 border-muted b-400 text-default">
-                    <div class="pull-right f-20" data-intro="These links provide access to your {{gs.currWorkspace.Terminology.taskAlias}} list, to your {{gs.currWorkspace.Terminology.taskAlias}} board and a link to add a new {{gs.currWorkspace.Terminology.taskAlias}}." data-step="3">
+                    <div class="pull-right f-20" data-intro="These links provide access to your {{gs.currWorkspace.Terminology.taskAlias}} list, to your {{gs.currWorkspace.Terminology.taskAlias}} board and a link to add a new {{gs.currWorkspace.Terminology.taskAlias}}." data-step="4">
                         <a href="" ng-click="nav.showTasks()" class="m-r-5 text-default"><i class="pe-7s-check"></i></a>
                         <a ui-sref="mywork.taskboard" class="m-r-5 text-default"><i class="pe-7s-keypad"></i></a>
                         <a href="" ng-click="nav.newTask()" class="m-r-5 text-default"><i class="icon pe-7s-plus"></i></a>
@@ -14,9 +14,9 @@
                </div>
 
                 <div class="p-20 task-widget">
-                    <div class="row" data-intro="If the preference to use Delegation is enabled, a section will be provided to filter delegated items." data-step="7">
+                    <div class="row" data-intro="If the preference to use Delegation is enabled, a section will be provided to filter delegated items." data-step="8">
                         <div class="border-primary border-left-5 p-5 p-l-10 text-default " 
-                            data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due today. Clicking on the area will filter the list below." data-step="4"
+                            data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due today. Clicking on the area will filter the list below." data-step="5"
                             ng-class="{ 'task-summary-selected' : filterDueToday, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
                             'col-sm-4': !gs.currPreferences.Settings.Task.delegation}"
                             ng-click="toggleDueToday()" md-ink-ripple>
@@ -24,7 +24,7 @@
                             <div class="f-13 b-400">Due today</div>
                         </div>
                         <div class="border-danger border-left-5 p-5 p-l-10 text-default"
-                        data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} that are overdue. Clicking on the area will filter the list below." data-step="5"
+                        data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} that are overdue. Clicking on the area will filter the list below." data-step="6"
                             ng-class="{ 'task-summary-selected' : filterOverdue, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
                             'col-sm-4': !gs.currPreferences.Settings.Task.delegation }"
                             ng-click="toggleOverdue()" md-ink-ripple>
@@ -32,7 +32,7 @@
                             <div class="f-13 b-400">Overdue</div>
                         </div>
                         <div class="border-warning border-left-5 p-5 p-l-10 text-default"
-                            data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due in the number of days specified in your preferences. Clicking on the area will filter the list below." data-step="6"
+                            data-intro="This provides a count of {{gs.currWorkspace.Terminology.taskAliasPlural | lowercase }} due in the number of days specified in your preferences. Clicking on the area will filter the list below." data-step="7"
                             ng-class="{ 'task-summary-selected' : filterDueSoon, 'col-sm-3': gs.currPreferences.Settings.Task.delegation,
                             'col-sm-4': !gs.currPreferences.Settings.Task.delegation }"
                             ng-click="toggleDueSoon()" md-ink-ripple>
@@ -99,7 +99,7 @@
 
                     <md-divider></md-divider>
                     <div class="p-t-15 p-l-10 p-r-10 p-b-0 v-a-middle " layout="row" style="background-color: #f7f7f7; flex-flow: wrap;"
-                        data-intro="This festure provides a quick way to add a new {{gs.currWorkspace.Terminology.taskAlias | lowercase }}." data-step="8">
+                        data-intro="This festure provides a quick way to add a new {{gs.currWorkspace.Terminology.taskAlias | lowercase }}." data-step="9">
                         <md-input-container class="p-0 m-r-10" style="min-width: 225px">
                             <label>{{gs.currWorkspace.Terminology.taskAlias}}</label> 
                             <input ng-model="newTaskTitle" type="text"
@@ -133,7 +133,7 @@
     
     <div class="col-md-4">
         <div class="widget-container"
-            data-intro="This section display active and upcoming reminders." data-step="9">
+            data-intro="This section display active and upcoming reminders." data-step="10">
             <div class="widget">
                 <div class="f-13 p-10 border-bottom-1 border-muted b-400">
                     <div class="pull-right f-17">
@@ -178,7 +178,7 @@
 </div>
 
 
-<div class="page-header" data-intro="Below this section will display recent {{gs.currWorkspace.Terminology.projectAliasPlural | lowercase}}, {{gs.currWorkspace.Terminology.clientAliasPlural | lowercase}}, and {{gs.currWorkspace.Terminology.memoAliasPlural | lowercase}}" data-step="10">
+<div class="page-header" data-intro="Below this section will display recent {{gs.currWorkspace.Terminology.projectAliasPlural | lowercase}}, {{gs.currWorkspace.Terminology.clientAliasPlural | lowercase}}, and {{gs.currWorkspace.Terminology.memoAliasPlural | lowercase}}" data-step="11">
     <h4 class="header-text">Recent activity</h4>
 </div>
 
