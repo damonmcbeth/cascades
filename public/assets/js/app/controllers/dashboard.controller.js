@@ -402,7 +402,7 @@
             var img = ($scope.faq.image == null) ? '' : '<div class="m-b-10" style="text-align: center"><image src="' + $scope.faq.image + '" style="width: 90%"></image></div>';
 
             var content = '<md-content id="faqDetailsContent" class="f-15 b-300 p-15" layout-padding>'
-                                + '<div class="b-300 f-20 m-t-5" style="text-transform: uppercase;">'
+                                + '<div class="b-400 f-20 m-t-5" style="text-transform: uppercase;">'
                                 + $scope.faq.title 
                                 + '</div>'
                                 + '<div class="f-12 b-400">'
