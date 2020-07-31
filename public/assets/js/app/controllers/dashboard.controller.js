@@ -32,12 +32,14 @@
 		$scope.filterDueToday = false;
 		$scope.filterDueSoon = false;
 		$scope.filterDelegated = false;
+		$scope.filterLater = false;
 
 		$scope.currArticle = "";
 
 		$scope.newTaskDue = "Tomorrow evening";
 		$scope.newTaskTitle;
 		$scope.newTaskProject;
+		$scope.newJournalEntryContent;
 
 		$scope.cardOptions = {
             animate:{
@@ -221,6 +223,8 @@
 							return true;
 						} else if ($scope.filterDelegated && item.delegateId != null) {
 							return true;
+						} else if ($scope.filterLater && item.state != 'Due soon' && item.state != 'Overdue' && item.state != 'Due today') {
+							return true;
 						} else {
 							return false;
 						}
@@ -291,6 +295,23 @@
 			return item[readFlag] == null || item[readFlag] == undefined;
 		}
 
+		$scope.updatePriority = function(target, task) {
+			var value = null;
+
+			switch (target) {
+				case 'High': value = "H"; break;
+				case 'Medium': value = "M"; break;
+				case 'Low': value = "L"; break;
+				case 'None': value = "N"; break; 
+			}
+
+			$scope.updateTask('priority', value, task);
+		}
+
+		$scope.updateProject = function(target, task) {
+			$scope.updateTask('project', target, task);
+		}
+
 		$scope.updateDueDate = function(target, task) {
 			var value = null;
 
@@ -301,7 +322,8 @@
 				case 'Tomorrow morning': value = moment().startOf('day').add(1, 'days').add(8, 'hours').toDate(); break; 
 				case 'Tomorrow evening': value = moment().startOf('day').add(1, 'days').add(18, 'hours').toDate();break; 
 				case '2 days from now': value = moment().startOf('hour').add(2, 'days').toDate(); break; 
-				case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate();
+				case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate(); break;
+				case 'Next month': value = moment().startOf('hour').add(1, 'months').toDate();
 			}
 
 			$scope.updateTask('due', value, task);
@@ -326,6 +348,13 @@
 			)
 		}
 
+		$scope.assignProjectToTask = function(task, project) {
+			var proj = $scope.allProjects.$getRecord(project.$id);
+
+			task.projectId = proj.$id;
+			task.project = proj;
+		}
+
 		$scope.cloneTask = function(taskItem) {
 			var deferred = $q.defer();
 
@@ -342,7 +371,7 @@
 		}
 
 		$scope.determineIfTaskFiltered = function() {
-			$scope.filterTasks = $scope.filterOverdue || $scope.filterDelegated || $scope.filterDueSoon || $scope.filterDueToday;
+			$scope.filterTasks = $scope.filterOverdue || $scope.filterDelegated || $scope.filterDueSoon || $scope.filterDueToday || $scope.filterLater;
 		}
 
 		$scope.toggleDueToday = function() {
@@ -362,6 +391,11 @@
 
 		$scope.toggleDelegated = function() {
 			$scope.filterDelegated = !$scope.filterDelegated;
+			$scope.determineIfTaskFiltered();
+		}
+
+		$scope.toggleLater = function() {
+			$scope.filterLater = !$scope.filterLater;
 			$scope.determineIfTaskFiltered();
 		}
 
@@ -446,7 +480,41 @@
 						case 'Tomorrow morning': value = moment().startOf('day').add(1, 'days').add(8, 'hours').toDate(); break; 
 						case 'Tomorrow evening': value = moment().startOf('day').add(1, 'days').add(18, 'hours').toDate();break; 
 						case '2 days from now': value = moment().startOf('hour').add(2, 'days').toDate(); break; 
-						case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate(); break
+						case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate(); break;
+						case 'Next month': value = moment().startOf('hour').add(1, 'months').toDate(); break;
+						case 'No due date' : value = null;
+					}
+
+					task.due = value;
+					taskActivityService.saveTask(task, null, true);
+					$scope.newTaskTitle = null;
+				}
+			);
+						
+		}
+
+		$scope.addJournalItem = function() {
+			if ($scope.newJournalEntryContent == null || $scope.newJournalEntryContent == "") {
+				return;
+			}
+
+			var tmp = journalService.new;
+			tmp.projectId = $scope.newTaskProject;
+
+			taskService.initTask(tmp).then(
+				function(task) {
+					task.title = $scope.newTaskTitle;
+
+					var value = null;
+					switch ($scope.newTaskDue) {
+						case 'In 2 hours': value = moment().startOf('hour').add(2, 'hours').toDate(); break; 
+						case 'In 4 hours': value = moment().startOf('hour').add(4, 'hours').toDate(); break; 
+						case 'This evening': value = moment().startOf('day').add(18, 'hours').toDate(); break;
+						case 'Tomorrow morning': value = moment().startOf('day').add(1, 'days').add(8, 'hours').toDate(); break; 
+						case 'Tomorrow evening': value = moment().startOf('day').add(1, 'days').add(18, 'hours').toDate();break; 
+						case '2 days from now': value = moment().startOf('hour').add(2, 'days').toDate(); break; 
+						case 'Next week': value = moment().startOf('hour').add(7, 'days').toDate(); break;
+						case 'Next month': value = moment().startOf('hour').add(1, 'months').toDate(); break;
 						case 'No due date' : value = null;
 					}
 

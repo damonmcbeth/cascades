@@ -33,7 +33,7 @@
     <script src="/signin/assets/js/modernizr.custom.js" type="application/javascript"></script>
     <!--<script src="assets/js/lib/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
 
-    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
 	<script>
 		  // Initialize Firebase
 		  var config = {
@@ -47,17 +47,18 @@
 		  
 	</script>
     
-    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-auth.js"></script>
-	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/ui/4.3.0/firebase-ui-auth.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.3.0/firebase-ui-auth.css" />
     
     <script type="text/javascript">
       var uiConfig = {
         signInSuccessUrl: '/Index#/mywork/dashboard',
         signInOptions: [
+          'apple.com',
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+          //firebase.auth.PhoneAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
         tosUrl: 'Terms.html',

@@ -307,13 +307,13 @@
 				progress.removeClass('ng-hide');
 				
 				storageService.uploadFile(loc, file).then(
-					function(metaData) {
+					function(downloadURL) {
 						progress.addClass('ng-hide');
 						
 						var attachment = {
 							title: file.name,
 							type: file.type,
-							url: metaData.downloadURL
+							url: downloadURL
 						};
 						
 						$scope.selectedTask.attachments.push(attachment);

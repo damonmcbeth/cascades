@@ -36,12 +36,12 @@
 				return deferred.promise;
 			};
 			
-			self.saveUploadMetadata = function(file, metaData, loc, personKey) {
+			self.saveUploadMetadata = function(file, metaData, loc, personKey, downloadURL) {
 				var fileRef = {
 					name: file.name,
 					contentType: file.type,
 					size: file.size,
-					downloadURL: metaData.downloadURL,
+					downloadURL: downloadURL,
 					status: "active"
 				};
 				
@@ -72,9 +72,11 @@
 				})
 				
 				uploadTask.$complete(function(snapshot) {
-					globalSettings.log("storage.service", "uploadFile", snapshot.downloadURL);
-					self.saveUploadMetadata(file, snapshot, loc, personKey);
-					deferred.resolve(snapshot);
+					snapshot.ref.getDownloadURL().then(function(downloadURL) {
+						globalSettings.log("storage.service", "uploadFile", downloadURL);
+						self.saveUploadMetadata(file, snapshot, loc, personKey, downloadURL);
+						deferred.resolve(downloadURL);
+					});
 				});
 				
 				return deferred.promise;

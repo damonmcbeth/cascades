@@ -276,7 +276,9 @@
 											<li class="m-t-10 b-300" 
 												ng-repeat="faq in faqs | filter:{category: 'USING'} | orderBy:'order'">
 												<span ng-show="showCascadesAdmin" ng-click="editFAQ(faq)" class="m-r-10 f-12 b-400">Edit</span>
-												<span ng-click="openFAQ(faq)">{{faq.title}}</span></li>
+												<span ng-click="openFAQ(faq)">{{faq.title}}</span>
+												<i class="icon pe-7s-star text-muted f-15" ng-show="faq.feature"></i>
+											</li>
 										</ul>
 						
 										<div class="m-t-25">TIPS & TRICKS</div>
@@ -285,7 +287,9 @@
 											<li class="m-t-10 b-300" 
 												ng-repeat="faq in faqs | filter:{category: 'TIPS'} | orderBy:'order'">
 												<span ng-show="showCascadesAdmin" ng-click="editFAQ(faq)" class="m-r-10 f-12 b-400">Edit</span>
-												<span ng-click="openFAQ(faq)">{{faq.title}}</span></li>
+												<span ng-click="openFAQ(faq)">{{faq.title}}</span>
+												<i class="icon pe-7s-star text-muted f-15" ng-show="faq.feature"></i>
+											</li>
 										</ul>
 						
 										<div class="m-t-25">FREQUENTLY ASKED QUESTIONS</div>
@@ -294,7 +298,9 @@
 											<li class="m-t-10 b-300"
 												ng-repeat="faq in faqs | filter:{category: 'FAQ'} | orderBy:'order'">
 												<span ng-show="showCascadesAdmin" ng-click="editFAQ(faq)" class="m-r-10 f-12 b-400">Edit</span>
-												<span ng-click="openFAQ(faq)">{{faq.title}}</span></li>
+												<span ng-click="openFAQ(faq)">{{faq.title}}</span>
+												<i class="icon pe-7s-star text-muted f-15" ng-show="faq.feature"></i>
+											</li>
 										</ul>
 									</div>
 									<md-divider class="m-t-25"></md-divider>

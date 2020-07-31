@@ -28,10 +28,23 @@
 				$scope.populateTags();
 				$scope.populateTickets();
 
+				$scope.processFirstSignin();
+
 				//globalSettings.logError("module", "Sample function", "Sample Message");
 	        	
         });
-        
+		
+		$scope.processFirstSignin = function() {
+			var user = globalSettings.currProfile;
+
+			if (user.showGuidedTour != "N") {
+				$scope.openMainGuide();
+				user.showGuidedTour = "N";
+				user.$save();
+			}
+
+		}
+
         $scope.initSelectedWrkSpace = function() {	  
 			
 	        $scope.wrkSpcs = globalSettings.userWorkspaces;
