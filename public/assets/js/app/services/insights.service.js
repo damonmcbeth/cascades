@@ -229,6 +229,8 @@
 						summaryRef.dueToday = taskSum.dueToday;
 						summaryRef.dueSoon = taskSum.dueSoon;
 						summaryRef.overdue = taskSum.overdue;
+						summaryRef.noDueDate = taskSum.noDueDate;
+						summaryRef.dueLater = taskSum.dueLater;
 						
 						summaryRef.$save().then(
 							function(ref) {
@@ -248,7 +250,10 @@
 				
 				taskSum.overdue = ($filter('filter')(filteredTasks, {state:'Overdue', isDone:false})).length;
 			    taskSum.dueToday = ($filter('filter')(filteredTasks, {state:'Due today', isDone:false})).length;
-			    taskSum.dueSoon = ($filter('filter')(filteredTasks, {state:'Due soon', isDone:false})).length;
+				taskSum.dueSoon = ($filter('filter')(filteredTasks, {state:'Due soon', isDone:false})).length;
+				taskSum.noDueDate = ($filter('filter')(filteredTasks, {state:'No due date', isDone:false})).length;
+				taskSum.dueLater = ($filter('filter')(filteredTasks, {state:'Due later', isDone:false})).length;
+				
 			    
 			    return taskSum;
 		    }

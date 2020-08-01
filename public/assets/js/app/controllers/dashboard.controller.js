@@ -32,7 +32,9 @@
 		$scope.filterDueToday = false;
 		$scope.filterDueSoon = false;
 		$scope.filterDelegated = false;
-		$scope.filterLater = false;
+		$scope.filterDueLater = false;
+		$scope.filterNoDueDate = false;
+
 
 		$scope.currArticle = "";
 
@@ -57,7 +59,9 @@
 	        				Journal: { unread: 0 },
 	        				Task: { dueToday: 0,
 		        					overdue: 0,
-		        					dueSoon: 0,
+									dueSoon: 0,
+									dueLater: 0,
+									noDueDate: 0,
 		        					delegated: 0 },
 							Project: { open: 0 }
 		        		};
@@ -221,10 +225,14 @@
 							return true;
 						} else if ($scope.filterDueSoon && item.state == 'Due soon') {
 							return true;
+						} else if ($scope.filterDueLater && item.state == 'Due later') {
+							return true;
+						} else if ($scope.filterNoDueDate && item.state == 'No due date') {
+							return true;
 						} else if ($scope.filterDelegated && item.delegateId != null) {
 							return true;
-						} else if ($scope.filterLater && item.state != 'Due soon' && item.state != 'Overdue' && item.state != 'Due today') {
-							return true;
+						//} else if ($scope.filterLater && item.state != 'Due soon' && item.state != 'Overdue' && item.state != 'Due today') {
+						//	return true;
 						} else {
 							return false;
 						}
@@ -371,7 +379,8 @@
 		}
 
 		$scope.determineIfTaskFiltered = function() {
-			$scope.filterTasks = $scope.filterOverdue || $scope.filterDelegated || $scope.filterDueSoon || $scope.filterDueToday || $scope.filterLater;
+			$scope.filterTasks = $scope.filterOverdue || $scope.filterDelegated || $scope.filterDueSoon 
+									|| $scope.filterDueToday || $scope.filterDueLater || $scope.filterNoDueDate;
 		}
 
 		$scope.toggleDueToday = function() {
@@ -394,8 +403,13 @@
 			$scope.determineIfTaskFiltered();
 		}
 
-		$scope.toggleLater = function() {
-			$scope.filterLater = !$scope.filterLater;
+		$scope.toggleDueLater = function() {
+			$scope.filterDueLater = !$scope.filterDueLater;
+			$scope.determineIfTaskFiltered();
+		}
+
+		$scope.toggleNoDueDate = function() {
+			$scope.filterNoDueDate = !$scope.filterNoDueDate;
 			$scope.determineIfTaskFiltered();
 		}
 
